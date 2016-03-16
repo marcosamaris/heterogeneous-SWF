@@ -1,0 +1,742 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2016-02-03 Wed 16:59 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="HiePACS/STORM" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+	    padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" title="Standard" href="../chameleon/css/worg.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="../chameleon/css/VisuGen.css" />
+<link rel="stylesheet" type="text/css" href="../chameleon/css/VisuRubriqueEncadre.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Morse + simgrid Hands-on</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline6">1. Introduction</a>
+<ul>
+<li><a href="#orgheadline1">1.1. Prerequisites</a></li>
+<li><a href="#orgheadline2">1.2. Goal of this tutorial</a></li>
+<li><a href="#orgheadline3">1.3. MORSE distribution via spack</a></li>
+<li><a href="#orgheadline4">1.4. Emacs and Org-mode</a></li>
+<li><a href="#orgheadline5">1.5. Configure your local working environment</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline7">2. Installing spack</a></li>
+<li><a href="#orgheadline10">3. Install and check the MPI solver stack with MPICH</a>
+<ul>
+<li><a href="#orgheadline8">3.1. Install</a></li>
+<li><a href="#orgheadline9">3.2. Sanity checks</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline13">4. Install and check the MPI solver stack with SMPI</a>
+<ul>
+<li><a href="#orgheadline11">4.1. Install</a></li>
+<li><a href="#orgheadline12">4.2. Sanity checks</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+You can check out this tutorial and org-mode version here:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">svn co svn+ssh://scm.gforge.inria.fr/svnroot/morse/tutorials/morse_simgrid
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> Prerequisites</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>a recent Emacs/Org-mode install (Emacs &gt;=24.3 and Org-mode version &gt;= 8.2 is recommended);</li>
+<li>prerequisites for spack (module, etc: please refer to <a href="http://morse.gforge.inria.fr/tuto_spack-morse/tuto_spack.html">this tutorial</a>)</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.2</span> Goal of this tutorial</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+We created a <a href="https://pad.inria.fr/p/w8z9YvA35zTDU02Y_morse_simgrid">pad</a> for notes, questions, bugs and suggestions
+concearning this tutorial.
+The goal of this tutorial is to explain, step by step, how to
+reproduce real execution and simulation of several solvers from MORSE.
+We consider here dense, sparse linear algebra libraries, like
+Chameleon, MUMPS, PaStiX, etc.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">1.3</span> MORSE distribution via spack</h3>
+<div class="outline-text-3" id="text-1-3">
+
+<div class="figure">
+<p><img src="./figures/spack-morse-packages.jpg" alt="spack-morse-packages.jpg" width="1000px" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">1.4</span> Emacs and Org-mode</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+This tutorial is written in <a href="http://orgmode.org/">Org-mode</a> and it is based on its
+literate programming feature <a href="http://orgmode.org/worg/org-contrib/babel/">Org-babel</a>. Although Org-mode files can
+be read in any text editors, we strongly encourage to use Emacs, as
+at this point only this editor allows for fully benefiting from
+Org-babel feature.
+</p>
+
+<p>
+In order to run everything smoothly, you will need recent Emacs
+(&gt;24.3) and a recent Org-mode (&gt;8.0). If you have trouble
+installing this software, consult the following web <a href="http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php">page</a>
+(or this <a href="http://mescal.imag.fr/membres/arnaud.legrand/blog/2014/05/15/emacs_and_orgmode_on_macosx.php">one</a> if you are a Mac user).
+</p>
+
+<p>
+Once everything is installed, execute the following code by
+selecting it with cursor and applying the shortcut "Ctrl-c Ctrl-c"
+to test that everything works properly. This small code will
+execute shell command echo with the specified text.
+</p>
+
+<p>
+#+NAME foo 
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">   echo "foo"
+</pre>
+</div>
+
+<pre class="example">
+foo
+</pre>
+
+
+<p>
+Now execute this code to set the environment in order to be able to
+execute shell and not have to confirm every command.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"> (setq org-confirm-babel-evaluate nil)
+ (setq org-export-babel-evaluate nil)
+ (org-babel-do-load-languages 'org-babel-load-languages
+      '(
+       (sh . t)
+       (python . t)
+       (R . t)
+       (org . t)
+       ))
+(setq org-support-shift-select t)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">1.5</span> Configure your local working environment</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+First, prepare a clean directory to work in it. You should execute
+this section only once.
+If you don't want to use this directory, you're free to work in
+another directory, but you still need to set WORK_DIR variable.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">mkdir -p morse_simgrid_tutorial
+cd morse_simgrid_tutorial
+export WORK_DIR=$PWD
+cd -
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7"><span class="section-number-2">2</span> Installing spack</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+If you have already installed spack (latest version from morse
+branch) and set correctly your environment, then you can skip this
+part.
+For morse information about spack, you can follow this <a href="http://morse.gforge.inria.fr/tuto_spack-morse/tuto_spack.html">link</a>. You
+will find there informations about prerequisites and useful commands
+in spack.
+</p>
+
+<p>
+Clone Spack git:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">cd $WORK_DIR
+git clone https://github.com/fpruvost/spack.git
+cd spack
+git checkout morse
+git pull
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="setenv_spack_local">export SPACK_ROOT=$WORK_DIR/spack
+. $SPACK_ROOT/share/spack/setup-env.sh
+export MODULEPATH=$SPACK_ROOT/share/spack/modules/linux-x86_64:$MODULEPATH
+mkdir -p $HOME/.spack
+echo "Spack environment is set"
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline10" class="outline-2">
+<h2 id="orgheadline10"><span class="section-number-2">3</span> Install and check the MPI solver stack with MPICH</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><span class="section-number-3">3.1</span> Install</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Check the stacks to install:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">spack spec pastix +mpi+examples
+spack spec mumps +examples
+spack spec scotch +grf+mpi ^mpich
+</pre>
+</div>
+
+<p>
+Install the one you want to test:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">spack install -v  scotch +grf+mpi ^mpich
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack install -v  pastix  +mpi+examples ^mpich
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack install -v  mumps +mpi+examples ^mpich
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack install -v  maphys@svn-maphys-dev +examples ^mpich
+</pre>
+</div>
+
+<p>
+Source files are place in "/tmp/$USER", and are deleted when the installation is finished.
+You can keep source files by using the option &#x2013;keep-stage, but
+they will still be kept in /tmp.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">spack install -v  --keep-stage scotch +grf+mpi ^mpich
+</pre>
+</div>
+
+<p>
+Otherwise, you can use @src versions, which allows you to use source
+files you downloaded by yourself. For example, let's say you have
+scotch source installed in $HOME/scotch, you could install scotch
+using those sources and spack dependencies with:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">export SCOTCH_DIR=$HOME/scotch
+spack install -v  scotch@src +grf+mpi ^mpich
+</pre>
+</div>
+
+<p>
+Then you can modify the sources, and recompile with:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack build -v scotch@src +grf+mpi ^mpich
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline9" class="outline-3">
+<h3 id="orgheadline9"><span class="section-number-3">3.2</span> Sanity checks</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Test SCOTCH
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack load mpich
+spack load scotch +grf+mpi ^mpich
+export SCOTCH_PATH=`spack location -i scotch +grf+mpi ^mpich`
+mpirun p 3 dgpart 3 $SCOTCH_PATH/grf/3elt.grf
+</pre>
+</div>
+
+<p>
+Test PaStiX
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack load mpich
+spack load  pastix +mpi+examples   ^mpich
+export PASTIX_PATH=`spack location -i pastix +mpi+examples  ^mpich`
+mpirun p 3 ${PASTIX_PATH}/examples/zsimple -mm $PASTIX_PATH/matrix/young4c.mtx
+</pre>
+</div>
+
+<p>
+Test MUMPS
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack load mpich
+spack load  mumps +mpi+examples ^mpich
+export MUMPS_PATH=`spack location -i mumps +mpi+examples  ^mpich`
+cd ${MUMPS_PATH}/examples/
+mpirun ${MUMPS_PATH}/examples/c_example
+</pre>
+</div>
+
+<p>
+Test MaPHyS
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack load mpich
+spack load maphys@svn-maphys-dev +examples ^mpich
+export MAPHYS_PATH=`spack location -i maphys@svn-maphys-dev +examples  ^mpich`
+cd ${MAPHYS_PATH}/examples/
+mpirun p 4 ${MAPHYS_PATH}/examples/dmph_examplekv real_bcsstk17.in
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline13" class="outline-2">
+<h2 id="orgheadline13"><span class="section-number-2">4</span> Install and check the MPI solver stack with SMPI</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+BEWARE: This section is not yet functional. 
+</p>
+</div>
+
+<div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11"><span class="section-number-3">4.1</span> Install</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Using master branch of simgrid:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack install -v  scotch +grf+mpi ^simgrid@master+examples
+spack install -v  pastix +mpi+examples ^simgrid@master+examples
+spack install -v  mumps +mpi+examples ^simgrid@master+examples
+spack install -v  maphys@svn-maphys-dev +examples ^simgrid@master+examples
+</pre>
+</div>
+
+<p>
+Using your simgrid (meaning you have set SIMGRID_DIR to SIMGRID sources root):
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack install -v  scotch +grf+mpi ^simgrid@src+examples
+spack install -v  pastix +mpi+examples ^simgrid@src+examples
+spack install -v  mumps +mpi+examples ^simgrid@src+examples
+spack install -v  maphys@svn-maphys-dev +examples ^simgrid@src+examples
+</pre>
+</div>
+
+<p>
+You can now recompile simgrid after changing the code (and without
+having to reinstall everything) with:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack build -v simgrid@src+examples
+</pre>
+</div>
+
+<p>
+If you have already installed everything on your machine and set
+the environement variables for each package (&lt;NAME&gt;_DIR) and want
+to change some things inside each code, you could use this instead:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack install -v  scotch@src +grf+mpi ^simgrid@src+examples
+spack install -v  pastix@src +mpi+examples ^simgrid@src+examples
+spack install -v  mumps@src +mpi+examples ^simgrid@src+examples
+spack install -v  maphys@@src +examples ^simgrid@src+examples
+</pre>
+</div>
+
+<p>
+To (re)build all sources you have for all dependancies of one package:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack build -av  scotch@src +grf+mpi ^simgrid@src+examples
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline12" class="outline-3">
+<h3 id="orgheadline12"><span class="section-number-3">4.2</span> Sanity checks</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Test SCOTCH
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack load simgrid@master+examples
+spack load scotch +grf+mpi ^simgrid@master+examples
+export SCOTCH_PATH=`spack location -i scotch +grf+mpi ^simgrid@master+examples`
+export SIMGRID_PATH=`spack location -i simgrid@master+examples`
+smpirun -trace -trace-resource -trace-viva -trace-file smpi_traced.trace -hostfile $SIMGRID_PATH/examples/smpi/hostfile -platform $SIMGRID_PATH/examples/smpi/../platforms/small_platform.xml --cfg=path:$SIMGRID_PATH/examples/smpi/../msg --cfg=smpi/cpu_threshold:-1 p 3 --log=smpi_kernel.thres:warning dgpart 3 $SCOTCH_PATH/grf/3elt.grf
+</pre>
+</div>
+
+<pre class="example">
+afalco@afalco-hp:~/tutorials/morse_simgrid$ afalco@afalco-hp:~/tutorials/morse_simgrid$ afalco@afalco-hp:~/tutorials/morse_simgrid$ afalco@afalco-hp:~/tutorials/morse_simgrid$ [0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing' to 'yes'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/filename' to 'smpi_traced.trace'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/smpi' to 'yes'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/categorized' to 'yes'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/uncategorized' to 'yes'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'viva/categorized' to 'smpi_cat.plist'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'viva/uncategorized' to 'smpi_uncat.plist'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'surf/precision' to '1e-9'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/model' to 'SMPI'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/TCP_gamma' to '4194304'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/cpu_threshold' to '-1'
+dgpart(2): ERROR: main: too many file names given
+[Fafard:2:(3) 0.000000] [instr_config/INFO] No categories declared, ignoring generation of viva graph configuration
+[Fafard:2:(3) 0.000000] /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_global.cpp:281: [simix_kernel/CRITICAL]    
+[Fafard:2:(3) 0.000000] /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_global.cpp:282: [simix_kernel/CRITICAL] The time is still 0, and you still have processes ready to run.
+[Fafard:2:(3) 0.000000] /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_global.cpp:283: [simix_kernel/CRITICAL] It seems that you forgot to run the simulation that you setup.
+[Fafard:2:(3) 0.000000] /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_global.cpp:284: [xbt/CRITICAL] Bailing out to avoid that stop-before-start madness. Please fix your code.
+</pre>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">dgpart(0): ERROR: main: unprocessed option '&#x2013;cfg=tracing:yes'</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Test PaStiX
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack load simgrid@master+examples
+spack load  pastix +mpi+examples ^simgrid@master+examples
+export PASTIX_PATH=`spack location -i pastix +mpi+examples ^simgrid@master+examples`
+export SIMGRID_PATH=`spack location -i simgrid@master+examples`
+smpirun -trace -trace-resource -trace-viva -trace-file smpi_traced.trace -hostfile $SIMGRID_PATH/examples/smpi/hostfile -platform $SIMGRID_PATH/examples/smpi/../platforms/small_platform.xml --cfg=path:$SIMGRID_PATH/examples/smpi/../msg --cfg=smpi/cpu_threshold:-1 p 3 --log=smpi_kernel.thres:warning ${PASTIX_PATH}/examples/zsimple -mm $PASTIX_PATH/matrix/young4c.mtx
+</pre>
+</div>
+
+<pre class="example">
+afalco@afalco-hp:~/tutorials/morse_simgrid$ afalco@afalco-hp:~/tutorials/morse_simgrid$ afalco@afalco-hp:~/tutorials/morse_simgrid$ [0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing' to 'yes'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/filename' to 'smpi_traced.trace'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/smpi' to 'yes'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/categorized' to 'yes'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/uncategorized' to 'yes'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'viva/categorized' to 'smpi_cat.plist'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'viva/uncategorized' to 'smpi_uncat.plist'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'surf/precision' to '1e-9'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/model' to 'SMPI'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/TCP_gamma' to '4194304'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/cpu_threshold' to '-1'
+MPI_Init_thread level = MPI_THREAD_SINGLE
+driver: MatrixMarket file: /home/afalco/spack/opt/spack/linux-x86_64/gcc-4.8/pastix-5.2.2.22-iic3ydcydxz3saz73wunrc7phagabhzi/matrix/young4c.mtx
+open RHS file : /home/afalco/spack/opt/spack/linux-x86_64/gcc-4.8/pastix-5.2.2.22-iic3ydcydxz3saz73wunrc7phagabhzi/matrix/young4c.mtx.rhs
+cannot load /home/afalco/spack/opt/spack/linux-x86_64/gcc-4.8/pastix-5.2.2.22-iic3ydcydxz3saz73wunrc7phagabhzi/matrix/young4c.mtx.rhs
+Setting right-hand-side member such as X[i] = i + i*I
+Check : Numbering		OK
+Check : Sort CSC		OK
+Check : Duplicates		OK
+ +--------------------------------------------------------------------+
+ +              PaStiX : Parallel Sparse matriX package               +
+ +--------------------------------------------------------------------+
+  Matrix size                                   841 x 841
+  Number of nonzeros in A                       2465
+ +--------------------------------------------------------------------+
+ +  Options                                                           +
+ +--------------------------------------------------------------------+
+	Version             :                   5.2.2.22
+	SMP_SOPALIN         :                   Defined
+	VERSION MPI         :                   Defined
+	PASTIX_DYNSCHED     :                   Not defined
+	STATS_SOPALIN       :                   Not defined
+	NAPA_SOPALIN        :                   Defined
+	TEST_IRECV          :                   Not defined
+	TEST_ISEND          :                   Defined
+	TAG                 :                   Exact Thread
+	FORCE_CONSO         :                   Not defined
+	RECV_FANIN_OR_BLOCK :                   Not defined
+	OUT_OF_CORE         :                   Not defined
+	DISTRIBUTED         :                   Not defined
+	METIS               :                   Not defined
+	WITH_SCOTCH         :                   Defined
+	INTEGER TYPE        :                   int
+	PASTIX_FLOAT TYPE   :                   double complex
+ +--------------------------------------------------------------------+
+   Time to compute ordering                     0.00783 s
+   Time to analyze                              0.000149 s
+   Number of nonzeros in factorized matrix      21756
+   Fill-in                                      8.82596
+   Number of operations (LLt)                   3.14977e+06
+   Prediction Time to factorize (AMD 6180  MKL) 0.000389 s
+   --- Sopalin : Threads are binded                 ---
+[0.092981] [instr_config/INFO] No categories declared, ignoring generation of viva graph configuration
+[0.092981] /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_global.cpp:546: [simix_kernel/CRITICAL] Oops ! Deadlock or code not perfectly clean.
+[0.092981] [simix_kernel/INFO] 3 processes are still running, waiting for something.
+(&lt;name&gt;@&lt;host&gt;): &lt;status&gt;"
+[0.092981] [simix_kernel/INFO] Process 1 (0@Tremblay): waiting for communication synchro 0x1d7bcc0 ((null)) in state 0 to finish
+[0.092981] [simix_kernel/INFO] Process 2 (1@Jupiter): waiting for communication synchro 0x1d7b810 ((null)) in state 0 to finish
+[0.092981] [simix_kernel/INFO] Process 3 (2@Fafard): waiting for communication synchro 0x1d7bae0 ((null)) in state 0 to finish
+</pre>
+
+<p>
+Test MUMPS
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack load simgrid@master+examples
+spack load  mumps +mpi+examples ^simgrid@master+examples
+export MUMPS_PATH=`spack location -i mumps +mpi+examples  ^simgrid@master+examples`
+cd ${MUMPS_PATH}/examples/
+export SIMGRID_PATH=`spack location -i simgrid@master+examples`
+smpirun -trace -trace-resource -trace-viva -trace-file smpi_traced.trace -hostfile $SIMGRID_PATH/examples/smpi/hostfile -platform $SIMGRID_PATH/examples/smpi/../platforms/small_platform.xml --cfg=path:$SIMGRID_PATH/examples/smpi/../msg --cfg=smpi/cpu_threshold:-1 p 3 --log=smpi_kernel.thres:warning ${MUMPS_PATH}/examples/c_example
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">PB allocation in DMUMPS_LOAD_INIT</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+Test MaPHyS
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">spack load simgrid@master+examples
+spack load maphys@svn-maphys-dev +examples ^simgrid@master+examples
+export MAPHYS_PATH=`spack location -i maphys@svn-maphys-dev +examples  ^simgrid@master+examples`
+cd ${MAPHYS_PATH}/examples/
+export SIMGRID_PATH=`spack location -i simgrid@master+examples`
+smpirun -trace-resource -trace-viva -trace-file smpi_traced.trace -hostfile $SIMGRID_PATH/examples/smpi/hostfile -platform $SIMGRID_PATH/examples/smpi/../platforms/small_platform.xml --cfg=path:$SIMGRID_PATH/examples/smpi/../msg --cfg=smpi/cpu_threshold:-1 p 4 --log=smpi_kernel.thres:warning ${MAPHYS_PATH}/examples/dmph_examplekv real_bcsstk17.in
+</pre>
+</div>
+
+<pre class="example">
+afalco@afalco-hp:~/spack/opt/spack/linux-x86_64/gcc-4.8/mumps-5.0.1-r7drhifwv4ll3umvxumilaezdlgc6y44/examples$ afalco@afalco-hp:~/spack/opt/spack/linux-x86_64/gcc-4.8/mumps-5.0.1-r7drhifwv4ll3umvxumilaezdlgc6y44/examples$ afalco@afalco-hp:~/spack/opt/spack/linux-x86_64/gcc-4.8/maphys-svn-maphys-dev-hzs2mv5xodqvf3b2qjw22krvtailqhcv/examples$ afalco@afalco-hp:~/spack/opt/spack/linux-x86_64/gcc-4.8/maphys-svn-maphys-dev-hzs2mv5xodqvf3b2qjw22krvtailqhcv/examples$ [0.000000] [xbt_cfg/INFO] Configuration change: Set 'surf/precision' to '1e-9'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/model' to 'SMPI'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/TCP_gamma' to '4194304'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/cpu_threshold' to '-1'
+** SimGrid: UNCAUGHT EXCEPTION received on /home/afalco/spack/opt/spack/linux-x86_64/gcc-4.8/maphys-svn-maphys-dev-hzs2mv5xodqvf3b2qjw22krvtailqhcv/examples/dmph_examplekv(1): category: network error; value: 1
+** Link failure
+** Thrown by maestro() on process 0
+[Tremblay:0:(1) 0.029808] /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/xbt/ex.c:149: [xbt_ex/CRITICAL] Link failure
+
+**   In SIMIX_comm_finish() at /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_network.cpp:809
+**   In SIMIX_post_comm() at /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_network.cpp:932
+**   In SIMIX_run() at /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_global.cpp:472
+**   In smpi_main() at /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/smpi/smpi_global.c:693
+**   In __libc_start_main() at /build/buildd/eglibc-2.19/csu/libc-start.c:321
+**   In _start() at ??:?
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: HiePACS/STORM</p>
+<p class="date">Created: 2016-02-03 Wed 16:59</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

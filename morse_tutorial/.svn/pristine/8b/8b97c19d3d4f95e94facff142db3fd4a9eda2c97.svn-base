@@ -1,0 +1,256 @@
+<?xml version='1.0'?>
+<!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid.dtd">
+<platform version="3">
+<AS id="ASroot" routing="None">
+<!--             _________
+                |          |
+                |  router  |
+    ____________|__________|_____________ backbone
+      |   |   |              |     |   |  	
+    l0|	l1| l2|           l97| l96 |   | l99
+      |   |   |   ........   |     |   |
+      |                                |
+  node-0.acme.org                  node-99.acme.org
+-->
+<AS  id="AS0"  routing="Vivaldi">	 
+  <cluster id="acme"
+           prefix="node-"    suffix=".acme.org"
+           radical="0-99"    power="1Gf" 
+	   bw="1GBps"        lat="10us"
+           bb_bw="10GBps"  bb_lat="10us"/>
+</AS>
+   
+ 
+ 
+ <AS id="StarPU-MPI0" routing="Full">
+   <host id="StarPU-MPI0-MAIN" power="1"/>
+   <host id="StarPU-MPI0-CPU0" power="2000000000"/>
+   <host id="StarPU-MPI0-CPU1" power="2000000000"/>
+   <host id="StarPU-MPI0-CPU2" power="2000000000"/>
+   <host id="StarPU-MPI0-CPU3" power="2000000000"/>
+   <host id="StarPU-MPI0-CPU4" power="2000000000"/>
+   <host id="StarPU-MPI0-CPU5" power="2000000000"/>
+   <host id="StarPU-MPI0-CPU6" power="2000000000"/>
+   <host id="StarPU-MPI0-CPU7" power="2000000000"/>
+   <host id="StarPU-MPI0-CPU8" power="2000000000"/>
+   <host id="StarPU-MPI0-CPU9" power="2000000000"/>
+   <host id="StarPU-MPI0-CPU10" power="2000000000"/>
+   <host id="StarPU-MPI0-CPU11" power="2000000000"/>
+   <host id="StarPU-MPI0-CUDA0" power="2000000000">
+    <prop id="memsize" value="5636554752"/>
+    <prop id="memcpy_peer" value="1"/>
+   </host>
+   <host id="StarPU-MPI0-CUDA1" power="2000000000">
+    <prop id="memsize" value="5636554752"/>
+    <prop id="memcpy_peer" value="1"/>
+   </host>
+   <host id="StarPU-MPI0-CUDA2" power="2000000000">
+    <prop id="memsize" value="5636554752"/>
+    <prop id="memcpy_peer" value="1"/>
+   </host>
+
+   <host id="StarPU-MPI0-RAM" power="1"/>
+
+   <link id="StarPU-MPI0-Share" bandwidth="6517363029.953197" latency="0.000000"/>
+
+   <link id="StarPU-MPI0-RAM-CUDA0" bandwidth="6035297906.006321" latency="0.000010"/>
+   <link id="StarPU-MPI0-CUDA0-RAM" bandwidth="6515325228.049269" latency="0.000011"/>
+   <link id="StarPU-MPI0-RAM-CUDA1" bandwidth="6012358608.511754" latency="0.000010"/>
+   <link id="StarPU-MPI0-CUDA1-RAM" bandwidth="6515500932.402594" latency="0.000011"/>
+   <link id="StarPU-MPI0-RAM-CUDA2" bandwidth="6030387433.692272" latency="0.000010"/>
+   <link id="StarPU-MPI0-CUDA2-RAM" bandwidth="6517363029.953198" latency="0.000012"/>
+   <link id="StarPU-MPI0-CUDA0-CUDA1" bandwidth="3066551994.788844" latency="0.000024"/>
+   <link id="StarPU-MPI0-CUDA0-CUDA2" bandwidth="3069306052.237750" latency="0.000023"/>
+   <link id="StarPU-MPI0-CUDA1-CUDA0" bandwidth="3800577468.827599" latency="0.000025"/>
+   <link id="StarPU-MPI0-CUDA1-CUDA2" bandwidth="5296312023.583168" latency="0.000015"/>
+   <link id="StarPU-MPI0-CUDA2-CUDA0" bandwidth="3808635141.324025" latency="0.000025"/>
+   <link id="StarPU-MPI0-CUDA2-CUDA1" bandwidth="5296487304.890412" latency="0.000015"/>
+   <route src="StarPU-MPI0-RAM" dst="StarPU-MPI0-CUDA0" symmetrical="NO"><link_ctn id="StarPU-MPI0-RAM-CUDA0"/><link_ctn id="StarPU-MPI0-Share"/></route>
+   <route src="StarPU-MPI0-CUDA0" dst="StarPU-MPI0-RAM" symmetrical="NO"><link_ctn id="StarPU-MPI0-CUDA0-RAM"/><link_ctn id="StarPU-MPI0-Share"/></route>
+   <route src="StarPU-MPI0-RAM" dst="StarPU-MPI0-CUDA1" symmetrical="NO"><link_ctn id="StarPU-MPI0-RAM-CUDA1"/><link_ctn id="StarPU-MPI0-Share"/></route>
+   <route src="StarPU-MPI0-CUDA1" dst="StarPU-MPI0-RAM" symmetrical="NO"><link_ctn id="StarPU-MPI0-CUDA1-RAM"/><link_ctn id="StarPU-MPI0-Share"/></route>
+   <route src="StarPU-MPI0-RAM" dst="StarPU-MPI0-CUDA2" symmetrical="NO"><link_ctn id="StarPU-MPI0-RAM-CUDA2"/><link_ctn id="StarPU-MPI0-Share"/></route>
+   <route src="StarPU-MPI0-CUDA2" dst="StarPU-MPI0-RAM" symmetrical="NO"><link_ctn id="StarPU-MPI0-CUDA2-RAM"/><link_ctn id="StarPU-MPI0-Share"/></route>
+   <route src="StarPU-MPI0-CUDA0" dst="StarPU-MPI0-CUDA1" symmetrical="NO"><link_ctn id="StarPU-MPI0-CUDA0-CUDA1"/><link_ctn id="StarPU-MPI0-Share"/></route>
+   <route src="StarPU-MPI0-CUDA0" dst="StarPU-MPI0-CUDA2" symmetrical="NO"><link_ctn id="StarPU-MPI0-CUDA0-CUDA2"/><link_ctn id="StarPU-MPI0-Share"/></route>
+   <route src="StarPU-MPI0-CUDA1" dst="StarPU-MPI0-CUDA0" symmetrical="NO"><link_ctn id="StarPU-MPI0-CUDA1-CUDA0"/><link_ctn id="StarPU-MPI0-Share"/></route>
+   <route src="StarPU-MPI0-CUDA1" dst="StarPU-MPI0-CUDA2" symmetrical="NO"><link_ctn id="StarPU-MPI0-CUDA1-CUDA2"/><link_ctn id="StarPU-MPI0-Share"/></route>
+   <route src="StarPU-MPI0-CUDA2" dst="StarPU-MPI0-CUDA0" symmetrical="NO"><link_ctn id="StarPU-MPI0-CUDA2-CUDA0"/><link_ctn id="StarPU-MPI0-Share"/></route>
+   <route src="StarPU-MPI0-CUDA2" dst="StarPU-MPI0-CUDA1" symmetrical="NO"><link_ctn id="StarPU-MPI0-CUDA2-CUDA1"/><link_ctn id="StarPU-MPI0-Share"/></route>
+ </AS>
+ 
+ 
+ <AS id="StarPU-MPI1" routing="Full">
+   <host id="StarPU-MPI1-MAIN" power="1"/>
+   <host id="StarPU-MPI1-CPU0" power="2000000000"/>
+   <host id="StarPU-MPI1-CPU1" power="2000000000"/>
+   <host id="StarPU-MPI1-CPU2" power="2000000000"/>
+   <host id="StarPU-MPI1-CPU3" power="2000000000"/>
+   <host id="StarPU-MPI1-CPU4" power="2000000000"/>
+   <host id="StarPU-MPI1-CPU5" power="2000000000"/>
+   <host id="StarPU-MPI1-CPU6" power="2000000000"/>
+   <host id="StarPU-MPI1-CPU7" power="2000000000"/>
+   <host id="StarPU-MPI1-CPU8" power="2000000000"/>
+   <host id="StarPU-MPI1-CPU9" power="2000000000"/>
+   <host id="StarPU-MPI1-CPU10" power="2000000000"/>
+   <host id="StarPU-MPI1-CPU11" power="2000000000"/>
+   <host id="StarPU-MPI1-CUDA0" power="2000000000">
+    <prop id="memsize" value="5636554752"/>
+    <prop id="memcpy_peer" value="1"/>
+   </host>
+   <host id="StarPU-MPI1-CUDA1" power="2000000000">
+    <prop id="memsize" value="5636554752"/>
+    <prop id="memcpy_peer" value="1"/>
+   </host>
+   <host id="StarPU-MPI1-CUDA2" power="2000000000">
+    <prop id="memsize" value="5636554752"/>
+    <prop id="memcpy_peer" value="1"/>
+   </host>
+
+   <host id="StarPU-MPI1-RAM" power="1"/>
+
+   <link id="StarPU-MPI1-Share" bandwidth="6517363029.953197" latency="0.000000"/>
+
+   <link id="StarPU-MPI1-RAM-CUDA0" bandwidth="6035297906.006321" latency="0.000010"/>
+   <link id="StarPU-MPI1-CUDA0-RAM" bandwidth="6515325228.049269" latency="0.000011"/>
+   <link id="StarPU-MPI1-RAM-CUDA1" bandwidth="6012358608.511754" latency="0.000010"/>
+   <link id="StarPU-MPI1-CUDA1-RAM" bandwidth="6515500932.402594" latency="0.000011"/>
+   <link id="StarPU-MPI1-RAM-CUDA2" bandwidth="6030387433.692272" latency="0.000010"/>
+   <link id="StarPU-MPI1-CUDA2-RAM" bandwidth="6517363029.953198" latency="0.000012"/>
+   <link id="StarPU-MPI1-CUDA0-CUDA1" bandwidth="3066551994.788844" latency="0.000024"/>
+   <link id="StarPU-MPI1-CUDA0-CUDA2" bandwidth="3069306052.237750" latency="0.000023"/>
+   <link id="StarPU-MPI1-CUDA1-CUDA0" bandwidth="3800577468.827599" latency="0.000025"/>
+   <link id="StarPU-MPI1-CUDA1-CUDA2" bandwidth="5296312023.583168" latency="0.000015"/>
+   <link id="StarPU-MPI1-CUDA2-CUDA0" bandwidth="3808635141.324025" latency="0.000025"/>
+   <link id="StarPU-MPI1-CUDA2-CUDA1" bandwidth="5296487304.890412" latency="0.000015"/>
+   <route src="StarPU-MPI1-RAM" dst="StarPU-MPI1-CUDA0" symmetrical="NO"><link_ctn id="StarPU-MPI1-RAM-CUDA0"/><link_ctn id="StarPU-MPI1-Share"/></route>
+   <route src="StarPU-MPI1-CUDA0" dst="StarPU-MPI1-RAM" symmetrical="NO"><link_ctn id="StarPU-MPI1-CUDA0-RAM"/><link_ctn id="StarPU-MPI1-Share"/></route>
+   <route src="StarPU-MPI1-RAM" dst="StarPU-MPI1-CUDA1" symmetrical="NO"><link_ctn id="StarPU-MPI1-RAM-CUDA1"/><link_ctn id="StarPU-MPI1-Share"/></route>
+   <route src="StarPU-MPI1-CUDA1" dst="StarPU-MPI1-RAM" symmetrical="NO"><link_ctn id="StarPU-MPI1-CUDA1-RAM"/><link_ctn id="StarPU-MPI1-Share"/></route>
+   <route src="StarPU-MPI1-RAM" dst="StarPU-MPI1-CUDA2" symmetrical="NO"><link_ctn id="StarPU-MPI1-RAM-CUDA2"/><link_ctn id="StarPU-MPI1-Share"/></route>
+   <route src="StarPU-MPI1-CUDA2" dst="StarPU-MPI1-RAM" symmetrical="NO"><link_ctn id="StarPU-MPI1-CUDA2-RAM"/><link_ctn id="StarPU-MPI1-Share"/></route>
+   <route src="StarPU-MPI1-CUDA0" dst="StarPU-MPI1-CUDA1" symmetrical="NO"><link_ctn id="StarPU-MPI1-CUDA0-CUDA1"/><link_ctn id="StarPU-MPI1-Share"/></route>
+   <route src="StarPU-MPI1-CUDA0" dst="StarPU-MPI1-CUDA2" symmetrical="NO"><link_ctn id="StarPU-MPI1-CUDA0-CUDA2"/><link_ctn id="StarPU-MPI1-Share"/></route>
+   <route src="StarPU-MPI1-CUDA1" dst="StarPU-MPI1-CUDA0" symmetrical="NO"><link_ctn id="StarPU-MPI1-CUDA1-CUDA0"/><link_ctn id="StarPU-MPI1-Share"/></route>
+   <route src="StarPU-MPI1-CUDA1" dst="StarPU-MPI1-CUDA2" symmetrical="NO"><link_ctn id="StarPU-MPI1-CUDA1-CUDA2"/><link_ctn id="StarPU-MPI1-Share"/></route>
+   <route src="StarPU-MPI1-CUDA2" dst="StarPU-MPI1-CUDA0" symmetrical="NO"><link_ctn id="StarPU-MPI1-CUDA2-CUDA0"/><link_ctn id="StarPU-MPI1-Share"/></route>
+   <route src="StarPU-MPI1-CUDA2" dst="StarPU-MPI1-CUDA1" symmetrical="NO"><link_ctn id="StarPU-MPI1-CUDA2-CUDA1"/><link_ctn id="StarPU-MPI1-Share"/></route>
+ </AS>
+ 
+ 
+ <AS id="StarPU-MPI2" routing="Full">
+   <host id="StarPU-MPI2-MAIN" power="1"/>
+   <host id="StarPU-MPI2-CPU0" power="2000000000"/>
+   <host id="StarPU-MPI2-CPU1" power="2000000000"/>
+   <host id="StarPU-MPI2-CPU2" power="2000000000"/>
+   <host id="StarPU-MPI2-CPU3" power="2000000000"/>
+   <host id="StarPU-MPI2-CPU4" power="2000000000"/>
+   <host id="StarPU-MPI2-CPU5" power="2000000000"/>
+   <host id="StarPU-MPI2-CPU6" power="2000000000"/>
+   <host id="StarPU-MPI2-CPU7" power="2000000000"/>
+   <host id="StarPU-MPI2-CPU8" power="2000000000"/>
+   <host id="StarPU-MPI2-CPU9" power="2000000000"/>
+   <host id="StarPU-MPI2-CPU10" power="2000000000"/>
+   <host id="StarPU-MPI2-CPU11" power="2000000000"/>
+   <host id="StarPU-MPI2-CUDA0" power="2000000000">
+    <prop id="memsize" value="5636554752"/>
+    <prop id="memcpy_peer" value="1"/>
+   </host>
+   <host id="StarPU-MPI2-CUDA1" power="2000000000">
+    <prop id="memsize" value="5636554752"/>
+    <prop id="memcpy_peer" value="1"/>
+   </host>
+   <host id="StarPU-MPI2-CUDA2" power="2000000000">
+    <prop id="memsize" value="5636554752"/>
+    <prop id="memcpy_peer" value="1"/>
+   </host>
+
+   <host id="StarPU-MPI2-RAM" power="1"/>
+
+   <link id="StarPU-MPI2-Share" bandwidth="6517363029.953197" latency="0.000000"/>
+
+   <link id="StarPU-MPI2-RAM-CUDA0" bandwidth="6035297906.006321" latency="0.000010"/>
+   <link id="StarPU-MPI2-CUDA0-RAM" bandwidth="6515325228.049269" latency="0.000011"/>
+   <link id="StarPU-MPI2-RAM-CUDA1" bandwidth="6012358608.511754" latency="0.000010"/>
+   <link id="StarPU-MPI2-CUDA1-RAM" bandwidth="6515500932.402594" latency="0.000011"/>
+   <link id="StarPU-MPI2-RAM-CUDA2" bandwidth="6030387433.692272" latency="0.000010"/>
+   <link id="StarPU-MPI2-CUDA2-RAM" bandwidth="6517363029.953198" latency="0.000012"/>
+   <link id="StarPU-MPI2-CUDA0-CUDA1" bandwidth="3066551994.788844" latency="0.000024"/>
+   <link id="StarPU-MPI2-CUDA0-CUDA2" bandwidth="3069306052.237750" latency="0.000023"/>
+   <link id="StarPU-MPI2-CUDA1-CUDA0" bandwidth="3800577468.827599" latency="0.000025"/>
+   <link id="StarPU-MPI2-CUDA1-CUDA2" bandwidth="5296312023.583168" latency="0.000015"/>
+   <link id="StarPU-MPI2-CUDA2-CUDA0" bandwidth="3808635141.324025" latency="0.000025"/>
+   <link id="StarPU-MPI2-CUDA2-CUDA1" bandwidth="5296487304.890412" latency="0.000015"/>
+   <route src="StarPU-MPI2-RAM" dst="StarPU-MPI2-CUDA0" symmetrical="NO"><link_ctn id="StarPU-MPI2-RAM-CUDA0"/><link_ctn id="StarPU-MPI2-Share"/></route>
+   <route src="StarPU-MPI2-CUDA0" dst="StarPU-MPI2-RAM" symmetrical="NO"><link_ctn id="StarPU-MPI2-CUDA0-RAM"/><link_ctn id="StarPU-MPI2-Share"/></route>
+   <route src="StarPU-MPI2-RAM" dst="StarPU-MPI2-CUDA1" symmetrical="NO"><link_ctn id="StarPU-MPI2-RAM-CUDA1"/><link_ctn id="StarPU-MPI2-Share"/></route>
+   <route src="StarPU-MPI2-CUDA1" dst="StarPU-MPI2-RAM" symmetrical="NO"><link_ctn id="StarPU-MPI2-CUDA1-RAM"/><link_ctn id="StarPU-MPI2-Share"/></route>
+   <route src="StarPU-MPI2-RAM" dst="StarPU-MPI2-CUDA2" symmetrical="NO"><link_ctn id="StarPU-MPI2-RAM-CUDA2"/><link_ctn id="StarPU-MPI2-Share"/></route>
+   <route src="StarPU-MPI2-CUDA2" dst="StarPU-MPI2-RAM" symmetrical="NO"><link_ctn id="StarPU-MPI2-CUDA2-RAM"/><link_ctn id="StarPU-MPI2-Share"/></route>
+   <route src="StarPU-MPI2-CUDA0" dst="StarPU-MPI2-CUDA1" symmetrical="NO"><link_ctn id="StarPU-MPI2-CUDA0-CUDA1"/><link_ctn id="StarPU-MPI2-Share"/></route>
+   <route src="StarPU-MPI2-CUDA0" dst="StarPU-MPI2-CUDA2" symmetrical="NO"><link_ctn id="StarPU-MPI2-CUDA0-CUDA2"/><link_ctn id="StarPU-MPI2-Share"/></route>
+   <route src="StarPU-MPI2-CUDA1" dst="StarPU-MPI2-CUDA0" symmetrical="NO"><link_ctn id="StarPU-MPI2-CUDA1-CUDA0"/><link_ctn id="StarPU-MPI2-Share"/></route>
+   <route src="StarPU-MPI2-CUDA1" dst="StarPU-MPI2-CUDA2" symmetrical="NO"><link_ctn id="StarPU-MPI2-CUDA1-CUDA2"/><link_ctn id="StarPU-MPI2-Share"/></route>
+   <route src="StarPU-MPI2-CUDA2" dst="StarPU-MPI2-CUDA0" symmetrical="NO"><link_ctn id="StarPU-MPI2-CUDA2-CUDA0"/><link_ctn id="StarPU-MPI2-Share"/></route>
+   <route src="StarPU-MPI2-CUDA2" dst="StarPU-MPI2-CUDA1" symmetrical="NO"><link_ctn id="StarPU-MPI2-CUDA2-CUDA1"/><link_ctn id="StarPU-MPI2-Share"/></route>
+ </AS>
+ 
+ 
+ <AS id="StarPU-MPI3" routing="Full">
+   <host id="StarPU-MPI3-MAIN" power="1"/>
+   <host id="StarPU-MPI3-CPU0" power="2000000000"/>
+   <host id="StarPU-MPI3-CPU1" power="2000000000"/>
+   <host id="StarPU-MPI3-CPU2" power="2000000000"/>
+   <host id="StarPU-MPI3-CPU3" power="2000000000"/>
+   <host id="StarPU-MPI3-CPU4" power="2000000000"/>
+   <host id="StarPU-MPI3-CPU5" power="2000000000"/>
+   <host id="StarPU-MPI3-CPU6" power="2000000000"/>
+   <host id="StarPU-MPI3-CPU7" power="2000000000"/>
+   <host id="StarPU-MPI3-CPU8" power="2000000000"/>
+   <host id="StarPU-MPI3-CPU9" power="2000000000"/>
+   <host id="StarPU-MPI3-CPU10" power="2000000000"/>
+   <host id="StarPU-MPI3-CPU11" power="2000000000"/>
+   <host id="StarPU-MPI3-CUDA0" power="2000000000">
+    <prop id="memsize" value="5636554752"/>
+    <prop id="memcpy_peer" value="1"/>
+   </host>
+   <host id="StarPU-MPI3-CUDA1" power="2000000000">
+    <prop id="memsize" value="5636554752"/>
+    <prop id="memcpy_peer" value="1"/>
+   </host>
+   <host id="StarPU-MPI3-CUDA2" power="2000000000">
+    <prop id="memsize" value="5636554752"/>
+    <prop id="memcpy_peer" value="1"/>
+   </host>
+
+   <host id="StarPU-MPI3-RAM" power="1"/>
+
+   <link id="StarPU-MPI3-Share" bandwidth="6517363029.953197" latency="0.000000"/>
+
+   <link id="StarPU-MPI3-RAM-CUDA0" bandwidth="6035297906.006321" latency="0.000010"/>
+   <link id="StarPU-MPI3-CUDA0-RAM" bandwidth="6515325228.049269" latency="0.000011"/>
+   <link id="StarPU-MPI3-RAM-CUDA1" bandwidth="6012358608.511754" latency="0.000010"/>
+   <link id="StarPU-MPI3-CUDA1-RAM" bandwidth="6515500932.402594" latency="0.000011"/>
+   <link id="StarPU-MPI3-RAM-CUDA2" bandwidth="6030387433.692272" latency="0.000010"/>
+   <link id="StarPU-MPI3-CUDA2-RAM" bandwidth="6517363029.953198" latency="0.000012"/>
+   <link id="StarPU-MPI3-CUDA0-CUDA1" bandwidth="3066551994.788844" latency="0.000024"/>
+   <link id="StarPU-MPI3-CUDA0-CUDA2" bandwidth="3069306052.237750" latency="0.000023"/>
+   <link id="StarPU-MPI3-CUDA1-CUDA0" bandwidth="3800577468.827599" latency="0.000025"/>
+   <link id="StarPU-MPI3-CUDA1-CUDA2" bandwidth="5296312023.583168" latency="0.000015"/>
+   <link id="StarPU-MPI3-CUDA2-CUDA0" bandwidth="3808635141.324025" latency="0.000025"/>
+   <link id="StarPU-MPI3-CUDA2-CUDA1" bandwidth="5296487304.890412" latency="0.000015"/>
+   <route src="StarPU-MPI3-RAM" dst="StarPU-MPI3-CUDA0" symmetrical="NO"><link_ctn id="StarPU-MPI3-RAM-CUDA0"/><link_ctn id="StarPU-MPI3-Share"/></route>
+   <route src="StarPU-MPI3-CUDA0" dst="StarPU-MPI3-RAM" symmetrical="NO"><link_ctn id="StarPU-MPI3-CUDA0-RAM"/><link_ctn id="StarPU-MPI3-Share"/></route>
+   <route src="StarPU-MPI3-RAM" dst="StarPU-MPI3-CUDA1" symmetrical="NO"><link_ctn id="StarPU-MPI3-RAM-CUDA1"/><link_ctn id="StarPU-MPI3-Share"/></route>
+   <route src="StarPU-MPI3-CUDA1" dst="StarPU-MPI3-RAM" symmetrical="NO"><link_ctn id="StarPU-MPI3-CUDA1-RAM"/><link_ctn id="StarPU-MPI3-Share"/></route>
+   <route src="StarPU-MPI3-RAM" dst="StarPU-MPI3-CUDA2" symmetrical="NO"><link_ctn id="StarPU-MPI3-RAM-CUDA2"/><link_ctn id="StarPU-MPI3-Share"/></route>
+   <route src="StarPU-MPI3-CUDA2" dst="StarPU-MPI3-RAM" symmetrical="NO"><link_ctn id="StarPU-MPI3-CUDA2-RAM"/><link_ctn id="StarPU-MPI3-Share"/></route>
+   <route src="StarPU-MPI3-CUDA0" dst="StarPU-MPI3-CUDA1" symmetrical="NO"><link_ctn id="StarPU-MPI3-CUDA0-CUDA1"/><link_ctn id="StarPU-MPI3-Share"/></route>
+   <route src="StarPU-MPI3-CUDA0" dst="StarPU-MPI3-CUDA2" symmetrical="NO"><link_ctn id="StarPU-MPI3-CUDA0-CUDA2"/><link_ctn id="StarPU-MPI3-Share"/></route>
+   <route src="StarPU-MPI3-CUDA1" dst="StarPU-MPI3-CUDA0" symmetrical="NO"><link_ctn id="StarPU-MPI3-CUDA1-CUDA0"/><link_ctn id="StarPU-MPI3-Share"/></route>
+   <route src="StarPU-MPI3-CUDA1" dst="StarPU-MPI3-CUDA2" symmetrical="NO"><link_ctn id="StarPU-MPI3-CUDA1-CUDA2"/><link_ctn id="StarPU-MPI3-Share"/></route>
+   <route src="StarPU-MPI3-CUDA2" dst="StarPU-MPI3-CUDA0" symmetrical="NO"><link_ctn id="StarPU-MPI3-CUDA2-CUDA0"/><link_ctn id="StarPU-MPI3-Share"/></route>
+   <route src="StarPU-MPI3-CUDA2" dst="StarPU-MPI3-CUDA1" symmetrical="NO"><link_ctn id="StarPU-MPI3-CUDA2-CUDA1"/><link_ctn id="StarPU-MPI3-Share"/></route>
+ </AS>
+</AS>
+</platform>

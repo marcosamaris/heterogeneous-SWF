@@ -1,0 +1,592 @@
+#+TITLE: Actipole Hands-on
+#+AUTHOR: HiePACS/STORM
+#+LANGUAGE:  en
+#+STARTUP: inlineimages
+#+OPTIONS: H:3 num:t toc:t \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS: TeX:t LaTeX:t skip:nil d:nil todo:nil pri:nil tags:not-in-toc
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+TAGS: noexport(n)
+#+TODO: TODO(t) STARTED(s) WAITING(w) | DONE(d)
+#+TAGS: EMMANUEL(E) MARC(M) SURAJ(S) FLORENT(F) LUKA(L) TERRY(T)
+#+TAGS: @SIROCCO(s) @LOCAL(l)
+
+#+BEAMER_THEME: Rochester
+
+#+HTML_HEAD:   <link rel="stylesheet" title="Standard" href="../chameleon/css/worg.css" type="text/css" />
+#+HTML_HEAD:   <link rel="stylesheet" type="text/css" href="../chameleon/css/VisuGen.css" />
+#+HTML_HEAD:   <link rel="stylesheet" type="text/css" href="../chameleon/css/VisuRubriqueEncadre.css" />
+#+INFOJS_OPT: 
+
+* R analysis functions					      :noexport:
+
+Installing necessary R packages (execute only if these packages have not yet been installed)
+#+begin_src R :results silent :exports none :session local-R :dir .
+install.packages("ggplot2")
+install.packages("plyr")
+#+end_src
+
+#+name: R_init
+#+BEGIN_SRC R :results silent :exports none :session local-R :dir .
+# Choosing if figures are in color in black and white
+black_white<-FALSE
+choose_palette <- function(bw) {
+   if(bw) {
+     myPalette <- c("#252525", "#525252", "#737373", "#969696", "#bdbdbd", "#d9d9d9", "#f0f0f0")
+     myPalette <- myPalette[c(1,6,2,5,4,3,7)]
+   } else {
+     library(RColorBrewer)
+     myPalette <- brewer.pal(8, "Set1");
+     myPalette <- myPalette[c(1,2,3,4,5,7,8)]
+   }
+
+   myPalette
+}
+myPalette <- choose_palette(black_white)
+
+#################################
+# Adding necessary libraries
+library(ggplot2)
+library(plyr)
+
+###############################
+# Function for reading standard paje traces (dumped to .csv by pj_dump)
+read_trace_wh <- function(file, name) {
+    df<-read.table(file, header=TRUE, sep=",", strip.white=TRUE, fill=TRUE)
+    #names(df) <- c("Nature","ResourceId","Type","Start","End","Duration", "Depth", "Value","Footprint","JobId","Params","Size","Tag")
+    df = df[!(names(df) %in% c("Nature","Type", "Depth", "Footprint", "Params", "Size"))]
+    df$Origin=name
+
+    m <- min(df$Start)
+    df$Start <- df$Start - m
+    df$End <- df$Start+df$Duration
+    df
+}
+
+##############################
+# Part for the advanced analysis
+add_iterations <- function (df) {
+df_kmn = df
+df_kmn$k=""
+df_kmn$m=""
+df_kmn$n=""
+
+df_kmn$Tag <- as.character(df_kmn$Tag)
+
+df_kmn[df_kmn$Value=="dpotrf",]$k <- as.hexmode(substr(df_kmn[df_kmn$Value=="dpotrf",]$Tag, 14, 16))
+#potrf: ..000k STARPU_TAG_ONLY, (starpu_tag_t) (Am)
+
+df_kmn[df_kmn$Value=="dtrsm",]$k <- as.hexmode(substr(df_kmn[df_kmn$Value=="dtrsm",]$Tag, 11, 13)) 
+df_kmn[df_kmn$Value=="dtrsm",]$m <- as.hexmode(substr(df_kmn[df_kmn$Value=="dtrsm",]$Tag, 14, 16)) 
+# trsm: ..000k 000m STARPU_TAG_ONLY, (starpu_tag_t) (Bm * 0x10000 + Bn)
+
+df_kmn[df_kmn$Value=="dsyrk",]$k <- as.hexmode(substr(df_kmn[df_kmn$Value=="dsyrk",]$Tag, 8, 10)) 
+df_kmn[df_kmn$Value=="dsyrk",]$n <- as.hexmode(substr(df_kmn[df_kmn$Value=="dsyrk",]$Tag, 11, 13)) 
+df_kmn[df_kmn$Value=="dsyrk",]$m <- as.hexmode(substr(df_kmn[df_kmn$Value=="dsyrk",]$Tag, 14, 16)) 
+# herk(transfered to syrk): ..000k 000n 000m STARPU_TAG_ONLY, (starpu_tag_t) (((Am * 0x1000) + Cm )* 0x1000 + Cn)
+
+df_kmn[df_kmn$Value=="dgemm",]$k <- as.hexmode(substr(df_kmn[df_kmn$Value=="dgemm",]$Tag, 8, 10)) 
+df_kmn[df_kmn$Value=="dgemm",]$n <- as.hexmode(substr(df_kmn[df_kmn$Value=="dgemm",]$Tag, 11, 13)) 
+df_kmn[df_kmn$Value=="dgemm",]$m <- as.hexmode(substr(df_kmn[df_kmn$Value=="dgemm",]$Tag, 14, 16)) 
+# gemm: ..000k 000n 000m STARPU_TAG_ONLY, (starpu_tag_t) (((Am * 0x1000) + Cm )* 0x1000 + Cn)
+
+df_kmn
+}
+
+get_dependencies <- function(file){
+id_depends <- read.csv(file, head=F, sep=",", col.names = c("JobId", "DependsOn"), na.strings="")
+id_depends$DependsOn = as.character(id_depends$DependsOn)
+id_depends[is.na(id_depends)]<-"0"
+tmpList <- strsplit(as.character(id_depends$DependsOn), "[ ]+")
+n<-lapply(tmpList, length)
+R<-rep(as.vector(id_depends$JobId), as.vector(unlist(n)))
+tmpdf<-data.frame(R, as.numeric(unlist(tmpList)))
+names(tmpdf)<-c("JobId","Dependent")
+
+tmpdf
+}
+
+clean_replicas <- function(df){
+df$DepStart = lapply(df[,"Dependent"], function (id, dataframe) return (dataframe[dataframe$JobId == id,]$Start), dataframe = unique(df[,c("JobId", "Start", "End")]))
+ df$DepStart = as.numeric(df$DepStart)
+ 
+ df$DepEnd = lapply(df[,"Dependent"], function (id, dataframe) return (dataframe[dataframe$JobId == id,]$End), dataframe = unique(df[,c("JobId", "Start", "End")]))
+ df$DepEnd = as.numeric(df$DepEnd)
+
+ df$ResourceId = as.character(df$ResourceId)
+ df$DepResourceId = lapply(df[,"Dependent"], function(id, dataframe) return (dataframe[dataframe$JobId == id,]$ResourceId), dataframe= unique(df[,c("JobId", "Start", "End","ResourceId")]))
+ df$ResourceId = as.factor(df$ResourceId)
+ df$DepResourceId = as.character(df$DepResourceId)
+ df$DepResourceId = as.factor(df$DepResourceId)
+
+ df = unique(df)
+
+df
+}
+
+  # New palette  / Vinicius
+  paired <- brewer.pal(12, "Paired")
+  dark2 <- brewer.pal(8, "Dark2")
+  accent <- brewer.pal(8, "Accent")
+  brbg <- brewer.pal(11, "BrBG")
+  piyg <- brewer.pal(11,"PiYG")
+  spectral <- brewer.pal(11, "Spectral")
+  set1 <- brewer.pal(9, "Set1")
+  set2 <- brewer.pal(8, "Set1")
+
+  npal <-  c(paired[1], paired[6], paired[11], paired[2], paired[5], paired[4], paired[12], paired[10], paired[3], brbg[1], paired[9], brbg[4], dark2[4], dark2[1], dark2[6], dark2[3], dark2[8], accent[4], piyg[11], piyg[2], spectral[9], set1[6], piyg[4], brbg[10],set1[1],set1[9],set1[3], set2[6], brbg[2], brbg[6], piyg[1], accent[1], set1[5], spectral[7], brbg[11],paired[1], paired[6], paired[11], paired[2], paired[5], paired[4], paired[12], paired[10], paired[3], brbg[1], paired[9], brbg[4], dark2[4], dark2[1], dark2[6], dark2[3], dark2[8], accent[4], piyg[11], piyg[2], spectral[9], set1[6], piyg[4], brbg[10],set1[1],set1[9],set1[3], set2[6], brbg[2], brbg[6], piyg[1], accent[1], set1[5], spectral[7], brbg[11] ) # 35 unique colors, note: here duplicated, so 70 colors with 35 unique
+
+#+END_SRC
+
+
+* WAITING Introduction
+** Goal of this tutorial  
+We created a [[https://pad.inria.fr/p/xN3213Pf5uX84P3x_org-actipole][pad]] for notes, questions, bugs and suggestions
+concearning this tutorial.
+The goal of this tutorial is to explain, step by step, how to
+reproduce experiments, simulation, and analysis over several solvers.
+We consider here dense, sparse linear algebra libraries, like
+Chameleon, MUMPS, PaStiX, etc.
+** MORSE distribution via spack
+#+attr_html: :width 1000px
+[[./tuto_files/spack-morse-packages.jpg]]
+** DONE Emacs and Org-mode					       
+ This tutorial is written in [[http://orgmode.org/][Org-mode]] and it is based on its
+ literate programming feature [[http://orgmode.org/worg/org-contrib/babel/][Org-babel]]. Although Org-mode files can
+ be read in any text editors, we strongly encourage to use Emacs, as
+ at this point only this editor allows for fully benefiting from
+ Org-babel feature.
+
+ In order to run everything smoothly, you will need recent Emacs
+ (>24.3) and a recent Org-mode (>8.0). If you have trouble
+ installing this software, consult the following web [[http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php][page]]
+ (or this [[http://mescal.imag.fr/membres/arnaud.legrand/blog/2014/05/15/emacs_and_orgmode_on_macosx.php][one]] if you are a Mac user).
+
+ Once everything is installed, execute the following code by
+ selecting it with cursor and applying the shortcut "Ctrl-c Ctrl-c"
+ to test that everything works properly. This small code will
+ execute shell command echo with the specified text.
+ #+BEGIN_SRC sh :exports both
+   echo "foo"
+ #+END_SRC
+
+ #+RESULTS:
+ : foo
+
+
+   Now execute this code to set the environment in order to be able to
+   execute shell and not have to confirm every command.
+ #+BEGIN_SRC emacs-lisp :results none :exports code
+ (setq org-confirm-babel-evaluate nil)
+ (setq org-export-babel-evaluate nil)
+ (org-babel-do-load-languages 'org-babel-load-languages
+      '(
+       (sh . t)
+       (python . t)
+       (R . t)
+       (org . t)
+       ))
+(setq org-support-shift-select t)
+ #+END_SRC
+
+ #+RESULTS:
+ : t
+
+** DONE Configure your local working environment
+
+   First, prepare a clean directory to work in it. You should execute
+   this section only once.
+   If you don't want to use this directory, you're free to work in
+   another directory, but you still need to set WORK_DIR variable.
+
+   #+BEGIN_SRC sh :session local :results none
+   mkdir -p actipole_tutorial
+   cd actipole_tutorial
+   export WORK_DIR=$PWD
+   cd -
+   #+END_SRC
+
+** DONE Configure Plafrim2 			    
+   
+   You can skip this part if you don't have access to PlaFRIM, but set
+   WORK_DIR to the path where you want to install everything, run tests, etc.
+   
+   Fill your local ~/.ssh/config file with the missing information accordingly:
+   Note that you need to be able to access Airbus repositories on hades for some parts of this tutorial.
+
+   #+BEGIN_EXAMPLE
+   Host plafrim2
+   ForwardAgent yes
+   ForwardX11   yes
+   RemoteForward 2222 localhost:22
+   User falco
+   ProxyCommand ssh -A -l falco ssh.plafrim.fr -W plafrim:22
+
+   Host hades
+   User falco
+   Port 22
+   HostName hades
+   #+END_EXAMPLE
+
+   Then, you can connect to plafrim2 with:
+
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   ssh plafrim2
+   #+END_SRC
+
+   Set environment on plafrim.
+   #+NAME: setenv_build
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   module purge
+   module load slurm/14.03.0
+   module load compiler/gcc/4.8.4
+   module load mpi/openmpi
+   module load intel/mkl/64/11.2
+   module load build/cmake/3.2.1
+   module load linalg/openblas/dynamic/0.2.8
+   module load linalg/blas/open64/64/1
+   module load runtime/starpu/1.1.5/gcc/fxt-mpi
+   unset F90
+   export LIBRARY_PATH=/usr/lib64:$LIBRARY_PATH
+   export MPI_DIR=$MPI_HOME
+   export TILE_CPU=320
+   export TILE_GPU=960
+   export CUDADIR=$CUDA_PATH
+   export WORK_DIR=$HOME/actipole_tutorial
+   mkdir -p $WORK_DIR
+   cd $WORK_DIR
+   echo "Environment is set"
+   #+END_SRC
+
+** DONE Copy matrix and scripts
+   
+   These commands should be called only once.
+
+   Local analysis scripts:
+   #+BEGIN_SRC sh :session local :results none
+   cd $WORK_DIR/..
+   cp -r tuto_files/analysis $WORK_DIR
+   cp -r tuto_files/experiments/*.xml $WORK_DIR/analysis/
+   cd -
+   #+END_SRC
+
+   Copy matrices and some scripts to launch experiments on plafrim
+   #+BEGIN_SRC sh :session local :results none
+   cd $WORK_DIR/..
+   scp -r tuto_files/experiments/* plafrim2:actipole_tutorial/
+   cd -
+   #+END_SRC
+
+* DONE Installing spack 					   :@SIROCCO:
+
+  If you have already installed spack (latest version from morse
+  branch), set correctly your environment, don't need to export it on
+  PlaFRIM, then you can skip this part.
+
+** Install spack
+   Clone Spack git on your local computer and copy the archive on plafrim2:
+
+   #+BEGIN_SRC sh :session local :results none
+   cd $WORK_DIR
+   git clone https://github.com/fpruvost/spack.git
+   cd spack
+   git checkout morse
+   git pull
+   git archive -o spack.tar.gz --prefix=spack/ HEAD
+   scp spack.tar.gz plafrim:actipole_tutorial
+   #+END_SRC
+
+   Then, get back spack on PlaFRIM.
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   cd $WORK_DIR
+   tar xf spack.tar.gz
+   #+END_SRC
+   This block and the previous one should be executed only once
+   (except if a new version of spack is out!)
+
+** Set environment variables
+
+    Local setting for spack
+   #+NAME: setenv_spack_local
+   #+BEGIN_SRC sh :session local :results none
+   export SPACK_ROOT=$WORK_DIR/spack
+   . $SPACK_ROOT/share/spack/setup-env.sh 
+   export MODULEPATH=$SPACK_ROOT/share/spack/modules/linux-x86_64:$MODULEPATH
+   mkdir -p $HOME/.spack
+   echo "Spack environment is set"
+   #+END_SRC
+   
+   Do the same on PlaFRIM.
+   #+NAME: setenv_spack
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   export SPACK_ROOT=$WORK_DIR/spack
+   . $SPACK_ROOT/share/spack/setup-env.sh 
+   export MODULEPATH=$SPACK_ROOT/share/spack/modules/linux-x86_64:$MODULEPATH
+   mkdir -p $HOME/.spack
+   echo "Spack environment is set"
+   #+END_SRC
+
+* OpenSource solvers
+
+  In this section, we will only execute opensource solvers, so you
+  only need to have configured PlaFRIM as specified before. You need
+  access to hades for hmat-oss however.
+
+** DONE Install packages
+*** Get packages from your local machine
+
+   If you don't have access to PlaFRIM, skip this part.
+   If you have access, download the software stack used for the experiments via "spack
+   mirror" to create an archive containing all the sources from each
+   package so that you can transfer it on PlaFRIM. 
+
+   #+NAME opensource_mirrors
+   #+BEGIN_SRC sh :session local :results none
+   git pull
+   spack mirror create -d $PWD/spack_mirror hmat-oss@nd
+   spack mirror create -d $PWD/spack_mirror mumps
+   spack mirror create -d $PWD/spack_mirror pastix
+   spack mirror create -d $PWD/spack_mirror cmake
+   spack mirror create -d $PWD/spack_mirror starpu
+   spack mirror create -d $PWD/spack_mirror scotch
+   spack mirror create -d $PWD/spack_mirror hwloc
+   spack mirror create -d $PWD/spack_mirror mpich
+   spack mirror create -d $PWD/spack_mirror zlib
+   spack mirror create -d $PWD/spack_mirror bison
+   spack mirror create -d $PWD/spack_mirror flex
+   spack mirror create -d $PWD/spack_mirror simgrid@master
+   tar czf spack_mirror.tar.gz spack_mirror
+   scp spack_mirror.tar.gz plafrim:actipole_tutorial
+   #+END_SRC
+
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   tar xf spack_mirror.tar.gz
+   spack mirror add actipole_mirror file://$WORK_DIR/spack_mirror
+   #+END_SRC
+   
+ 
+*** Install on plafrim
+
+
+   Check the stacks to install:
+
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack spec hmat-oss@nd ^mkl-blas
+   spack spec pastix   +mpi+examples ^mkl-blas
+   spack spec mumps +examples
+   spack spec scotch +grf+mpi ^mpich
+   #+END_SRC
+
+   Install the one you want to test:
+
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack install -v -n scotch +grf+mpi ^mpich
+   #+END_SRC
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack install -v -n pastix  +mpi+examples ^mkl-blas ^mpich
+   #+END_SRC
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack install -v -n mumps +mpi+examples ^mkl-blas ^mpich
+   #+END_SRC
+ 
+   Source files are place in "/tmp/$USER", and are deleted when the installation is finished.
+   You can keep source files by using the option --keep-stage, but
+   they will still be kept in /tmp.
+
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack install -v -n --keep-stage scotch +grf+mpi ^mpich
+   #+END_SRC
+
+   Otherwise, you can use @src versions, which allows you to use source
+   files you downloaded by yourself. For example, let's say you have
+   scotch source installed in $HOME/scotch, you could install scotch
+   using those sources and spack dependencies with:
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   export SCOTCH_DIR=$HOME/scotch
+   spack install -v -n scotch@src +grf+mpi ^mpich
+   #+END_SRC
+
+*** Verify installation
+
+   Test SCOTCH implementation with MPICH:
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack load mpich
+   spack load scotch +grf+mpi ^mpich
+   export SCOTCH_PATH=`spack location -i scotch +grf+mpi ^mpichx`
+   mpirun -np 3 dgpart 3 $SCOTCH_PATH/grf/3elt.grf
+   #+END_SRC
+
+   Test PaStiX
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack load  pastix +mpi+examples ^mkl-blas   ^mpich
+   export PASTIX_PATH=`spack location -i pastix +mpi+examples ^mkl-blas  ^mpich`
+   mpirun -np 3 ${PASTIX_PATH}/examples/zsimple -mm $PASTIX_PATH/matrix/young4c.mtx
+   #+END_SRC
+
+
+** Real experiments    
+   
+    Load modules installed via spack.
+    #+BEGIN_SRC sh :session plafrim2 :results none
+    spack load pastix +examples ^mkl-blas ^scotch
+    spack load mumps +examples ^mkl-blas
+    export PASTIX_PATH=`spack location -i pastix +mpi+examples ^mkl-blas  ^mpich`/lib/pastix/examples
+    export MUMPS_PATH=`spack location -i mumps +mpi+examples ^mkl-blas ^mpich`/lib/mumps/examples
+    export PATH=$PATH:${PASTIX_PATH}:${MUMPS_PATH}
+    #+END_SRC
+
+    And run each solver as you want:
+  
+    #+BEGIN_SRC sh :session plafrim2 :results none
+    ./launch_solver.sh --pastix
+    #+END_SRC
+
+** WAITING Simulation
+   
+   BEWARE: This section is not yet functional. 
+
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack install -v -n scotch +grf+mpi ^simgrid@master+examples
+   #+END_SRC
+
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack install -v -n pastix +mpi+examples ^mkl-blas ^simgrid@master+examples
+   #+END_SRC
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack install -v -n mumps +mpi+examples ^mkl-blas  ^simgrid@master+examples
+   #+END_SRC
+
+   Test SCOTCH implementation with SIMGRID
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack load simgrid@master+examples
+   spack load scotch +grf+mpi ^simgrid@master+examples
+   export SCOTCH_PATH=`spack location -i scotch +grf+mpi ^simgrid@master+examples`
+   export SIMGRID_PATH=`spack location -i simgrid@master+examples`
+   smpirun -trace -trace-resource -trace-viva -trace-file smpi_traced.trace -hostfile $SIMGRID_PATH/examples/smpi/hostfile -platform $SIMGRID_PATH/examples/smpi/../platforms/small_platform.xml --cfg=path:$SIMGRID_PATH/examples/smpi/../msg --cfg=smpi/cpu_threshold:-1 -np 3 --log=smpi_kernel.thres:warning dgpart 3 $SCOTCH_PATH/grf/3elt.grf
+   #+END_SRC
+
+   Test PaStiX
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack load simgrid@master+examples
+   spack load  pastix +mpi+examples ^mkl-blas ^simgrid@master+examples
+   export PASTIX_PATH=`spack location -i pastix +mpi+examples ^mkl-blas ^simgrid@master+examples`
+   export SIMGRID_PATH=`spack location -i simgrid@master+examples`
+   smpirun -trace -trace-resource -trace-viva -trace-file smpi_traced.trace -hostfile $SIMGRID_PATH/examples/smpi/hostfile -platform $SIMGRID_PATH/examples/smpi/../platforms/small_platform.xml --cfg=path:$SIMGRID_PATH/examples/smpi/../msg --cfg=smpi/cpu_threshold:-1 -np 3 --log=smpi_kernel.thres:warning ${PASTIX_PATH}/examples/zsimple -mm $PASTIX_PATH/matrix/young4c.mtx
+   #+END_SRC
+
+** Analysis
+
+   Get output files from plafrim
+
+    #+BEGIN_SRC sh :session local :results none
+    scp -r plafrim2:actipole_tutorial/outputs $WORK_DIR/analysis
+    #+END_SRC
+
+    Set new campaign tests to look for. Choose what to plot:
+    #+BEGIN_SRC sh :session local :results none
+    cd $WORK_DIR/analysis
+    ./set_new_tests.sh outputs/mtx pastix_default
+    #+END_SRC
+    or:
+    #+BEGIN_SRC sh :session local :results none
+    ./set_new_tests.sh outputs/hmat_oss_examples hmat-oss_default
+    #+END_SRC
+
+    #+BEGIN_SRC sh :session local :results none
+    make plot
+    #+END_SRC
+
+* Proprietary solvers
+
+  In this section, we will execute actipole and print results.
+  BEWARE: you can do this part only if you have access to hades
+  repositories.
+
+** DONE Install packages
+  
+   You need to have created opensoucre mirrors first.
+   #+CALL: opensource_mirrors :session local :results none
+   Create mirrors locally via spack.
+   #+BEGIN_SRC sh :session local :results none
+   spack mirror create -d $PWD/spack_mirror actipole@nd
+   spack mirror create -d $PWD/spack_mirror scab@nd
+   spack mirror create -d $PWD/spack_mirror mpf@nd
+   spack mirror create -d $PWD/spack_mirror hmat@nd
+   tar czf spack_mirror.tar.gz spack_mirror
+   scp spack_mirror.tar.gz plafrim2:actipole_tutorial
+   #+END_SRC
+
+   Copy on plafrim.
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   tar xf spack_mirror.tar.gz
+   spack mirror add actipole_mirror file://$WORK_DIR/spack_mirror
+   #+END_SRC
+
+   A little trick to give Spack custom hmat-oss used for experiments:
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   export SPACK_HMATOSS_TAR=$WORK_DIR/spack_mirror/hmat-oss/hmat-oss-nd.tar.gz
+   #+END_SRC
+   
+   Check the stack to install:
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack spec actipole@nd ^mkl-blas ^scotch+esmumps+mpi
+   #+END_SRC
+
+   Install the stack:
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   spack install -v -n actipole@nd ^mkl-blas ^scotch+esmumps+mpi
+   #+END_SRC
+   
+** Real experiments
+    Load modules installed via spack
+    #+BEGIN_SRC sh :session plafrim2 :results none
+    spack load actipole@nd ^mkl-blas ^scotch+esmumps+mpi
+    #+END_SRC
+
+    And run each solver with different options (-h to see options)
+    #+BEGIN_SRC sh :session plafrim2 :results none
+    ./launch_solver.sh --actipole
+    ./launch_solver.sh --actipole -p mfact
+    #+END_SRC
+
+** WAITING Simulation
+   
+   You should run the application one first time with smpi...
+   offline/online
+
+
+    #+BEGIN_SRC sh :session plafrim2 :results none
+    smpirun -trace -trace-resource -trace-viva -trace-file smpi_traced.trace -hostfile ~/simgrid/examples/smpi/hostfile -platform ~/simgrid/examples/smpi/../platforms/small_platform.xml --cfg=path:~/simgrid/examples/smpi/../msg --cfg=smpi/cpu_threshold:-1 -np 3 --log=smpi_kernel.thres:warning zsimple $WORK_DIR/matrices/mtx/young4c/young4c.mtx
+    #+END_SRC
+
+
+** Analysis
+
+   Get output files from plafrim
+
+    #+BEGIN_SRC sh :session local :results none
+    scp -r plafrim2:actipole_tutorial/outputs $WORK_DIR/analysis
+    #+END_SRC
+
+    Set new campaign tests to look for.
+    #+BEGIN_SRC sh :session local :results none
+    ./set_new_tests.sh outputs/sphere_small actipole_default
+    #+END_SRC
+
+    #+BEGIN_SRC sh :session local :results none
+    make plot
+    #+END_SRC
+
+
+* DONE Email for the prerequisites 		     :noexport:
+
+  Proposed by the HiePACS/STORM teams, this tutorial will discuss how to use
+the Chameleon solver (https://project.inria.fr/chameleon/).  We will try to
+follow the Emacs/Org-mode methodology (http://orgmode.org/fr/). Whoever wants to participate is welcome, providing that he/she comes with a laptop and:
+
+   - a recent Emacs/Org-mode install (Emacs >=24.3 and Org-mode version >= 8.2 is recommended);
+   - a comprehensive latex install (such as texlive-full);
+   - a wifi ssh acces to hades & plafrim2 (see
+     https://sic.bordeaux.inria.fr/passerelles-dacces-ssh);
+   - gnuplot
+   - a R install (for post-processing) with ggplot2, reshape2 and plyr R packages: you can apt-get install ess, r-cran-ggplot2, r-cran-reshape2, r-cran-plyr packages (or alternatively type install.packages(c("ggplot2", "reshape2", "plyr")) wihtin R for the last three packages)

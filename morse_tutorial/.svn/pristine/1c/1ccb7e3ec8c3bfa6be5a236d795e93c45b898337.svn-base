@@ -1,0 +1,2630 @@
+#+TITLE: Chameleon Hands-on
+#+AUTHOR: HiePACS/STORM/Realopt
+#+LANGUAGE:  en
+#+STARTUP: inlineimages
+#+OPTIONS: H:3 num:t toc:t \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS: TeX:t LaTeX:t skip:nil d:nil todo:nil pri:nil tags:not-in-toc
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+TAGS: noexport(n)
+#+TODO: TODO(t) STARTED(s) WAITING(w) | DONE(d)
+#+TAGS: EMMANUEL(E) MARC(M) SURAJ(S) FLORENT(F) LUKA(L) TERRY(T)
+
+#+BEAMER_THEME: Rochester
+
+#+HTML_HEAD:   <link rel="stylesheet" title="Standard" href="css/worg.css" type="text/css" />
+#+HTML_HEAD:   <link rel="stylesheet" type="text/css" href="css/VisuGen.css" />
+#+HTML_HEAD:   <link rel="stylesheet" type="text/css" href="css/VisuRubriqueEncadre.css" />
+
+#+MACRO: starpu /StarPU/
+#+MACRO: simgrid /SimGrid/
+#+MACRO: qrm /QR_MUMPS/
+#+MACRO: qrmstarpu /qrm_starpu/
+#+MACRO: pastix /PaStiX/
+#+MACRO: scalfmm /ScalFMM/
+
+* Introduction
+
+The HiePACS/Storm/Realopt teams will propose a joint tutorial on the
+use of the Chameleon solver (https://project.inria.fr/chameleon/) on
+Thursday January 7 in room George Boole 2 at 9:30. If you are abroad
+and still want to attend, please let us know, we will send you
+instructions for joining us in visio.
+
+You can also have a glance to some slides detailing the context of the
+project,  http://morse.gforge.inria.fr/tuto_chameleon/slides/sud-frejus-2016-01-19.pdf.
+
+Checkout the tutorial using this command:
+
+#+BEGIN_SRC sh :eval never
+svn checkout https://scm.gforge.inria.fr/anonscm/svn/morse/tutorials/2015-12-16-inria chameleon_tutorial/
+#+END_SRC
+
+** Goal of this tutorial
+
+Chameleon is a dense linear algebra library derived from the Plasma
+(http://icl.cs.utk.edu/plasma/) and Magma
+(http://icl.cs.utk.edu/magma/) projects. Its specificity is to rely on
+top of runtime systems for exploiting various complex hardware
+architectures such as multicore and heterogeneous nodes or
+supercomputers.
+
+This tutorial is available on the web here:
+http://morse.gforge.inria.fr/tuto_chameleon/. We consider the Cholesky
+factorization on top of the {{{starpu}}} (http://starpu.gforge.inria.fr/)
+runtime system.
+
+Florent Pruvost will show how we can install Chameleon and the complex
+software stack it relies on using the supercomputing packager spack
+(https://github.com/fpruvost/spack) on one heterogeneous node of
+Plafrim 2. Luka Stanisic will then show how we can obtain data from
+actual execution to model the performance behavior of the application
+(https://hal.inria.fr/hal-01147997/) using {{{simgrid}}}
+(http://simgrid.gforge.inria.fr/). Suraj Kumar will show how the
+efficiency of the scheduling can be measured with respect to some
+performance bounds (https://hal.inria.fr/hal-01120507/) and how the
+scheduling could be improved (https://hal.inria.fr/hal-01223573/).
+
+Terry Cojean and Marc Sergent will show us how to do even better by
+using contexts and distributed memory supercomputers,
+respectively. Luka Stanisic will also show how to perform detailed
+performance analysis using R.
+
+** Pre-requesites
+   - a recent Emacs/Org-mode install (Emacs >=24.3 and Org-mode
+     version >= 8.2 is recommended);
+   - a PlaFRIM account, see https://www.plafrim.fr/en/home/;
+   - a wifi ssh acces to plafrim, see
+     https://sic.bordeaux.inria.fr/passerelles-dacces-ssh;
+   - some system libraries if you plan to install the Chameleon software on your own machine:
+   #+BEGIN_EXAMPLE
+   sudo apt-get install python curl pkg-config git subversion mercurial # python2.7 recommended
+   sudo apt-get install build-essential gfortran autoconf automake cmake environment-modules
+   #+END_EXAMPLE
+     If you plan to install {{{starpu}}}, FxT and {{{simgrid}}}:
+   #+BEGIN_EXAMPLE
+   sudo apt-get install libtool gawk libboost-dev
+   #+END_EXAMPLE
+     If you plan to use vite:
+   #+BEGIN_EXAMPLE
+   sudo apt-get install libqt4-dev freeglut3-dev
+   #+END_EXAMPLE
+   - a R install (for post-processing) with ggplot2, reshape2 and plyr
+     R packages: you can apt-get install ess, r-cran-ggplot2,
+     r-cran-reshape2, r-cran-plyr packages (or alternatively type
+     install.packages(c("ggplot2", "reshape2", "plyr")) within R for
+     the last three packages)
+   - pjdump tool for converting {{{starpu}}} paje traces into .csv; see
+     https://github.com/schnorr/pajeng (sudo apt-get install git cmake
+     build-essential libqt4-dev libboost-dev freeglut3-dev asciidoc
+     flex bison; git clone git://github.com/schnorr/pajeng.git ; mkdir
+     -p pajeng/b ; cd pajeng/b ; cmake .. ; sudo make install)
+
+
+   If you are really allergic to Emacs, you can still copy and paste
+   instructions from the html version of the tutorial.  See the html
+   version of this tutorial in
+   http://morse.gforge.inria.fr/tuto_chameleon/.
+
+*** System libraries required to install MORSE packages (like Chameleon)
+
+**** Debian (dpkg) packages:
+
+ #+BEGIN_SRC sh :session spack :exports code :results none
+ sudo apt-get update
+ sudo apt-get install -y python2.7-dev
+ sudo apt-get install -y vim emacs
+ sudo apt-get install -y curl patch
+ sudo apt-get install -y git subversion mercurial
+ sudo apt-get install -y build-essential gfortran
+ sudo apt-get install -y autoconf automake cmake cmake-data doxygen texinfo
+ sudo apt-get install -y libtool libtool-bin
+ sudo apt-get install -y libboost-dev
+ sudo apt-get install -y gawk
+ sudo apt-get install -y bison flex
+ sudo apt-get install -y binutils-dev libelf-dev libiberty-dev
+ sudo apt-get install -y libz-dev
+ sudo apt-get install -y libqt4-dev freeglut3-dev
+ sudo apt-get install -y environment-modules
+ #+END_SRC
+
+**** RedHat (yum) packages:
+
+ #+BEGIN_SRC sh :session spack :exports code :results none
+ yum update
+ sudo yum -y install python27-devel
+ sudo yum -y install vim emacs
+ sudo yum -y install curl patch
+ sudo yum -y install git subversion mercurial
+ sudo yum -y groupinstall 'Development Tools'
+ sudo yum -y install gcc-gfortran gcc-c++
+ sudo yum -y install autoconf automake cmake cmake-data doxygen texinfo
+ sudo yum -y install libtool
+ sudo yum -y install boost-devel
+ sudo yum -y install gawk
+ sudo yum -y install bison flex
+ sudo yum -y install binutils-devel elfutils-libelf
+ sudo yum -y install zlib-devel
+ sudo yum -y install qt qt4
+ sudo yum -y install environment-modules
+ #+END_SRC
+
+**** Mac OS X (brew) packages:
+
+ #+BEGIN_SRC sh :session spack :exports code :results none
+ brew update
+ brew install python
+ brew install vim emacs
+ brew install curl
+ brew install git subversion mercurial
+ brew install gcc
+ brew install autoconf automake make doxygen texinfo
+ brew install libtool
+ brew install boost
+ brew install gawk
+ brew install bison flex
+ brew install binutils libelf
+ brew install qt4
+ brew install modules
+ #+END_SRC
+
+**** MORSE packages available in Spack
+#+attr_html: :width 1000px
+[[file:figures/spack-morse-packages.jpg]]
+
+** Reporting your feedback
+
+   We created a [[https://pad.inria.fr/p/Pr8RCd526y4FWpq0][pad]] for your notes, questions, bugs and suggestions
+   related to this tutorial.
+
+** Emacs and Org-mode
+
+   This tutorial is written in [[http://orgmode.org/][Org-mode]] and it is based on its
+   literate programming feature [[http://orgmode.org/worg/org-contrib/babel/][Org-babel]]. Although Org-mode files can
+   be read in any text editors, we strongly encourage to use Emacs, as
+   at this point only this editor allows for fully benefiting from
+   Org-babel feature.
+
+   In order to run everything smoothly, you will need recent Emacs
+   (>24.3) and a recent Org-mode (>8.0). If you have trouble
+   installing this software, consult the following web [[http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php][page]] (or this
+   [[http://mescal.imag.fr/membres/arnaud.legrand/blog/2014/05/15/emacs_and_orgmode_on_macosx.php][one]] if you are a Mac user).
+
+   Once everything is installed, execute the following code by
+   selecting it with cursor and applying the shortcut "Ctrl-c Ctrl-c"
+   to test that everything works properly. Execute this code to set
+   the environment in order to be able to execute shell and not have
+   to confirm every command.
+
+ #+BEGIN_SRC emacs-lisp :results none :exports code
+ (setq org-confirm-babel-evaluate nil)
+ (setq org-export-babel-evaluate nil)
+ (org-babel-do-load-languages 'org-babel-load-languages
+      '(
+       (sh . t)
+       (python . t)
+       (R . t)
+       (org . t)
+       ))
+ #+END_SRC
+
+   This small code will execute shell command echo with the specified
+   text. It will first create a new buffer (shell session) within
+   Emacs and than execute a command there. All the following commands
+   with the same session argument will be executed within the same
+   buffer. In order to see it, open a second frame within the Emacs
+   using "Ctrl-x 3" and change the buffer to /local/ (changing can be
+   done by "Ctrl-x b" and then write "local").
+
+ #+BEGIN_SRC sh :session local :exports both
+   echo "foo"
+ #+END_SRC
+
+
+   Another very useful shortcut that you should remember is "Ctrl-g"
+   which stands for "get me out of there". It will deblock your Emacs
+   if you are executing a long command inside the session and it will
+   also cancel any started shortcut writing.
+
+*** Exporting Org-mode files
+
+   The big advantage of writing documents in Org-mode is that it can
+   easily be exported to pdf of html. This allows for writing your
+   articles, beamer presentations, reports, thesis or tutorials such
+   as this one directly in Org-mode and only later dealing with all
+   the cosmetics.
+
+   Generate a new html of this file by using a shortcut "Ctrl-c Ctrl-e
+   h o". Repeat this process later during the tutorial to see how
+   your new figures have been included as well.
+
+** Configure your PlaFRIM2 connection
+
+ Fill your ~/.ssh/config file with the missing information
+ accordingly.
+
+ #+BEGIN_EXAMPLE
+ Host plafrim2
+ ForwardAgent yes
+ ForwardX11   yes
+ User pruvost
+ ProxyCommand ssh -A -l pruvost ssh.plafrim.fr -W plafrim:22
+ #+END_EXAMPLE
+
+** Connexion to PlaFRIM2
+
+ Connection to plafrim.
+
+ #+NAME: connect_plafrim
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ ssh plafrim2
+ #+END_SRC
+
+ # This block can be called where you want in the
+ # document invoking the following function call
+ #+CALL: connect_plafrim() :session plafrim2 :results none
+
+ You might want to clean your previous chameleon_tutorial experiments.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ rm -rf chameleon_tutorial
+ #+END_SRC
+
+ Create a working directory for the tutorial.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ mkdir -p chameleon_tutorial
+ export WORK_DIR=$HOME/chameleon_tutorial
+ cd $WORK_DIR
+ #+END_SRC
+
+** Installing libraries through Spack
+
+ Clone Spack git on your local computer and copy the archive on plafrim.
+
+ #+BEGIN_SRC sh :session local :results none
+ git clone https://github.com/fpruvost/spack.git
+ cd spack
+ git checkout morse
+ git archive -o spack.tar.gz --prefix=spack/ HEAD
+ scp spack.tar.gz plafrim2:chameleon_tutorial
+ #+END_SRC
+
+ Download the software stack used for the experiments.
+
+ #+BEGIN_SRC sh :session local :results none
+ ./bin/spack mirror create -d $PWD/spack_mirror cmake@3.4.0
+ ./bin/spack mirror create -d $PWD/spack_mirror fxt@0.3.1
+ ./bin/spack mirror create -d $PWD/spack_mirror hwloc@1.11.2
+ ./bin/spack mirror create -d $PWD/spack_mirror simgrid@starpumpi
+ ./bin/spack mirror create -d $PWD/spack_mirror starpu@svn-trunk
+ ./bin/spack mirror create -d $PWD/spack_mirror magma@1.7.0-b
+ ./bin/spack mirror create -d $PWD/spack_mirror chameleon@trunk
+ ./bin/spack mirror create -d $PWD/spack_mirror chameleon@clusters
+ ./bin/spack mirror create -d $PWD/spack_mirror chameleon@external-prio
+ tar czf spack_mirror.tar.gz spack_mirror
+ scp spack_mirror.tar.gz plafrim2:chameleon_tutorial
+ cd ..
+ #+END_SRC
+
+ Copy input files needed for experiments.
+
+ #+BEGIN_SRC sh :session local :results none
+ scp -r perfmodels plafrim2:chameleon_tutorial
+ #+END_SRC
+
+ Set environment to use Spack.
+
+ #+NAME: setenv_spack
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export WORK_DIR=$HOME/chameleon_tutorial
+ export SPACK_ROOT=$WORK_DIR/spack
+ export PATH=$SPACK_ROOT/bin:$PATH
+ export MODULEPATH=$SPACK_ROOT/share/spack/modules/linux-x86_64:$MODULEPATH
+ mkdir -p $HOME/.spack
+ echo "Spack environment is set"
+ #+END_SRC
+
+ # This block can be called where you want in the
+ # document invoking the following function call
+ #+CALL: setenv_spack() :session plafrim2 :results none
+
+ Set plafrim environment.
+
+ #+NAME: setenv_build
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ module purge
+ module add slurm/14.03.0
+ module add build/ac269-am114-lt246-m41417
+ module add build/cmake/3.2.1
+ module add compiler/gcc/4.8.4
+ module add compiler/intel/64/2015.5.223
+ module add mpi/openmpi/gcc/1.10.0-tm
+ export LIBRARY_PATH=/usr/lib64:$LIBRARY_PATH
+ export MPI_DIR=$MPI_HOME
+ export CMAKE_DIR=/cm/shared/dev/apps/build/cmake/3.2.1
+ export TILE_CPU=320
+ export TILE_GPU=960
+ export WORK_DIR=$HOME/chameleon_tutorial
+ cd $WORK_DIR
+ echo "Environment is set"
+ #+END_SRC
+
+ # This block can be called where you want in the document invoking this
+ #+CALL: setenv_build() :session plafrim2 :results none
+
+ #+NAME: setenv_cuda
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ module add compiler/cuda/7.0/toolkit/7.0.28
+ module add compiler/cuda/7.0/blas/7.0.28
+ export TILE_GPU=960
+ export CUDADIR=$CUDA_PATH
+ #+END_SRC
+
+ # This block can be called where you want in the document invoking this
+ #+CALL: setenv_cuda() :session plafrim2 :results none
+
+ Tell to Spack which compilers to use.
+
+ Copy first if an older configuration of Spack exists.
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ cp -ru ~/.spack/ ~/.spack-copy
+ #+END_SRC
+
+ Save this in the file $HOME/.spack/compilers.yaml
+ #+BEGIN_SRC sh :session plafrim2 :results none
+echo "compilers:
+    linux-x86_64:
+      gcc@4.8.4:
+	cc: /cm/shared/apps/gcc/4.8.4/bin/gcc
+	cxx: /cm/shared/apps/gcc/4.8.4/bin/g++
+	f77: /cm/shared/apps/gcc/4.8.4/bin/gfortran
+	fc: /cm/shared/apps/gcc/4.8.4/bin/gfortran" > ~/.spack/compilers.yaml
+  #+END_SRC
+
+ Install Spack on plafrim.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ cd $WORK_DIR
+ tar xf spack.tar.gz
+ tar xf spack_mirror.tar.gz
+ spack mirror add morse_tuto_mirror file://$WORK_DIR/spack_mirror
+ spack compiler add /cm/shared/apps/gcc/4.8.4/bin
+ #+END_SRC
+
+*** Verifying the installation (optional)			   :noexport:
+
+**** Install and check the stack for mpi real execution.
+
+ To be sure that the environment on a node is corresponding correctly
+ to a desired one, execute the following commands.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none :noweb yes
+ <<setenv_spack>>
+ <<setenv_build>>
+ #+END_SRC
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ spack spec chameleon@trunk+mpi+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+mpi+fxt ^mkl-blas ^openmpi@exist
+ spack install -v chameleon@trunk+mpi+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+mpi+fxt ^mkl-blas ^openmpi@exist
+ #+END_SRC
+
+ Test MPI real execution.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ salloc -N4 --exclusive
+ #+END_SRC
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export CHAMELEON_TRUNK=`spack location -i chameleon@trunk~simu+mpi~cuda`
+ mpirun -pernode $CHAMELEON_TRUNK/lib/chameleon/timing/time_dpotrf_tile --n_range=9600:9600:1 --nb=320 --p=2 --nowarmup
+ #+END_SRC
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ scancel -u `whoami`
+ #+END_SRC
+
+**** Install and check the stack for mpi+cuda real execution.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ module add slurm
+ salloc -N2 --exclusive --ntasks-per-node=1 --cpus-per-task=24 -p court_sirocco -x sirocco06
+ #+END_SRC
+
+ To be sure that the environment on a node is corresponding correctly
+ to a desired one, execute the following commands.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none :noweb yes
+ <<setenv_spack>>
+ <<setenv_build>>
+ <<setenv_cuda>>
+ #+END_SRC
+
+ You must be logged on a sirocco node to install (to see cuda path).
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ spack spec chameleon@trunk+mpi+cuda+magma+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+mpi+cuda+fxt ^mkl-blas ^openmpi@exist
+ spack install -v chameleon@trunk+mpi+cuda+magma+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+mpi+cuda+fxt ^mkl-blas ^openmpi@exist
+ #+END_SRC
+
+ Test MPI real execution.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export CHAMELEON_TRUNK=`spack location -i chameleon@trunk~simu+mpi+cuda`
+ mpirun -pernode $CHAMELEON_TRUNK/lib/chameleon/timing/time_dpotrf_tile --n_range=9600:9600:1 --nb=960 --gpus=4 --p=2 --nowarmup
+ #+END_SRC
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ scancel -u `whoami`
+ #+END_SRC
+
+**** Install and check the stack for mpi simulation mode.
+
+ To be sure that the environment on a node is corresponding correctly
+ to a desired one, execute the following commands.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none :noweb yes
+ <<setenv_spack>>
+ <<setenv_build>>
+ #+END_SRC
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ spack spec chameleon@trunk+simu+mpi+fxt~quark+examples~shared ^starpu@svn-trunk~shared+simgrid+mpi+fxt ^simgrid@starpumpi~doc ^openmpi@exist
+ spack install -v chameleon@trunk+simu+mpi+fxt~quark+examples~shared ^starpu@svn-trunk~shared+simgrid+mpi+fxt ^simgrid@starpumpi~doc ^openmpi@exist
+ #+END_SRC
+
+ Test MPI simulation.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export CHAMELEON_TRUNK_SIM=`spack location -i chameleon@trunk+simu+mpi`
+ export STARPU_TRUNK_SIM=`spack location -i starpu@svn-trunk+simu+mpi`
+ export SIMGRID=`spack location -i simgrid`
+ export STARPU_HOSTNAME=mirage
+ export STARPU_PERF_MODEL_DIR=$WORK_DIR/perfmodels/.starpu/sampling/
+ export MPIRUN=$SIMGRID/bin/smpirun
+ export CHAMELEON_EXE=$CHAMELEON_TRUNK_SIM/lib/chameleon/timing/time_dpotrf_tile
+ export SIMGRID_VAR="-platform $WORK_DIR/perfmodels/StarPU-MPI-platform-4mirage.xml -hostfile $WORK_DIR/perfmodels/hostfile_2nodes --cfg=smpi/privatize_global_variables:yes --cfg=contexts/factory:thread"
+ $MPIRUN $SIMGRID_VAR $CHAMELEON_EXE --n_range=9600:9600:1 --nb=960 --p=2 --threads=4 --gpus=1 --nowarmup
+ #+END_SRC
+
+**** Install and check the stack for chameleon-clusters branch.
+
+ You must be logged on a sirocco node to install (to see cuda path).
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ module add slurm
+ salloc -N1 --exclusive -p court_sirocco -x sirocco06
+ sleep 2
+ ssh $(squeue | grep `whoami` | tr -s ' ' ' ' | cut -d" " -f9 | grep sirocco)
+ sleep 2
+ #+END_SRC
+
+ To be sure that the environment on a node is corresponding correctly
+ to a desired one, execute the following commands.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none :noweb yes
+ <<setenv_spack>>
+ <<setenv_build>>
+ <<setenv_cuda>>
+ #+END_SRC
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ spack spec chameleon@clusters~simu~quark+examples~shared+cuda+fxt ^starpu@svn-trunk~shared+cuda+fxt+blas ^mkl-blas
+ spack install -v chameleon@clusters~simu~quark+examples~shared+cuda+fxt ^starpu@svn-trunk~shared+cuda+fxt+blas ^mkl-blas
+ #+END_SRC
+
+ Test the execution.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export CHAMELEON_CLUSTERS=`spack location -i chameleon@clusters~simu~magma`
+ numactl --interleave=all $CHAMELEON_CLUSTERS/lib/chameleon/timing/time_dpotrf_tile --n_range=48000:48000:1 --nb=1920 --gpus=4 --niter=2
+ #+END_SRC
+
+ Revoke node.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ scancel -u `whoami`
+ #+END_SRC
+
+**** Install and check the stack for chameleon-external-prio branch.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ module add slurm
+ salloc -N1 --exclusive -p court_sirocco -x sirocco06
+ sleep 2
+ ssh $(squeue | grep `whoami` | tr -s ' ' ' ' | cut -d" " -f9 | grep sirocco)
+ sleep 2
+ #+END_SRC
+
+ To be sure that the environment on a node is corresponding correctly
+ to a desired one, execute the following commands.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none :noweb yes
+ <<setenv_spack>>
+ <<setenv_build>>
+ <<setenv_cuda>>
+ #+END_SRC
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ spack spec chameleon@external-prio~simu~quark+examples~shared+cuda+magma+fxt ^starpu@svn-trunk~shared+cuda+fxt ^mkl-blas
+ spack install -v chameleon@external-prio~simu~quark+examples~shared+cuda+magma+fxt ^starpu@svn-trunk~shared+cuda+fxt ^mkl-blas
+ #+END_SRC
+
+ Test the execution.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export CHAMELEON_PRIO=`spack location -i chameleon@external-prio~simu`
+ export EXTERNAL_PRIORITY=TRUE
+ export STARPU_HOSTNAME=sirocco
+ STARPU_NCPU=20 STARPU_SCHED=dmdas $CHAMELEON_PRIO/lib/chameleon/timing/time_dpotrf_tile --n_range=40000:40000:1 --nb=960 --gpus=4 --nowarmup
+ #+END_SRC
+
+ Revoke node.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ scancel -u `whoami`
+ #+END_SRC
+
+**** Install and check the stack for chameleon-external-prio simulation mode.
+
+ To be sure that the environment on a node is corresponding correctly
+ to a desired one, execute the following commands.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none :noweb yes
+ <<setenv_spack>>
+ <<setenv_build>>
+ #+END_SRC
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ spack spec chameleon@external-prio+simu+fxt~quark+examples ^starpu@svn-trunk+simgrid+fxt ^simgrid@starpumpi~doc
+ spack install -v chameleon@external-prio+simu+fxt~quark+examples ^starpu@svn-trunk+simgrid+fxt ^simgrid@starpumpi~doc
+ #+END_SRC
+
+ Test external-prio simulation.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export CHAMELEON_PRIO_SIM=`spack location -i chameleon@external-prio+simu`
+ export STARPU_HOSTNAME=mirage
+ export STARPU_HOME=$WORK_DIR/perfmodels
+ export CHAMELEON_EXE=$CHAMELEON_PRIO_SIM/lib/chameleon/timing/time_dpotrf_tile
+ $CHAMELEON_EXE --n_range=9600:9600:1 --nb=960 --threads=12 --gpus=2 --nowarmup
+ #+END_SRC
+
+** Installing pj_dump (if not done before)
+
+  In order to analyze using R, paje traces first need to be converted
+  into .csv format. The easiest way to do it is to use [[https://github.com/schnorr/pajeng][pj_dump]] tool.
+
+#+BEGIN_SRC sh :session local :results none
+sudo apt-get install git cmake build-essential libqt4-dev libboost-dev freeglut3-dev asciidoc flex bison;
+ git clone git://github.com/schnorr/pajeng.git ; mkdir -p pajeng/b ; cd pajeng/b ; cmake .. ; make install
+#+END_SRC
+
+  Unfortunately, we can not use this tool directly, as traces
+  produced by {{{starpu}}}'s fxt are often "corrupted". First, since multiple
+  threads are writing into the trace simultaneously, there may be the
+  cases where states of the workers are not in a correct chronological
+  order. To resolve this, we will simply sort the states in the
+  trace. Second, more serious, problem is that the tracing of the
+  certain communications is bogus. There are sometimes receives of the
+  data whose send was never logged and vice versa. Just like
+  visualization tool /vite/, we will ignore these incomplete links. In
+  fact, since in our analysis we are mostly concentrating on the
+  states of the workers, after pj_dump we will delete all the
+  information that is not related to the state events. With the
+  following code, we will generate a .csv file, from a paje trace.
+
+#+name: paje2csv
+#+header: :var inputfile="test.trace" outputfile="paje.csv"
+#+BEGIN_SRC sh
+# Sorting traces
+grep -e '^\(\(%\)\|\(\(0\|1\|2\|3\|4\|5\|6\|7\|9\)\>\)\)' $inputfile > start.trace
+grep -e '^\(\(%\)\|\(\(0\|1\|2\|3\|4\|5\|6\|7\|9\|18\|19\)\>\)\)' -v  $inputfile > end.trace
+grep -e '10.*w.*Ctx.*' -v end.trace > end2.trace
+sort -s -V --key=2,2 end2.trace > endSorted.trace
+cat start.trace endSorted.trace > outputSorted.trace
+# Converting to .csv
+pj_dump -n -u outputSorted.trace > $outputfile
+# Keeping only the states
+perl -i -ne 'print if /^State/' $outputfile
+# Delete temporary files
+rm outputSorted.trace start.trace end.trace end2.trace endSorted.trace
+# Adding a header manually
+sed -i '1s/^/Nature, ResourceId, Type, Start, End, Duration, Depth, Value, Footprint , JobId , Params, Size, Tag\n/' $outputfile
+#+END_SRC
+
+* Single node execution
+** Real experiments
+
+ During this section, we will run first on a node without GPUs (miriel nodes),
+ then on a node with several GPUs (sirocco nodes).
+
+*** Experiments on the homogeneous node
+
+ This section is divided into three parts:
+ 1) install Chameleon and its dependencies
+ 2) run experiments on the reserved node
+ 3) analyze the results through R
+
+ Let's first make a reservation of an homogeneous node.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ module add slurm
+ salloc -N1 --exclusive
+ #+END_SRC
+
+ Wait for the job to be granted.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ ssh $(squeue | grep `whoami` | tr -s ' ' ' ' | cut -d" " -f9 | grep miriel)
+ #+END_SRC
+
+ To be sure that the environment on a node is corresponding correctly
+ to a desired one, execute the following commands.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none :noweb yes
+ <<setenv_spack>>
+ <<setenv_build>>
+ #+END_SRC
+
+**** Installing Chameleon using spack on the homogeneous node
+
+ Now in the /spack/ folder we can install Chameleon with {{{starpu}}} for a single
+ node without GPUs.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ spack install -v chameleon@trunk+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+fxt~simgrid ^mkl-blas
+ #+END_SRC
+
+**** Running experiments on the homogeneous node
+
+ On the homogeneous node, run the following script to obtain the result of the real
+ experiment.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export STARPU_HOSTNAME=miriel
+ export STARPU_PERF_MODEL_DIR=$WORK_DIR/perfmodels/.starpu/sampling/
+ export CHAMELEON_EXE=`$WORK_DIR/spack/bin/spack location -i chameleon@trunk+fxt~cuda~magma~quark+examples~shared~simu`/lib/chameleon/timing/time_dpotrf_tile
+ $CHAMELEON_EXE --n_range=$(($TILE_CPU*1)):$(($TILE_CPU*30)):$(($TILE_CPU)) --nb=$TILE_CPU --threads=20 --printerrors --nowarmup --check | tee homogeneous_gflops_out
+ #+END_SRC
+
+ We will also execute another run for 8\times8 blocks to get the execution
+ trace on the homogeneous setup.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export STARPU_HOSTNAME=miriel
+ export STARPU_PERF_MODEL_DIR=$WORK_DIR/perfmodels/.starpu/sampling/
+ export STARPU_FXT_PREFIX=$WORK_DIR/
+ export CHAMELEON_EXE=`$WORK_DIR/spack/bin/spack location -i chameleon@trunk+fxt~cuda~magma~quark+examples~shared~simu`/lib/chameleon/timing/time_dpotrf_tile
+ STARPU_GENERATE_TRACE=1 $CHAMELEON_EXE --n_range=$(($TILE_CPU*8)):$(($TILE_CPU*8)):$(($TILE_CPU*8)) --nb=$TILE_CPU --threads=20 --printerrors --nowarmup --trace
+ #+END_SRC
+
+**** Analyzing results of the homogeneous node
+
+ Once the runs are finished, we can copy the measured
+ results to a local machine and perform some basic analysis there.
+
+ #+BEGIN_SRC sh :session local :results none
+ scp plafrim2:chameleon_tutorial/homogeneous_gflops_out .
+ scp plafrim2:chameleon_tutorial/paje.trace homogeneous_paje.trace
+ #+END_SRC
+
+ # In case your local R session is buffer has been closed, you can reinitialize it executing the following function call
+ #+call: R_init() :session local :results output silent
+
+ Now we can look at the GFlop/s rates and residuals to confirm the good
+ scaling of the execution.
+
+ #+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gflops" ".png") :width 700 :height 400
+ df <- read_gflops("homogeneous_gflops_out", "Homogeneous native")
+
+ gflops_plot(df, bars=FALSE, points=TRUE, lines=TRUE)
+ #+end_src
+
+ #+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "residual" ".png") :width 700 :height 400
+ df <- read_residual("homogeneous_gflops_out", "Homogeneous native")
+
+ residual_plot(df, bars=FALSE, points=TRUE, lines=TRUE)
+ #+end_src
+
+    Let's see a small execution trace :
+
+#+call: paje2csv(inputfile="homogeneous_paje.trace", outputfile="homogeneous_paje.csv") :results output silent
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gantt" ".png") :width 700 :height 550
+df <- read_trace_wh("homogeneous_paje.csv","Homogeneous native trace")
+
+paje_plot(df, title="", tasks_only=TRUE)
+#+end_src
+
+*** Experiments on the heterogeneous node
+
+ The walkthrough is almost the same for a node with GPUs, except
+ that we will make a reservation of an heterogeneous node (sirocco)
+ and install a Chameleon version with the GPU support.
+
+ First, we unlog from the reserved node and we relinquish the allocation.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ logout
+ exit
+ #+END_SRC
+
+ Now we can make a reservation of an heterogeneous node.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ module add slurm
+ salloc -N1 --exclusive -p court_sirocco -x sirocco[01,06]
+ #+END_SRC
+
+ Wait for the job to be granted.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ ssh $(squeue | grep `whoami` | tr -s ' ' ' ' | cut -d" " -f9 | grep sirocco)
+ #+END_SRC
+
+ Don't forget to set the environnement, modules and spack.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none :noweb yes
+ <<setenv_spack>>
+ <<setenv_build>>
+ <<setenv_cuda>>
+ #+END_SRC
+
+**** Installing packages using spack on remote machine
+
+ Now in the /spack/ folder we can install Chameleon with {{{starpu}}} for a single
+ node with GPUs.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ spack install -v chameleon@trunk+cuda+magma+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+cuda+fxt ^mkl-blas
+ #+END_SRC
+
+**** Running experiments on the heterogeneous node
+
+ Then run the following script to obtain the result of the real
+ experiment.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export STARPU_HOSTNAME=sirocco
+ export STARPU_PERF_MODEL_DIR=$WORK_DIR/perfmodels/.starpu/sampling/
+ export CHAMELEON_EXE=`$WORK_DIR/spack/bin/spack location -i chameleon@trunk+cuda+magma+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+cuda+fxt ^mkl-blas`/lib/chameleon/timing/time_dpotrf_tile
+ $CHAMELEON_EXE --n_range=$(($TILE_GPU*1)):$(($TILE_GPU*30)):$(($TILE_GPU)) --nb=$TILE_GPU --threads=20 --gpus=4 --printerrors --nowarmup --check | tee heterogeneous_gflops_out
+ #+END_SRC
+
+ We will also execute another run for 8\times8 blocks to get the execution
+ trace on the heterogeneous setup.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export STARPU_HOSTNAME=sirocco
+ export STARPU_PERF_MODEL_DIR=$WORK_DIR/perfmodels/.starpu/sampling/
+ export STARPU_FXT_PREFIX=$WORK_DIR/
+ export CHAMELEON_EXE=`$WORK_DIR/spack/bin/spack location -i chameleon@trunk+cuda+magma+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+cuda+fxt ^mkl-blas`/lib/chameleon/timing/time_dpotrf_tile
+ STARPU_GENERATE_TRACE=1 $CHAMELEON_EXE --n_range=$(($TILE_GPU*8)):$(($TILE_GPU*8)):$(($TILE_GPU*8)) --nb=$TILE_GPU --threads=1 --gpus=4 --printerrors --nowarmup --trace
+ #+END_SRC
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ logout
+ exit
+ #+END_SRC
+
+**** Analyzing results of the heterogeneous node
+
+ Once the runs are finished, we can copy the measured
+ results to a local machine and perform some basic analysis there.
+
+ #+BEGIN_SRC sh :session local :results none
+ scp plafrim2:chameleon_tutorial/heterogeneous_gflops_out .
+ scp plafrim2:chameleon_tutorial/paje.trace heterogeneous_paje.trace
+ #+END_SRC
+
+ # In case your local R session is buffer has been closed, you can reinitialize it executing the following function call
+ #+call: R_init() :session local :results output silent
+
+ Now we can look at the GFlop/s rates and residuals to confirm the good
+ scaling of the execution.
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gflops" ".png") :width 700 :height 400
+df <- read_gflops("heterogeneous_gflops_out", "Heterogeneous native")
+
+gflops_plot(df, bars=FALSE, points=TRUE, lines=TRUE)
+#+end_src
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "residual" ".png") :width 700 :height 400
+df <- read_residual("heterogeneous_gflops_out", "Heterogeneous native")
+
+residual_plot(df, bars=FALSE, points=TRUE, lines=TRUE)
+#+end_src
+
+    Let's see a small execution trace :
+
+#+call: paje2csv(inputfile="heterogeneous_paje.trace", outputfile="heterogeneous_paje.csv") :results output silent
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gantt" ".png") :width 700 :height 550
+df <- read_trace_wh("heterogeneous_paje.csv","Heterogeneous native trace")
+
+paje_plot(df, title="", tasks_only=TRUE)
+#+end_src
+
+** Simulation
+*** {{{starpu}}} - {{{simgrid}}} in a nutshell
+ #+ATTR_HTML: :align center
+ [[file:figures/starpusg_big_slide.png]]
+
+ More information on project [[http://starpu-simgrid.gforge.inria.fr/][website]].
+*** Installing packages using spack on a remote machine
+
+ Simulation can be run on any machine, so lets better make a
+ reservation on a simpler cluster that has many nodes and no GPUs.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ module add slurm
+ salloc -N1 --exclusive
+ #+END_SRC
+
+ Wait for the job to be granted.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ ssh $(squeue | grep `whoami` | tr -s ' ' ' ' | cut -d" " -f9 | grep miriel)
+ #+END_SRC
+
+ To be sure that the environment on a node is corresponding correctly
+ to a desired one, execute the following two commands.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none :noweb yes
+ <<setenv_spack>>
+ <<setenv_build>>
+ #+END_SRC
+
+ Now in the /spack/ folder we can install Chameleon with {{{starpu}}} and
+ {{{simgrid}}} for a single node simulations.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ spack install -v -n chameleon@trunk+simu+fxt~quark+examples ^starpu@svn-trunk+simgrid+fxt ^simgrid@starpumpi~doc
+ #+END_SRC
+
+*** Simulating performance of a single heterogeneous node
+
+ Now when everything is installed we can start doing
+ simulations. Let's begin with the simplest use case, simulating
+ execution of the Chameleon's Cholesky factorization on a single
+ heterogeneous node. In order to run the simulation, user only needs
+ to specify the name of the node and the path to its performance
+ models. These performance models consist of the performance profiles
+ for every computation kernel and the platform description.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export TILE_GPU=960
+ export STARPU_HOSTNAME=mirage
+ export STARPU_PERF_MODEL_DIR=$WORK_DIR/perfmodels/.starpu/sampling/
+ export CHAMELEON_EXE=`$WORK_DIR/spack/bin/spack location -i chameleon+simu~mpi`/lib/chameleon/timing/time_dpotrf_tile
+ $CHAMELEON_EXE --n_range=$(($TILE_GPU*1)):$(($TILE_GPU*30)):$(($TILE_GPU)) --nb=$TILE_GPU --gpus=3 --threads=9 --nowarmup | tee gflops_out
+ #+END_SRC
+
+ We will also execute another run for 8\times8 blocks to get the execution
+ trace.
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export TILE_GPU=960
+ export STARPU_HOSTNAME=mirage
+ export STARPU_PERF_MODEL_DIR=$WORK_DIR/perfmodels/.starpu/sampling/
+ export CHAMELEON_EXE=`$WORK_DIR/spack/bin/spack location -i chameleon+simu~mpi`/lib/chameleon/timing/time_dpotrf_tile
+ STARPU_GENERATE_TRACE=1 $CHAMELEON_EXE --n_range=$(($TILE_GPU*8)):$(($TILE_GPU*8)):$(($TILE_GPU*8)) --nb=$TILE_GPU --gpus=3 --threads=9 --trace --nowarmup
+ #+END_SRC
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ logout
+ exit
+ #+END_SRC
+
+*** Analyzing results
+
+ Once the simulations are finished, we can copy the measured
+ results to a local machine and perform some basic analysis there.
+
+ #+BEGIN_SRC sh :session local :results none
+ scp plafrim2:chameleon_tutorial/gflops_out gflops_simgrid
+ scp plafrim2:chameleon_tutorial/paje.trace paje_simgrid.trace
+ #+END_SRC
+
+ # In case your local R session is buffer has been closed, you can reinitialize it executing the following function call
+ #+call: R_init() :session local :results output silent
+
+ Now we can look at the GFlop/s rates predicted by the {{{simgrid}}}
+ simulation.
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gflops" ".png") :width 700 :height 400
+  ## df1 <- read_gflops("heterogeneous_gflops_out", "Native")
+  ## df2 <- read_gflops("gflops_simgrid", "SimGrid")
+  ## df <- rbind(df1, df2)
+  df <- read_gflops("gflops_simgrid", "SimGrid")
+
+  # Taking only certain executions into account (if necessary)
+  #df<-df[df$Origin %in% c("Native", "Simulation"),]
+
+  gflops_plot(df, bars=TRUE, points=FALSE, lines=FALSE)
+#+end_src
+
+ One can observe that the GFlop/s rates predicted by the simulation
+ match quite accurately the ones measured on the real
+ experiment. Still this is just a single number related to the overall
+ makespan of the application, lets dig into more details by comparing
+ the traces.
+
+#+call: paje2csv(inputfile="paje_simgrid.trace", outputfile="paje_simgrid.csv") :results output silent
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gantt" ".png") :width 700 :height 550
+  df1 <- read_trace_wh("heterogeneous_paje.csv","Native trace")
+  df2 <- read_trace_wh("paje_simgrid.csv","SimGrid trace")
+  df <- rbind(df1,df2)
+  ## df <- read_trace_wh("paje_simgrid.csv","SimGrid trace")
+
+  paje_plot(df)
+#+end_src
+
+** Scheduling
+
+ {{{simgrid}}} simulation emulates the behavior of actual experiments
+ in well manner. Therefore, in order to determine the quality of
+ schedule we use only simulation in this subsection. Although
+ all the experiments would also work with real execution.
+
+*** Installing packages using spack on remote machine
+
+ In case you lost your connection to miriel, execute the following code.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ module add slurm
+ salloc -N1 --exclusive &
+ sleep 2
+ #+END_SRC
+
+ Wait for the job to be granted.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ ssh $(squeue | grep `whoami` | tr -s ' ' ' ' | cut -d" " -f9 | grep miriel)
+ #+END_SRC
+
+ To be sure that the environment on a node is corresponding
+ correctly to a desired one, execute the following two commands.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none :noweb yes
+ <<setenv_spack>>
+ <<setenv_build>>
+ #+END_SRC
+
+ Now in the /spack/ folder we can install Chameleon with {{{starpu}}} and
+ {{{simgrid}}} for a single node simulations.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ spack install -v chameleon@external-prio+simu+fxt~quark+examples~shared ^starpu@svn-trunk~shared+simgrid+fxt ^simgrid@starpumpi~doc
+ #+END_SRC
+
+**** Specific installation of code not yet in spack
+
+ Works only on plafrim1 because of dependency on CPLEX. Thus, fill
+ your ~/.ssh/config file for the connection to plafrim1 with the
+ missing information accordingly.
+
+ #+BEGIN_EXAMPLE
+  Host plafrim1
+  User skumar
+  HostName mygale.bordeaux.inria.fr
+  ForwardAgent yes
+  ForwardX11 yes
+  ProxyCommand ssh surakuma@acces1.bordeaux.inria.fr nc -w 600
+ #+END_EXAMPLE
+
+ #+BEGIN_SRC sh :session plafrim1 :results none
+  ssh plafrim1
+  ssh devel01
+  #module rm scm/svn
+  export WORK_DIR=$HOME/chameleon_tutorial
+  cd $WORK_DIR
+  svn co https://scm.gforge.inria.fr/anonscm/svn/starpu-examples/cholesky-bounds/2015-chameleonTutorial cholesky_bounds/
+  cd cholesky_bounds/heftPriorities; make; cd $WORK_DIR
+  cd cholesky_bounds/bounds/src; make bounds; cd $WORK_DIR
+ #+END_SRC
+
+*** Running experiments
+
+ Set up environment.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none :noweb yes
+ <<setenv_spack>>
+ <<setenv_build>>
+ #+END_SRC
+
+#+BEGIN_SRC sh :session plafrim2 :results none
+ export STARPU_INSTALL_PATH=`$WORK_DIR/spack/bin/spack location -i starpu@svn-trunk~shared+simgrid+fxt ^simgrid@starpumpi~doc`
+ export CHAMELEON_EXE=`$WORK_DIR/spack/bin/spack location -i chameleon@external-prio+simu+fxt~quark+examples~shared ^starpu@svn-trunk~shared+simgrid+fxt ^simgrid@starpumpi~doc`/lib/chameleon/timing/time_dpotrf_tile
+
+ export PKG_CONFIG_PATH=$STARPU_INSTALL_PATH/lib/pkgconfig:$PKG_CONFIG_PATH
+ export STARPU_MACHINE_DISPLAY=$STARPU_INSTALL_PATH/bin/starpu_machine_display
+ export STARPU_PERFORMANCE_DISPLAY=$STARPU_INSTALL_PATH/bin/starpu_perfmodel_display
+
+ export STARPU_GENERATE_TRACE=1
+ export STARPU_HOSTNAME=mirage
+ export STARPU_PERF_MODEL_DIR=$WORK_DIR/perfmodels/starpu_nocomm/.starpu/sampling/
+ export VALUES="4 8 12"
+ cd $HOME/chameleon_tutorial
+#+END_SRC
+
+#+BEGIN_SRC sh :session plafrim1 :results none
+ export TILE_GPU=960
+ export VALUES="4 8 12"
+#+END_SRC
+
+Run experiments with dmdas schedule for different matrix sizes.
+
+#+BEGIN_SRC sh :session plafrim2 :results none
+ for i in $VALUES; do
+   STARPU_NCPU=9 STARPU_SCHED=dmdas  $CHAMELEON_EXE --n_range=$(($TILE_GPU*$i)):$(($TILE_GPU*$i)):$(($TILE_GPU)) --nb=$TILE_GPU --gpus=3 --trace --nowarmup >> gflops-output
+   mv tasks.rec tasks-$i-$TILE_GPU.rec
+ done
+ #+END_SRC
+
+#+BEGIN_SRC sh :session plafrim2 :results none
+ cp paje.trace paje_analysis.trace
+ cp tasks-12-960.rec tasks_analysis.rec
+#+END_SRC
+
+Extract lines which have the performance number from output file.
+
+#+BEGIN_SRC sh :session plafrim2 :results none
+ cat gflops-output | grep "+-" | awk '{ print $1 " "$4 " "$5}' >gflops-parsed
+ rm gflops-output
+#+END_SRC
+
+{{{starpu}}} generates tasks.rec file for each instance of execution. We
+can extract dependency graph of the application from
+tasks.rec file. We can also obtain platform descriptions of
+each machine with the help of different {{{starpu}}} tools.
+
+*** Extract task graph from rec file
+#+BEGIN_SRC sh :session plafrim2 :results none
+ cd $WORK_DIR/cholesky_bounds/heftPriorities/recToTaskGraph
+
+ for i in $VALUES; do
+   ./extractTaskGraph.sh $WORK_DIR/tasks-$i-$TILE_GPU.rec 2>&1 /dev/null
+   mv taskGraph.txt $WORK_DIR/taskGraph-$i-$TILE_GPU.txt
+   mv TaskIdToTagMapping.txt $WORK_DIR/TaskIdToTagMapping-$i-$TILE_GPU.txt
+ done
+ cd $WORK_DIR
+#+END_SRC
+
+*** Calculate priorities and bounds for each task graph
+
+ Calculate priorities for each task of the task graph by analyzing
+ the expected latest start time of tasks.
+
+#+BEGIN_SRC sh :session plafrim1 :results none
+ export TILE_GPU=960
+ export VALUES="4 8 12"
+ export WORK_DIR=$HOME/chameleon_tutorial
+#+END_SRC
+
+#+BEGIN_SRC sh :session plafrim1 :results none
+ cd $WORK_DIR/cholesky_bounds/heftPriorities
+ for i in $VALUES; do
+   ./calculatePriorityFromTaskGraph $WORK_DIR/taskGraph-$i-$TILE_GPU.txt
+   paste $WORK_DIR/TaskIdToTagMapping-$i-$TILE_GPU.txt  priority.txt  | awk '{ $3="";$4=""; print}'  >$WORK_DIR/taskPriorities-$i-$TILE_GPU.txt
+ done
+ cd $WORK_DIR
+#+END_SRC
+
+  We calculate different bounds for task graph using CPLEX software.
+
+#+BEGIN_SRC sh :session plafrim1 :results none
+ cd $WORK_DIR/cholesky_bounds/bounds/src
+ TIMELIMIT=10
+ for i in $VALUES; do
+  ./bounds -i $WORK_DIR/taskGraph-$i-$TILE_GPU.txt -c -l $TIMELIMIT  | tail -n 1 >>$WORK_DIR/bounds-usec
+ done
+ cd $WORK_DIR
+ echo "MSIZE SimulatedPerformance CriticalPath AreaBound IterativeBound" >performanceComparison
+ paste gflops-parsed bounds-usec  | awk '{printf("%d %0.2f %0.2f %0.2f %0.2f\n", $1, $3, $2 * $3* 1.0e+6 /$5, $3 * $2*1.0e+6 /$6, $3 * $2*1.0e+6 /$7);}' >>performanceComparison
+
+#+END_SRC
+
+Inject external priorities calculated above in simulation.
+
+#+BEGIN_SRC sh :session plafrim2 :results none
+ export EXTERNAL_PRIORITY=TRUE
+ for i in $VALUES; do
+  cp taskPriorities-$i-$TILE_GPU.txt taskPriorities.txt
+  STARPU_NCPU=9 STARPU_SCHED=dmdas  $CHAMELEON_EXE --n_range=$(($TILE_GPU*$i)):$(($TILE_GPU*$i)):$(($TILE_GPU)) --nb=$TILE_GPU --gpus=3 --trace --nowarmup >> gflops-output
+ done
+ cat gflops-output | grep "+-" | awk '{ print $1 " "$4 " "$5}' >gflopsWithExternalPriorities-parsed
+ rm gflops-output
+ echo "MSIZE SimulatedPerformance PerformanceExternalPriority" > performanceImprovement
+ paste gflops-parsed gflopsWithExternalPriorities-parsed | awk '{print $1 " "$3" " $6}' >>performanceImprovement
+#+END_SRC
+
+*** Analyzing results
+
+ Once the simulations are finished, we can copy the measured
+ results to a local machine and see the performance comparison with
+ different bounds(CriticalPath Bound, Area Bound and Iterative Bound).
+
+ #+BEGIN_SRC sh :session local :results none
+ scp plafrim2:~/chameleon_tutorial/performanceComparison performanceComparison
+ scp plafrim2:~/chameleon_tutorial/performanceImprovement performanceImprovement
+ #+END_SRC
+
+ # In case your local R session is buffer has been closed, you can reinitialize it executing the following function call
+ #+call: R_init() :session local :results output silent
+
+ #+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gflops" ".png") :width 700 :height 400
+ library(reshape2)
+ library(ggplot2)
+ dfBounds<-read.table('performanceComparison', header=T)
+ dfBoundsMelted <- melt(dfBounds, id=c("MSIZE"))
+ ggplot(dfBoundsMelted, aes(x=MSIZE, y=value, color=variable)) + geom_line() + ylab("GFlop/s") + xlab("Matrix Size") + ggtitle("Comparison of simulated performance and bounds")
+ #+end_src
+
+ We can also see the impact of external priorities on performance.
+
+ #+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gflops" ".png") :width 700 :height 400
+ dfExtPrio<-read.table('performanceImprovement', header=T)
+ dfExtPrioMelted <- melt(dfExtPrio, id=c("MSIZE"))
+ ggplot(dfExtPrioMelted, aes(x=MSIZE, y=value, color=variable)) + geom_line() + ylab("GFlop/s") + xlab("Matrix Size") + ggtitle("Impact of external priorities on performance")
+ #+end_src
+
+* Parallel multicore tasks
+** Experimenting with the Granularity of Workers and Tiles
+*** Introduction
+**** The Problem: Performance Disparity
+ #+ATTR_HTML: :align center
+[[file:figures/cholesky_kernels_sirocco.png]]
+**** Proposed Solution: Grouping Cores Into Clusters
+     Our goal is to execute tasks which contain an internal parallelism in a
+     transparent way. We propose a runtime tool to group cores into so called
+     /clusters/. These clusters will initiate thread teams compatible with the
+     internal runtime managing the internal parallelism of the task. In this
+     tutorial, this internal runtime will be GNU OpenMP, inside {{{starpu}}} task
+     calls.
+
+     Here is a schematic representation of the difference between classic
+     {{{starpu}}} and {{{starpu}}} using clusters.
+     [[file:figures/runtime-seq.png]]
+     In the sequential, usual, task-based runtime case, the runtime will
+     differentiate between CPU and GPU resources and assign tasks to them,
+     according to its inner scheduling algorithm.
+
+     [[file:figures/runtime-par.png]]
+     In our case with the use of parallel tasks, we have the same DAG
+     but the runtime has larger task pools and worker/resource
+     granularity to assign tasks to. These are represented with the
+     dotted boxes. Inside these boxes, a second runtime will come into
+     play to express how to execute the given tasks on all resources
+     available in the box.
+**** Quick Glance into the Code
+     I will present here the basic change added to Chameleon to allow the
+     creation of /clusters/, and we'll give a quick glance at what happens
+     underneath.
+
+     I developed a small API (beta version) to allow the automatic creation
+     of clusters. It heavily relies on [[https://www.open-mpi.org/projects/hwloc/doc/][hwloc]] to detect the machine topology
+     and create a /cluster of cores/ situated underneath a user-defined
+     topology level.
+     #+BEGIN_SRC C
+       starpu_clusters *clusters;
+       /* ... */
+       clusters = starpu_cluster_machine(HWLOC_OBJ_SOCKET,
+					 STARPU_CLUSTER_TYPE, GNU_OPENMP_MKL,
+					 0);
+       /* Parallel tasks submission and computation */
+       START_TIMING();
+       MORSE_zpotrf_Tile(uplo, descA);
+       STOP_TIMING();
+
+       starpu_uncluster_machine(cluster_obj);
+       /* ... */
+     #+END_SRC
+     This example is in essence what is in my branch, inside the file
+     ~timing/time_zpotrf_tile.c~. We regroup every available core under
+     the socket level into different clusters (with 4 GPUs this gives 2
+     clusters of 10 cores on sirocco). We add a special parameter to say
+     we want to use clusters of type GNU_OPENMP_MKL. This is to determine
+     what function we use to create our OpenMP thread team, shown
+     underneath.
+
+     Here is the function which we use in this tutorial to create the
+     OpenMP /clusters/. This is only an interface function. The goal
+     is to allow {{{starpu}}} cooperate with OpenMP to create this kind of
+     "tailored accelerator", able to execute OpenMP and pragma enabled
+     tasks.
+     #+BEGIN_SRC C
+       void starpu_gnu_openmp_mkl_prologue(void *sched_ctx_id)
+       {
+	       int sched_ctx = *(int*)sched_ctx_id;
+	       int *cpuids = NULL;
+	       int ncpuids = 0;
+	       int workerid = starpu_worker_get_id();
+	       /* figure out who we are */
+
+	       if (starpu_worker_get_type(workerid) == STARPU_CPU_WORKER) /* cpu only (openmp) */
+	       {
+		       /* Get the available resources inside this cluster. We use adapted
+			,* contexts developed (original work of Andra Hugo) underneath */
+		       starpu_sched_ctx_get_available_cpuids(sched_ctx, &cpuids, &ncpuids);
+
+		       /* Tell to OpenMP and MKL the team size inside this cluster */
+		       omp_set_num_threads(ncpuids);
+		       mkl_set_num_threads(ncpuids);
+		       mkl_set_dynamic(0);
+
+		       /* For each thread, bind it at its location */
+       #pragma omp parallel
+		       {
+		       starpu_sched_ctx_bind_current_thread_to_cpuid(cpuids[omp_get_thread_num()]);
+		       }
+		       free(cpuids);
+	       }
+	       return;
+       }
+     #+END_SRC
+     We have to use these special MKL calls so that the thread team can
+     be used inside the later BLAS calls transparently. If not, MKL is
+     somehow lost. Note that if we used iomp (or not MKL kernels) we
+     would not need these calls.
+*** Installing Packages and Setting the Environment
+
+    Let's ssh there and load all the required modules
+    #+BEGIN_SRC sh :session parallel_tasks :results none :noweb yes
+    ssh plafrim2
+    <<module_load>>
+    #+END_SRC
+
+    Now let's checkout the required software into our directory.
+    #+BEGIN_SRC sh :session parallel_tasks :results none
+    svn checkout https://scm.gforge.inria.fr/anonscm/svn/starpu/trunk $STARPU_SRC_DIR
+    svn checkout https://scm.gforge.inria.fr/anonscm/svn/morse/branches/chameleon-clusters $CHAMELEON_SRC_DIR
+    #+END_SRC
+
+    Sadly the compilation needs to be done on the machines, so we need to grab a
+    machine for that. Let's just get a machine, go there and compile for now.
+
+    #+BEGIN_SRC sh :session parallel_tasks :results none :noweb yes :var exclusivity=""
+    <<login>>
+    <<module_load>>
+    #+END_SRC
+
+    #+BEGIN_SRC sh :session parallel_tasks :results none
+    cd $STARPU_SRC_DIR
+    ./autogen.sh
+    ./configure --enable-cuda --disable-socl --disable-opencl --disable-build-doc --disable-build-examples --without-mpicc --without-mpiexec --enable-openmp=yes --with-hwloc --enable-blas-lib=mkl --with-fxt --prefix=$STARPU_INST_DIR
+    make -j && make install
+
+    cd $WORK_DIR
+    cd $CHAMELEON_BUILD_DIR
+    cmake -DBLA_VENDOR=Intel10_64lp -DCHAMELEON_USE_CUDA=on -DCHAMELEON_ENABLE_TRACING=on -DCMAKE_INSTALL_PREFIX=$CHAMELEON_INST_DIR $CHAMELEON_SRC_DIR
+    make -j
+    #+END_SRC
+
+    Now and we'll run a very small case to ensure everything works correctly but
+    the performances could be terrible depending how many are on the machine.
+    #+BEGIN_SRC sh :session parallel_tasks :results none
+    cd $CHAMELEON_BUILD_DIR
+    timing/time_dpotrf_tile --n_range=$((10 * TILE_SIZE)):$((10 * TILE_SIZE)):1 --nb=$TILE_SIZE --gpus=4 --profile
+    #+END_SRC
+
+    Let's leave the machine for now.
+    #+BEGIN_SRC sh :session parallel_tasks :results none :noweb yes
+    <<logout>>
+    #+END_SRC
+
+*** Installing the stack with Spack
+
+ We make a reservation of an heterogeneous node.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ module add slurm
+ salloc -N1 --exclusive -p court_sirocco -x sirocco[01,06]
+ #+END_SRC
+
+ Wait for the job to be granted.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ ssh $(squeue | grep `whoami` | tr -s ' ' ' ' | cut -d" " -f9 | grep sirocco)
+ #+END_SRC
+
+ Set the environnement, modules and spack.
+ #+NAME: setenv_build_2
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ export WORK_DIR=$HOME/chameleon_tutorial
+ export SPACK_ROOT=$WORK_DIR/spack
+ export PATH=$SPACK_ROOT/bin:$PATH
+ export MODULEPATH=$SPACK_ROOT/share/spack/modules/linux-x86_64:$MODULEPATH
+ module purge
+ module add slurm/14.03.0
+ module add build/ac269-am114-lt246-m41417
+ module add build/cmake/3.2.1
+ module add compiler/gcc/4.9.0
+ module add intel/mkl/64/11.2/2015.5.223
+ module add compiler/cuda/7.0/toolkit/7.0.28
+ module add compiler/cuda/7.0/blas/7.0.28
+ export LIBRARY_PATH=/usr/lib64:$LIBRARY_PATH
+ export CUDADIR=$CUDA_PATH
+ export MPI_DIR=$MPI_HOME
+ export CMAKE_DIR=/cm/shared/dev/apps/build/cmake/3.2.1
+ export TILE_CPU=320
+ export TILE_GPU=960
+ export STARPU_HOSTNAME=sirocco
+ export STARPU_PERF_MODEL_DIR=$WORK_DIR/perfmodels/.starpu/sampling/
+ export CHAMELEON_EXE=`$WORK_DIR/spack/bin/spack location -i chameleon@clusters+cuda+magma+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+cuda+fxt ^mkl-blas`/lib/chameleon/timing/time_dpotrf_tile
+ export WORK_DIR=$HOME/chameleon_tutorial
+ cd $WORK_DIR
+ echo "Environment is set"
+ #+END_SRC
+
+ Save this in the file $HOME/.spack/compilers.yaml
+ #+BEGIN_SRC sh :session plafrim2 :results none
+echo "compilers:
+    linux-x86_64:
+      gcc@4.9.0:
+	cc: /cm/shared/apps/gcc/4.9.0/bin/gcc
+	cxx: /cm/shared/apps/gcc/4.9.0/bin/g++
+	f77: /cm/shared/apps/gcc/4.9.0/bin/gfortran
+	fc: /cm/shared/apps/gcc/4.9.0/bin/gfortran" > ~/.spack/compilers.yaml
+  #+END_SRC
+
+ Now in the /spack/ folder we can install Chameleon with {{{starpu}}} for a single
+ node with GPUs.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ spack install -v chameleon@clusters+cuda+magma+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+cuda+fxt+blas ^mkl-blas ^cmake@exist
+ #+END_SRC
+
+ StarPU uses performance models as was (probably) previously said, we will run a first
+ example in order to create and calibrate the performance models.
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ numactl --interleave=all $CHAMELEON_EXE --n_range=$(($TILE_GPU*10)):$(($TILE_GPU*10)):$(($TILE_GPU)) --nb=$TILE_GPU --gpus=4 --warmup
+ #+END_SRC
+
+ Let's run an exhaustive test case.
+ #+BEGIN_SRC sh :session parallel_tasks :results none
+ numactl --interleave=all $CHAMELEON_EXE --n_range=$(($TILE_GPU*2)):$(($TILE_GPU*48)):$(($TILE_GPU*4)) --nb=$TILE_GPU --gpus=4 --warmup > $WORK_DIR/clusters_960_var.out
+ #+END_SRC
+
+ Let's get a trace for a matrix of 24x24 tiles.
+ #+BEGIN_SRC sh :session parallel_tasks :results none
+ STARPU_GENERATE_TRACE=1 numactl --interleave=all $CHAMELEON_EXE --n_range=$(($TILE_GPU*24)):$(($TILE_GPU*24)):$(($TILE_GPU)) --nb=$TILE_GPU --gpus=4 --warmup --trace
+ mv paje.trace $WORK_DIR/clusters.trace
+ #+END_SRC
+
+ Finally, let's compare with higher tiles sizes since our case
+ facilitates it. Indeed, by using a higher tile size we allow the
+ GPUs to reach their peak performance while having enough tasks to
+ feed to the CPU clusters.  This is one of the strength of our
+ technique: the trade-off between internal and external parallelism
+ can be used to find a new compromise between tile size and the
+ amount of tasks.
+
+ #+BEGIN_SRC sh :session parallel_tasks :results none
+ numactl --interleave=all $CHAMELEON_EXE --n_range=$(($TILE_GPU*2)):$(($TILE_GPU*48)):$(($TILE_GPU*4)) --nb=$(($TILE_GPU*2)) --gpus=4 --warmup > $WORK_DIR/clusters_1920_var.out
+ #+END_SRC
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ logout
+ exit
+ #+END_SRC
+
+*** Running Experiments
+
+    #+BEGIN_SRC sh :session parallel_tasks :noweb yes :var exclusivity="--exclusive" :results none
+    <<login>>
+    <<module_load>>
+    cd $CHAMELEON_BUILD_DIR
+    #+END_SRC
+
+    {{{starpu}}} uses performance models as was (probably) previously said, we will run a first
+    example in order to create and calibrate the performance models.
+    #+BEGIN_SRC sh :session parallel_tasks :results none
+    rm -rf ${STARPU_HOME}/.starpu
+    numactl --interleave=all timing/time_dpotrf_tile --n_range=$((10 * TILE_SIZE)):$((10 * TILE_SIZE)):1 --nb=$TILE_SIZE --gpus=4 --warmup
+    #+END_SRC
+
+    Let's run an exhaustive test case.
+    #+BEGIN_SRC sh :session parallel_tasks :results none
+    numactl --interleave=all timing/time_dpotrf_tile --n_range=$((2 * TILE_SIZE)):$((48 * TILE_SIZE)):$((4 * TILE_SIZE)) --nb=$TILE_SIZE --gpus=4 --warmup > $WORK_DIR/clusters_960_var.out
+    #+END_SRC
+
+    Let's get a trace for a matrix of 24x24 tiles.
+    #+BEGIN_SRC sh :session parallel_tasks :results none
+    STARPU_GENERATE_TRACE=1 numactl --interleave=all timing/time_dpotrf_tile --n_range=$((24 * TILE_SIZE)):$((24 * TILE_SIZE)):1 --nb=$TILE_SIZE --gpus=4 --warmup --trace
+    mv paje.trace $WORK_DIR/clusters.trace
+    #+END_SRC
+
+    Finally, let's compare with higher tiles sizes since our case
+    facilitates it. Indeed, by using a higher tile size we allow the
+    GPUs to reach their peak performance while having enough tasks to
+    feed to the CPU clusters.  This is one of the strength of our
+    technique: the trade-off between internal and external parallelism
+    can be used to find a new compromise between tile size and the
+    amount of tasks.
+
+    #+BEGIN_SRC sh :session parallel_tasks :results none
+    numactl --interleave=all timing/time_dpotrf_tile --n_range=$((2 * TILE_SIZE)):$((48 * TILE_SIZE)):$((4 * TILE_SIZE)) --nb=$((2 * TILE_SIZE)) --gpus=4 --warmup > $WORK_DIR/clusters_1920_var.out
+    #+END_SRC
+
+    #+BEGIN_SRC sh :session parallel_tasks :noweb yes :results none
+    <<logout>>
+    #+END_SRC
+*** Analyzing Results
+    Once the simulations are finished, we can copy the measured
+    results to a local machine and perform some basic analysis there.
+
+    #+BEGIN_SRC sh :session local :results none
+      scp plafrim2:chameleon_tutorial/clusters_960_var.out .
+      scp plafrim2:chameleon_tutorial/clusters_1920_var.out .
+      scp plafrim2:chameleon_tutorial/clusters.trace .
+    #+END_SRC
+
+    # In case your local R session is buffer has been closed, you can reinitialize it executing the following function call
+    #+call: R_init() :session *R* :results output silent
+
+    #+begin_src R :results output graphics append :session *R* :dir . :exports both :file :file (org-babel-temp-file "gflops_clusters_" ".png") :width 700 :height 400
+    df1 <- read_gflops("clusters_960_var.out", "TILE 960")
+    df2 <- read_gflops("clusters_1920_var.out", "TILE 1920")
+    df <- rbind(df1, df2)
+
+    # Taking only certain executions into account (if necessary)
+    #df<-df[df$Origin %in% c("Real", "Simulation"),]
+
+    gflops_plot(df, bars=FALSE, points=TRUE, lines=TRUE)
+    #+end_src
+
+    #+call: paje2csv(inputfile="clusters.trace", outputfile="clusters.csv") :results output silent
+
+    #+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gantt" ".png") :width 700 :height 550
+    df1 <- read_trace_wh("clusters.csv","Clusters")
+    #df2 <- read_trace_wh("clusters.csv","Sequential")
+    #df <- rbind(df1, df2)
+
+
+    paje_plot(df1, title="", tasks_only=TRUE)
+    #+end_src
+
+*** Helpers
+    #+BEGIN_SRC sh :noweb-ref module_load :results none
+      module purge
+      module add slurm/14.03.0
+      module add build/ac269-am114-lt246-m41417
+      module add build/cmake/3.2.1
+      module add compiler/gcc/4.9.0
+      module add intel/mkl/64/11.2/2015.5.223
+      module add hardware/hwloc/1.11.0
+      module add trace/fxt/0.3.1
+      module add compiler/cuda/7.0/toolkit/7.0.28
+      module add compiler/cuda/7.0/blas/7.0.28
+
+      export WORK_DIR=$HOME/chameleon_tutorial
+      if [ ! -d $WORK_DIR ]; then
+	  mkdir $WORK_DIR
+      fi
+
+      export PATH=$WORK_DIR/spack/bin:$PATH
+      export MODULEPATH=$WORK_DIR/spack/share/spack/modules/linux-x86_64:$MODULEPATH
+      export CHAMELEON_SRC_DIR=$WORK_DIR"/Chameleon_clusters"
+      export STARPU_SRC_DIR=$WORK_DIR"/StarPU_clusters"
+      export CHAMELEON_INST_DIR=$CHAMELEON_SRC_DIR"_install"
+      export STARPU_INST_DIR=$STARPU_SRC_DIR"_install"
+      export CHAMELEON_BUILD_DIR=$CHAMELEON_SRC_DIR"_build"
+      export STARPU_HOME=$WORK_DIR
+      export TILE_SIZE=960
+      export PKG_CONFIG_PATH=$STARPU_INST_DIR/lib/pkgconfig:$PKG_CONFIG_PATH
+
+      if [ ! -d $CHAMELEON_BUILD_DIR ]; then
+      mkdir $CHAMELEON_BUILD_DIR
+      fi
+    #+END_SRC
+
+    We have a custom bash and a ssh session to get out of.
+    #+BEGIN_SRC sh :noweb-ref logout
+    exit
+    sleep 1
+    exit
+    #+END_SRC
+
+    #+BEGIN_SRC sh :noweb-ref login
+    salloc -N1 -p court_sirocco -x sirocco06 ${exclusivity}
+    sleep 2
+    ssh $(squeue | grep `whoami` | tr -s ' ' ' ' | cut -d" " -f9 | grep sirocco)
+    sleep 2
+    #+END_SRC
+** Scheduling Simulation Validation
+* Distributed execution (MPI)
+** Introduction
+   #+ATTR_HTML: style="float:left;display:inline;margin:10px"
+   [[file:figures/matrix-step-2.png]]
+   #+ATTR_HTML: style="float:right;display:inline;margin:10px"
+   [[file:figures/matrix-step-3.png]]
+
+   For running on several nodes, a software layer called {{{starpu}}}-MPI has
+   been developed on top of {{{starpu}}} to deal with remote computing nodes.
+   It is working as follows: {{{starpu}}}-MPI replicates the unrolling of the task
+   graph on all the nodes.
+   Each node decides without communicating with each other which tasks to
+   execute depending on the data it owns, described by a data mapping given by
+   the user.
+   When submitting a task, if a dependency for a data owned by an other node is
+   detected, a corresponding communication request is submitted by
+   {{{starpu}}}-MPI to get/send the data from/to the other node.
+
+** Real experiments
+*** Installing packages using spack on remote machine
+
+ During this section, we will run first on a small cluster of nodes without
+ GPUs. Let's make a reservation of 4 homogeneous nodes.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ salloc -N1 --exclusive
+ ssh $(squeue | grep `whoami` | tr -s ' ' ' ' | cut -d" " -f9 | grep miriel)
+ #+END_SRC
+
+ To be sure that the environment on a node is corresponding correctly
+ to a desired one, execute the following two commands.
+
+ #+CALL: setenv_build() :session plafrim2 :results none
+ #+CALL: setenv_spack() :session plafrim2 :results none
+
+ Now in the /spack/ folder we can install Chameleon with {{{starpu}}} for a cluster
+ of nodes without GPUs.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ spack install -v chameleon@trunk+mpi+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+mpi+fxt ^mkl-blas ^openmpi@exist
+ #+END_SRC
+
+*** Running experiments
+
+ Let's run the following script to obtain the result of the real experiment.
+ Since it's easier to submit a script which calls mpirun to the sbatch command, we
+ will use that for our experiments.  First, we unlog from the node and we
+ relinquish the allocation we made earlier, and we re-set the environment.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ logout
+ exit
+ #+END_SRC
+
+ #+CALL: setenv_build() :session plafrim2 :results none
+ #+CALL: setenv_spack() :session plafrim2 :results none
+
+ Then we create the script we will use and launch it on the cluster of 4
+ homogeneous nodes with sbatch.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ rm distributed_run.sh
+ echo '#!/usr/bin/env bash' > distributed_run.sh
+ echo "module purge" >> distributed_run.sh
+ echo "module add slurm/14.03.0" >> distributed_run.sh
+ echo "module add compiler/gcc/4.8.4" >> distributed_run.sh
+ echo "module add compiler/intel/64/2015.5.223" >> distributed_run.sh
+ echo "module add compiler/cuda/7.0/toolkit/7.0.28" >> distributed_run.sh
+ echo "module add compiler/cuda/7.0/blas/7.0.28" >> distributed_run.sh
+ echo "module add mpi/openmpi/gcc/1.10.0-tm" >> distributed_run.sh
+ echo "export LIBRARY_PATH=/usr/lib64:$LIBRARY_PATH" >> distributed_run.sh
+ echo "export MPI_DIR=$MPI_HOME" >> distributed_run.sh
+ echo "export TILE_CPU=320" >> distributed_run.sh
+ echo "export TILE_GPU=960" >> distributed_run.sh
+ echo "export WORK_DIR=$HOME/chameleon_tutorial" >> distributed_run.sh
+ echo "export CUDADIR=$CUDA_PATH" >> distributed_run.sh
+ echo "cd $WORK_DIR" >> distributed_run.sh
+ echo "export CHAMELEON_EXE=`$WORK_DIR/spack/bin/spack location -i chameleon+fxt+mpi~quark+examples~shared~simu~cuda~magma`/lib/chameleon/timing/time_dpotrf_tile" >> distributed_run.sh
+ echo '$MPI_RUN -x STARPU_HOSTNAME=miriel -x STARPU_PERF_MODEL_DIR=$WORK_DIR/perfmodels/.starpu/sampling/ $CHAMELEON_EXE --n_range=$(($TILE_CPU*20)):$(($TILE_CPU*240)):$(($TILE_CPU*20)) --nb=$TILE_CPU --threads=24 --p=2 --printerrors --nowarmup --check > distributed_gflops_out' >> distributed_run.sh
+ chmod +x distributed_run.sh
+ sbatch -N4 -n4 -c24 -p longq ./distributed_run.sh
+ #+END_SRC
+
+ Since this is a script launched by a batch scheduler and that it takes some
+ time (roughly 5 minutes), you should want to check what is happening with the
+ following two commands.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ squeue
+ cat distributed_gflops_out
+ #+END_SRC
+
+ We will also execute another run for 40\times40 blocks to get the execution
+ trace.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ rm distributed_trace.sh
+ echo '#!/usr/bin/env bash' > distributed_trace.sh
+ echo "module purge" >> distributed_trace.sh
+ echo "module add slurm/14.03.0" >> distributed_trace.sh
+ echo "module add compiler/gcc/4.8.4" >> distributed_trace.sh
+ echo "module add compiler/intel/64/2015.5.223" >> distributed_trace.sh
+ echo "module add compiler/cuda/7.0/toolkit/7.0.28" >> distributed_trace.sh
+ echo "module add compiler/cuda/7.0/blas/7.0.28" >> distributed_trace.sh
+ echo "module add mpi/openmpi/gcc/1.10.0-tm" >> distributed_trace.sh
+ echo "export LIBRARY_PATH=/usr/lib64:$LIBRARY_PATH" >> distributed_trace.sh
+ echo "export MPI_DIR=$MPI_HOME" >> distributed_trace.sh
+ echo "export TILE_CPU=320" >> distributed_trace.sh
+ echo "export TILE_GPU=960" >> distributed_trace.sh
+ echo "export WORK_DIR=$HOME/chameleon_tutorial" >> distributed_trace.sh
+ echo "export CUDADIR=$CUDA_PATH" >> distributed_trace.sh
+ echo "cd $WORK_DIR" >> distributed_trace.sh
+ echo "export CHAMELEON_EXE=`$WORK_DIR/spack/bin/spack location -i chameleon+fxt+mpi`/lib/chameleon/timing/time_dpotrf_tile" >> distributed_trace.sh
+ echo "export STARPU_FXT_PREFIX=$WORK_DIR/" >> distributed_trace.sh
+ echo '$MPI_RUN -x STARPU_GENERATE_TRACE=1 -x STARPU_HOSTNAME=miriel -x STARPU_PERF_MODEL_DIR=$WORK_DIR/perfmodels/.starpu/sampling/ $CHAMELEON_EXE --n_range=$(($TILE_CPU*40)):$(($TILE_CPU*40)):$(($TILE_CPU*40)) --nb=$TILE_CPU --threads=24 --p=2 --printerrors --nowarmup --trace' >> distributed_trace.sh
+ chmod +x distributed_trace.sh
+ sbatch -N4 -n 4 -c24 -p longq ./distributed_trace.sh
+ #+END_SRC
+
+*** Analyzing results
+
+    Once the runs are finished, we can copy the measured
+    results to a local machine and perform some basic analysis there.
+
+   #+BEGIN_SRC sh :session local :results none
+   scp plafrim2:chameleon_tutorial/distributed_gflops_out .
+   scp plafrim2:chameleon_tutorial/paje.trace distributed_paje.trace
+   #+END_SRC
+
+   # In case your local R session is buffer has been closed, you can reinitialize it executing the following function call
+   #+call: R_init() :session local :results output silent
+
+   Now we can look at the GFlop/s rates and residuals to confirm the good
+   scaling of the execution.
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gflops" ".png") :width 700 :height 400
+df1 <- read_gflops("distributed_gflops_out", "4-Nodes Distributed Native")
+df2 <- read_gflops("homogeneous_gflops_out", "Single-Node Native")
+df <- rbind(df1, df2)
+
+gflops_plot(df, bars=FALSE, points=TRUE, lines=TRUE)
+#+end_src
+
+   We see that the scaling of the distributed run is pretty good, with almost
+   the 4x factor of the Gflops rates.
+   We also see that the distributed execution is really less efficient for
+   small matrices, which is explained by the impossibility to feed all the 96
+   cores while overlapping computation and communication with a small number of
+   tasks.
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gflops" ".png") :width 700 :height 400
+df1 <- read_residual("distributed_gflops_out", "4-Nodes Distributed Native")
+df2 <- read_residual("homogeneous_gflops_out", "Single-Node Native")
+df <- rbind(df1, df2)
+
+residual_plot(df, bars=FALSE, points=TRUE, lines=TRUE)
+#+end_src
+
+    Let's see a small execution trace :
+
+#+call: paje2csv(inputfile="distributed_paje.trace", outputfile="distributed_paje.csv") :results output silent
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gantt" ".png") :width 700 :height 550
+df <- read_trace_wh("distributed_paje.csv","Native trace")
+
+paje_plot(df, title="", tasks_only=TRUE)
+#+end_src
+
+
+** Simulation
+*** Installing packages using spack on remote machine
+
+ Simulation can be run on any machine, so lets better make a
+ reservation on a simpler cluster that has many nodes and no GPUs.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+ salloc -N1 --exclusive
+ ssh $(squeue | grep `whoami` | tr -s ' ' ' ' | cut -d" " -f9 | grep miriel)
+ #+END_SRC
+
+ To be sure that the environment on a node is corresponding correctly
+ to a desired one, execute the following two commands.
+
+ #+CALL: setenv_build() :session plafrim2 :results none
+ #+CALL: setenv_spack() :session plafrim2 :results none
+
+ Now in the /spack/ folder we can install Chameleon with {{{starpu}}} and
+ {{{simgrid}}} for MPI simulations.
+
+ #+BEGIN_SRC sh :session plafrim2 :results none
+  spack install -v chameleon@trunk+simu+mpi+fxt~quark+examples~shared ^starpu@svn-trunk~shared+simgrid+mpi+fxt ^simgrid@starpumpi~doc ^openmpi@exist
+ #+END_SRC
+
+*** Running experiments
+
+    We present an example of the execution on a cluster of 4 /mirage/
+    nodes, using 1 GPU and 4 CPU per each node. This is a work in
+    progress so other configurations might segfault. Additionally, we
+    plan to improve the simulation performance.
+
+   #+BEGIN_SRC sh :session plafrim2 :results none
+   export STARPU_HOSTNAME=mirage
+   export STARPU_PERF_MODEL_DIR=$WORK_DIR/perfmodels/.starpu/sampling/
+   export MPIRUN=`$WORK_DIR/spack/bin/spack location -i simgrid`/bin/smpirun
+   export CHAMELEON_EXE=`$WORK_DIR/spack/bin/spack location -i chameleon+simu+mpi`/lib/chameleon/timing/time_dpotrf_tile
+   export SIMGRID_VAR="-platform $WORK_DIR/perfmodels/StarPU-MPI-platform-4mirage.xml -hostfile $WORK_DIR/perfmodels/hostfile_2nodes --cfg=smpi/privatize_global_variables:yes --cfg=contexts/factory:thread"
+   $MPIRUN $SIMGRID_VAR $CHAMELEON_EXE --n_range=$(($TILE_GPU*10)):$(($TILE_GPU*10)):$(($TILE_GPU)) --nb=960 --threads=4 --gpus=1 --nowarmup
+   #+END_SRC
+
+* Debugging the performance
+** Analyzing result using {{{starpu}}} tools
+
+   Most of the researchers from {{{starpu}}} community are used to analyze
+   their execution traces by simply visually inspecting them using
+   /vite/ tool. This is the fastest and the easiest way to get a high
+   level overview, but it may also hide many phenomena. For
+   understanding better what happened during the execution, it is
+   wiser to use other (more appropriate) tools that can perform
+   advanced statistical analysis and provide different views of the
+   execution. These should also be easily adaptable for any specific
+   use case.
+
+   {{{starpu}}} itself proposes several tools for doing performance analysis
+   of the execution traces. These tools contain similar code for
+   reformatting the trace into .csv and after that they are producing
+   some basic R plots that can help user get a quick overview of its
+   execution. For example, user can inspect the distribution of the
+   durations of the kernels or compare the duration of the kernels
+   between two executions. We encourage reader to explore these tools
+   which are located inside the directory /tools/ in {{{starpu}}} source code.
+
+** Customized analysis
+
+   If you want to perform this analysis with the trace you generated
+   during this tutorial (12\times12 block execution in Scheduling section),
+   execute the following commands and change the input files in R
+   sections.
+
+   #+BEGIN_SRC sh :session local :results none
+   scp plafrim2:chameleon_tutorial/paje_analysis.trace paje_analysis.trace
+   scp plafrim2:chameleon_tutorial/tasks_analysis.rec tasks_analysis.rec
+   #+END_SRC
+
+   #+call: paje2csv(inputfile="paje_analysis.trace", outputfile="paje_analysis.csv") :results output silent
+
+ # In case your local R session is buffer has been closed, you can reinitialize it executing the following function call
+   #+call: R_init() :session *R* :results output silent
+
+   Now we will perform analysis of the traces using R. We will
+   generate several different views, which could help users understand
+   better the executions. Be free to change some of the parameters and
+   observe new types of plots.
+
+   We start by checking the classical gantt, but showing only the
+   computation kernels.
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "adv_analysis" ".png") :width 700 :height 400
+# Loading the trace
+df <- read_trace_wh("paje_traces/test.trace.csv","Test trace")
+
+# Defining non-computation states:
+def_states<-c("Initializing", "Deinitializing", "Overhead", "Nothing",
+"Sleeping", "Freeing", "Allocating", "WritingBack", "FetchingInput",
+"PushingOutput", "Callback", "Progressing", "Unpartitioning",
+"AllocatingReuse", "Reclaiming", "DriverCopy", "DriverCopyAsync", "Scheduling",
+"Executing", "dplgsy", "Idle")
+
+# Filtering non-computation states
+df<-df[!(df$Value %in% def_states),]
+
+# Creating a new column where CPU and GPU workers are grouped together
+df$ResourceType <- ifelse(df$ResourceId %in% c("CPU0","CPU1","CPU2","CPU3","CPU4","CPU5","CPU6","CPU7"), "CPU", "GPU")
+
+# Plot
+ ggplot(df,aes(x=Start,xend=End, y=factor(ResourceId), yend=factor(ResourceId),color=Value)) +
+  theme_bw() + scale_color_manual(name="State", values=myPalette) +
+  geom_segment(size=8) + ylab("Resource") + xlab("Time [ms]") +
+  facet_wrap(~Origin,ncol=1,scale="free_y")
+#+end_src
+
+   Then, we can perhaps inspect kernel duration throughout the
+   application execution.
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "adv_analysis" ".png") :width 700 :height 400
+ggplot(df,aes(x=Start,y=Duration)) +
+geom_point(aes(color=Value)) + theme_bw() +
+ scale_color_manual(name="State",values=myPalette) + ggtitle("Kernel duration during the execution Time") +
+ theme(legend.position="none") + ylab("Duration [ms]") +
+ xlab("Time [ms]") + facet_grid(Value~Origin)
+#+end_src
+
+   We can't see that much since duration of the kernels differ one
+   from another, so we will try to use a unique y-axis for each
+   plot. Additionally, we will differentiate kernels executed on CPUs
+   and GPUs by using different symbols and colors.
+
+#+begin_src R :results graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "adv_analysis" ".png") :width 700 :height 400
+ggplot(df,aes(x=Start,y=Duration)) +
+geom_point(aes(color=ResourceType, shape=ResourceType)) + theme_bw() +
+ ggtitle("Kernel duration during the execution time") + ylab("Duration [ms]") +
+ xlab("Time [ms]") + guides(color = guide_legend(title = "Resource Type"), shape = guide_legend(title = "Resource Type")) +
+ facet_grid(Value~Origin, scale="free_y")
+#+end_src
+
+   We can see this difference between CPU and GPU workers even better
+   if looking at the histograms of the kernel durations.
+
+#+begin_src R :results graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "adv_analysis" ".png") :width 700 :height 400
+ggplot(df, aes(x=Duration)) + geom_histogram(aes(y=..count..,fill=factor(ResourceType)), binwidth = diff(range(df$Duration))/30) +
+theme_bw() + ggtitle("Histograms for kernel distributions") + ylab("Count") +
+ xlab("Duration [ms]") + guides(fill = guide_legend(title = "Resource Type")) +
+ facet_wrap(~Value,scales = "free")
+#+end_src
+
+   So as expected the duration of some of the kernels depends greatly
+   on whether they were executed on a GPU or on a CPU. Interestingly
+   for some kernels the duration when executing even on GPUs is a bit
+   unstable.
+
+   This was just a simple example of how to do the analysis of the
+   traces using R. We will now shortly present some more advanced
+   techniques. If you want to execute all the R code in the following
+   subtree with a single command (instead of applying "Ctrl-c Ctrl-c"
+   every time), do "Esc-x" and write "org-babel-execute-subtree".
+
+** Advanced analysis using aggregations
+Researchers involved: =Vinícius Garcia Pinto (UFRGS Brazil/Grenoble), Lucas Schnorr(UFRGS Brazil), Luka Stanisic (Bordeaux), Arnaud Legrand (Grenoble), ...=
+
+Research goal: /Proposing new visualization methods for better analyzing runtime systems./
+
+Current status: Investigating alternative ways to analyze {{{starpu}}} Cholesky application using R, merging information from the trace and the DAG.
+
+We start by doing coloring the kernels depending on the phase (iteration).
+
+#+begin_src R :results graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "adv_analysis" ".png") :width 700 :height 400
+# Again loading the initial trace just in case
+df <- read_trace_wh("paje_traces/test.trace.csv","Test trace")
+
+# Defining non-computation states:
+def_states<-c("Initializing", "Deinitializing", "Overhead", "Nothing",
+ "Sleeping", "Freeing", "Allocating", "WritingBack", "FetchingInput",
+ "PushingOutput", "Callback", "Progressing", "Unpartitioning",
+ "AllocatingReuse", "Reclaiming", "DriverCopy", "DriverCopyAsync",
+ "Scheduling", "Executing", "dplgsy", "Idle")
+
+# Filtering non-computation states
+df<-df[!(df$Value %in% def_states),]
+
+# Creating a new column where CPU and GPU workers are grouped together
+df$ResourceType <- ifelse(df$ResourceId %in% c("CPU0","CPU1","CPU2","CPU3","CPU4","CPU5","CPU6","CPU7"), "CPU", "GPU")
+
+# Extracting the iteration values from the Tag
+dfA <- add_iterations(df)
+
+# Grouping the tasks with the same k?
+ggplot(dfA, aes(x=Start, xend=End, y=factor(ResourceId), yend=factor(ResourceId), color=factor(as.numeric(k)))) +
+    theme_bw() +
+    scale_color_manual(values=npal) +
+    geom_segment(size=6) + ggtitle("Coloring by outer iteration") +
+    guides(color=guide_legend(label.position="bottom", title="Iteration K")) +
+    theme(legend.position="bottom") + facet_grid(Value ~ .) +
+    ylab("Resource") + scale_x_continuous("Time [ms]")
+#+end_src
+
+  This is interesting, but still too hard to see for the whole
+  execution, so we can zoom on a certain time interval. If this time
+  interval is not the best for your trace, you can easily adjust it by
+  changing the values in "xlim" (the last parameter).
+
+#+begin_src R :results graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "adv_analysis" ".png") :width 700 :height 400
+ggplot(dfA, aes(x=Start, xend=End, y=factor(ResourceId), yend=factor(ResourceId), color=factor(as.numeric(k)))) +
+    theme_bw() +
+    scale_color_manual(values=npal) +
+    geom_segment(size=6) + ggtitle("Coloring by outer iteration") +
+    guides(color=guide_legend(label.position="bottom", title="Iteration K")) +
+    theme(legend.position="bottom") + facet_grid(Value ~ .) +
+    ylab("Resource") + scale_x_continuous("Time [ms]") + xlim(c(2000,2300))
+#+end_src
+
+  We can also take the dependencies into account. First, we will
+  extract the task dependencies into a separate file (if you are using
+  your own trace for the analysis).
+
+#+BEGIN_SRC sh :results silent :session local
+cat tasks_analysis.rec | sed -n '/^DependsOn\|^JobId/p' | sed  's/JobId: //g' | sed  ':a;N;$!ba;s/\nDependsOn: /,/g' > tasks_analysis_dep.csv
+#+END_SRC
+
+  Now, we can create a figure where the colors are again corresponding
+  to the different types of kernels, lines are dependencies between the
+  tasks and the yellow numbers are JobIds. You can change the
+  interval, possibly zooming even more by changing the values in
+  "xlim" (the last parameter).
+
+#+begin_src R :results graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "adv_analysis" ".png") :width 700 :height 400
+
+# First we need to extract all the dependecies
+dfD <- get_dependencies("paje_traces/tasks_dep.csv")
+
+# Then we merge it with the previous data frame
+dfAD <- merge(dfA,dfD)
+
+# Now we need to merge the same kernels that are appearing multiple times
+dfAD <- clean_replicas(dfAD)
+
+# Finally we can plot the figure
+ggplot(dfAD[dfAD$DepResourceId != "character(0)",], aes(x=Start, xend=End, y=factor(ResourceId), yend=factor(ResourceId), colour=Value )) +
+     geom_segment(aes(x= Start+((End-Start)/2), y= ResourceId, xend=DepStart+((DepEnd-DepStart)/2), yend=DepResourceId)) +
+     theme_bw() +
+     geom_segment(size=8) + ggtitle("Tasks with dependencies") +
+     geom_text(aes(label=JobId, x= Start+((End-Start)/2), y= ResourceId), size=3, colour="yellow") + scale_color_manual(name="State",values=myPalette) +
+     ylab("Resource") + scale_x_continuous("Time [ms]") + xlim(c(2000,2300))
+#+end_src
+
+* Try it on your machine
+
+ Did you already get a working copy of the tutorial?
+ If not, please execute the following command:
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   svn checkout https://scm.gforge.inria.fr/anonscm/svn/morse/tutorials/2015-12-16-inria chameleon_tutorial/
+   cd chameleon_tutorial
+   #+END_SRC
+
+** Getting started
+
+   Save the current path (you should finally lie in the tutorial working directory,
+   where you can get the .org file and input files such as the perfmodels).
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   export WORKDIR=$PWD
+   #+END_SRC
+
+   Clone spack git on your local computer (if you haven't done it already).
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   git clone https://github.com/fpruvost/spack.git
+   cd spack
+   git checkout morse
+   #+END_SRC
+
+   Configure spack correctly, adding the binary to your machine path.
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   . $WORKDIR/spack/share/spack/setup-env.sh
+   #+END_SRC
+
+   Before to install anything, you need to set the compilers to be used.
+   #+BEGIN_SRC sh :session local :results none :exports code
+   # replace /usr/bin by the path where your compilers lie
+   spack compiler add /usr/bin
+   #+END_SRC
+
+   You can manually edit the Spack configuration file located in you home in .spack:
+   #+BEGIN_EXAMPLE
+   spack config edit compilers
+   #+END_EXAMPLE
+
+   Example of what could like ~/.spack/compilers.yaml
+   #+BEGIN_EXAMPLE
+   compilers:
+     linux-x86_64:
+       gcc@5.2.1:
+	 cc: /usr/bin/gcc
+	 cxx: /usr/bin/g++
+	 f77: /usr/bin/gfortran
+	 fc: /usr/bin/gfortran
+   #+END_EXAMPLE
+
+** Re-entrance							   :noexport:
+
+   Save the current path for re-entrance and setup spack environment.
+
+   #+name: reentrance
+   #+BEGIN_SRC sh :session local :results none :exports code
+   export WORKDIR=$PWD
+   . $WORKDIR/spack/share/spack/setup-env.sh
+   #+END_SRC
+
+** Installing packages using spack on your own machine
+
+   Check the stack that you plan to install.
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   spack spec chameleon@trunk~quark+examples+fxt ^starpu@svn-trunk+fxt
+   #+END_SRC
+
+   If everything looks fine, install the software stack using spack.
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   spack install -v chameleon@trunk~quark+examples+fxt ^starpu@svn-trunk+fxt
+   #+END_SRC
+
+   Now also install the similar software stack only for the simulation.
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   spack install -v chameleon@trunk~quark+simu+examples+fxt ^starpu@svn-trunk+simgrid+fxt ^simgrid@starpumpi
+   #+END_SRC
+** Running {{{starpu}}} calibration with a simple experiment
+
+   We will just configure that {{{starpu}}} saves its perfmodels in this
+   folder. Also for the size of the tile we will choose 320, since it
+   works good for the CPUs. If you have GPUs installed on you machine,
+   it is better to change this value for the 960.
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   export STARPU_HOME=$WORKDIR
+   export TILE_SIZE=320
+   #+END_SRC
+
+   Execute the real cholesky factorization of Chameleon. We make sure
+   that {{{starpu}}} calibration is stored in the {{{starpu}}} home folder. We
+   also allow a huge variation of the kernel duration (increasing
+   maximal error to 1000%).
+
+   #+BEGIN_SRC sh :session local :results output :exports both
+   STARPU_NCPU=4 STARPU_CALIBRATE=1 STARPU_HISTORY_MAX_ERROR=1000 `spack location -i chameleon@trunk~quark+examples~simu`/lib/chameleon/timing/time_dpotrf_tile --n_range=$(($TILE_SIZE*10)):$(($TILE_SIZE*10)):$(($TILE_SIZE*10)) --nb=$TILE_SIZE --threads=4
+   #+END_SRC
+
+   Together with the results, this execution also produced a platform
+   description of your machine.
+
+   #+BEGIN_SRC sh :session local :results output :exports both
+   ls $WORKDIR/.starpu/sampling/bus/
+   #+END_SRC
+
+   And the performance models of the kernels used in cholesky.
+
+   #+BEGIN_SRC sh :session local :results output :exports both
+   ls  $WORKDIR/.starpu/sampling/codelets/44/
+   #+END_SRC
+
+** Running simulations to predict performance
+
+  Now run the simulation using the perfmodels and platform description
+  generated when doing a real execution.
+
+   #+BEGIN_SRC sh :session local :results output :exports both
+   STARPU_NCPU=4 `spack location -i chameleon@trunk~quark+simu+examples`/lib/chameleon/timing/time_dpotrf_tile --n_range=$(($TILE_SIZE*10)):$(($TILE_SIZE*10)):$(($TILE_SIZE*10)) --nb=$TILE_SIZE --threads=4 --nowarmup
+   #+END_SRC
+
+   Lets now execute the same program but using a larger matrix. Note
+   that we can now do a simulation directly, as a platform description
+   and performance models for the kernels used in cholesky have
+   already been calibrated before.
+
+   #+BEGIN_SRC sh :session local :results output :exports both
+   STARPU_NCPU=4 `spack location -i chameleon@trunk~quark+simu+examples`/lib/chameleon/timing/time_dpotrf_tile --n_range=$(($TILE_SIZE*100)):$(($TILE_SIZE*100)):$(($TILE_SIZE*100)) --nb=$TILE_SIZE --threads=4 --nowarmup
+   #+END_SRC
+
+   One can observe that the makespan predicted by the simulation is
+   much larger than the actual execution time of the simulation. This
+   is due to the fact that when simulating no actual computation of
+   the kernels is performed for real, only timings with their
+   predicted durations are inserted.
+
+** Assessing another scheduling policy
+
+   We can also try to change a {{{starpu}}} scheduler to see if this
+   improves the performance (important especially when using
+   GPUs). Note that we are still relying on the same platform
+   description and kernel performance models and that the new
+   calibration is not needed.
+
+   #+BEGIN_SRC sh :session local :results output :exports both
+   STARPU_NCPU=4 STARPU_SCHED=dmdas `spack location -i chameleon@trunk~quark+simu+examples`/lib/chameleon/timing/time_dpotrf_tile --n_range=$(($TILE_SIZE*100)):$(($TILE_SIZE*100)):$(($TILE_SIZE*100)) --nb=$TILE_SIZE --nowarmup
+   #+END_SRC
+** Running real execution for larger matrix
+
+   We can now assess that the simulation mode on larger matrices.
+
+   #+BEGIN_SRC sh :session local :results output :exports both
+   STARPU_NCPU=4 STARPU_CALIBRATE=1 STARPU_HISTORY_MAX_ERROR=1000 `spack location -i chameleon@trunk~quark+examples~simu`/lib/chameleon/timing/time_dpotrf_tile --n_range=$(($TILE_SIZE*100)):$(($TILE_SIZE*100)):$(($TILE_SIZE*100)) --nb=$TILE_SIZE
+   #+END_SRC
+
+** Simulating an heterogeneous machine (plafrim mirage node)
+
+   #+BEGIN_SRC sh :session local :results output :exports both
+   export TILE_GPU=960
+   STARPU_HOSTNAME=mirage STARPU_PERF_MODEL_DIR=$WORKDIR/perfmodels/.starpu/sampling/ `spack location -i chameleon@trunk~quark+simu+examples`/lib/chameleon/timing/time_dpotrf_tile --n_range=$(($TILE_GPU*20)):$(($TILE_GPU*20)):$(($TILE_GPU*20)) --nb=$TILE_GPU --threads=9 --gpus=3 --nowarmup
+   #+END_SRC
+
+** Sparse direct solvers
+*** {{{qrm}}}
+
+ {{{pastix}}} and {{{qrm}}} are available through Spack.
+
+ Let's install {{{qrmstarpu}}}. This stack requires hwloc, blas, lapack,
+ suitesparse (for colamd), metis, scotch and {{{starpu}}}.
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   spack install -v qr_mumps ^starpu@svn-trunk+fxt
+   #+END_SRC
+
+ We now execute the {{{qrm}}} driver that solves a sparse linear system
+ using a QR decomposition method. We focus on the factorization step
+ that we want to analyze later on.
+
+   #+BEGIN_SRC sh :session local :results none :exports both
+   cd $WORKDIR/sparse_matrix
+   STARPU_GENERATE_TRACE=1 `spack location -i qr_mumps^starpu+fxt`/lib/qr_mumps/examples/dqrm_test < input.txt
+   mv paje.trace  $WORKDIR/traces/qr_mumps.paje
+   #+END_SRC
+
+ You can check that a paje trace has been generated.
+ This is because we built {{{starpu}}} with FxT enabled and we have used STARPU_GENERATE_TRACE=1 option.
+
+ To analyze the trace with a GUI, you can for example install use the vite visualization tool.
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   spack install -v vite
+   #+END_SRC
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   `spack location -i vite`/bin/vite  $WORKDIR/traces/qr_mumps.paje
+   #+END_SRC
+
+   The trace looks good? Let's compute the efficiencies associated to it.
+
+   #+BEGIN_SRC sh :session local :results output :exports code
+   python $WORKDIR/parse_trace_qrm_homo.py $WORKDIR/traces/qr_mumps.paje w
+   # python $WORKDIR/parse_trace_qrm_homo.py $WORKDIR/traces/qrm_homo_cat_ears_4_4.page w
+   #+END_SRC
+
+
+ If you have pj_dump and R (with ggplot2) installed (see prerequisites for help), you may want to do an alternative visualization with R.
+
+ Let's initialize R.
+ On some org-mode configurations, you might need to first perform "M-x
+ R" (see
+ https://lists.gnu.org/archive/html/emacs-orgmode/2014-10/msg00826.html)
+ #+call: R_init() :session local :results output silent
+ #+call: paje2csv(inputfile="./traces/qr_mumps.paje", outputfile="./traces/qr_mumps.csv") :results output silent
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gantt" ".png") :width 700 :height 550
+  df <- read_trace_wh("./traces/qr_mumps.csv","QR_MUMPS trace")
+  paje_plot(df, title="", tasks_only=TRUE)
+#+end_src
+
+
+*** {{{pastix}}}
+
+    We will now perform a similar study, only using {{{pastix}}} solver.
+
+ {{{pastix}}} on top of {{{starpu}}} requires an 1.1 released version.
+ Let's install a {{{pastix}}} stack with {{{starpu}}} and without MPI.
+ This stack requires hwloc, blas, scotch and {{{starpu}}} ([1.1.0:1.1.5]).
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   spack install -v pastix+starpu ^starpu+fxt
+   #+END_SRC
+
+ Execute {{{pastix}}} driver that solves a sparse linear system using a LU decomposition method.
+
+   #+BEGIN_SRC sh :session local :results output :exports both
+   cd $WORKDIR/sparse_matrix
+   STARPU_GENERATE_TRACE=1 `spack location -i pastix+starpu^starpu+fxt`/lib/pastix/examples/simple -mm $WORKDIR/sparse_matrix/bcsstk17.mtx -iparm IPARM_STARPU API_YES -t 2
+   mv paje.trace $WORKDIR/traces/pastix.paje
+   #+END_SRC
+
+   Again we can do a visualization using either vite or R.
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   `spack location -i vite`/bin/vite  $WORKDIR/traces/pastix.paje
+   #+END_SRC
+
+ #+call: R_init() :session local :results output silent
+ #+call: paje2csv(inputfile="./traces/pastix.paje", outputfile="./traces/pastix.csv") :results output silent
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gantt" ".png") :width 700 :height 550
+  df <- read_trace_wh("./traces/pastix.csv","PaStiX trace")
+  paje_plot(df, title="", tasks_only=TRUE)
+#+end_src
+
+** Fast Multipole Methods
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   spack install -v scalfmm@master+starpu+fftw ^starpu@svn-trunk+fxt
+   #+END_SRC
+
+ A variant if you already have a recent CMake package installed (e.g. in /usr on Linux):
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   export CMAKE_DIR=/usr
+   spack install -v scalfmm@master+starpu+fftw ^starpu@svn-trunk+fxt ^cmake@exist
+   #+END_SRC
+
+ We now execute the {{{scalfmm}}} driver that simulate N-body interactions using the Fast Multipole Method.
+
+   #+BEGIN_SRC sh :session local :results none :exports both
+   # cd $WORKDIR/particule_distributions
+   STARPU_GENERATE_TRACE=1 `spack location -i scalfmm`/bin/testBlockedUniform -f `spack location -i scalfmm`/Data/test20k.fma -no-validation
+   mv paje.trace $WORKDIR/traces/scalfmm.paje
+   cd $WORKDIR
+   #+END_SRC
+
+   Let's visualize the obtained trace with vite.
+
+   #+BEGIN_SRC sh :session local :results none :exports code
+   `spack location -i vite`/bin/vite  $WORKDIR/traces/scalfmm.paje
+   #+END_SRC
+
+   Let's perform the vizualization with R.
+
+ #+call: R_init() :session local :results output silent
+ #+call: paje2csv(inputfile="./traces/scalfmm.paje", outputfile="./traces/scalfmm.csv") :results output silent
+
+#+begin_src R :results output graphics :session *R* :dir . :exports both :file :file (org-babel-temp-file "gantt" ".png") :width 700 :height 550
+  df <- read_trace_wh("./traces/scalfmm.csv","ScalFMM trace")
+  paje_plot(df, title="", tasks_only=TRUE)
+#+end_src
+
+   The trace looks good? Let's compute the efficiencies associated to it.
+
+   #+BEGIN_SRC sh :session local :results output :exports code
+   python $WORKDIR/parse_trace_scalfmm_homo.py $WORKDIR/traces/scalfmm.paje output.db
+   #+END_SRC
+
+   Let's visualize another trace obtained on miriel.
+
+   #+BEGIN_SRC sh :session local :results output :exports code
+     cd $WORKDIR/traces
+     unxz -f miriel_algo_grouptask_nb_1000000_h_7_bs_1000_o_5_t_24.paje.xz
+     PATH=/home/eagullo/trunk/tools/:$PATH python $WORKDIR/parse_trace_scalfmm_homo.py $WORKDIR/traces/miriel_algo_grouptask_nb_1000000_h_7_bs_1000_o_5_t_24.paje native-starpu
+   #+END_SRC
+
+* TODO Corrections from the pad [0/14]:				   :noexport:
+https://pad.inria.fr/p/Pr8RCd526y4FWpq0
+
+  - [ ] Investigate small bug Emmanuel had:
+ #+BEGIN_EXAMPLE
+ >
+> 2- pour la visualisation avec R, j'ai dû (comme pour les précédents tuto), pré-charger la session R (M-x R),
+> et bizarrement il a fallu que je fasse explicitement la commande "paje_plot(df, title="", tasks_only=TRUE)"
+> dans la session R, autrement j'obtenais :
+>
+> > paje_plot(df, title="", tasks_only=TRUE)
+> > dev.off()
+> null device
+>           1
+> > 'org_babel_R_eoe'
+
+ #+END_EXAMPLE
+    + Oui, mais peut-être est-ce normal en fait, dans le sens où le fichier est quand même produit ? Peut-être que selon les environnements Emacs, l'affiche automatique est off / on par défaut ?
+  - [ ] Ce serait une bonne idée de figer les releases, ne pas se reposer sur le fait que le trunk ne bouge pas entre le début et la fin du tuto.
+  - [ ] When many participants, maybe do not ask for exclusive access (at least for the installation) to sirocco as there are not many nodes
+  - [ ] No need to reset the environment on plafrim2 after logout from sirocco
+  - [ ] Isolation de spack vis-à-vis de PKG_CONFiG_PATH ?? Voir comment chameleon detecte starpu
+  - [ ] C'est obligatoire, le verrou global dans spack qui fait qu'on peut pas faire d'appel spack (par exemple spack location) pendant qu'on compile ?
+  - [ ] Problems with creating file ~/.spack/compilers.yaml
+  - [ ] Verifying installation: make sure it works but also explain people that they do not need to execute this part
+  - [ ] "export CHAMELEON_EXE" might need changes in some parts (e.g., Single node: real execution). This we could now only by executing and correcting the whole tutorial
+  - [ ] Problems launching R in emacs on some Emacs+Org-mode combinations (https://lists.gnu.org/archive/html/emacs-orgmode/2014-10/msg00826.html). The easiest solution is to call all sessions "* R *" and before executing R_init() launch the session by hand "M-x R". Indicate this in the pre-requisites
+  - [ ] Some people didnt have /ess/ installed in Emacs. The easiest way is through the package-list of Emacs, but if ess is not in the list one would need to add this to his/hers Emacs config (http://ergoemacs.org/emacs/emacs_package_system.html). Indicate this in the pre-requisites
+  - [ ] Installation of R-packages through apt-get didnt work for everyone, so they might need to install R packages within R using install.packages("ggplot2"). Indicate this in the pre-requisites
+  - [ ] Section try it on your machine: we need to explain a bit more about the necessary compilers
+  - [ ] Chameleon number of StarPU workers is not matching correctly in the simulation for a single node
+
+** TODO Corrections related to: Calculate priorities and bounds for each task graph :SURAJ:
+
+  Inject external priorities calculated above in simulation.
+
+#+BEGIN_SRC sh :session plafrim2 :results none
+ export EXTERNAL_PRIORITY=TRUE
+ for i in $VALUES; do
+  cp taskPriorities-$i-$TILE_GPU.txt taskPriorities.txt
+  STARPU_NCPU=9 STARPU_SCHED=dmdas  $CHAMELEON_EXE --n_range=$(($TILE_GPU*$i)):$(($TILE_GPU*$i)):$(($TILE_GPU)) --nb=$TILE_GPU --gpus=3 --trace --nowarmup >> gflops-output
+ done
+ cat gflops-output | grep "+-" | awk '{ print $1 " "$4 " "$5}' >gflopsWithExternalPriorities-parsed
+ rm gflops-output
+ echo "MSIZE SimulatedPerformance PerformanceExternalPriority" > performanceImprovement
+ paste gflops-parsed gflopsWithExternalPriorities-parsed | awk '{print $1 " "$3" " $6}' >> performanceImprovement
+#+END_SRC
+
+
+To plot the whole results together, change the   "Inject external priorities calculated above in simulation." code block into
+#+BEGIN_SRC sh :session plafrim2 :results none
+ export EXTERNAL_PRIORITY=TRUE
+ for i in $VALUES; do
+  cp taskPriorities-$i-$TILE_GPU.txt taskPriorities.txt
+  STARPU_NCPU=9 STARPU_SCHED=dmdas  $CHAMELEON_EXE --n_range=$(($TILE_GPU*$i)):$(($TILE_GPU*$i)):$(($TILE_GPU)) --nb=$TILE_GPU --gpus=3 --trace --nowarmup >> gflops-output
+ done
+ echo "Improved" > gflopsWithExternalPriorities-parsed
+ cat gflops-output | grep "+-" | awk '{ print $5}' >>gflopsWithExternalPriorities-parsed
+ rm gflops-output
+ paste performanceComparison gflopsWithExternalPriorities-parsed  > performanceImprovement
+# paste gflops-parsed gflopsWithExternalPriorities-parsed | awk '{print $1 " "$3" " $6}' >performanceImprovement
+#+END_SRC
+
+** Notes from Guillaume SYLVAND
+   - la compil de pajeng est assez compliquée. necessite les packages qt4, opengl, freeglut, argp-standalone, bison, flex, boost, asciidoc dans macports, tout ça pour un convertisseur paje->csv (!!). A la compilation, il faut fixer manuellement les chemins vers les libs qt (avec DYLD_LIBRARY_PATH):
+export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/opt/local/libexec/qt4/lib/
+J'ai du aussi éditer un fichier src/tools/CMakeLists.txt pour remplacer -largp par /opt/local/lib/libargp.a
+et compiler avec
+cmake .. -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_INSTALL_PREFIX:PATH=$PWD/../install ; make ; make install
+   - Pour R, pas de pbm, avec la commande install.package()
+   - Pour emacs/org-mode : j'utilise aquamacs, tout y est déjà inclus. Par contre, le R_init() ne marche pas, il faut lancer "R" manuellement
+* Debriefing:							   :noexport:
+  - Offline self-contained
+  - Summer schools or something similar
+  - Independent of the machine
+  - Reentry points
+  - Make it more uniform
+  - Tangling all the files automatically and provide these files to external people
+  - Add make_release that generates html and tangle of all the bash and R scripts+put on web
+  - Put default variable to users to choose wheather they want to use our pre executed default perfmodels or their results. Have a possibility to reuse or dont reuse previously collected traces
+    + Use same machine executions and compare traces for the Scheduling in single node section
+    + Use same machine executions and compare traces for the Simulation in distributed MPI section
+    + Analyze of the obtained traces in the Debugging the performance section
+  - Add MACROs that will be generated correctly in Latex and HTML
+  - One day extend it with {{{pastix}}}
+  - Add some useful TAGs to help people navigate. Maybe also improve html output of this
+  - Better write pre-requisites
+  - Discus with Lucas Scnorr and write him a wishlist
+  - Redifine prerequisites:
+    + General directions
+    + Hints for the installation
+    + Simple tests if it works correctly
+  - Define hardware pre-requisites
+  - Publications and conferences:
+    + Discuss with people on {{{simgrid}}} User Days
+    + SIAM minisimposium in April in Paris
+    + Possbily REPPAR 2016 workshop on EuroPar conference
+* TODO Nice ideas to extend this tutorial [0/6] 		   :noexport:
+     - [ ] Paths to perfmodels need to be updated (e.g., in 2.2.3)
+     - [ ] Replace /ls/ with /for/ loops and links to the files
+     - [ ] On Plafrim there are new openmpi and gcc modules, do we need to update the tutorial?
+     - [ ] Provide scripts (with tangle) that users which dont want to execute everything from Emacs can use.
+     - [ ] Add some options in the beginning that will be applied for the rest of the tutorial. For example, install everything in "debug" mode or "keep sources"
+     - [ ] Add dependencies between babel blocks that are calling each other. For example:
+
+#+call: idgrafWSDep() :results output silent
+#+call: idgrafLWSDep() :results output silent
+
+#+begin_src R :results output :session R3 :exports none :var dep=idgrafWSDep :var dep2=idgrafLWSDep 
+
+# use data generated by idgrafWSDep and idgrafLWSDep
+
+#+end_src
+* TODO Future work						   :noexport:
+** Analyzing trace of MPI executions
+   - [ ] Need to find a way to parse MPI events for real execution
+   - [ ] Need to find a way to get the MPI traces for the simulation
+** Debugging the code						    :FLORENT:
+   - How to debug a {{{starpu}}} code running on plafrim using gdb and similar tools
+** Different efficiencies				      :EMMANUEL:LUKA:
+** Simulation of parallel workers				 :LUKA:TERRY:
+   - Shouldn't be that hard
+   - Currently segfaults when we try to simulate {{{starpu}}} using Terry's perfmodels for parallel workers
+** Scheduling and theoretical bounds for distributed MPI executions   :SURAJ:
+
+** Improving StarPU-MPI simulations				       :LUKA:
+* R analysis functions					      :noexport:LUKA:
+
+Installing necessary R packages (execute only if these packages have
+not yet been installed).
+
+#+begin_src R :results silent :exports none :session *R* :dir .
+install.packages("ggplot2")
+install.packages("plyr")
+#+end_src
+
+This is R block that should be executed in the beginning, before any
+analysis as it contains definitions of the functions that will be used
+throughout the tutorial.
+
+#+name: R_init
+#+BEGIN_SRC R :results silent :exports none :session *R* :dir .
+    # Choosing if figures are in color in black and white
+    black_white<-FALSE
+   #+call: paje2csv(inputfile="paje_analysis.trace", outputfile="paje_analysis.csv") :results output silent
+    choose_palette <- function(bw) {
+	if(bw) {
+	 myPalette <- c("#252525", "#525252", "#737373", "#969696", "#bdbdbd", "#d9d9d9", "#f0f0f0")
+	 myPalette <- myPalette[c(1,6,2,5,4,3,7)]
+       } else {
+	 library(RColorBrewer)
+	 myPalette <- brewer.pal(8, "Set1");
+	 myPalette <- myPalette[c(1,2,3,4,5,7,8)]
+       }
+
+       myPalette
+    }
+    myPalette <- choose_palette(black_white)
+
+    #################################
+    # Adding necessary libraries
+    library(ggplot2)
+    library(plyr)
+    library(reshape2)
+
+
+    ###############################
+    # Function for reading gflops rates from a simple .csv file
+  read_gflops <- function(file, name) {
+    df<-read.table(file, header=FALSE)
+
+    df$Origin <- name
+    df$Size <- as.numeric(df$V1)
+    df$GFlops <- as.numeric(df$V5)
+    df <- df[,c("Origin","Size","GFlops")]
+
+    df
+  }
+
+    ###############################
+    # Function for reading gflops rates from a simple .csv file
+  read_residual <- function(file, name) {
+    df<-read.table(file, header=FALSE)
+
+    df$Origin <- name
+    df$Size <- as.numeric(df$V1)
+    df$Residual <- as.numeric(df$V8) /
+    (as.numeric(df$V9) * (as.numeric(df$V10))  + (as.numeric(df$V11)))
+    df <- df[,c("Origin","Size","Residual")]
+
+    df
+  }
+
+    # Function for plotting gflops rates
+  gflops_plot <- function(df, title="Comparing GFlops rates", points=FALSE, lines=FALSE, bars=TRUE, bar_width=160, limits=FALSE, ymin=0, ymax=1500) {
+
+    plot <- ggplot(df, aes(x = Size, y = GFlops, color=Origin, fill=Origin)) + theme_bw() + ggtitle(title) + ylab("GFlops") + xlab("Matrix dimension") + guides(color = guide_legend(title = "Experimental\nCondition"), fill = guide_legend(title = "Experimental\nCondition"))
+
+    if (points==TRUE)
+      plot <- plot + geom_point()
+
+    if (lines==TRUE)
+      plot <- plot + geom_line()
+
+    if (bars==TRUE)
+      plot <- plot + geom_bar(stat = "identity", position="dodge", width=bar_width)
+
+    # Add limits to the x and y axis
+    if (limits==TRUE)
+      plot <- plot + scale_x_continuous("Matrix dimension", limits = c(0,80000), breaks = c(0,20000,40000,60000,80000), labels = c("0","20K","40K","60K","80K")) + ylim(ymin,ymax)
+
+     plot
+  }
+
+    # Function for plotting residuals
+  residual_plot <- function(df, title="Comparing residuals", points=FALSE, lines=FALSE, bars=TRUE, bar_width=160, limits=FALSE, ymin=0, ymax=1500) {
+
+    plot <- ggplot(df, aes(x = Size, y = Residual, color=Origin, fill=Origin)) + theme_bw() + ggtitle(title) + ylab("Residual") + xlab("Matrix dimension") + guides(color = guide_legend(title = "Experimental\nCondition"), fill = guide_legend(title = "Experimental\nCondition"))
+
+    if (points==TRUE)
+      plot <- plot + geom_point()
+
+    if (lines==TRUE)
+      plot <- plot + geom_line()
+
+    if (bars==TRUE)
+      plot <- plot + geom_bar(stat = "identity", position="dodge", width=bar_width)
+
+    # Add limits to the x and y axis
+    if (limits==TRUE)
+      plot <- plot + scale_x_continuous("Matrix dimension", limits = c(0,80000), breaks = c(0,20000,40000,60000,80000), labels = c("0","20K","40K","60K","80K")) + ylim(ymin,ymax)
+
+     plot
+  }
+
+    # Function for reading standard paje traces (dumped to .csv by pj_dump)
+    read_trace_wh <- function(file, name) {
+	df<-read.table(file, header=TRUE, sep=",", strip.white=TRUE, fill=TRUE)
+	#names(df) <- c("Nature","ResourceId","Type","Start","End","Duration", "Depth", "Value","Footprint","JobId","Params","Size","Tag")
+	df = df[!(names(df) %in% c("Nature","Type", "Depth", "Footprint", "Params", "Size"))]
+	df$Origin=name
+
+	m <- min(df$Start)
+	df$Start <- df$Start - m
+	df$End <- df$Start+df$Duration
+	df
+    }
+
+    # Function for plotting comparison of two paje plots
+    paje_plot <- function(df, title="Comparing traces", tasks_only=FALSE) {
+
+ # Defining and filtering less important states (if necessary)
+    if (tasks_only){
+       def_states<-c("Initializing", "Deinitializing", "Overhead", "Nothing", "Sleeping", "Freeing", "Allocating", "WritingBack", "FetchingInput", "PushingOutput", "Callback", "Progressing", "Unpartitioning", "AllocatingReuse", "Reclaiming", "DriverCopy", "DriverCopyAsync", "Scheduling", "Executing", "Idle")
+       df<-df[!(df$Value %in% def_states),]
+       }
+
+     ggplot(df,aes(x=Start,xend=End, y=factor(ResourceId), yend=factor(ResourceId),color=Value)) + theme_bw() + geom_segment(size=8) + ggtitle(title) + ylab("Resource") + xlab("Time [ms]") + facet_wrap(~Origin,ncol=1,scale="free_y") + guides(color = guide_legend(title = "State"))
+      ## + guides(color=guide_legend(ncol=8, title = "State")) +
+      ## theme(legend.position="bottom")
+    }
+
+    ##############################
+    # Part for the advanced analysis
+    add_iterations <- function (df) {
+    df_kmn = df
+    df_kmn$k=""
+    df_kmn$m=""
+    df_kmn$n=""
+
+    df_kmn$Tag <- as.character(df_kmn$Tag)
+
+    df_kmn[df_kmn$Value=="dpotrf",]$k <- as.hexmode(substr(df_kmn[df_kmn$Value=="dpotrf",]$Tag, 14, 16))
+    #potrf: ..000k STARPU_TAG_ONLY, (starpu_tag_t) (Am)
+
+    df_kmn[df_kmn$Value=="dtrsm",]$k <- as.hexmode(substr(df_kmn[df_kmn$Value=="dtrsm",]$Tag, 11, 13))
+    df_kmn[df_kmn$Value=="dtrsm",]$m <- as.hexmode(substr(df_kmn[df_kmn$Value=="dtrsm",]$Tag, 14, 16))
+    # trsm: ..000k 000m STARPU_TAG_ONLY, (starpu_tag_t) (Bm * 0x10000 + Bn)
+
+    df_kmn[df_kmn$Value=="dsyrk",]$k <- as.hexmode(substr(df_kmn[df_kmn$Value=="dsyrk",]$Tag, 8, 10))
+    df_kmn[df_kmn$Value=="dsyrk",]$n <- as.hexmode(substr(df_kmn[df_kmn$Value=="dsyrk",]$Tag, 11, 13))
+    df_kmn[df_kmn$Value=="dsyrk",]$m <- as.hexmode(substr(df_kmn[df_kmn$Value=="dsyrk",]$Tag, 14, 16))
+    # herk(transfered to syrk): ..000k 000n 000m STARPU_TAG_ONLY, (starpu_tag_t) (((Am * 0x1000) + Cm )* 0x1000 + Cn)
+
+    df_kmn[df_kmn$Value=="dgemm",]$k <- as.hexmode(substr(df_kmn[df_kmn$Value=="dgemm",]$Tag, 8, 10))
+    df_kmn[df_kmn$Value=="dgemm",]$n <- as.hexmode(substr(df_kmn[df_kmn$Value=="dgemm",]$Tag, 11, 13))
+    df_kmn[df_kmn$Value=="dgemm",]$m <- as.hexmode(substr(df_kmn[df_kmn$Value=="dgemm",]$Tag, 14, 16))
+    # gemm: ..000k 000n 000m STARPU_TAG_ONLY, (starpu_tag_t) (((Am * 0x1000) + Cm )* 0x1000 + Cn)
+
+    df_kmn
+    }
+
+    get_dependencies <- function(file){
+    id_depends <- read.csv(file, head=F, sep=",", col.names = c("JobId", "DependsOn"), na.strings="")
+    id_depends$DependsOn = as.character(id_depends$DependsOn)
+    id_depends[is.na(id_depends)]<-"0"
+    tmpList <- strsplit(as.character(id_depends$DependsOn), "[ ]+")
+    n<-lapply(tmpList, length)
+    R<-rep(as.vector(id_depends$JobId), as.vector(unlist(n)))
+    tmpdf<-data.frame(R, as.numeric(unlist(tmpList)))
+    names(tmpdf)<-c("JobId","Dependent")
+
+    tmpdf
+    }
+
+    clean_replicas <- function(df){
+    df$DepStart = lapply(df[,"Dependent"], function (id, dataframe) return (dataframe[dataframe$JobId == id,]$Start), dataframe = unique(df[,c("JobId", "Start", "End")]))
+     df$DepStart = as.numeric(df$DepStart)
+
+     df$DepEnd = lapply(df[,"Dependent"], function (id, dataframe) return (dataframe[dataframe$JobId == id,]$End), dataframe = unique(df[,c("JobId", "Start", "End")]))
+     df$DepEnd = as.numeric(df$DepEnd)
+
+     df$ResourceId = as.character(df$ResourceId)
+     df$DepResourceId = lapply(df[,"Dependent"], function(id, dataframe) return (dataframe[dataframe$JobId == id,]$ResourceId), dataframe= unique(df[,c("JobId", "Start", "End","ResourceId")]))
+     df$ResourceId = as.factor(df$ResourceId)
+     df$DepResourceId = as.character(df$DepResourceId)
+     df$DepResourceId = as.factor(df$DepResourceId)
+
+     df = unique(df)
+
+    df
+    }
+
+      # New palette  / Vinicius
+      paired <- brewer.pal(12, "Paired")
+      dark2 <- brewer.pal(8, "Dark2")
+      accent <- brewer.pal(8, "Accent")
+      brbg <- brewer.pal(11, "BrBG")
+      piyg <- brewer.pal(11,"PiYG")
+      spectral <- brewer.pal(11, "Spectral")
+      set1 <- brewer.pal(9, "Set1")
+      set2 <- brewer.pal(8, "Set1")
+
+      npal <-  c(paired[1], paired[6], paired[11], paired[2], paired[5], paired[4], paired[12], paired[10], paired[3], brbg[1], paired[9], brbg[4], dark2[4], dark2[1], dark2[6], dark2[3], dark2[8], accent[4], piyg[11], piyg[2], spectral[9], set1[6], piyg[4], brbg[10],set1[1],set1[9],set1[3], set2[6], brbg[2], brbg[6], piyg[1], accent[1], set1[5], spectral[7], brbg[11],paired[1], paired[6], paired[11], paired[2], paired[5], paired[4], paired[12], paired[10], paired[3], brbg[1], paired[9], brbg[4], dark2[4], dark2[1], dark2[6], dark2[3], dark2[8], accent[4], piyg[11], piyg[2], spectral[9], set1[6], piyg[4], brbg[10],set1[1],set1[9],set1[3], set2[6], brbg[2], brbg[6], piyg[1], accent[1], set1[5], spectral[7], brbg[11] ) # 35 unique colors, note: here duplicated, so 70 colors with 35 unique
+
+#+END_SRC
+* How to copy this tutorial on the forge website http://morse.gforge.inria.fr/tuto_chameleon/ :noexport:
+
+ You must have an Inria forge account (https://gforge.inria.fr/) and have an
+ access to the morse project (https://gforge.inria.fr/projects/morse).
+
+ Then you should edit your ~/.ssh/config to configure your access to the forge.
+
+ #+BEGIN_EXAMPLE
+ Host forge
+      HostName scm.gforge.inria.fr
+      User fpruvost
+ #+END_EXAMPLE
+
+ - Export your org mode as an html file: type C-c C-e h h.
+ - Check that you got a chameleon-tutorial-2015-12-16-inria.html as you expect.
+ - Finally synchronize the files to the proper forge directory:
+ #+BEGIN_SRC sh :session local :results none
+ cd $WORKDIR
+ # rsync -avz -e ssh --delete --exclude='large-matrices' --exclude='generated' chameleon-tutorial-2015-12-16-inria.html chameleon-tutorial-2015-12-16-inria.org figures/ slides/ css/ forge:/home/groups/morse/htdocs/tuto_chameleon/
+ rsync -avz -e ssh chameleon-tutorial-2015-12-16-inria.html chameleon-tutorial-2015-12-16-inria.org forge:/home/groups/morse/htdocs/tuto_chameleon/
+ rsync -avz -e ssh --delete figures/ forge:/home/groups/morse/htdocs/tuto_chameleon/figures/
+ rsync -avz -e ssh --delete slides/ forge:/home/groups/morse/htdocs/tuto_chameleon/slides
+ rsync -avz -e ssh --delete css/ forge:/home/groups/morse/htdocs/tuto_chameleon/css
+ #+END_SRC
+
+ # #+BEGIN_SRC sh :session local :results none
+ # cd $WORKDIR
+ # scp -r figures/ forge:/home/groups/morse/htdocs/tuto_chameleon
+ # scp -r slides/ forge:/home/groups/morse/htdocs/tuto_chameleon
+ # scp -r css/ forge:/home/groups/morse/htdocs/tuto_chameleon
+ # scp chameleon-tutorial-2015-12-16-inria.html forge:/home/groups/morse/htdocs/tuto_chameleon
+ # scp chameleon-tutorial-2015-12-16-inria.org  forge:/home/groups/morse/htdocs/tuto_chameleon
+ # #+END_SRC

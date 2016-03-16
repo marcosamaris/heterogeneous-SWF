@@ -1,0 +1,8 @@
+<solver driver="driver" extension=".ext">
+	<bin id="solver" name="echo"/>
+	<bin id="verif" name="echo"/>
+	<test id="mtx"/>
+	<methods>
+		<method id="default" options="" name="Echo example"/>
+	</methods>
+</solver>

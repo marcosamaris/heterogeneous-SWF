@@ -1,0 +1,14 @@
+<solver driver="-mm" extension="mtx">
+	<bin id="solver" name="zsimple"/>
+	<test id="mtx" methods="default"/>
+	<options default="-v 5"/>
+	<methods>
+		<method id="default" options="" name="Pastix"/>
+	</methods>
+	<patterns>
+		<pattern id="memory" text="^[ ]*Memory used after factorization" />
+		<pattern id="facto" text="Time to factorize" />
+		<pattern id="solve" text="Time to solve" />
+		<pattern id="nnz" text="Number of nonzeros \(local block structure\)" />
+	</patterns>
+</solver>

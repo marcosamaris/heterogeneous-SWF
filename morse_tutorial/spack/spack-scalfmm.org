@@ -1,0 +1,3 @@
+Here is an overview of the dependency DAG of ScalFMM:
+#+attr_html: :width 640px
+[[file:figures/scalfmm_dep.png]]

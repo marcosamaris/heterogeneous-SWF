@@ -1,0 +1,1333 @@
+#+TITLE: Using Spack to install MORSE packages
+#+AUTHOR: HiePACS
+#+LANGUAGE:  en
+#+OPTIONS: H:3 num:t toc:t \n:nil @:t ::t |:t _:nil ^:nil -:t f:t *:t <:t
+#+OPTIONS: TeX:t LaTeX:t skip:nil d:nil pri:nil tags:not-in-toc html-style:nil
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+TAGS: noexport(n)
+#+STARTUP: nolatexpreview
+
+#+BEAMER_THEME: Rochester
+
+#+HTML_HEAD:   <link rel="stylesheet" title="Standard" href="css/worg.css" type="text/css" />
+#+HTML_HEAD:   <link rel="stylesheet" type="text/css" href="css/VisuGen.css" />
+#+HTML_HEAD:   <link rel="stylesheet" type="text/css" href="css/VisuRubriqueEncadre.css" />
+
+#+MACRO: morse /MORSE
+#+MACRO: spack /Spack/
+#+MACRO: starpu /StarPU/
+#+MACRO: simgrid /SimGrid/
+#+MACRO: qrm /QR_MUMPS/
+#+MACRO: hips /HiPS/
+#+MACRO: pastix /PaStiX/
+#+MACRO: scalfmm ScalFMM
+
+* Introduction to Spack and MORSE
+** Availability
+
+Spack is a flexible package manager designed to support multiple
+versions, configurations, platforms, and compilers.
+
+It is developed at Lawrence Livermore National Laboratory and helps to
+efficiently install complex scientific software stacks, e.g. High
+Performance Computing softwares designed in a modular way.
+
+Spack is available on github here: https://github.com/LLNL/spack.
+The official documentation is available here: http://llnl.github.io/spack.
+
+Most of well-known HPC libraries are packaged in this Spack repository.
+Nevertheless, for our specific needs, we have forked Spack here:
+https://github.com/fpruvost/spack.
+
+In this forked repository, a set of new packages are available, such
+as libraries developed in the context of MORSE project. More
+information about this project:
+http://icl.cs.utk.edu/projectsdev/morse/index.html.
+
+
+Here is a summary of packages released:
+#+attr_html: :width 640px
+[[file:figures/spack-morse-packages.jpg]]
+
+To have access to morse packages, you need to checkout the *morse* branch.
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+git clone https://github.com/fpruvost/spack.git
+cd spack
+git checkout morse
+#+END_SRC
+
+You can check the list of packages with the ~list~ command.
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+./bin/spack list
+#+END_SRC
+
+* Spack main features
+** Strengths:
+  * installation is simple
+    + just need python and a couple of system libraries of course
+  * flexible
+    + no need to be root to install packages
+      - can be used on remote machines like clusters
+    + we do not need to build compilers
+      - detect available ones on the system
+      - or give your specific compiler directory to Spack
+    + a lot of options available to tune builds for complex software stacks
+      - compilers, versions, build options, different vendor for virtual packages, etc.
+  * create new packages is easy
+  * automatic generation of modulefiles
+  * can work with local filesystem
+    + just tell to Spack the paths collecting your tarballs locally
+    + required feature on a cluster not connected to internet
+
+** Weaknesses:
+  * some bugs
+  * not many developers, not a large community
+  * no update/upgrade features
+  * rely on python 2., is not compatible with python >=3. for now
+  * seems to be mainly tested on Unix with GNU compilers
+    + some surprises should appear when using Intel compilers for instance...
+    + not compatible with Windows
+      - some python system calls will fail
+
+* Prerequisites:
+** Spack is written in python, do you have python (2.7 recommended)?
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+sudo apt-get install -y python2.7-dev
+#+END_SRC
+
+** System library requirements to build all MORSE packages:
+
+*It is not mandatory to install everything: if you don't care about
+simgrid, no need to install libboost*
+
+*** System Package list
+  - ~python 2.7~: to use spack
+  - ~curl patch bzip2~: for spack (to manipulate releases)
+  - ~vim emacs~: to edit files
+  - ~git subversion mercurial~: to fetch versions from VCS branches
+  - ~build-essential gfortran~: gnu compilers and make
+  - ~autoconf automake cmake cmake-data doxygen texinfo~ : autotools and
+    ~misc used by several libraries
+  - ~libtool libtool-bin~: for starpu, and co
+  - ~libboost-dev~: for simgrid, and co
+  - ~gawk~: for fxt (need an awk with gensub)
+  - ~bison flex~: for parsec
+  - ~binutils-dev libelf-dev libiberty-dev~: for eztrace
+  - ~libz-dev~: for eztrace, scotch, and co
+  - ~libqt4-dev freeglut3-dev~: for vite
+  - ~environment-modules~: to use module features
+
+*** Details about which MORSE package needs which system packages
+    Same information but seen by library we may want to install:
+  - basics for all Spack-MORSE packages : ~python (2.7 recommended) curl patch bzip2 pkg-config git
+    subversion mercurial build-essential gfortran autoconf automake cmake environment-modules~
+  - starpu: ~libtool~
+  - simgrid: ~libboost-dev~
+  - fxt: ~gawk~
+  - eztrace: ~binutils-dev libelf-dev autoconf (>=2.68) libtool (>=2.4)~
+  - scotch: ~libz-dev, bison, flex~
+  - vite: ~libqt4-dev freeglut3-dev~
+  - parsec: ~bison, flex~
+
+** Debian (apt-get) packages:
+#+BEGIN_SRC sh :session spack :exports code :results none
+sudo apt-get update
+sudo apt-get install -y vim emacs curl patch bzip2 libz-dev git subversion mercurial build-essential gfortran clang nvidia-cuda-toolkit autoconf automake cmake cmake-data doxygen texinfo autoconf automake cmake cmake-data doxygen texinfo libtool libtool-bin libboost-dev gawk bison flex binutils-dev libelf-dev libiberty-dev libqt4-dev freeglut3-dev environment-modules
+#+END_SRC
+
+** RedHat (yum) packages:
+#+BEGIN_SRC sh :session spack :exports code :results none
+yum update
+sudo yum -y install vim emacs curl patch bzip2 zlib-devel git subversion mercurial
+sudo yum -y groupinstall 'Development Tools'
+sudo yum -y install gcc-gfortran gcc-c++ cuda autoconf automake cmake cmake-data doxygen texinfo libtool boost boost-devel boost-doc gawk bison flex binutils-devel elfutils-libelf qt qt-devel qt4 environment-modules
+#+END_SRC
+
+** Fedora (dnf) packages
+#+BEGIN_SRC sh :session spack :exports code :results none
+sudo dnf update
+sudo dnf -y install vim emacs curl patch bzip2 zlib-devel git subversion mercurial
+sudo dnf -y groupinstall 'Development Tools'
+sudo dnf -y install gcc-gfortran gcc-c++ cuda autoconf automake cmake doxygen texinfo libtool boost-devel gawk bison flex binutils-devel elfutils-libelf qt qt4 environment-modules
+sudo yum -y install qt-devel
+#+END_SRC
+
+** ArchLinux (pacman) packages:
+#+BEGIN_SRC sh :session spack :exports code :results none
+sudo pacman -Sy
+sudo pacman -S vim emacs curl patch bzip2 git subversion mercurial gcc-fortran clang autoconf automake cmake doxygen texinfo libtool boost gawk bison flex binutils libelf qt4 freeglut
+#+END_SRC
+
+** Mac OS X (macports) packages:
+Install procedure of macports:
+#+BEGIN_SRC sh :session spack :exports code :results none
+wget https://distfiles.macports.org/MacPorts/MacPorts-2.3.4.tar.bz2
+tar xvfj MacPorts-2.3.4.tar.bz2
+cd MacPorts-2.3.4
+./configure
+make
+sudo make install
+rm -rf MacPorts-*
+#+END_SRC
+
+Add this in your .profile or .bashrc and source it or open a new
+shell:
+#+BEGIN_SRC sh :session spack :exports code :results none
+# MacPorts
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export DYLD_LIBRARY_PATH=/opt/local/gcc49/lib:$DYLD_LIBRARY_PATH
+#+END_SRC
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+sudo port selfupdate
+#+END_SRC
+
+Install packages with macports:
+#+BEGIN_SRC sh :session spack :exports code :results none
+sudo port install vim emacs curl bzip2 pkgconfig git subversion mercurial gcc49 python27 libtool cctools clang-3.4 cmake-devel autoconf automake gawk gsed doxygen texinfo boost bison flex binutils coreutils libelf
+sudo port select --set python python27
+sudo port select --set python2 python27
+#+END_SRC
+
+A trick for clang compiler (compatibility with intrinsics and SSE/AVX assembler)
+#+BEGIN_SRC sh :session spack :exports code :results none
+sudo ln -s /opt/local/bin/clang-mp-3.4 /opt/local/bin/clang
+#+END_SRC
+
+** Mac OS X (brew) packages:
+#+BEGIN_SRC sh :session spack :exports code :results none
+brew update
+brew install vim emacs curl lbzip2 git subversion mercurial gcc autoconf automake make doxygen texinfo libtool boost gawk bison flex binutils libelf qt4 modules
+#+END_SRC
+
+* Getting Spack
+** Download Spack containing Morse packages
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+git clone https://github.com/fpruvost/spack.git
+cd spack
+git checkout morse
+#+END_SRC
+
+** Initialize the environment to use Spack
+
+The following step is optional, we use ~SPACK_ROOT~ environment variable
+later in this document.
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+export SPACK_ROOT=$PWD
+#+END_SRC
+
+This execution makes Spack command available from anywhere.
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+. ./share/spack/setup-env.sh
+#+END_SRC
+
+Alternatively, simply add the bin directory to your path.
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+export PATH=./bin:$PATH
+#+END_SRC
+
+Of course it is recommended to add these lines in you .bashrc file in
+order to make Spack available in new shell environment you may open.
+
+* Spack usage
+*Remember to look for the documentation online: http://llnl.github.io/spack/*
+** spack compiler list: what are the compilers known from spack
+
+Check that you have some compilers known from spack
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack compiler list
+#+END_SRC
+
+You can add your compilers giving the path where they can be found
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack compiler add /usr/bin
+spack compiler info clang
+spack compiler info gcc
+spack compiler info intel
+#+END_SRC
+
+You can edit the file ~$HOME/.spack/compilers.yaml~ to add/remove compilers.
+The principle is to give the paths to compiler executables.
+you have an Spack shortcut to do that
+#+BEGIN_SRC sh :session spack :exports code :results none
+export EDITOR=emacs
+spack config edit compilers
+#+END_SRC
+
+** Spack list: to get the list of available packages
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack list
+#+END_SRC
+
+** Spack info /package/ : to get information about /package/
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack info pastix
+#+END_SRC
+
+Pay attention to:
+- the versions available, releases or git/svn branches,
+- the variants you can build and the default status
+
+** Spack spec /a spec/ : to resolve a specification
+
+Before installing anything, have a look to the stack that will be actually installed.
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec pastix
+#+END_SRC
+
+This allows to see what will be actually installed when calling =spack install pastix=.
+
+You can play with specifications to get the appropriate build you want:
+- to act on the version, use @
+- to act on the compiler, use %
+- to act on a dependency, use ^
+- to add/remove a variant, use +/~
+
+Example of a version with different MPI
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec pastix+mpi ^mpich
+spack spec pastix+mpi ^openmpi
+#+END_SRC
+
+Notice that we depend on virtual packages such as BLAS or MPI.
+To get a list of virtual packages providers available, try the following:
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack providers blas
+spack providers mpi
+#+END_SRC
+
+Note that for proprietary softwares such as Intel (Compiler, MKL, MPI), NVIDIA CUDA,
+we do not provide the installation but we can use them if available in the environment.
+For example if you have an Intel suite installed on your system, make it available
+in the environment and our packages in Spack can use it in the stack.
+More precisely we need some environment variable to be set like MKLROOT, I_MPI_ROOT, CUDA_ROOT.
+On my laptop for example for Intel:
+#+BEGIN_SRC sh :session spack :exports code :results none
+source /home/pruvost/intel/bin/compilervars.sh intel64 && source /home/pruvost/intel/mkl/bin/mklvars.sh intel64 && source /home/pruvost/intel/impi/5.0.1.035/bin64/mpivars.sh
+spack spec pastix+mpi ^intelmpi ^mkl-blas
+#+END_SRC
+
+** Spack install /a spec/
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack install pastix
+#+END_SRC
+
+- use -v just after the =install= word to get a verbose mode
+- use -d just after the =spack= word to get a debug mode
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack -d install -v pastix
+#+END_SRC
+
+** Spack find : to look for installed packages
+
+- Spack find will look for any installed package
+- Spack find /spec/ will find packages corresponding to the /spec/
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack find pastix
+#+END_SRC
+
+- using -d to add dependencies and -p to add the install path
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack find -d pastix
+spack find -p pastix
+#+END_SRC
+
+** Spack reindex
+
+Sometimes because your installation directories are not clean you need
+to tell Spack to update the database of already installed programs.
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack reindex
+#+END_SRC
+
+** Spack location -i /a spec/ : to directly get the installation path
+
+*Go in the spack installation of pastix*
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack location -i pastix
+cd `spack location -i pastix`
+#+END_SRC
+
+*Come back*
+#+BEGIN_SRC sh :session spack :exports code :results none
+cd -
+#+END_SRC
+
+** Spack graph /a spec/ : to get a graph of dependencies
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack graph pastix
+spack graph --dot pastix+mpi+starpu+metis > pastix.dot
+dot -Tpdf -O pastix.dot
+#+END_SRC
+
+** Spack uninstall /a spec/
+Remove the package installed in ~$SPACK_ROOT/opt/spack/...~
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack uninstall pastix
+#+END_SRC
+
+** Spack purge
+This will clean all temporary directories, called /stage/, where
+tarballs are fetched and builds are processed.
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack purge
+#+END_SRC
+
+** Spack edit /package/ : to edit a package file
+
+#+BEGIN_SRC sh :exports code :results none
+export EDITOR=emacs
+spack edit pastix &
+#+END_SRC
+
+*Add a specific version /e.g./ like this*:
+
+#+BEGIN_SRC sh :exports code :results none
+version('5.2-custom', '85127ecdfaeed39e850c996b78573d94',
+	url='https://gforge.inria.fr/frs/download.php/file/35070/pastix_5.2.2.22.tar.bz2')
+#+END_SRC
+
+- note that url can be a local address: ~file:///home/myfile.tar.gz~
+
+#+BEGIN_SRC sh :exports code :results none
+version('5.2-local', '85127ecdfaeed39e850c996b78573d94',
+	url='file:///home/pruvost/pastix_5.2.2.22.tar.bz2')
+#+END_SRC
+
+- note also that you can install packages without checksum with ~spack install -n pastix~
+- if you want to get the checksum, you can use ~spack md5 the tarball~
+
+* Spack advanced features
+** @exist and @system versions
+
+For MORSE packages we provide a way to use existing installations of
+components in the stack.  The trick is to use symbolic links in Spack
+installation directories to the real installation paths.  What you
+need to do is to set a variable environment to the path of your own
+installation.  You can try to install and read the error to learn what
+environment variable you have to set:
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack install openmpi@exist
+#+END_SRC
+
+For example, this will work on a Linux system if you install the
+package libopenmpi-dev:
+#+BEGIN_SRC sh :session spack :exports code :results none
+export MPI_DIR=/usr
+spack install openmpi@exist
+#+END_SRC
+
+It can be usefull to avoid building some components that already exist
+on your system and which are already well tuned for it. See for
+example cmake, mpi, bison, flex, etc.
+#+BEGIN_SRC sh :session spack :exports code :results none
+export MPI_DIR=/usr
+spack install scotch+mpi ^openmpi@exist
+#+END_SRC
+
+Of course this can be painful to indicate for some low level libraries
+that they are installed in ~/usr~ because spack could guess it!  To
+avoid this, we have thought to a version ~@system~ that guess where the
+binaries or libraries should be found.
+#+BEGIN_SRC sh :session spack :exports code :results none
+# avoid this: export BISON_DIR=/usr && export FLEX_DIR=/usr && export ZLIB_DIR=/usr
+spack install scotch+compression ^bison@system ^flex@system ^zlib@system
+#+END_SRC
+
+For now here is the list of libraries provided (to be extended):
+- bison
+- cmake
+- flex
+- zlib
+
+** @src versions
+
+For MORSE packages we provide a way to use existing source directories
+instead of building in a directory coming from an untared tarball
+file. What you need to do is to set a variable environment to the path
+of your source directory. You can try to install and read the error to
+learn what environment variable you have to set:
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack install hwloc@src
+#+END_SRC
+
+This is practical if you need to install a stack with some
+source code under development, that has not yet been released.
+
+You can then (re) build them with:
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack build hwloc@src
+#+END_SRC
+
+The option -d allows you to rebuild all dependencies.
+If you want to rebuild all matching packages, use -a option.
+
+** Modulefiles
+
+- Spack creates automatically modulefiles
+- Be sure you have a modulefile environment, see packages: environment-modules (dpkg, redhat), modules (brew)
+
+*** Set Debian (dpkg) module environment:
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+sudo apt-get install -y environment-modules
+. /usr/share/modules/init/bash
+#+END_SRC
+
+*** Set RedHat (yum) module environment:
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+sudo yum -y install environment-modules
+. /usr/share/Modules/init/bash
+#+END_SRC
+
+*** Set Mac OS X (brew) module environment:
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+brew install modules
+. /usr/local/Cellar/modules/3.2.10/Modules/init/bash
+#+END_SRC
+
+*** Let's use PaStiX
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+export ARCH="`ls $SPACK_ROOT/share/spack/modules/`"
+export MODULEPATH=$SPACK_ROOT/share/spack/modules/$ARCH
+module av
+spack load pastix
+pastix-conf
+#+END_SRC
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+export PASTIX_DIR=`spack location -i pastix`
+`spack location -i pastix`/examples/simple -lap 1000
+#+END_SRC
+
+** Local mirror to use on remote platforms (clusters or machine without internet)
+
+You can download the tarballs you need to install libraries later on
+machines without internet connection like clusters.  It can also be
+convenient to set up a local mirror on your own machine to be able to
+install libraries even if you lose your internet connections.
+
+*Download the pastix stack tarballs on your machine*
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack mirror create pastix@5.2.2.22
+spack mirror create hwloc@1.11.0
+spack mirror create netlib-blas@3.5.0
+spack mirror create scotch@6.0.4
+#+END_SRC
+
+Or directly:
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack mirror create -D -o pastix
+#+END_SRC
+
+this will download the tarballs of the spec required.
+
+If you want a specific stack, just use the spec semantic:
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack mirror create -D -o pastix+mpi+starpu ^starpu@1.1.5 ^openmpi
+#+END_SRC
+
+*Add the path containing tarballs as a local mirror*, /e.g./
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack mirror add local_filesystem file:///home/pruvost/spack-mirror-2015-10-26/
+#+END_SRC
+
+Here it is, you are now able to install {{{pastix}}} on your machine
+without a web access.
+
+** Use Spack on a remote cluster
+
+Once you have create a local mirror on your local machine your are now able to copy an archive of the directory containing all tarballs
+*Copy them on the remote platform* (here plafrim)
+#+BEGIN_SRC sh :session spack :exports code :results none
+tar czf spack-mirror-2015-10-26.tar.gz spack-mirror-2015-10-26/
+scp spack-mirror-2015-10-26.tar.gz plafrim-acces:
+#+END_SRC
+
+*Connect to the platform*
+#+BEGIN_SRC sh :session spack :exports code :results none
+ssh plafrim-acces
+#+END_SRC
+
+*Add the path containing tarballs as a local mirror*
+#+BEGIN_SRC sh :session spack :exports code :results none
+tar xf spack-mirror-2015-10-26.tar.gz
+spack mirror add local_filesystem file:///home/pruvost/spack-mirror-2015-10-26/
+#+END_SRC
+
+*Let's install pastix on the platform*
+
+*@@html:<font color = "red">@@Warning: Do not forget to check you have a proper compiler in your environment and give it to spack (see $HOME/.spack/compilers file)@@html:</font>@@*
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack install pastix
+#+END_SRC
+
+* Details about MORSE solvers
+Parallel high performance linear solvers and fast multipole methods
+represent the heart of development of the HiePACS team
+(https://team.inria.fr/hiepacs/) and of the MORSE associate team
+(http://icl.cs.utk.edu/projectsdev/morse/index.html).  In this section
+we detail how to use Spack to build the variant of the stack you aim
+at installing.
+
+The solver we focus on are Chameleon (dense), HiPS and PaStiX (sparse
+direct), MaPHYS (sparse hybrid), qr_mumps (sparse QR), ScalFMM (fast
+multipole methods).
+
+** Chameleon in Spack
+
+Chameleon is a dense linear solver developed in the context ot the MORSE
+project, see http://icl.cs.utk.edu/projectsdev/morse/index.html, and
+available at https://project.inria.fr/chameleon/.
+
+Chameleon svn repository is available here
+https://gforge.inria.fr/scm/?group_id=2884.
+
+This library depends on many other complex components (computational
+kernels, advanced runtime systems, MPI, CUDA, etc) making the
+configuration and installation of this library painfull.
+
+Spack helps us to automatically build and install all components
+required in a coherent way ensuring compatibility of variants and
+options.
+
+Here is an overview of the dependency DAG of Chameleon:
+#+attr_html: :width 640px
+[[file:figures/chameleon_dep2.png]]
+
+*** Chameleon package options overview
+
+Use the ~spack info~ command to get some information about the Chameleon
+package
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack info chameleon
+#+END_SRC
+
+Pay attention to:
+- the versions available, releases or git/svn branches,
+- the variants you can build and the default variants chosen
+
+*** Chameleon versions available
+
+Releases available are denoted with integers and are considered to be
+more stable versions.
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon@0.9.1
+#+END_SRC
+
+You can also use the HEAD of one of the svn branches (/e.g./ the trunk).
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon@trunk
+#+END_SRC
+
+To use an existing installation of Chameleon in your stack choose the
+"exist" version. This option requires to set an environment variable,
+CHAMELEON_DIR, pointing to the installation path of your Chameleon
+#+BEGIN_SRC sh :session spack :exports code :results none
+export CHAMELEON_DIR=/path/to/your/chameleon/installation
+spack spec chameleon@exist
+#+END_SRC
+
+If you plan to use spack when developing into Chameleon, you can
+indicate to spack to build Chameleon in your own source directory, to
+be set in CHAMELEON_DIR, containing your modifications
+#+BEGIN_SRC sh :session spack :exports code :results none
+export CHAMELEON_DIR=/path/to/your/chameleon/sources
+spack spec chameleon@src
+#+END_SRC
+
+You can also imagine you want to modify some source files of StarPU
+and test your modifications through Chameleon
+#+BEGIN_SRC sh :session spack :exports code :results none
+export STARPU_DIR=/path/to/your/starpu/sources
+spack install chameleon@trunk ^starpu@src
+#+END_SRC
+You can then make new modifications and re-build your StarPU libraries
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack uninstall -f starpu@src
+spack install starpu@src
+#+END_SRC
+If StarPU is built as shared libraries Chameleon drivers will use the
+newly generated libraries. If StarPU libraries are static, it is
+required to re-generate Chameleon drivers.
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack uninstall chameleon@trunk ^starpu@src~shared
+spack uninstall starpu@src~shared
+spack install chameleon@trunk ^starpu@src~shared
+#+END_SRC
+
+*** Chameleon as static or dynamic libraries
+
+Chameleon produces dynamic libraries by default because variant
++shared is enabled.
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon # is identical to
+spack spec chameleon+shared
+#+END_SRC
+
+To build a static version of Chameleon use ~shared
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon~shared
+#+END_SRC
+
+*** Chameleon with or without drivers
+
+Chameleon produces examples (plus testers and timers) by default
+because variant +examples is enabled.
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon # is identical to
+spack spec chameleon+examples
+#+END_SRC
+
+To disable the builling of examples use ~examples
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon~examples
+#+END_SRC
+
+*** Chameleon depends on BLAS, CBLAS, LAPACK, LAPACKE, TMG, MKL
+
+Chameleon depends on dense computational kernels for execution on
+conventional CPUs which are BLAS, CBLAS, LAPACK, LAPACKE, TMG.
+TMG is available through the LAPACK(E) package.
+
+When you invoke the following spack command
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon
+#+END_SRC
+you can notice that the default stack requires BLAS, CBLAS, LAPACK,
+LAPACKE to be installed.  These libraries are seen in spack as virtual
+packages in the sense that several implementations of these interfaces
+exist and can be chosen. By default, eigen is chosen for BLAS, and
+netlib for the others. Other choices can be made by specifying it
+through an spack command. First you can look for the available
+/providers/ of a virtual package by using the command ~spack providers~.
+
+#+BEGIN_EXAMPLE
+spack providers blas
+spack providers cblas
+spack providers lapack
+spack providers lapacke
+#+END_EXAMPLE
+The default behaviour follows a lexicographical logic on the package
+names. For example, eigen-blas is chosen by default because "e" comes
+before the "m" of mkl-blas, the "n" of netlib-blas and the "o" of
+openblas.
+
+You can specify the implementation you want to use in your stack with
+the ^ character
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon~simu ^netlib-lapack ^openblas
+#+END_SRC
+Pay attention to the ~simu here which is required to specify things
+about kernels such as BLAS.  Spack can see the dependency to BLAS here
+only if you are specific enough about the variant chosen.  Here the
+variant +simu means we will use Chameleon without executing the
+kernels so that we do not depend on BLAS, LAPACK etc if +simu is used.
+Thus, we need to use ~simu to indicate that we depend on kernels.
+This is usefull only if you want to change the default behaviour of
+kernels installation.  If you write:
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon ^netlib-blas
+#+END_SRC
+Spack will tell you Chameleon does not depend on BLAS because it does
+not see the implicit ~simu variant.  Thus, use a more specific spec
+like this:
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon~simu ^netlib-blas
+#+END_SRC
+
+When you have troubles with this Spack problem do not hesitate to look
+into the packages in order to see under which conditions a variant is
+available
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack edit chameleon
+#+END_SRC
+Sometimes a variant is available only for some versions for instance.
+
+*** How to use the kernels available in the Intel MKL
+
+For proprietary softwares such as the Intel MKL, we do not provide the
+installation but we can use them if available in the environment.  For
+example if you have an Intel suite installed on your system, make it
+available in the environment and our packages in Spack can use it in
+the stack.  More precisely we need the environment variable MKLROOT to
+be set to use kernels available in the MKL (this is quite
+standard). On my labtop for example
+#+BEGIN_SRC sh :session spack :exports code :results none
+source /home/pruvost/intel/bin/compilervars.sh intel64
+source /home/pruvost/intel/mkl/bin/mklvars.sh intel64
+#+END_SRC
+
+Then because the MKLROOT is set we can use the MKL kernels
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon~simu ^mkl-blas
+#+END_SRC
+
+*** Chameleon depends on a runtime system
+
+Chameleon depends on either QUARK (http://icl.cs.utk.edu/quark/) or
+StarPU (http://starpu.gforge.inria.fr/) runtime system.  ParSEC
+(http://icl.cs.utk.edu/parsec/) will also be available in the future.
+
+This dependency to a runtime is exclusive meaning that only one
+library should be used, either quark or starpu.  By default StarPU is
+used. But a variant exists to switch to quark by specifying +quark
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon+quark
+#+END_SRC
+Note that chameleon+quark can't make use of CUDA and MPI.
+
+To specify options about StarPU, the runtime used by
+default, ~quark should be used:
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon~quark ^starpu@1.1.5
+#+END_SRC
+
+**** Generating execution trace with StarPU+FxT
+When Chameleon is executed with StarPU, some execution traces can be
+automatically generated if the proper set of options are enabled.
+
+You should use +fxt for Chameleon and StarPU
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon~quark+fxt ^starpu+fxt
+#+END_SRC
+
+**** Simulation mode with StarPU+SimGrid
+Chameleon with StarPU has the ability to be simulated using the
+SimGrid (http://simgrid.gforge.inria.fr/) simulator.
+
+This implies that the kernels will not be really executed and we do
+not depend on their installation anymore.  Nevertheless, having the
+performance models of the kernels is a prerequisite.  Please contact
+the MORSE team to know more about this feature (send an email to
+morse-devel@lists.gforge.inria.fr).
+
+To enable the simulation mode, use +simu for Chameleon and +simgrid
+for StarPU
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon~quark+simu ^starpu+simgrid
+#+END_SRC
+
+*** Chameleon with CUDA/cuBLAS and MAGMA
+
+Chameleon can make use of one or multiple GPUs thanks to StarPU
+runtime system and cuBLAS/MAGMA (http://icl.cs.utk.edu/magma/)
+kernels.
+
+To use this feature you have to use StarPU runtime specifically.  In
+addition you must have an Nvidia CUDA capable GPU and an installation
+of CUDA/cuBLAS in your system. You should give to spack your
+installation path of cuda by setting the environment variable
+CUDA_ROOT (this is quite standard).
+
+To fully benefit from GPU kernels you need to enable +cuda and +magma
+variant in chameleon as well as +cuda variant in starpu
+#+BEGIN_SRC sh :session spack :exports code :results none
+export CUDA_ROOT=/path/to/your/cuda/cublas/installation
+spack spec chameleon+cuda+magma ^starpu+cuda
+#+END_SRC
+
+If you do not intend to use MAGMA kernels just use +cuda variant
+#+BEGIN_SRC sh :session spack :exports code :results none
+export CUDA_ROOT=/path/to/your/cuda/cublas/installation
+spack spec chameleon+cuda ^starpu+cuda
+#+END_SRC
+
+*** Chameleon with MPI
+
+Chameleon can be executed on clusters of interconnected nodes using
+the MPI library.
+
+To use this feature you have to use StarPU runtime specifically.
+To enable MPI just use +mpi for chameleon and starpu
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon+mpi ^starpu+mpi ^mpich
+spack spec chameleon+mpi ^starpu+mpi ^openmpi
+#+END_SRC
+
+Notice that we depend on the MPI virtual package here.
+To get a list of MPI packages available, try the following:
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack providers mpi
+#+END_SRC
+
+# ** How to use IntelMPI
+# For IntelMPI we do not provide the installation but we can use it if
+# available in the environment.  For example if you have an Intel suite
+# installed on your system, make it available in the environment.
+# More precisely set I_MPI_ROOT.  On my labtop for example:
+# #+BEGIN_SRC sh :session spack :exports code :results none
+# source /home/pruvost/intel/bin/compilervars.sh intel64
+# source /home/pruvost/intel/impi/5.0.1.035/bin64/mpivars.sh
+# spack spec chameleon+mpi~simu %intel ^mkl-blas ^intelmpi
+# #+END_SRC
+# Be aware that to use IntelMPI, you should use the intel compiler. This
+# can be set with %intel. Remember you should have defined your
+# compilers first. Check that it is available
+# #+BEGIN_SRC sh :session spack :exports code :results none
+# spack compiler list
+# #+END_SRC
+# If not add it
+# #+BEGIN_SRC sh :session spack :exports code :results none
+# spack compiler add /path/to/your/intel/compilers
+# #+END_SRC
+# You can also edit the file ~$HOME/.spack/compilers.yaml~ to add/remove
+# compilers or with ~spack config edit compilers~ command.
+
+*** Chameleon with MPI and CUDA
+
+Chameleon can also exploit clusters of heterogeneous nodes by the use of
+MPI and CUDA.  There is not much to say here, if you have read the
+sections about MPI and CUDA you just have to cumulate the options to
+get the distributed and heterogeneous stack of chameleon
+#+BEGIN_SRC sh :session spack :exports code :results none
+export CUDA_ROOT=/path/to/your/cuda/cublas/installation
+spack spec chameleon+cuda+magma+mpi ^starpu+cuda+mpi
+#+END_SRC
+** TODO PaStiX in Spack
+
+Here is an overview of the dependency DAG of PaStiX:
+#+attr_html: :width 640px
+[[file:figures/pastix_dep.png]]
+
+*** Troubleshouting
+
+- *libgfortran* library should be available in the environnement because
+  we do not intend to build it through Spack.
+#+BEGIN_SRC sh :session spack :exports code :results none
+export LIBRARY_PATH=/path/to/libgfortran:$LIBRARY_PATH
+export LD_LIBRARY_PATH=/path/to/libgfortran:$LD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=/path/to/libgfortran:$DYLD_LIBRARY_PATH
+#+END_SRC
+
+**** Mac OS X
+Libraries on which <<pastix>> relies like metis are not fully capable
+of building shared libraries on Mac OS X so that we advice to build
+the stack in static (~shared).
+
+** HIPS in Spack
+
+HIPS (Hierarchical Iterative Parallel Solver) is a scientific library
+that provides an efficient parallel iterative solver for very large
+sparse linear systems, see http://hips.gforge.inria.fr/.
+
+This library depends on partitioners (Metis or Scotch), BLAS and MPI.
+
+Spack helps us to automatically build and install all components
+required in a coherent way ensuring compatibility of variants and
+options.
+
+Here is an overview of the dependency DAG of HiPS:
+#+attr_html: :width 640px
+[[file:figures/hips_dep.png]]
+
+*** HiPS package options overview
+
+Use the ~spack info~ command to get some information about the HiPS
+package
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack info hips
+#+END_SRC
+
+Pay attention to:
+- the versions available, releases or git/svn branches,
+- the variants you can build and the default variants chosen
+
+*** HiPS versions available
+
+Releases available are denoted with integers and are considered to be
+more stable versions.
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec hips@1.2b-rc5
+#+END_SRC
+
+To use an existing installation of HiPS in your stack choose the
+"exist" version. This option requires to set an environment variable,
+HIPS_DIR, pointing to the installation path of your HiPS
+#+BEGIN_SRC sh :session spack :exports code :results none
+export HIPS_DIR=/path/to/your/hips/installation
+spack spec hips@exist
+#+END_SRC
+
+If you plan to use spack when developing into HiPS, you can
+indicate to spack to build HiPS in your own source directory, to
+be set in HIPS_DIR, containing your modifications
+#+BEGIN_SRC sh :session spack :exports code :results none
+export HIPS_DIR=/path/to/your/hips/sources
+spack spec hips@src
+#+END_SRC
+
+You can also imagine you want to modify some source files of Scotch
+and test your modifications through HiPS
+#+BEGIN_SRC sh :session spack :exports code :results none
+export SCOTCH_DIR=/path/to/your/scotch/sources
+spack install hips ^scotch@src
+#+END_SRC
+You can then make new modifications and re-build your Scotch libraries
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack uninstall -f scotch@src
+spack install scotch@src
+#+END_SRC
+If Scotch is built as shared libraries HiPS drivers will use the
+newly generated libraries. If Scotch libraries are static, it is
+required to re-generate HiPS drivers.
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack uninstall hips ^scotch@src~shared
+spack uninstall scotch@src~shared
+spack install hips ^scotch@src~shared
+#+END_SRC
+
+*** HiPS as static or dynamic libraries
+
+HiPS produces static libraries by default because variant
+~shared is enabled.
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec hips # is identical to
+spack spec hips~shared
+#+END_SRC
+
+The dynamic variant is not available for now.
+# To build a static version of HiPS use ~shared
+# #+BEGIN_SRC sh :session spack :exports code :results none
+# spack spec chameleon~shared
+# #+END_SRC
+
+*** HiPS with or without drivers
+
+HiPS produces examples (plus testers and timers) by default
+because variant +examples is enabled.
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec hips # is identical to
+spack spec hips+examples
+#+END_SRC
+
+To disable the builling of examples use ~examples
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec hips~examples
+#+END_SRC
+
+*** HiPS depends on BLAS
+
+HiPS depends on dense computational kernels for execution on
+conventional CPUs which is BLAS.
+
+When you invoke the following spack command
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec hips
+#+END_SRC
+you can notice that the default stack requires BLAS to be installed.
+This library is seen in spack as a virtual package in the sense that
+several implementations of this interface exists and can be chosen. By
+default, eigen is chosen for BLAS. Other choices can be made by
+specifying it through an spack command. First you can look for the
+available /providers/ of a virtual package by using the command ~spack
+providers~.
+
+#+BEGIN_EXAMPLE
+spack providers blas
+#+END_EXAMPLE
+The default behaviour follows a lexicographical logic on the package
+names. For example, eigen-blas is chosen by default because "e" comes
+before the "m" of mkl-blas, the "n" of netlib-blas and the "o" of
+openblas.
+
+You can specify the implementation you want to use in your stack with
+the ^ character
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec hips ^openblas
+#+END_SRC
+
+*** How to use the Intel MKL BLAS
+
+For proprietary softwares such as the Intel MKL, we do not provide the
+installation but we can use them if available in the environment.  For
+example if you have an Intel suite installed on your system, make it
+available in the environment and our packages in Spack can use it in
+the stack.  More precisely we need the environment variable MKLROOT to
+be set to use kernels available in the MKL (this is quite
+standard). On my labtop for example
+#+BEGIN_SRC sh :session spack :exports code :results none
+source /home/pruvost/intel/bin/compilervars.sh intel64
+source /home/pruvost/intel/mkl/bin/mklvars.sh intel64
+#+END_SRC
+
+Then because the MKLROOT is set we can use the MKL kernels
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec hips ^mkl-blas
+#+END_SRC
+
+*** HiPS depends on METIS or Scotch
+
+HiPS depends on a partitioning library. The choices available are
+Metis and Scotch. These variants are mutually exclusive. Choose either
+Metis or Scotch in your stack. By default Scotch is chosen so that
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec hips # is identical to
+spack spec hips~metis
+#+END_SRC
+will build a stack with Scotch.
+
+To use Metis instead use the variant +metis.
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec hips+metis
+#+END_SRC
+
+*** HiPS depends on MPI
+
+HiPS can be executed on clusters of interconnected nodes using
+the MPI library.
+
+Notice that we depend on the MPI virtual package here.
+To get a list of MPI packages available, try the following:
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack providers mpi
+#+END_SRC
+
+To chose your MPI implementation, use the ^ character
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec hips ^mpich
+spack spec hips ^openmpi
+#+END_SRC
+
+*** How to use IntelMPI
+For IntelMPI we do not provide the installation but we can use it if
+available in the environment.  For example if you have an Intel suite
+installed on your system, make it available in the environment.
+More precisely set I_MPI_ROOT.  On my labtop for example:
+#+BEGIN_SRC sh :session spack :exports code :results none
+source /home/pruvost/intel/bin/compilervars.sh intel64
+source /home/pruvost/intel/impi/5.0.1.035/bin64/mpivars.sh
+spack spec hips %intel ^mkl-blas ^intelmpi
+#+END_SRC
+Be aware that to use IntelMPI, you should use the intel compiler. This
+can be set with %intel. Remember you should have defined your
+compilers first. Check that it is available
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack compiler list
+#+END_SRC
+If not add it
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack compiler add /path/to/your/intel/compilers
+#+END_SRC
+You can also edit the file ~$HOME/.spack/compilers.yaml~ to add/remove
+compilers or with ~spack config edit compilers~ command.
+*** Troubleshouting
+**** Mac OS X
+- malloc.h does not exist: ~./io_hb.h:8:9: fatal error: 'malloc.h' file not found~
+** TODO MaPHYS in Spack
+
+Here is an overview of the dependency DAG of MaPHYS:
+#+attr_html: :width 640px
+[[file:figures/maphys_dep.png]]
+
+** TODO qr_mumps in Spack
+
+Here is an overview of the dependency DAG of qr_mumps:
+#+attr_html: :width 640px
+[[file:figures/qrmumps_dep.png]]
+
+*** Troubleshooting
+
+**** Mac OS X
+Libraries on which SuiteSparse relies are not fully capable of
+building shared libraries on Mac OS X so that we advice to build the
+stack in static (~shared)
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack install qr_mumps@qrm_starpu_2d ^metis~shared ^netlib-lapack~shared ^netlib-blas~shared
+#+END_SRC
+
+** TODO ScalFMM in Spack
+
+Here is an overview of the dependency DAG of ScalFMM:
+#+attr_html: :width 640px
+[[file:figures/scalfmm_dep.png]]
+
+
+* Troubleshooting
+** spack is not compatible with your version of python
+To our knowledge, Spack is not compatible with recent versions of
+python (3:). Make sure you have a python2 version installed on your
+system
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+sudo apt-get install -y python2.7-dev
+#+END_SRC
+
+Make your python command pointing to python2, something like
+#+BEGIN_SRC sh :session spack :exports code :results none
+ln -s /usr/python2 python
+#+END_SRC
+
+or change the python to be used by Spack, edit the bin/spack script
+and replace ~#!/usr/bin/env python~ by ~#!/usr/bin/env python2~ or
+~#!/usr/bin/env python2.7~
+
+** your don't have a proper compiler
+Check that you have some compilers known from spack
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack compiler list
+#+END_SRC
+
+You can add your compilers giving the path where they can be found
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack compiler add /usr/bin
+spack compiler info clang
+spack compiler info gcc
+spack compiler info intel
+#+END_SRC
+
+You can edit the file ~$HOME/.spack/compilers.yaml~ to add/remove compilers.
+The principle is to give the paths to compiler executables.
+you have an Spack shortcut to do that
+#+BEGIN_SRC sh :session spack :exports code :results none
+export EDITOR=emacs
+spack config edit compilers
+#+END_SRC
+
+** this package does not depend on another while it is the case
+This problem can be often met, you are sure your package depends on
+another but spack complain telling you that it is not the case.
+Here is an example
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec scotch ^openmpi
+#+END_SRC
+You think scotch depends on MPI but spack tells you ~Error: scotch does
+not depend on openmpi~.  In this case it is quite normal because you
+have not enabled +mpi variant which makes scotch dependent on MPI.
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec scotch+mpi ^openmpi
+#+END_SRC
+This last command is better.
+
+But there are other cases less intuitive!
+For example
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec mumps ^openmpi
+#+END_SRC
+Here spack tells ~Error: mumps does not depend on openmpi~ while mumps
+by default depends on MPI so what the point here? This problem occurs
+when some dependencies are optional. In the previous example, mumps
+has a variant +mpi available. If mpi is disabled, with ~mpi variant,
+mumps will not depend on MPI anymore so that the dependency on MPI is
+conditionned. As soon as you have some conditions on a dependency
+spack will not see it during its /normalized/ process, see the two
+subsequent processes /normalized/ and /concretized/
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec mumps
+#+END_SRC
+Here during the /normalized/ process, spack don't see MPI as a
+dependency. It is seen after the /concretized/ process.
+
+When you want to specify something on a dependency in the spec with
+the ^ character, spack should see the dependency in the /normalized/
+process. To help spack seeing it, you just *need to know under which condition this dependency is enabled and specify this condition in the
+spec*, /e.g./ like this
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec mumps+mpi ^openmpi
+#+END_SRC
+
+To know the conditions on the dependencies of a package, open the
+package file and look for ~depends_on~ lines that define the
+dependencies
+#+BEGIN_SRC sh :session spack :exports code :results none
+export EDITOR=emacs
+spack edit mumps
+#+END_SRC
+
+Other examples:
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon ^starpu@1.1.5
+#+END_SRC
+the dependency to starpu is optional because of the variant
++quark. Specify that you don't want to use quark
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec chameleon~quark ^starpu@1.1.5
+#+END_SRC
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec hips+int64 ^scotch+int64
+#+END_SRC
+the dependency to scotch is optional because of the variant
++metis. Specify that you don't want to use metis
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec hips+int64~metis ^scotch+int64
+#+END_SRC
+
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec netlib-scalapack ^openmpi
+#+END_SRC
+netlib-scalapack depends on mpi only for version higher than 2.
+Specify that you don't want a 2. version to be able to specify the mpi
+vendor
+#+BEGIN_SRC sh :session spack :exports code :results none
+spack spec netlib-scalapack@2.0.2 ^openmpi
+#+END_SRC
+
+** build problems with Intel compilers
+
+The compilation of some packages, like StarPU or OpenMPI, with Intel
+compilers is buggy with Spack. We meet some not well identified
+problems with the libtool file. Building an Intel stack is still
+feasible but you must specify that you want to use gcc or clang for
+the StarPU stack.
+#+BEGIN_SRC sh :session spack :exports code :results none
+source /home/pruvost/intel/bin/compilervars.sh intel64
+spack spec chameleon~simu~quark %intel ^mkl-blas ^starpu%gcc
+#+END_SRC
+
+** MacOS X
+*** Mac OS X Yosemite, problem in the /usr/include/dispatch/object.h
+Follow this link
+http://hamelot.co.uk/programming/osx-gcc-dispatch_block_t-has-not-been-declared-invalid-typedef/
+
+*** Mac OS X: build issues
+It seems that the following packages are not compatible with Mac OS X
+(tested under a VM OS X 10.9 Mavericks)
+- *eztrace*:
+  + cannot find -lbfd (while it is located in ~/opt/local/lib~)
+  + FC unknown compiler
+#+BEGIN_EXAMPLE
+/bin/sh ../libtool  --tag=F77   --mode=compile Unkown compiler: FC   -c -o FORTRAN/GTGBasic1_f.lo FORTRAN/GTGBasic1_f.f
+libtool: compile:  Unkown compiler: FC -c FORTRAN/GTGBasic1_f.f
+../libtool: line 1746: Unkown: command not found
+#+END_EXAMPLE
+- *papi*: ~zero_shmem.c:36:20: fatal error: malloc.h: No such file or directory~
+- *netlib-scalapack*: configure error issue with fortran mangling
+  (cmake-3.4.0, FC is mpif90 from MPICH)
+- *vite*: ~Render_opengl.cpp:52:20: fatal error: GL/glu.h: No such file or directory~
+
+* TODO Nice ideas to extend this tutorial			   :noexport:
+- use starpu as a library (take a general application, install starpu
+  with spack, easy link through spack load for ex)
+- idem for chameleon, possibly with pointer to the step by step tuto
+- navigate in sources (spack cd starpu@1.1.5, spack cd -s, spack
+  install --keep-stage)
+- cd where/is/your/starpu && spack diy starpu@santaclaus
+- generalize the idea etags available for developers (vi, emacs,
+  eclipse), source browsing
+
+- Add some options (environment variables?) in the beginning that will be applied for the rest of the tutorial. For example, install everything in "debug" mode or "keep sources"
+- Provide scripts (with tangle?) that users which dont want to execute everything from Emacs can use. Make tutorial more friendly for non-emacs users
+* Compatibility Table with build-essential compilos (gcc, g++, gfortran) :noexport:
+cf. [[https://ci.inria.fr/morse/view/spack-multi/job/spack-multi/]]

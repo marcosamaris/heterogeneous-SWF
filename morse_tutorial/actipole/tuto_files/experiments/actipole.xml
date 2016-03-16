@@ -1,0 +1,17 @@
+<solver driver="-p01" extension=".p01">
+	<bin id="solver" name="actipole"/>
+	<bin id="verif" name="CalcEps"/>
+	<test id="sphere"/>
+	<methods>
+		<method id="default" options="" name="Multi Solve"/>
+		<method id="msolve" options="" name="Multi Solve"/>
+		<method id="mfact" options="-mumpmulti" name="Multi factorization"/>
+	</methods>
+	<patterns>
+		<pattern id="memory" text="^[ ]*Memory used after factorization"/>
+		<pattern id="facto" text="timer LU" />
+		<pattern id="solve" text="timer Solution" />
+		<pattern id="nnz" text="Number of nonzeros \(local block structure\)" />
+		<pattern id="diskblock" text="Size of disk block" />
+	</patterns>
+</solver>

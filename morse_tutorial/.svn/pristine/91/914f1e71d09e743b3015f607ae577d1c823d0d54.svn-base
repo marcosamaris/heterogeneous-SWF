@@ -1,0 +1,414 @@
+#+TITLE: Morse + simgrid Hands-on
+#+AUTHOR: HiePACS/STORM
+#+LANGUAGE:  en
+#+STARTUP: inlineimages
+#+OPTIONS: H:3 num:t toc:t \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS: TeX:t LaTeX:t skip:nil d:nil todo:nil pri:nil tags:not-in-toc
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+TAGS: noexport(n)
+#+TODO: TODO(t) STARTED(s) WAITING(w) | DONE(d)
+#+TAGS: EMMANUEL(E) MARC(M) SURAJ(S) FLORENT(F) LUKA(L) TERRY(T) AURELIEN(A)
+#+TAGS: @SIROCCO(s) @LOCAL(l)
+
+#+BEAMER_THEME: Rochester
+
+#+HTML_HEAD:   <link rel="stylesheet" title="Standard" href="../chameleon/css/worg.css" type="text/css" />
+#+HTML_HEAD:   <link rel="stylesheet" type="text/css" href="../chameleon/css/VisuGen.css" />
+#+HTML_HEAD:   <link rel="stylesheet" type="text/css" href="../chameleon/css/VisuRubriqueEncadre.css" />
+#+INFOJS_OPT: 
+
+* WAITING Introduction
+
+  You can check out this tutorial and org-mode version here:
+  #+BEGIN_SRC sh :session local
+  svn co svn+ssh://scm.gforge.inria.fr/svnroot/morse/tutorials/morse_simgrid
+  #+END_SRC
+
+** Prerequisites
+
+   - a recent Emacs/Org-mode install (Emacs >=24.3 and Org-mode version >= 8.2 is recommended);
+   - prerequisites for spack (module, etc: please refer to [[http://morse.gforge.inria.fr/tuto_spack-morse/tuto_spack.html][this tutorial]])
+
+
+** Goal of this tutorial  
+We created a [[https://pad.inria.fr/p/w8z9YvA35zTDU02Y_morse_simgrid][pad]] for notes, questions, bugs and suggestions
+concearning this tutorial.
+The goal of this tutorial is to explain, step by step, how to
+reproduce real execution and simulation of several solvers from MORSE.
+We consider here dense, sparse linear algebra libraries, like
+Chameleon, MUMPS, PaStiX, etc.
+** MORSE distribution via spack
+#+attr_html: :width 1000px
+[[./figures/spack-morse-packages.jpg]]
+** DONE Emacs and Org-mode					       
+ This tutorial is written in [[http://orgmode.org/][Org-mode]] and it is based on its
+ literate programming feature [[http://orgmode.org/worg/org-contrib/babel/][Org-babel]]. Although Org-mode files can
+ be read in any text editors, we strongly encourage to use Emacs, as
+ at this point only this editor allows for fully benefiting from
+ Org-babel feature.
+
+ In order to run everything smoothly, you will need recent Emacs
+ (>24.3) and a recent Org-mode (>8.0). If you have trouble
+ installing this software, consult the following web [[http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php][page]]
+ (or this [[http://mescal.imag.fr/membres/arnaud.legrand/blog/2014/05/15/emacs_and_orgmode_on_macosx.php][one]] if you are a Mac user).
+
+ Once everything is installed, execute the following code by
+ selecting it with cursor and applying the shortcut "Ctrl-c Ctrl-c"
+ to test that everything works properly. This small code will
+ execute shell command echo with the specified text.
+
+#+NAME foo 
+#+BEGIN_SRC sh :exports both
+   echo "foo"
+ #+END_SRC
+
+ #+RESULTS:
+ : foo
+
+
+   Now execute this code to set the environment in order to be able to
+   execute shell and not have to confirm every command.
+ #+BEGIN_SRC emacs-lisp :results none :exports code
+ (setq org-confirm-babel-evaluate nil)
+ (setq org-export-babel-evaluate nil)
+ (org-babel-do-load-languages 'org-babel-load-languages
+      '(
+       (sh . t)
+       (python . t)
+       (R . t)
+       (org . t)
+       ))
+(setq org-support-shift-select t)
+ #+END_SRC
+
+ #+RESULTS:
+ : t
+
+
+** DONE Configure your local working environment
+
+   First, prepare a clean directory to work in it. You should execute
+   this section only once.
+   If you don't want to use this directory, you're free to work in
+   another directory, but you still need to set WORK_DIR variable.
+
+   #+BEGIN_SRC sh :session local :results none
+   mkdir -p morse_simgrid_tutorial
+   cd morse_simgrid_tutorial
+   export WORK_DIR=$PWD
+   cd -
+   #+END_SRC
+
+
+* DONE Installing spack
+  
+  If you have already installed spack (latest version from morse
+  branch) and set correctly your environment, then you can skip this
+  part.
+  For morse information about spack, you can follow this [[http://morse.gforge.inria.fr/tuto_spack-morse/tuto_spack.html][link]]. You
+  will find there informations about prerequisites and useful commands
+  in spack.
+
+  Clone Spack git:
+
+   #+BEGIN_SRC sh :session local :results none
+   cd $WORK_DIR
+   git clone https://github.com/fpruvost/spack.git
+   cd spack
+   git checkout morse
+   git pull
+   #+END_SRC
+
+   #+NAME: setenv_spack_local
+   #+BEGIN_SRC sh :session local :results none
+   export SPACK_ROOT=$WORK_DIR/spack
+   . $SPACK_ROOT/share/spack/setup-env.sh 
+   export MODULEPATH=$SPACK_ROOT/share/spack/modules/linux-x86_64:$MODULEPATH
+   mkdir -p $HOME/.spack
+   echo "Spack environment is set"
+   #+END_SRC
+   
+
+* DONE Install and check the MPI solver stack with MPICH
+
+** Install
+   Check the stacks to install:
+
+   #+BEGIN_SRC sh :session local :results none
+   spack spec pastix +mpi+examples
+   spack spec mumps +examples
+   spack spec scotch +grf+mpi ^mpich
+   #+END_SRC
+
+   Install the one you want to test:
+
+   #+BEGIN_SRC sh :session local :results none
+   spack install -v  scotch +grf+mpi ^mpich
+   #+END_SRC
+   #+BEGIN_SRC sh :session local :results none
+   spack install -v  pastix  +mpi+examples ^mpich
+   #+END_SRC
+   #+BEGIN_SRC sh :session local :results none
+   spack install -v  mumps +mpi+examples ^mpich
+   #+END_SRC
+   #+BEGIN_SRC sh :session local :results none
+   spack install -v  maphys@svn-maphys-dev +examples ^mpich
+   #+END_SRC
+
+   Source files are place in "/tmp/$USER", and are deleted when the installation is finished.
+   You can keep source files by using the option --keep-stage, but
+   they will still be kept in /tmp.
+
+   #+BEGIN_SRC sh :session local :results none
+   spack install -v  --keep-stage scotch +grf+mpi ^mpich
+   #+END_SRC
+
+   Otherwise, you can use @src versions, which allows you to use source
+   files you downloaded by yourself. For example, let's say you have
+   scotch source installed in $HOME/scotch, you could install scotch
+   using those sources and spack dependencies with:
+   #+BEGIN_SRC sh :session local :results none
+   export SCOTCH_DIR=$HOME/scotch
+   spack install -v  scotch@src +grf+mpi ^mpich
+   #+END_SRC
+
+   Then you can modify the sources, and recompile with:
+   #+BEGIN_SRC sh :session local :results none
+   spack build -v scotch@src +grf+mpi ^mpich
+   #+END_SRC
+
+** Sanity checks
+
+
+   Test SCOTCH
+   #+BEGIN_SRC sh :session local :results none
+   spack load mpich
+   spack load scotch +grf+mpi ^mpich
+   export SCOTCH_PATH=`spack location -i scotch +grf+mpi ^mpich`
+   mpirun p 3 dgpart 3 $SCOTCH_PATH/grf/3elt.grf
+   #+END_SRC
+
+   Test PaStiX
+   #+BEGIN_SRC sh :session local :results none
+   spack load mpich
+   spack load  pastix +mpi+examples   ^mpich
+   export PASTIX_PATH=`spack location -i pastix +mpi+examples  ^mpich`
+   mpirun p 3 ${PASTIX_PATH}/examples/zsimple -mm $PASTIX_PATH/matrix/young4c.mtx
+   #+END_SRC
+
+   Test MUMPS
+   #+BEGIN_SRC sh :session local :results none
+   spack load mpich
+   spack load  mumps +mpi+examples ^mpich
+   export MUMPS_PATH=`spack location -i mumps +mpi+examples  ^mpich`
+   cd ${MUMPS_PATH}/examples/
+   mpirun ${MUMPS_PATH}/examples/c_example
+   #+END_SRC
+
+   Test MaPHyS
+   #+BEGIN_SRC sh :session local :results none
+   spack load mpich
+   spack load maphys@svn-maphys-dev +examples ^mpich
+   export MAPHYS_PATH=`spack location -i maphys@svn-maphys-dev +examples  ^mpich`
+   cd ${MAPHYS_PATH}/examples/
+   mpirun p 4 ${MAPHYS_PATH}/examples/dmph_examplekv real_bcsstk17.in
+   #+END_SRC
+
+
+* WAITING Install and check the MPI solver stack with SMPI
+
+  BEWARE: This section is not yet functional. 
+
+** Install   
+
+   Using master branch of simgrid:
+   #+BEGIN_SRC sh :session local :results none
+   spack install -v  scotch +grf+mpi ^simgrid@master+examples
+   spack install -v  pastix +mpi+examples ^simgrid@master+examples
+   spack install -v  mumps +mpi+examples ^simgrid@master+examples
+   spack install -v  maphys@svn-maphys-dev +examples ^simgrid@master+examples
+   #+END_SRC
+
+   Using your simgrid (meaning you have set SIMGRID_DIR to SIMGRID sources root):
+   #+BEGIN_SRC sh :session local :results none
+   spack install -v  scotch +grf+mpi ^simgrid@src+examples
+   spack install -v  pastix +mpi+examples ^simgrid@src+examples
+   spack install -v  mumps +mpi+examples ^simgrid@src+examples
+   spack install -v  maphys@svn-maphys-dev +examples ^simgrid@src+examples
+   #+END_SRC
+
+   You can now recompile simgrid after changing the code (and without
+   having to reinstall everything) with:
+   #+BEGIN_SRC sh :session local :results none
+   spack build -v simgrid@src+examples
+   #+END_SRC
+
+   If you have already installed everything on your machine and set
+   the environement variables for each package (<NAME>_DIR) and want
+   to change some things inside each code, you could use this instead:
+   #+BEGIN_SRC sh :session local :results none
+   spack install -v  scotch@src +grf+mpi ^simgrid@src+examples
+   spack install -v  pastix@src +mpi+examples ^simgrid@src+examples
+   spack install -v  mumps@src +mpi+examples ^simgrid@src+examples
+   spack install -v  maphys@@src +examples ^simgrid@src+examples
+   #+END_SRC
+
+   To (re)build all sources you have for all dependancies of one package:
+   #+BEGIN_SRC sh :session local :results none
+   spack build -av  scotch@src +grf+mpi ^simgrid@src+examples
+   #+END_SRC
+
+** Sanity checks
+
+   Test SCOTCH
+   #+BEGIN_SRC sh :session local :results output :exports both
+   spack load simgrid@master+examples
+   spack load scotch +grf+mpi ^simgrid@master+examples
+   export SCOTCH_PATH=`spack location -i scotch +grf+mpi ^simgrid@master+examples`
+   export SIMGRID_PATH=`spack location -i simgrid@master+examples`
+   smpirun -trace -trace-resource -trace-viva -trace-file smpi_traced.trace -hostfile $SIMGRID_PATH/examples/smpi/hostfile -platform $SIMGRID_PATH/examples/smpi/../platforms/small_platform.xml --cfg=path:$SIMGRID_PATH/examples/smpi/../msg --cfg=smpi/cpu_threshold:-1 p 3 --log=smpi_kernel.thres:warning dgpart 3 $SCOTCH_PATH/grf/3elt.grf
+   #+END_SRC
+
+   #+RESULTS:
+   #+begin_example
+
+   afalco@afalco-hp:~/tutorials/morse_simgrid$ afalco@afalco-hp:~/tutorials/morse_simgrid$ afalco@afalco-hp:~/tutorials/morse_simgrid$ afalco@afalco-hp:~/tutorials/morse_simgrid$ [0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing' to 'yes'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/filename' to 'smpi_traced.trace'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/smpi' to 'yes'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/categorized' to 'yes'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/uncategorized' to 'yes'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'viva/categorized' to 'smpi_cat.plist'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'viva/uncategorized' to 'smpi_uncat.plist'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'surf/precision' to '1e-9'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/model' to 'SMPI'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/TCP_gamma' to '4194304'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/cpu_threshold' to '-1'
+   dgpart(2): ERROR: main: too many file names given
+   [Fafard:2:(3) 0.000000] [instr_config/INFO] No categories declared, ignoring generation of viva graph configuration
+   [Fafard:2:(3) 0.000000] /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_global.cpp:281: [simix_kernel/CRITICAL]    
+   [Fafard:2:(3) 0.000000] /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_global.cpp:282: [simix_kernel/CRITICAL] The time is still 0, and you still have processes ready to run.
+   [Fafard:2:(3) 0.000000] /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_global.cpp:283: [simix_kernel/CRITICAL] It seems that you forgot to run the simulation that you setup.
+   [Fafard:2:(3) 0.000000] /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_global.cpp:284: [xbt/CRITICAL] Bailing out to avoid that stop-before-start madness. Please fix your code.
+#+end_example
+
+   #+RES:
+   | dgpart(0): ERROR: main: unprocessed option '--cfg=tracing:yes' |
+
+   Test PaStiX
+   #+BEGIN_SRC sh :session local :results output :exports both
+   spack load simgrid@master+examples
+   spack load  pastix +mpi+examples ^simgrid@master+examples
+   export PASTIX_PATH=`spack location -i pastix +mpi+examples ^simgrid@master+examples`
+   export SIMGRID_PATH=`spack location -i simgrid@master+examples`
+   smpirun -trace -trace-resource -trace-viva -trace-file smpi_traced.trace -hostfile $SIMGRID_PATH/examples/smpi/hostfile -platform $SIMGRID_PATH/examples/smpi/../platforms/small_platform.xml --cfg=path:$SIMGRID_PATH/examples/smpi/../msg --cfg=smpi/cpu_threshold:-1 p 3 --log=smpi_kernel.thres:warning ${PASTIX_PATH}/examples/zsimple -mm $PASTIX_PATH/matrix/young4c.mtx
+   #+END_SRC
+
+   #+RESULTS:
+   #+begin_example
+
+   afalco@afalco-hp:~/tutorials/morse_simgrid$ afalco@afalco-hp:~/tutorials/morse_simgrid$ afalco@afalco-hp:~/tutorials/morse_simgrid$ [0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing' to 'yes'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/filename' to 'smpi_traced.trace'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/smpi' to 'yes'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/categorized' to 'yes'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/uncategorized' to 'yes'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'viva/categorized' to 'smpi_cat.plist'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'viva/uncategorized' to 'smpi_uncat.plist'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'surf/precision' to '1e-9'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/model' to 'SMPI'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/TCP_gamma' to '4194304'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/cpu_threshold' to '-1'
+   MPI_Init_thread level = MPI_THREAD_SINGLE
+   driver: MatrixMarket file: /home/afalco/spack/opt/spack/linux-x86_64/gcc-4.8/pastix-5.2.2.22-iic3ydcydxz3saz73wunrc7phagabhzi/matrix/young4c.mtx
+   open RHS file : /home/afalco/spack/opt/spack/linux-x86_64/gcc-4.8/pastix-5.2.2.22-iic3ydcydxz3saz73wunrc7phagabhzi/matrix/young4c.mtx.rhs
+   cannot load /home/afalco/spack/opt/spack/linux-x86_64/gcc-4.8/pastix-5.2.2.22-iic3ydcydxz3saz73wunrc7phagabhzi/matrix/young4c.mtx.rhs
+   Setting right-hand-side member such as X[i] = i + i*I
+   Check : Numbering		OK
+   Check : Sort CSC		OK
+   Check : Duplicates		OK
+    +--------------------------------------------------------------------+
+    +              PaStiX : Parallel Sparse matriX package               +
+    +--------------------------------------------------------------------+
+     Matrix size                                   841 x 841
+     Number of nonzeros in A                       2465
+    +--------------------------------------------------------------------+
+    +  Options                                                           +
+    +--------------------------------------------------------------------+
+	   Version             :                   5.2.2.22
+	   SMP_SOPALIN         :                   Defined
+	   VERSION MPI         :                   Defined
+	   PASTIX_DYNSCHED     :                   Not defined
+	   STATS_SOPALIN       :                   Not defined
+	   NAPA_SOPALIN        :                   Defined
+	   TEST_IRECV          :                   Not defined
+	   TEST_ISEND          :                   Defined
+	   TAG                 :                   Exact Thread
+	   FORCE_CONSO         :                   Not defined
+	   RECV_FANIN_OR_BLOCK :                   Not defined
+	   OUT_OF_CORE         :                   Not defined
+	   DISTRIBUTED         :                   Not defined
+	   METIS               :                   Not defined
+	   WITH_SCOTCH         :                   Defined
+	   INTEGER TYPE        :                   int
+	   PASTIX_FLOAT TYPE   :                   double complex
+    +--------------------------------------------------------------------+
+      Time to compute ordering                     0.00783 s
+      Time to analyze                              0.000149 s
+      Number of nonzeros in factorized matrix      21756
+      Fill-in                                      8.82596
+      Number of operations (LLt)                   3.14977e+06
+      Prediction Time to factorize (AMD 6180  MKL) 0.000389 s
+      --- Sopalin : Threads are binded                 ---
+   [0.092981] [instr_config/INFO] No categories declared, ignoring generation of viva graph configuration
+   [0.092981] /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_global.cpp:546: [simix_kernel/CRITICAL] Oops ! Deadlock or code not perfectly clean.
+   [0.092981] [simix_kernel/INFO] 3 processes are still running, waiting for something.
+   (<name>@<host>): <status>"
+   [0.092981] [simix_kernel/INFO] Process 1 (0@Tremblay): waiting for communication synchro 0x1d7bcc0 ((null)) in state 0 to finish
+   [0.092981] [simix_kernel/INFO] Process 2 (1@Jupiter): waiting for communication synchro 0x1d7b810 ((null)) in state 0 to finish
+   [0.092981] [simix_kernel/INFO] Process 3 (2@Fafard): waiting for communication synchro 0x1d7bae0 ((null)) in state 0 to finish
+#+end_example
+
+   Test MUMPS
+   #+BEGIN_SRC sh :session local :results output :exports both
+   spack load simgrid@master+examples
+   spack load  mumps +mpi+examples ^simgrid@master+examples
+   export MUMPS_PATH=`spack location -i mumps +mpi+examples  ^simgrid@master+examples`
+   cd ${MUMPS_PATH}/examples/
+   export SIMGRID_PATH=`spack location -i simgrid@master+examples`
+   smpirun -trace -trace-resource -trace-viva -trace-file smpi_traced.trace -hostfile $SIMGRID_PATH/examples/smpi/hostfile -platform $SIMGRID_PATH/examples/smpi/../platforms/small_platform.xml --cfg=path:$SIMGRID_PATH/examples/smpi/../msg --cfg=smpi/cpu_threshold:-1 p 3 --log=smpi_kernel.thres:warning ${MUMPS_PATH}/examples/c_example
+   #+END_SRC
+
+   #+RES:
+   |  PB allocation in DMUMPS_LOAD_INIT |
+
+
+   Test MaPHyS
+   #+BEGIN_SRC sh :session local :results output :exports both
+   spack load simgrid@master+examples
+   spack load maphys@svn-maphys-dev +examples ^simgrid@master+examples
+   export MAPHYS_PATH=`spack location -i maphys@svn-maphys-dev +examples  ^simgrid@master+examples`
+   cd ${MAPHYS_PATH}/examples/
+   export SIMGRID_PATH=`spack location -i simgrid@master+examples`
+   smpirun -trace-resource -trace-viva -trace-file smpi_traced.trace -hostfile $SIMGRID_PATH/examples/smpi/hostfile -platform $SIMGRID_PATH/examples/smpi/../platforms/small_platform.xml --cfg=path:$SIMGRID_PATH/examples/smpi/../msg --cfg=smpi/cpu_threshold:-1 p 4 --log=smpi_kernel.thres:warning ${MAPHYS_PATH}/examples/dmph_examplekv real_bcsstk17.in
+   #+END_SRC
+
+   #+RESULTS:
+   #+begin_example
+
+   afalco@afalco-hp:~/spack/opt/spack/linux-x86_64/gcc-4.8/mumps-5.0.1-r7drhifwv4ll3umvxumilaezdlgc6y44/examples$ afalco@afalco-hp:~/spack/opt/spack/linux-x86_64/gcc-4.8/mumps-5.0.1-r7drhifwv4ll3umvxumilaezdlgc6y44/examples$ afalco@afalco-hp:~/spack/opt/spack/linux-x86_64/gcc-4.8/maphys-svn-maphys-dev-hzs2mv5xodqvf3b2qjw22krvtailqhcv/examples$ afalco@afalco-hp:~/spack/opt/spack/linux-x86_64/gcc-4.8/maphys-svn-maphys-dev-hzs2mv5xodqvf3b2qjw22krvtailqhcv/examples$ [0.000000] [xbt_cfg/INFO] Configuration change: Set 'surf/precision' to '1e-9'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/model' to 'SMPI'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/TCP_gamma' to '4194304'
+   [0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/cpu_threshold' to '-1'
+   ** SimGrid: UNCAUGHT EXCEPTION received on /home/afalco/spack/opt/spack/linux-x86_64/gcc-4.8/maphys-svn-maphys-dev-hzs2mv5xodqvf3b2qjw22krvtailqhcv/examples/dmph_examplekv(1): category: network error; value: 1
+   ** Link failure
+   ** Thrown by maestro() on process 0
+   [Tremblay:0:(1) 0.029808] /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/xbt/ex.c:149: [xbt_ex/CRITICAL] Link failure
+
+   **   In SIMIX_comm_finish() at /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_network.cpp:809
+   **   In SIMIX_post_comm() at /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_network.cpp:932
+   **   In SIMIX_run() at /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/simix/smx_global.cpp:472
+   **   In smpi_main() at /tmp/afalco/spack-stage/spack-stage-ZOMJ2N/simgrid/src/smpi/smpi_global.c:693
+   **   In __libc_start_main() at /build/buildd/eglibc-2.19/csu/libc-start.c:321
+   **   In _start() at ??:?
+#+end_example
+ 

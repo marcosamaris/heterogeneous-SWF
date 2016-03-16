@@ -1,0 +1,42 @@
+#PBS -N res_$s
+#PBS -l walltime=2:00:00
+#PBS -l nodes=1:ppn=8
+#PBS -l naccesspolicy=singlejob
+
+module load compiler/gcc/4.8.3
+module load mpi/openmpi-mt/1.8.1
+module load compiler/mkl
+#module load compiler/intel/stable
+module load build/cmake/3.0.0
+module load partitioning/scotch/int32/6.0.0
+module load hardware/hwloc/1.10
+
+points=points.txt
+interactions=interactions.txt
+method=bind
+file=deroulement.txt
+solver=hmat
+ext=txt
+if [ "$p" != "" ]; then
+    points="$p"
+fi
+if [ "$inter" != "" ]; then
+    interactions="$inter"
+fi
+if [ "$m" != "" ]; then
+    method="$m"
+fi
+if [ "$f" != "" ]; then
+    file="$f"
+fi
+if [ "$s" != "" ]; then
+    solver="$s"
+fi
+if [ "$o" != "" ]; then
+    options="$o"
+fi
+if [ "$e" != "" ]; then
+    ext="$e"
+fi
+
+./$HOME/run_$s.sh "$points" "$interactions" "$method" "$file" "$ext" "$options"
