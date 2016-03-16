@@ -1,0 +1,1396 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"></head><body><h2>Introduction</h2>
+
+<p>
+<dfn>LAPACK</dfn> (<em>L</em>inear <em>A</em>lgebra <em>PACK</em>age)
+provides routines for solving systems of simultaneous linear equations,
+least-squares solutions of linear systems of equations, eigenvalue problems,
+and singular value problems. The associated matrix factorizations (LU,
+Cholesky, QR, SVD, Schur, generalized Schur) are also provided, as are related
+computations such as reordering of the Schur factorizations and estimating
+condition numbers. Dense and banded matrices are handled, but not general
+sparse matrices. In all areas, similar functionality is provided for real and
+complex matrices, in both single and double precision.
+</p><p>
+LAPACK supersedes LINPACK and EISPACK. The algorithms in LINPACK and EISPACK
+operate on rows and columns of matrices, and data reuse is low. This makes
+them inefficient, spending too much time moving data instead of doing useful
+floating-point calculations. LAPACK addresses this problem by reorganizing
+the algorithms to use block matrix operations, such as matrix multiplication,
+in the innermost loops. Whenever possible, LAPACK calls
+<a href="http://www.mathkeisan.com/usersguide/e/blas.cfm">BLAS</a> (usually Level 2 &amp; Level 3) for maximum
+data reuse.
+
+</p><h2>User Interface</h2>
+<p>
+User interface information is available from several sources:
+</p>
+<ul>
+<li>The <a href="#RoutList">LAPACK Routine List</a> contains one-line summaries
+for LAPACK driver, computational, an auxilliary subprograms.
+</li><li>There are <a href="http://www.mathkeisan.com/usersguide/e/man.cfm#LAPACK">LAPACK Man Pages</a> for
+individual subroutines with user interface information. To view information
+on the subroutine <code>ZHEEVD</code> from the command line, type
+<kbd>man&nbsp;zheevd</kbd>. If you have difficulty viewing man pages, please
+see the <a href="http://www.mathkeisan.com/usersguide/e/manpage.cfm">Man Pages Chapter</a>.
+</li><li>There is also user interface information in the
+<a href="#LAPACKUG"><cite>LAPACK User's Guide</cite></a><span class="bibref">
+[1]</span> and
+<a href="#LAPACKQR">LAPACK Quick Reference</a><span class="bibref"> [2]</span>.
+</li><li>The <a href="http://www.mathkeisan.com/usersguide/e/linking.cfm">Linking Chapter</a> tells how to link LAPACK.
+</li></ul>
+
+<h2>Parallelism</h2>
+<p>
+Shared memory parallelism can be obtained on SX by linking to
+<a href="http://www.mathkeisan.com/usersguide/e/blas.cfm#PARBLAS">PARBLAS</a>.
+</p>
+
+<h2><a name="RoutList"></a>LAPACK Routine List</h2>
+
+<h3>Simple Driver and Divide and Conquer Driver Subprograms</h3>
+
+<table width="100%" border="1">
+
+<caption>
+   <sup>�</sup>&nbsp;<big><code><span class="letter">?</span>&nbsp;</code></big>
+   <small>indicates prefix which must be filled with a combination of:</small>
+   <br>
+   <code>S = REAL(kind=4)</code>,
+   <code>D = REAL(kind=8)</code>,
+   <code>C = COMPLEX(kind=4)</code>,
+   <code>Z = COMPLEX(kind=8)</code>
+</caption>
+<thead>
+  <tr>
+    <th scope="col">Name<sup>�</sup>
+    </th><th scope="col">Prefixes
+    </th><th scope="col">Description
+</th></tr></thead><tbody>
+  <tr class="firstchild">
+<td scope="row"><code><span class="letter">?</span>GESV</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a general system of linear equations <var>AX=B</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GBSV</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a general banded system of linear equations <var>AX=B</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GTSV</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a general tridiagonal system of linear equations <var>AX=B</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>POSV</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric/Hermitian positive definite system of linear equations <var>AX=B</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PPSV</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric/Hermitian positive definite system of linear equations <var>AX=B</var>, where <var>A</var> is held in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PBSV</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric/Hermitian positive definite banded system of linear equations <var>AX=B</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PTSV</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric/Hermitian positive definite tridiagonal system of linear equations <var>AX=B</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYSV</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric indefinite system of linear equations <var>AX=B</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPSV</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric indefinite system of linear equations <var>AX=B</var>, where <var>A</var> is held in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GELS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the least squares solution to an over-determined system of linear equations, <var>AX=B</var> or <var>A<sup>H</sup>X=B</var>, or the minimum norm solution of an under-determined system, where <var>A</var> is a general rectangular matrix of full rank, using a <var>QR</var> or <var>LQ</var> factorization of <var>A</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GELSD</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the least squares solution to an over-determined system of linear equations, <var>AX=B</var> or <var>A<sup>H</sup>X=B</var>, or the minimum norm solution of an under-determined system, using a divide and conquer method, where <var>A</var> is a general rectangular matrix of full rank, using a <var>QR</var> or <var>LQ</var> factorization of <var>A</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGLSE</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves the <var>LSE</var> (Constrained Linear Least Squares Problem) using the <var>GRQ</var> (Generalized <var>RQ</var>) factorization.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGGLM</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves the <var>GLM</var> (Generalized Linear Regression Model) using the <var>GQR</var> (Generalized <var>QR</var>) factorization.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYEV</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues, and optionally, eigenvectors of a real symmetric matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYEVD</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues, and optionally, eigenvectors of a
+ real symmetric matrix. If eigenvectors are desired, it uses a divide 
+and conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPEV</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues, and optionally, eigenvectors of a real symmetric matrix in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPEVD</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues, and optionally, eigenvectors of a
+ real symmetric matrix in packed storage. If eigenvectors are desired, 
+it uses a divide and conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SBEV</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues, and optionally, eigenvectors of a real symmetric band matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SBEVD</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues, and optionally, eigenvectors of a
+ real symmetric band matrix. If eigenvectors are desired, it uses a 
+divide and conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>STEV</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues, and optionally, eigenvectors of a real symmetric tridiagonal matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>STEVD</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues, and optionally, eigenvectors of a
+ real symmetric tridiagonal matrix. If eigenvectors are desired, it uses
+ a divide and conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEES</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the eigenvalues and Schur factorization of a 
+general matrix, and orders the factorization so that selected 
+eigenvalues are at the top left of the Schur form.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEEV</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the eigenvalues and left and right eigenvectors of a general matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GESVD</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the singular value decomposition (SVD) of a general rectangular matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GESDD</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the singular value decomposition (SVD) of a general rectangular matrix using divide-and-conquer.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYGV</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues and the eigenvectors of a generalized symmetric-definite generalized eigenproblem, <var>Ax = λBx</var>, <var>ABx = λx</var>, or <var>BAx = λx</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYGVD</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues and the eigenvectors of a generalized symmetric-definite generalized eigenproblem, <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>. If eigenvectors are desired, it uses a divide and conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPGV</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues and eigenvectors of a generalized symmetric-definite generalized eigenproblem, <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>, where <var>A</var> and <var>B</var> are in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPGVD</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues and eigenvectors of a generalized symmetric-definite generalized eigenproblem, <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>, where <var>A</var> and <var>B</var> are in packed storage. If eigenvectors are desired, it uses a divide and conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SBGV</code>    </td><td><code>S D</code> 
+    </td><td>Computes all the eigenvalues, and optionally, the 
+eigenvectors of a real generalized symmetric-definite banded 
+eigenproblem, of the form <var>Ax=λBx</var>. <var>A</var> and <var>B</var> are assumed to be symmetric and banded, and <var>B</var> is also positive definite.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SBGVD</code>    </td><td><code>S D</code> 
+    </td><td>Computes all the eigenvalues and optionally, the 
+eigenvectors of a real generalized symmetric-definite banded 
+eigenproblem, of the form <var>Ax=λBx</var>. <var>A</var> and <var>B</var> are assumed to be symmetric and banded, and <var>B</var> is also positive definite. If eigenvectors are desired, it uses a divide and conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEGS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the generalized eigenvalues, Schur form, and left and/or right Schur vectors for a pair of non-symmetric matrices.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGES</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the generalized eigenvalues, Schur form, and left and/or right Schur vectors for a pair of non-symmetric matrices.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEGV</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the generalized eigenvalues, and left and/or right generalized eigenvectors for a pair of non-symmetric matrices.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGEV</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the generalized eigenvalues, and left and/or right generalized eigenvectors for a pair of non-symmetric matrices.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGSVD</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the Generalized Singular Value Decomposition.
+
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HESV</code>    </td><td><code>C Z</code> 
+    </td><td>Solves a Hermitian indefinite system of linear equations <var>AX=B</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPSV</code>    </td><td><code>C Z</code> 
+    </td><td>Solves a Hermitian indefinite system of linear equations <var>AX=B</var>, where <var>A</var> is held in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HEEV</code>    </td><td><code>C Z</code> 
+    </td><td>Computes all eigenvalues and, optionally, eigenvectors of a Hermitian matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HEEVD</code>    </td><td><code>C Z</code> 
+    </td><td>Computes all eigenvalues and, optionally, eigenvectors of a Hermitian matrix. If eigenvectors are desired, it uses a divide and
+      conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HEEVR</code>    </td><td><code>C Z</code>
+    </td><td>Computes selected eigenvalues, and optionally, eigenvectors
+ of a Hermitian matrix. Eigenvalues are computed by the dqds algorithm, 
+and eigenvectors are computed from various "good" <var>LDL<sup>T</sup></var> representations (also known as Relatively Robust Representations).
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPEV</code>    </td><td><code>C Z</code> 
+    </td><td>Computes all eigenvalues and, optionally, eigenvectors of a Hermitian matrix in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPEVD</code>    </td><td><code>C Z</code> 
+    </td><td>Computes all eigenvalues and, optionally, eigenvectors of a
+ Hermitian matrix in packed storage. If eigenvectors are desired, it 
+uses a divide and conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HBEV</code>    </td><td><code>C Z</code> 
+    </td><td>Computes all eigenvalues and, optionally, eigenvectors of a Hermitian band matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HBEVD</code>    </td><td><code>C Z</code> 
+    </td><td>Computes all eigenvalues and, optionally, eigenvectors of a
+ Hermitian band matrix. If eigenvectors are desired, it uses a divide 
+and conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HEGV</code>    </td><td><code>C Z</code> 
+    </td><td>Computes all eigenvalues and the eigenvectors of a generalized Hermitian-definite generalized eigenproblem, <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HEGVD</code>    </td><td><code>C Z</code> 
+    </td><td>Computes all eigenvalues and the eigenvectors of a generalized Hermitian-definite generalized eigenproblem, <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>. If eigenvectors are desired, it uses a divide and conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPGV</code>    </td><td><code>C Z</code> 
+    </td><td>Computes all eigenvalues and eigenvectors of a generalized Hermitian-definite generalized eigenproblem, <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>, where <var>A</var> and <var>B</var> are in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPGVD</code>    </td><td><code>C Z</code> 
+    </td><td>Computes all eigenvalues and eigenvectors of a generalized Hermitian-definite generalized eigenproblem, <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>, where <var>A</var> and <var>B</var> are in packed storage. If eigenvectors are desired, it uses a divide and conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HBGV</code>    </td><td><code>C Z</code> 
+    </td><td>Computes all the eigenvalues, and optionally, the 
+eigenvectors of a complex generalized Hermitian-definite banded 
+eigenproblem, of the form <var>Ax=λBx</var>. <var>A</var> and <var>B</var> are assumed to be Hermitian and banded, and <var>B</var> is also positive definite.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HBGVD</code>    </td><td><code>C Z</code> 
+    </td><td>Computes all the eigenvalues, and optionally, the 
+eigenvectors of a complex generalized Hermitian-definite banded 
+eigenproblem, of the form <var>Ax=λBx</var>. <var>A</var> and <var>B</var> are assumed to be Hermitian and banded, and <var>B</var> is also positive definite. If eigenvectors are desired, it uses a divide and conquer algorithm.
+
+</td></tr></tbody></table>
+
+<h3>Expert Driver and RRR Driver Subprograms</h3>
+
+<table width="100%" border="1">
+
+<caption>
+   <sup>�</sup>&nbsp;<big><code><span class="letter">?</span>&nbsp;</code></big>
+   <small>indicates prefix which must be filled with a combination of:</small>
+   <br>
+   <code>S = REAL(kind=4)</code>,
+   <code>D = REAL(kind=8)</code>,
+   <code>C = COMPLEX(kind=4)</code>,
+   <code>Z = COMPLEX(kind=8)</code>
+</caption>
+
+<thead>
+  <tr>
+    <th scope="col">Name<sup>�</sup>
+    </th><th scope="col">Prefixes
+    </th><th scope="col">Description
+</th></tr></thead><tbody>
+  <tr class="firstchild">
+<td scope="row"><code><span class="letter">?</span>GESVX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a general system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>, and provides an estimate of the condition number and error bounds on the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GBSVX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a general banded system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>, and provides an estimate of the condition number and error bounds on the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GTSVX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a general tridiagonal system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>, and provides an estimate of the condition number and error bounds on the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>POSVX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric/Hermitian positive definite system of linear equations <var>AX=B</var>, and provides an estimate of the condition number and error bounds on the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PPSVX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric/Hermitian positive definite system of linear equations <var>AX=B</var>, where <var>A</var> is held in packed storage, and provides an estimate of the condition number and error bounds on the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PBSVX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric/Hermitian positive definite banded system of linear equations <var>AX=B</var>, and provides an estimate of the condition number and error bounds on the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PTSVX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric/Hermitian positive definite tridiagonal system of linear equations <var>AX=B</var>, and provides an estimate of the condition number and error bounds on the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYSVX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric indefinite system of linear equations <var>AX=B</var>, and provides an estimate of the condition number and error bounds on the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPSVX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric indefinite system of linear equations <var>AX=B</var>, where <var>A</var> is held in packed storage, and provides an estimate of the condition number and error bounds on the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GELSX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the minimum norm least squares solution to an over- or under-determined system of linear equations <var>AX=B</var>, using a complete orthogonal factorization of <var>A</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GELSY</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the minimum norm least squares solution to an over- or under-determined system of linear equations <var>AX=B</var>, using a complete orthogonal factorization of <var>A</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GELSS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the minimum norm least squares solution to an over- or under-determined system of linear equations <var>AX=B</var>, using the singular value decomposition of <var>A</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYEVX</code>    </td><td><code>S D</code> 
+    </td><td>Computes selected eigenvalues and eigenvectors of a symmetric matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYEVR</code>    </td><td><code>S D</code> 
+    </td><td>Computes selected eigenvalues, and optionally, eigenvectors
+ of a real symmetric matrix. Eigenvalues are computed by the dqds 
+algorithm, and eigenvectors are computed from various "good" <var>LDL<sup>T</sup></var>, representations (also known as Relatively Robust Representations).
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYGVX</code>    </td><td><code>S D</code> 
+    </td><td>Computes selected eigenvalues, and optionally, the eigenvectors of a generalized symmetric-definite generalized eigenproblem, <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPEVX</code>    </td><td><code>S D</code> 
+    </td><td>Computes selected eigenvalues and eigenvectors of a symmetric matrix in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPGVX</code>    </td><td><code>S D</code> 
+    </td><td>Computes selected eigenvalues, and optionally, eigenvectors of a generalized symmetric-definite generalized eigenproblem, <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>, where <var>A</var> and <var>B</var> are in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SBEVX</code>    </td><td><code>S D</code> 
+    </td><td>Computes selected eigenvalues and eigenvectors of a symmetric band matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SBGVX</code>    </td><td><code>S D</code> 
+    </td><td>Computes selected eigenvalues, and optionally, the 
+eigenvectors of a real generalized symmetric-definite banded 
+eigenproblem, of, the form <var>Ax=λBx</var>. <var>A</var> and <var>B</var> are assumed to be symmetric and banded, and <var>B</var> is also positive definite.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>STEVX</code>    </td><td><code>S D</code> 
+    </td><td>Computes selected eigenvalues and eigenvectors of a real symmetric tridiagonal matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>STEVR</code>    </td><td><code>S D</code> 
+    </td><td>Computes selected eigenvalues, and optionally, eigenvectors
+ of a real symmetric tridiagonal matrix. Eigenvalues are computed by the
+ dqds algorithm, and eigenvectors are computed from various "good" <var>LDL<sup>T</sup></var> representations (also known as Relatively Robust Representations).
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEESX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the eigenvalues and Schur factorization of a 
+general matrix, orders the factorization so that selected eigenvalues 
+are at the top left of the Schur form, and computes reciprocal condition
+ numbers for the average of the selected eigenvalues, and for the 
+associated right invariant subspace.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGESX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the generalized eigenvalues, the real Schur form, and, optionally, the left and/or right matrices of Schur vectors.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEEVX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the eigenvalues and left and right eigenvectors of
+ a general matrix, with preliminary balancing of the matrix, and 
+computes reciprocal condition numbers for the eigenvalues and right 
+eigenvectors.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGEVX</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the generalized eigenvalues, and optionally, the left and/or right generalized eigenvectors.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HESVX</code>    </td><td><code>C Z</code> 
+    </td><td>Solves a Hermitian indefinite system of linear equations <var>AX=B</var>, and provides an estimate of the condition number and error bounds on the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPSVX</code>    </td><td><code>C Z</code> 
+    </td><td>Solves a Hermitian indefinite system of linear equations <var>AX=B</var>, where <var>A</var> is held in packed storage, and provides an estimate of the condition number and error bounds on the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HEEVX</code>    </td><td><code>C Z</code> 
+    </td><td>Computes selected eigenvalues and eigenvectors of a Hermitian matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HEGVX</code>    </td><td><code>C Z</code> 
+    </td><td>Computes selected eigenvalues, and optionally, the eigenvectors of a generalized Hermitian-definite generalized eigenproblem, <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPEVX</code>    </td><td><code>C Z</code> 
+    </td><td>Computes selected eigenvalues and eigenvectors of a Hermitian matrix in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPGVX</code>    </td><td><code>C Z</code> 
+    </td><td>Computes selected eigenvalues, and optionally, the eigenvectors of a generalized Hermitian-definite generalized eigenproblem, <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>, where <var>A</var> and <var>B</var> are in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HBEVX</code>    </td><td><code>C Z</code> 
+    </td><td>Computes selected eigenvalues and eigenvectors of a Hermitian band matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HBGVX</code>    </td><td><code>C Z</code> 
+    </td><td>Computes selected eigenvalues, and optionally, the 
+eigenvectors of a complex generalized Hermitian-definite banded 
+eigenproblem, of the form <var>Ax=λBx</var>. <var>A</var> and <var>B</var> are assumed to be Hermitian and banded, and <var>B</var> is also positive definite.
+
+</td></tr></tbody></table>
+
+<h3>Computational Subprograms</h3>
+
+<table width="100%" border="1">
+
+<caption>
+   <sup>�</sup>&nbsp;<big><code><span class="letter">?</span>&nbsp;</code></big>
+   <small>indicates prefix which must be filled with a combination of:</small>
+   <br>
+   <code>S = REAL(kind=4)</code>,
+   <code>D = REAL(kind=8)</code>,
+   <code>C = COMPLEX(kind=4)</code>,
+   <code>Z = COMPLEX(kind=8)</code>
+</caption>
+<thead>
+  <tr>
+    <th scope="col">Name<sup>�</sup>
+    </th><th scope="col">Prefixes
+    </th><th scope="col">Description
+</th></tr></thead><tbody>
+
+  <tr class="firstchild">
+<td scope="row"><code><span class="letter">?</span>BDSDC</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the singular value decomposition (SVD) of a real bidiagonal matrix, using a divide and conquer method.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>BDSQR</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the singular value decomposition (SVD) of a real bidiagonal matrix, using the bidiagonal <var>QR</var> algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>DISNA</code>    </td><td><code>S D</code> 
+    </td><td>Computes the reciprocal condition numbers for the 
+eigenvectors of a real symmetric or Hermitian matrix or for the left or 
+right singular vectors of a general matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GBBRD</code>    </td><td><code>S D C Z</code> 
+    </td><td>Reduces a general band matrix to real upper bidiagonal form by an orthogonal/unitary transformation.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GBCON</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a general band matrix, in either the 1-norm or the Infinity-norm, using the <var>LU</var> factorization computed by <code><span class="letter">?</span>GBTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GBEQU</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes row and column scalings to equilibrate a general band matrix and reduce its condition number.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GBRFS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Improves the computed solution to a general banded system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>, and provides forward and backward error bounds for the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GBTRF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes an <var>LU</var> factorization of a general band matrix, using partial pivoting with row interchanges.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GBTRS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a general banded system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>, using the <var>LU</var> factorization computed by <code><span class="letter">?</span>GBTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEBAK</code>    </td><td><code>S D C Z</code> 
+    </td><td>Transforms eigenvectors of a balanced matrix to those of the original matrix supplied to <code><span class="letter">?</span>GEBAL</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEBAL</code>    </td><td><code>S D C Z</code> 
+    </td><td>Balances a general matrix in order to improve the accuracy of computed eigenvalues.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEBRD</code>    </td><td><code>S D C Z</code> 
+    </td><td>Reduces a general rectangular matrix to real bidiagonal form by an orthogonal/unitary transformation.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GECON</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a general matrix, in either the 1-norm or the Infinity-norm, using the <var>LU</var> factorization computed by <code><span class="letter">?</span>GETRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEEQU</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes row and column scalings to equilibrate a general rectangular matrix and reduce its condition number.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEHRD</code>    </td><td><code>S D C Z</code> 
+    </td><td>Reduces a general matrix to upper Hessenberg form by an orthogonal/unitary similarity transformation.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GELQF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes an <var>LQ</var> factorization of a general rectangular matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEQLF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes a <var>QL</var> factorization of a general rectangular matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEQP3</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes a <var>QR</var> factorization with column pivoting of a general rectangular matrix using Level 3 BLAS.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEQPF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes a <var>QR</var> factorization with column pivoting of a general rectangular matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GEQRF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes a <var>QR</var> factorization of a general rectangular matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GERFS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Improves the computed solution to a general system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>, and provides forward and backward error bounds for the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GERQF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes an <var>RQ</var> factorization of a general rectangular matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GETRF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes an <var>LU</var> factorization of a general matrix, using partial pivoting with row interchanges.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GETRI</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the inverse of a general matrix, using the <var>LU</var> factorization computed by <code><span class="letter">?</span>GETRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GETRS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a general system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>, using the <var>LU</var> factorization computed by <code><span class="letter">?</span>GETRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGBAK</code>    </td><td><code>S D C Z</code> 
+    </td><td>Forms the right or left eigenvectors of the generalized 
+eigenvalue problem by backward transformation on the computed 
+eigenvectors of the balanced pair of matrices output by <code><span class="letter">?</span>GGBAL</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGBAL</code>    </td><td><code>S D C Z</code> 
+    </td><td>Balances a pair of general matrices for the generalized eigenvalue problem <var>Ax=λBx</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGHRD</code>    </td><td><code>S D C Z</code> 
+    </td><td>Reduces a pair of matrices to generalized upper Hessenberg form using orthogonal/unitary similarity transformations.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGQRF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes a generalized <var>QR</var> factorization of a pair of matrices.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGRQF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes a generalized <var>RQ</var> factorization of a pair of matrices.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GGSVP</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes orthogonal/unitary matrices as a preprocessing step for computing the generalized singular value decomposition.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GTCON</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a 
+general tridiagonal matrix, in either the 1-norm or the Infinity-norm, 
+using the <var>LU</var> factorization computed by <code><span class="letter">?</span>GTTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GTRFS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Improves the computed solution to a general tridiagonal system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>, and provides forward and backward error bounds for the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GTTRF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes an <var>LU</var> factorization of a general tridiagonal matrix, using partial pivoting with row interchanges.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>GTTRS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a general tridiagonal system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>, using the <var>LU</var> factorization computed by <code><span class="letter">?</span>GTTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HGEQZ</code>    </td><td><code>S D C Z</code> 
+    </td><td>Implements a single/double-shift version of the <var>QZ</var> method for finding the generalized eigenvalues of the equation <var>det(A&nbsp;-&nbsp;w(i)&nbsp;B)&nbsp;=&nbsp;0</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HSEIN</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes specified right and/or left eigenvectors of an upper Hessenberg matrix by inverse iteration.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HSEQR</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the eigenvalues and Schur factorization of an upper Hessenberg matrix, using the multishift <var>QR</var> algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TTQRE</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the eigenvalues and Schur factorization of an upper Hessenberg matrix, using the multishift <var>QR</var> algorithm with aggressive early deflation. <strong>(Only available on SX.)</strong>
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>OPGTR</code>    </td><td><code>S D</code> 
+    </td><td>Generates the orthogonal transformation matrix from a reduction to tridiagonal form determined by <code><span class="letter">?</span>SPTRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>OPMTR</code>    </td><td><code>S D</code> 
+    </td><td>Multiplies a general matrix by the orthogonal transformation matrix from a reduction to tridiagonal form, determined by <code><span class="letter">?</span>SPTRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORGBR</code>    </td><td><code>S D</code> 
+    </td><td>Generates the orthogonal transformation matrices from a reduction to bidiagonal form determined by <code><span class="letter">?</span>GEBRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORGHR</code>    </td><td><code>S D</code> 
+    </td><td>Generates the orthogonal transformation matrix from a reduction to Hessenberg form determined by <code><span class="letter">?</span>GEHRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORGLQ</code>    </td><td><code>S D</code> 
+    </td><td>Generates all or part of the orthogonal matrix <var>Q</var> from an <var>LQ</var> factorization determined by <code><span class="letter">?</span>GELQF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORGQL</code>    </td><td><code>S D</code> 
+    </td><td>Generates all or part of the orthogonal matrix <var>Q</var> from a <var>QL</var> factorization determined by <code><span class="letter">?</span>GEQLF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORGQR</code>    </td><td><code>S D</code> 
+    </td><td>Generates all or part of the orthogonal matrix <var>Q</var> from a <var>QR</var> factorization determined by <code><span class="letter">?</span>GEQRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORGRQ</code>    </td><td><code>S D</code> 
+    </td><td>Generates all or part of the orthogonal matrix <var>Q</var> from an <var>RQ</var> factorization determined by <code><span class="letter">?</span>GERQF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORGTR</code>    </td><td><code>S D</code> 
+    </td><td>Generates the orthogonal transformation matrix from a reduction to tridiagonal form determined by <code><span class="letter">?</span>SYTRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORMBR</code>    </td><td><code>S D</code> 
+    </td><td>Multiplies a general matrix by one of the orthogonal transformation matrices from a reduction to bidiagonal form determined by <code><span class="letter">?</span>GEBRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORMHR</code>    </td><td><code>S D</code> 
+    </td><td>Multiplies a general matrix by the orthogonal transformation matrix from a reduction to Hessenberg form determined by <code><span class="letter">?</span>GEHRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORMLQ</code>    </td><td><code>S D</code> 
+    </td><td>Multiplies a general matrix by the orthogonal matrix from an <var>LQ</var> factorization determined by <code><span class="letter">?</span>GELQF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORMQL</code>    </td><td><code>S D</code> 
+    </td><td>Multiplies a general matrix by the orthogonal matrix from a <var>QL</var> factorization determined by <code><span class="letter">?</span>GEQLF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORMQR</code>    </td><td><code>S D</code> 
+    </td><td>Multiplies a general matrix by the orthogonal matrix from a <var>QR</var> factorization determined by <code><span class="letter">?</span>GEQRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORMR3</code>    </td><td><code>S D</code> 
+    </td><td>Multiples a general matrix by the orthogonal matrix from an <var>RZ</var> factorization determined by <code><span class="letter">?</span>TZRZF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORMRQ</code>    </td><td><code>S D</code> 
+    </td><td>Multiplies a general matrix by the orthogonal matrix from an <var>RQ</var> factorization determined by <code><span class="letter">?</span>GERQF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORMRZ</code>    </td><td><code>S D</code> 
+    </td><td>Multiples a general matrix by the orthogonal matrix from an <var>RZ</var> factorization determined by <code><span class="letter">?</span>TZRZF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>ORMTR</code>    </td><td><code>S D</code> 
+    </td><td>Multiplies a general matrix by the orthogonal transformation matrix from a reduction to tridiagonal form determined by <code><span class="letter">?</span>SYTRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PBCON</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a 
+symmetric/Hermitian positive definite band matrix, using the Cholesky 
+factorization computed by <code><span class="letter">?</span>PBTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PBEQU</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes row and column scalings to equilibrate a 
+symmetric/Hermitian positive definite band matrix and reduce its 
+condition number.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PBRFS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Improves the computed solution to a symmetric/Hermitian positive definite banded system of linear equations <var>AX=B</var>, and provides forward and backward error bounds for the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PBSTF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes a split Cholesky factorization of a symmetric/Hermitian positive definite band matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PBTRF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the Cholesky factorization of a symmetric/Hermitian positive definite band matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PBTRS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric/Hermitian positive definite banded system of linear equations <var>AX=B</var>, using the Cholesky factorization computed by <code><span class="letter">?</span>PBTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>POCON</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a 
+symmetric/Hermitian positive definite matrix, using the Cholesky 
+factorization computed by <code><span class="letter">?</span>POTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>POEQU</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes row and column scalings to equilibrate a symmetric/Hermitian positive definite matrix and reduce its condition number.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PORFS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Improves the computed solution to a symmetric/Hermitian positive definite system of linear equations <var>AX=B</var>, and provides forward and backward error bounds for the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>POTRF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the Cholesky factorization of a symmetric/Hermitian positive definite matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>POTRI</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the inverse of a symmetric/Hermitian positive definite matrix, using the Cholesky factorization computed by <code><span class="letter">?</span>POTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>POTRS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric/Hermitian positive definite system of linear equations <var>AX=B</var>, using the Cholesky factorization computed by <code><span class="letter">?</span>POTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PPCON</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a 
+symmetric/Hermitian positive definite matrix in packed storage, using 
+the Cholesky factorization computed by <code><span class="letter">?</span>PPTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PPEQU</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes row and column scalings to equilibrate a 
+symmetric/Hermitian positive definite matrix in packed storage and 
+reduce its condition number.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PPRFS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Improves the computed solution to a symmetric/Hermitian positive definite system of linear equations <var>AX=B</var>, where <var>A</var> is held in packed storage, and provides forward and backward error bounds for the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PPTRF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the Cholesky factorization of a symmetric/Hermitian positive definite matrix in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PPTRI</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the inverse of a symmetric/Hermitian positive 
+definite matrix in packed storage, using the Cholesky factorization 
+computed by <code><span class="letter">?</span>PPTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PPTRS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric/Hermitian positive definite system of linear equations <var>AX=B</var>, where <var>A</var> is held in packed storage, using the Cholesky factorization computed by <code><span class="letter">?</span>PPTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PTCON</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the reciprocal of the condition number of a symmetric/Hermitian positive definite tridiagonal matrix, using the <var>LDL<sup>H</sup></var> factorization computed by <code><span class="letter">?</span>PTTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PTEQR</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes all eigenvalues and eigenvectors of a symmetric 
+positive definite tridiagonal matrix, by computing the SVD of its 
+bidiagonal Cholesky factor.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PTRFS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Improves the computed solution to a symmetric/Hermitian positive definite tridiagonal system of linear equations <var>AX=B</var>, and provides forward and backward error bounds for the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PTTRF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the <var>LDL<sup>H</sup></var> factorization of a symmetric/Hermitian positive definite tridiagonal matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>PTTRS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric/Hermitian positive definite tridiagonal system of linear equations, using the <var>LDL<sup>H</sup></var> factorization computed by <code><span class="letter">?</span>PTTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SBGST</code>    </td><td><code>S D</code> 
+    </td><td>Reduces a real symmetric-definite banded generalized eigenproblem <var>Ax=λBx</var> to standard form, where <var>B</var> has been factorized by <code><span class="letter">?</span>PBSTF</code> (Crawford's algorithm).
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SBTRD</code>    </td><td><code>S D</code> 
+    </td><td>Reduces a symmetric band matrix to real symmetric tridiagonal form by an orthogonal similarity transformation.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPCON</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a 
+symmetric indefinite matrix in packed storage, using the factorization 
+computed by <code><span class="letter">?</span>SPTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPGST</code>    </td><td><code>S D</code> 
+    </td><td>Reduces a symmetric-definite generalized eigenproblem <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>, to standard form, where <var>A</var> and <var>B</var> are held in packed storage, and <var>B</var> has been factorized by <code><span class="letter">?</span>PPTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPRFS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Improves the computed solution to a symmetric indefinite system of linear equations <var>AX=B</var>, where <var>A</var> is held in packed storage, and provides forward and backward error bounds for the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPTRD</code>    </td><td><code>S D</code> 
+    </td><td>Reduces a symmetric matrix in packed storage to real symmetric tridiagonal form by an orthogonal similarity transformation.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPTRF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the factorization of a symmetric-indefinite matrix in packed storage, using the diagonal pivoting method.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPTRI</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the inverse of a symmetric indefinite matrix in packed storage, using the factorization computed by <code><span class="letter">?</span>SPTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SPTRS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric indefinite system of linear equations <var>AX=B</var>, where <var>A</var> is held in packed storage, using the factorization computed by <code><span class="letter">?</span>SPTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>STEBZ</code>    </td><td><code>S D</code> 
+    </td><td>Computes selected eigenvalues of a real symmetric tridiagonal matrix by bisection.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>STEDC</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes all eigenvalues and, optionally, eigenvectors of a symmetric tridiagonal matrix using the divide and conquer algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>STEGR</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes selected eigenvalues and, optionally, eigenvectors
+ of a symmetric tridiagonal matrix. The eigenvalues are computed by the 
+dqds algorithm, while eigenvectors are computed from various "good" <var>LDL<sup>T</sup></var> representations (also known as Relatively Robust Representations).
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>STEIN</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes selected eigenvectors of a real symmetric tridiagonal matrix by inverse iteration.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>STEQR</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes all eigenvalues and eigenvectors of a real symmetric tridiagonal matrix, using the implicit <var>QL</var> or <var>QR</var> algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>STERF</code>    </td><td><code>S D</code> 
+    </td><td>Computes all eigenvalues of a real symmetric tridiagonal matrix, using a root-free variant of the <var>QL</var> or <var>QR</var> algorithm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYCON</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a symmetric indefinite matrix, using the factorization computed by <code><span class="letter">?</span>SYTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYGST</code>    </td><td><code>S D</code> 
+    </td><td>Reduces a symmetric-definite generalized eigenproblem <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>, to standard form, where <var>B</var> has been factorized by <code><span class="letter">?</span>POTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYRFS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Improves the computed solution to a symmetric indefinite system of linear equations <var>AX=B</var>, and provides forward and backward error bounds for the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYTRD</code>    </td><td><code>S D</code> 
+    </td><td>Reduces a symmetric matrix to real symmetric tridiagonal form by an orthogonal similarity transformation.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYTRF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the factorization of a symmetric-indefinite matrix, using the diagonal pivoting method.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYTRI</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the inverse of a symmetric indefinite matrix, using the factorization computed by <code><span class="letter">?</span>SYTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>SYTRS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a symmetric indefinite system of linear equations <var>AX=B</var>, using the factorization computed by <code><span class="letter">?</span>SPTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TBCON</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a triangular band matrix, in either the 1-norm or the Infinity-norm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TBRFS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Provides forward and backward error bounds for the solution of a triangular banded system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TBTRS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a triangular banded system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TGEVC</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes some or all of the right and/or left generalized eigenvectors of a pair of upper triangular matrices.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TGEXC</code>    </td><td><code>S D C Z</code> 
+    </td><td>Reorders the generalized Schur decomposition of a matrix pair <var>(A,B)</var> using an orthogonal/unitary equivalence transformation so that the diagonal block of <var>(A,B)</var> with row index <var>IFST</var> is moved to row <var>ILST</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TGSEN</code>    </td><td><code>S D C Z</code> 
+    </td><td>Reorders the generalized Schur decomposition of a matrix pair <var>(A,B)</var> so that a selected cluster of eigenvalues appears in the leading diagonal blocks of the pair <var>(A,B)</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TGSJA</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the generalized singular value decomposition of two upper triangular (or trapezoidal) matrices as output by <code><span class="letter">?</span>GGSVP</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TGSNA</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates reciprocal condition numbers for specified eigenvalues and/or eigenvectors of a matrix pair <var>(A,B)</var> in generalized Schur canonical form, as returned by <code><span class="letter">?</span>GGES</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TGSYL</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves the generalized Sylvester equation.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TPCON</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a 
+triangular matrix in packed storage, in either the 1-norm or the 
+Infinity-norm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TPRFS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Provides forward and backward error bounds for the solution of a triangular system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>, where <var>A</var> is held in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TPTRI</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the inverse of a triangular matrix in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TPTRS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a triangular system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>, where <var>A</var> is held in packed storage.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TRCON</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a triangular matrix,  in either the 1-norm or the Infinity-norm.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TREVC</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes left and right eigenvectors of an upper quasi-triangular/triangular matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TREXC</code>    </td><td><code>S D C Z</code> 
+    </td><td>Reorders the Schur factorization of a matrix by an orthogonal/unitary similarity transformation.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TRRFS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Provides forward and backward error bounds for the solution of a triangular system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TRSEN</code>    </td><td><code>S D C Z</code> 
+    </td><td>Reorders the Schur factorization of a matrix in order to 
+find an orthonormal basis of a right invariant subspace corresponding to
+ selected eigenvalues, and returns reciprocal condition numbers 
+(sensitivities) of the average of the cluster of eigenvalues and of the 
+invariant subspace.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TRSNA</code>    </td><td><code>S D C Z</code> 
+    </td><td>Estimates the reciprocal condition numbers (sensitivities) 
+of selected eigenvalues and eigenvectors of an upper 
+quasi-triangular/triangular matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TRSYL</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves the Sylvester matrix equation <var>AX&nbsp;�&nbsp;XB=C</var>, where <var>A</var> and <var>B</var> are upper quasi-triangular/triangular, and may be transposed.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TRTRI</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes the inverse of a triangular matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TRTRS</code>    </td><td><code>S D C Z</code> 
+    </td><td>Solves a triangular system of linear equations <var>AX=B</var>, <var>A<sup>T</sup>X=B</var> or <var>A<sup>H</sup>X=B</var>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TZRQF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes an <var>RQ</var> factorization of an upper trapezoidal matrix.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>TZRZF</code>    </td><td><code>S D C Z</code> 
+    </td><td>Computes an <var>RZ</var> factorization of an upper trapezoidal matrix (blocked version of <code><span class="letter">?</span>TZRQF</code>).
+
+  </td></tr><tr>
+
+<td scope="row"><code><span class="letter">?</span>UPGTR</code>    </td><td><code>C Z</code> 
+    </td><td>Generates the unitary transformation matrix from a reduction to tridiagonal form determined by <code><span class="letter">?</span>HPTRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UPMTR</code>    </td><td><code>C Z</code> 
+    </td><td>Multiplies a general matrix by the unitary transformation matrix from a reduction to tridiagonal form determined by <code><span class="letter">?</span>HPTRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNGBR</code>    </td><td><code>C Z</code> 
+    </td><td>Generates the unitary transformation matrices from a reduction to bidiagonal form determined by <code><span class="letter">?</span>GEBRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNGHR</code>    </td><td><code>C Z</code> 
+    </td><td>Generates the unitary transformation matrix from a reduction to Hessenberg form determined by <code><span class="letter">?</span>GEHRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNGLQ</code>    </td><td><code>C Z</code> 
+    </td><td>Generates all or part of the unitary matrix <var>Q</var> from an <var>LQ</var> factorization determined by <code><span class="letter">?</span>GELQF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNGQL</code>    </td><td><code>C Z</code> 
+    </td><td>Generates all or part of the unitary matrix <var>Q</var> from a <var>QL</var> factorization determined by <code><span class="letter">?</span>GEQLF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNGQR</code>    </td><td><code>C Z</code> 
+    </td><td>Generates all or part of the unitary matrix <var>Q</var> from a <var>QR</var> factorization determined by <code><span class="letter">?</span>GEQRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNGRQ</code>    </td><td><code>C Z</code> 
+    </td><td>Generates all or part of the unitary matrix <var>Q</var> from an <var>RQ</var> factorization determined by <code><span class="letter">?</span>GERQF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNGTR</code>    </td><td><code>C Z</code> 
+    </td><td>Generates the unitary transformation matrix from a reduction to tridiagonal form determined by <code><span class="letter">?</span>HETRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNMBR</code>    </td><td><code>C Z</code> 
+    </td><td>Multiplies a general matrix by one of the unitary transformation matrices from a reduction to bidiagonal form determined by <code><span class="letter">?</span>GEBRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNMHR</code>    </td><td><code>C Z</code> 
+    </td><td>Multiplies a general matrix by the unitary transformation matrix from a reduction to Hessenberg form determined by <code><span class="letter">?</span>GEHRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNMLQ</code>    </td><td><code>C Z</code> 
+    </td><td>Multiplies a general matrix by the unitary matrix from an <var>LQ</var> factorization determined by <code><span class="letter">?</span>GELQF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNMQL</code>    </td><td><code>C Z</code> 
+    </td><td>Multiplies a general matrix by the unitary matrix from a <var>QL</var> factorization determined by <code><span class="letter">?</span>GEQLF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNMQR</code>    </td><td><code>C Z</code> 
+    </td><td>Multiplies a general matrix by the unitary matrix from a <var>QR</var> factorization determined by <code><span class="letter">?</span>GEQRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNMR3</code>    </td><td><code>C Z</code> 
+    </td><td>Multiples a general matrix by the unitary matrix from an <var>RZ</var> factorization determined by <code><span class="letter">?</span>TZRZF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNMRQ</code>    </td><td><code>C Z</code> 
+    </td><td>Multiplies a general matrix by the unitary matrix from an <var>RQ</var> factorization determined by <code><span class="letter">?</span>GERQF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNMRZ</code>    </td><td><code>C Z</code> 
+    </td><td>Multiples a general matrix by the unitary matrix from an <var>RZ</var> factorization determined by <code><span class="letter">?</span>TZRZF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>UNMTR</code>    </td><td><code>C Z</code> 
+    </td><td>Multiplies a general matrix by the unitary transformation matrix from a reduction to tridiagonal form determined by <code><span class="letter">?</span>HETRD</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HBGST</code>    </td><td><code>C Z</code> 
+    </td><td>Reduces a Hermitian-definite banded generalized eigenproblem <var>Ax=λBx</var> to standard form, where <var>B</var> has been factorized by <code><span class="letter">?</span>PBSTF</code> (Crawford's algorithm).
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HBTRD</code>    </td><td><code>C Z</code> 
+    </td><td>Reduces a Hermitian band matrix to real symmetric tridiagonal form by a unitary similarity transformation.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPCON</code>    </td><td><code>C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a 
+Hermitian indefinite matrix in packed storage, using the factorization 
+computed by <code><span class="letter">?</span>HPTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPGST</code>    </td><td><code>C Z</code> 
+    </td><td>Reduces a Hermitian-definite generalized eigenproblem <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>, to standard form, where <var>A</var> and <var>B</var> are held in packed storage, and <var>B</var> has been factorized by <code><span class="letter">?</span>PPTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPRFS</code>    </td><td><code>C Z</code> 
+    </td><td>Improves the computed solution to a Hermitian indefinite system of linear equations <var>AX=B</var>, where <var>A</var> is held in packed storage, and provides forward and backward error bounds for the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPTRD</code>    </td><td><code>C Z</code> 
+    </td><td>Reduces a Hermitian matrix in packed storage to real symmetric tridiagonal form by a unitary similarity transformation.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPTRF</code>    </td><td><code>C Z</code> 
+    </td><td>Computes the factorization of a Hermitian-indefinite matrix in packed storage, using the diagonal pivoting method.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPTRI</code>    </td><td><code>C Z</code> 
+    </td><td>Computes the inverse of a Hermitian indefinite matrix in packed storage, using the factorization computed by <code><span class="letter">?</span>HPTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HPTRS</code>    </td><td><code>C Z</code> 
+    </td><td>Solves a Hermitian indefinite system of linear equations <var>AX=B</var>, where <var>A</var> is held in packed storage, using the factorization computed by <code><span class="letter">?</span>HPTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HECON</code>    </td><td><code>C Z</code> 
+    </td><td>Estimates the reciprocal of the condition number of a Hermitian indefinite matrix, using the factorization computed by <code><span class="letter">?</span>HETRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HEGST</code>    </td><td><code>C Z</code> 
+    </td><td>Reduces a Hermitian-definite generalized eigenproblem <var>Ax=λBx</var>, <var>ABx=λx</var>, or <var>BAx=λx</var>, to standard form, where <var>B</var> has been factorized by <code><span class="letter">?</span>POTRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HERFS</code>    </td><td><code>C Z</code> 
+    </td><td>Improves the computed solution to a Hermitian indefinite system of linear equations <var>AX=B</var>, and provides forward and backward error bounds for the solution.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HETRD</code>    </td><td><code>C Z</code> 
+    </td><td>Reduces a Hermitian matrix to real symmetric tridiagonal form by an orthogonal/unitary similarity transformation.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HETRF</code>    </td><td><code>C Z</code> 
+    </td><td>Computes the factorization of a Hermitian-indefinite matrix, using the diagonal pivoting method.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HETRI</code>    </td><td><code>C Z</code> 
+    </td><td>Computes the inverse of a Hermitian indefinite matrix, using the factorization computed by <code><span class="letter">?</span>HETRF</code>.
+
+  </td></tr><tr>
+<td scope="row"><code><span class="letter">?</span>HETRS</code>    </td><td><code>C Z</code> 
+    </td><td>Solves a Hermitian indefinite system of linear equations <var>AX=B</var>, using the factorization computed by <code><span class="letter">?</span>HPTRF</code>.
+
+</td></tr></tbody></table>
+
+<h3>Auxiliary Subprograms</h3>
+
+<table width="100%" border="1">
+
+<caption>
+   <sup>�</sup>&nbsp;<big><code><span class="letter">?</span>&nbsp;</code></big>
+   <small>indicates prefix which must be filled with a combination of:</small>
+   <br>
+   <code>S = REAL(kind=4)</code>,
+   <code>D = REAL(kind=8)</code>,
+   <code>C = COMPLEX(kind=4)</code>,
+   <code>Z = COMPLEX(kind=8)</code>
+</caption>
+<thead>
+  <tr>
+    <th scope="col">Prefixes
+    </th><th scope="col">Routine<sup>�</sup>
+
+</th></tr></thead><tbody>
+<tr class="firstchild">
+<td scope="rowgroup"><code>S D C Z</code> 
+</td><td>
+<div class="celllist"><code><span class="letter">?</span>GBTF2</code></div>
+<div class="celllist"><code><span class="letter">?</span>GEBD2</code></div>
+<div class="celllist"><code><span class="letter">?</span>GEHD2</code></div>
+<div class="celllist"><code><span class="letter">?</span>GELQ2</code></div>
+<div class="celllist"><code><span class="letter">?</span>GEQL2</code></div>
+<div class="celllist"><code><span class="letter">?</span>GEQR2</code></div>
+<div class="celllist"><code><span class="letter">?</span>GERQ2</code></div>
+<div class="celllist"><code><span class="letter">?</span>GESC2</code></div>
+<div class="celllist"><code><span class="letter">?</span>GETC2</code></div>
+<div class="celllist"><code><span class="letter">?</span>GETF2</code></div>
+<div class="celllist"><code><span class="letter">?</span>GTTS2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LABRD</code></div>
+<div class="celllist"><code><span class="letter">?</span>LACON</code></div>
+<div class="celllist"><code><span class="letter">?</span>LACPY</code></div>
+<div class="celllist"><code><span class="letter">?</span>LADIV</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAED0</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAED7</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAED8</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAEIN</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAEV2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAGTM</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAHQR</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAHRD</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAIC1</code></div>
+<div class="celllist"><code><span class="letter">?</span>LALS0</code></div>
+<div class="celllist"><code><span class="letter">?</span>LALSA</code></div>
+<div class="celllist"><code><span class="letter">?</span>LALSD</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANGB</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANGE</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANGT</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANHS</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANSB</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANSP</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANSY</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANTB</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANTP</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANTR</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAPLL</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAPMT</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAQGB</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAQGE</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAQP2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAQPS</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAQSB</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAQSP</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAQSY</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAR1V</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAR2V</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARF</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARFB</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARFG</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARFT</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARFX</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARGV</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARNV</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARRV</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARTG</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARTV</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARZ</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARZB</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARZT</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASCL</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASET</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASR</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASSQ</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASWP</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASYF</code></div>
+<div class="celllist"><code><span class="letter">?</span>LATBS</code></div>
+<div class="celllist"><code><span class="letter">?</span>LATDF</code></div>
+<div class="celllist"><code><span class="letter">?</span>LATPS</code></div>
+<div class="celllist"><code><span class="letter">?</span>LATRD</code></div>
+<div class="celllist"><code><span class="letter">?</span>LATRS</code></div>
+<div class="celllist"><code><span class="letter">?</span>LATRZ</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAUU2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAUUM</code></div>
+<div class="celllist"><code><span class="letter">?</span>PBTF2</code></div>
+<div class="celllist"><code><span class="letter">?</span>POTF2</code></div>
+<div class="celllist"><code><span class="letter">?</span>PTTS2</code></div>
+<div class="celllist"><code><span class="letter">?</span>SYTF2</code></div>
+<div class="celllist"><code><span class="letter">?</span>TGEX2</code></div>
+<div class="celllist"><code><span class="letter">?</span>TGSY2</code></div>
+<div class="celllist"><code><span class="letter">?</span>TRTI2</code></div>
+</td></tr></tbody><tbody>
+<tr class="firstchild">
+<td scope="rowgroup"><code>S D</code> 
+</td><td>
+<div class="celllist"><code><span class="letter">?</span>LABAD</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAE2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAEBZ</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAED1</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAED2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAED3</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAED4</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAED5</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAED6</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAED9</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAEDA</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAEXC</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAG2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAGS2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAGTF</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAGTS</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAGV2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LALN2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAMCH</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAMRG</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANST</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANV2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAPY2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAPY3</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAQTR</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARRB</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARRE</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARRF</code></div>
+<div class="celllist"><code><span class="letter">?</span>LARUV</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAS2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASD0</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASD1</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASD2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASD3</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASD4</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASD5</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASD6</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASD7</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASD8</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASD9</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASDA</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASDQ</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASDT</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASQ1</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASQ2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASQ3</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASQ4</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASQ5</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASQ6</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASRT</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASV2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LASY2</code></div>
+<div class="celllist"><code><span class="letter">?</span>ORG2L</code></div>
+<div class="celllist"><code><span class="letter">?</span>ORG2R</code></div>
+<div class="celllist"><code><span class="letter">?</span>ORGL2</code></div>
+<div class="celllist"><code><span class="letter">?</span>ORGR2</code></div>
+<div class="celllist"><code><span class="letter">?</span>ORM2L</code></div>
+<div class="celllist"><code><span class="letter">?</span>ORM2R</code></div>
+<div class="celllist"><code><span class="letter">?</span>ORML2</code></div>
+<div class="celllist"><code><span class="letter">?</span>ORMR2</code></div>
+<div class="celllist"><code><span class="letter">?</span>ORMR3</code></div>
+<div class="celllist"><code><span class="letter">?</span>RSCL</code></div>
+<div class="celllist"><code><span class="letter">?</span>SYGS2</code></div>
+<div class="celllist"><code><span class="letter">?</span>SYTD2</code></div>
+</td></tr></tbody><tbody>
+<tr class="firstchild">
+<td scope="rowgroup"><code>C Z</code> 
+</td><td>
+<div class="celllist"><code><span class="letter">?</span>HEGS2</code></div>
+<div class="celllist"><code><span class="letter">?</span>HETD2</code></div>
+<div class="celllist"><code><span class="letter">?</span>HETF2</code></div>
+<div class="celllist"><code><span class="letter">?</span>LACGV</code></div>
+<div class="celllist"><code><span class="letter">?</span>LACRM</code></div>
+<div class="celllist"><code><span class="letter">?</span>LACRT</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAESY</code></div>
+<div class="celllist"><code><span class="letter">?</span>LAHEF</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANHB</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANHE</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANHP</code></div>
+<div class="celllist"><code><span class="letter">?</span>LANHT</code></div>
+<div class="celllist"><code><span class="letter">?</span>SRSCL</code></div>
+<div class="celllist"><code><span class="letter">?</span>UNG2L</code></div>
+<div class="celllist"><code><span class="letter">?</span>UNG2R</code></div>
+<div class="celllist"><code><span class="letter">?</span>UNGL2</code></div>
+<div class="celllist"><code><span class="letter">?</span>UNGR2</code></div>
+<div class="celllist"><code><span class="letter">?</span>UNM2L</code></div>
+<div class="celllist"><code><span class="letter">?</span>UNM2R</code></div>
+<div class="celllist"><code><span class="letter">?</span>UNML2</code></div>
+<div class="celllist"><code><span class="letter">?</span>UNMR2</code></div>
+<div class="celllist"><code><span class="letter">?</span>UNMR3</code></div>
+</td></tr></tbody><tbody>
+<tr class="firstchild">
+<td scope="rowgroup"><em>n/a</em>
+</td><td>
+<div class="celllist"><code>ILAENV</code></div>
+<div class="celllist"><code>LSAME</code></div>
+<div class="celllist"><code>LSAMEN</code></div>
+<div class="celllist"><code>XERBLA</code></div>
+</td></tr></tbody></table>
+
+<h2>Further Reading</h2>
+<ol class="bib">
+<li><cite><a name="LAPACKUG" href="http://www.netlib.org/lapack/lug/lapack_lug.html">LAPACK User's Guide</a></cite>
+</li><li><a name="LAPACKQR" href="http://www.netlib.org/lapack/lapackqref.ps">A Quick Reference guide for LAPACK</a>
+</li><li>A hardcopy <cite>LAPACK User's Guide</cite> may be ordered from
+<a href="http://www.siam.org/">SIAM</a>:
+
+<p class="address">
+    SIAM Customer Service <br>
+    P.O. Box 7260 <br>
+    Philadelphia, PA 19104 <br>
+</p><p class="address">
+    USA: 800-447-7426 <br>
+    Worldwide: 215-382-9800 <br>
+    FAX: 215-386-7999
+</p><p class="address">
+   <a href="mailto:service@siam.org">service@siam.org</a> <br>
+   <a href="http://www.siam.org/">http://www.siam.org/</a>
+</p>
+
+</li></ol>
+</body></html>

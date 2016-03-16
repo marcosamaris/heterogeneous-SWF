@@ -1,0 +1,3156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>CULA Programmer’s Guide — programmers_guide vR17 (CUDA 5.0) documentation</title>
+    <link rel="stylesheet" href="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/default.css" type="text/css">
+    <link rel="stylesheet" href="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/pygments.css" type="text/css">
+    <script src="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/ga.js" async="" type="text/javascript"></script><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     'R17 (CUDA 5.0)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/jquery.js"></script>
+    <script type="text/javascript" src="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/underscore.js"></script>
+    <script type="text/javascript" src="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/doctools.js"></script>
+    <script type="text/javascript" src="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/MathJax.js"></script>
+    <link rel="top" title="programmers_guide vR17 (CUDA 5.0) documentation" href="http://www.culatools.com/cula_dense_programmers_guide/index.html"> 
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-10186622-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  <style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+  <body><div style="display: none;" id="MathJax_Message"></div>
+ 
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px"> 
+<img src="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/culapack_logo_white_background.png" alt="logo" border="0">
+</div> 
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="http://www.culatools.com/cula_dense_programmers_guide/genindex.html" title="General Index" accesskey="I">index</a></li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">CULA Programmer’s Guide</a></li>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#versions">Versions</a></li>
+<li><a class="reference internal" href="#cula-dense-free-edition-functions">CULA Dense Free Edition Functions</a></li>
+<li><a class="reference internal" href="#cula-dense-functions">CULA Dense Functions</a><ul>
+<li><a class="reference internal" href="#linear-equations">Linear Equations</a></li>
+<li><a class="reference internal" href="#orthogonal-factorizations">Orthogonal Factorizations</a></li>
+<li><a class="reference internal" href="#least-squares-problems">Least Squares Problems</a></li>
+<li><a class="reference internal" href="#symmetric-eigenproblems">Symmetric Eigenproblems</a></li>
+<li><a class="reference internal" href="#non-symmetric-eigenproblems">Non-Symmetric Eigenproblems</a></li>
+<li><a class="reference internal" href="#generalized-eigenproblems">Generalized Eigenproblems</a></li>
+<li><a class="reference internal" href="#singular-value-decomposition">Singular Value Decomposition</a></li>
+<li><a class="reference internal" href="#auxiliary">Auxiliary</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#supported-operating-systems">Supported Operating Systems</a></li>
+<li><a class="reference internal" href="#attributions">Attributions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#license">License</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li><a class="reference internal" href="#obtaining-cula">Obtaining CULA</a></li>
+<li><a class="reference internal" href="#system-requirements">System Requirements</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#compiling-with-cula">Compiling with CULA</a></li>
+<li><a class="reference internal" href="#linking-to-cula">Linking to CULA</a></li>
+<li><a class="reference internal" href="#uninstallation">Uninstallation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#differences-between-cula-and-lapack">Differences Between CULA and LAPACK</a><ul>
+<li><a class="reference internal" href="#naming-conventions">Naming Conventions</a></li>
+<li><a class="reference internal" href="#calling-conventions">Calling Conventions</a></li>
+<li><a class="reference internal" href="#data-type-support">Data Type Support</a></li>
+<li><a class="reference internal" href="#error-handling">Error Handling</a></li>
+<li><a class="reference internal" href="#workspaces">Workspaces</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#programming-considerations">Programming Considerations</a><ul>
+<li><a class="reference internal" href="#matrix-storage">Matrix Storage</a><ul>
+<li><a class="reference internal" href="#column-major-ordering">Column-Major Ordering</a></li>
+<li><a class="reference internal" href="#complex-data-types">Complex Data Types</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#optimizing-for-performance">Optimizing for Performance</a><ul>
+<li><a class="reference internal" href="#problem-size">Problem Size</a></li>
+<li><a class="reference internal" href="#accuracy-requirements">Accuracy Requirements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-the-device-interface">Using the Device Interface</a></li>
+<li><a class="reference internal" href="#thread-safety-multi-gpu-operation">Thread Safety/Multi-GPU Operation</a></li>
+<li><a class="reference internal" href="#developing-in-c">Developing in C++</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#initialization-and-shutdown">Initialization and Shutdown</a></li>
+<li><a class="reference internal" href="#argument-errors">Argument Errors</a></li>
+<li><a class="reference internal" href="#data-errors">Data Errors</a></li>
+<li><a class="reference internal" href="#printing-errors-to-the-console">Printing Errors to the Console</a></li>
+<li><a class="reference internal" href="#using-the-c-interface">Using the C++ Interface</a></li>
+<li><a class="reference internal" href="#checking-that-libraries-are-linked-correctly">Checking That Libraries are Linked Correctly</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#programming-in-fortran">Programming in Fortran</a><ul>
+<li><a class="reference internal" href="#id2">Introduction</a></li>
+<li><a class="reference internal" href="#routine-naming">Routine Naming</a></li>
+<li><a class="reference internal" href="#module-file-interfacing">Module File Interfacing</a></li>
+<li><a class="reference internal" href="#using-the-cula-c-style-device-memory-interface">Using the CULA C-Style Device Memory Interface</a></li>
+<li><a class="reference internal" href="#using-the-cula-cuda-fortran-device-memory-interface">Using the CULA CUDA-Fortran Device Memory Interface</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuring-your-environment">Configuring Your Environment</a><ul>
+<li><a class="reference internal" href="#microsoft-visual-studio">Microsoft Visual Studio</a><ul>
+<li><a class="reference internal" href="#global-settings">Global Settings</a></li>
+<li><a class="reference internal" href="#project-settings">Project Settings</a></li>
+<li><a class="reference internal" href="#runtime-path">Runtime Path</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#linux-mac-os-x-command-line">Linux / Mac OS X - Command Line</a><ul>
+<li><a class="reference internal" href="#configure-environment-variables">Configure Environment Variables</a></li>
+<li><a class="reference internal" href="#configure-project-paths">Configure Project Paths</a></li>
+<li><a class="reference internal" href="#id4">Runtime Path</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#common-issues">Common Issues</a></li>
+<li><a class="reference internal" href="#support-options">Support Options</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#changelog">Changelog</a><ul>
+<li><a class="reference internal" href="#release-r18-cuda-6-0-april-16-2014">Release R18 CUDA 6.0 (April 16, 2014)</a></li>
+<li><a class="reference internal" href="#release-r17-cuda-5-0-may-8-2013">Release R17 CUDA 5.0 (May 8, 2013)</a></li>
+<li><a class="reference internal" href="#release-r16a-cuda-5-0-november-20-2012">Release R16a CUDA 5.0 (November 20, 2012)</a></li>
+<li><a class="reference internal" href="#release-r16-cuda-5-0-october-16-2012">Release R16 CUDA 5.0 (October 16, 2012)</a></li>
+<li><a class="reference internal" href="#release-r15-cuda-4-2-august-14-2012">Release R15 CUDA 4.2 (August 14, 2012)</a></li>
+<li><a class="reference internal" href="#release-r14-cuda-4-1-january-30-2012">Release R14 CUDA 4.1 (January 30, 2012)</a></li>
+<li><a class="reference internal" href="#release-r13-cuda-4-0-november-2-2011">Release R13 CUDA 4.0 (November 2, 2011)</a></li>
+<li><a class="reference internal" href="#release-r12-cuda-4-0-may-26-2011">Release R12 CUDA 4.0 (May 26, 2011)</a></li>
+<li><a class="reference internal" href="#release-r11-cuda-3-2-march-31-2011">Release R11 CUDA 3.2 (March 31, 2011)</a></li>
+<li><a class="reference internal" href="#release-r10-cuda-3-2-december-10-2010">Release R10 CUDA 3.2 (December 10, 2010)</a></li>
+<li><a class="reference internal" href="#release-2-1-final-august-31-2010">Release 2.1 Final (August 31, 2010)</a></li>
+<li><a class="reference internal" href="#release-2-0-final-june-28-2010">Release 2.0 Final (June 28, 2010)</a></li>
+<li><a class="reference internal" href="#release-2-0-preview-may-21-2010">Release 2.0 Preview (May 21, 2010)</a></li>
+<li><a class="reference internal" href="#release-1-3a-final-april-19-2010">Release 1.3a Final (April 19, 2010)</a></li>
+<li><a class="reference internal" href="#release-1-3-final-april-8-2010">Release 1.3 Final (April 8, 2010)</a></li>
+<li><a class="reference internal" href="#release-1-2-final-february-17-2010">Release 1.2 Final (February 17, 2010)</a></li>
+<li><a class="reference internal" href="#release-1-1b-final-january-6-2009">Release 1.1b Final (January 6, 2009)</a></li>
+<li><a class="reference internal" href="#release-1-1a-final-december-21-2009">Release 1.1a Final (December 21, 2009)</a></li>
+<li><a class="reference internal" href="#release-1-1-final-november-25-2009">Release 1.1 Final (November 25, 2009)</a></li>
+<li><a class="reference internal" href="#release-1-1-beta-november-13-2009">Release 1.1 Beta (November 13, 2009)</a></li>
+<li><a class="reference internal" href="#release-1-0-final-september-30-2009">Release 1.0 Final (September 30, 2009)</a></li>
+<li><a class="reference internal" href="#release-1-0-beta-3-september-15-2009">Release 1.0 Beta 3 (September 15, 2009)</a></li>
+<li><a class="reference internal" href="#release-1-0-beta-2-august-27-2009">Release 1.0 Beta 2 (August 27, 2009)</a></li>
+<li><a class="reference internal" href="#release-1-0-beta-1-august-13-2009">Release 1.0 Beta 1 (August 13, 2009)</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input name="q" size="18" type="text">
+      <input value="Go" type="submit">
+      <input name="check_keywords" value="yes" type="hidden">
+      <input name="area" value="default" type="hidden">
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="cula-programmer-s-guide">
+<h1>CULA Programmer’s Guide<a class="headerlink" href="#cula-programmer-s-guide" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="introduction">
+<span id="intro"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>This document describes CULA™, an implementation of the Linear Algebra PACKage (LAPACK) interface for <em>CUDA</em>™-enabled NVIDIA® graphics processing units (GPUs).</p>
+<p>CULA is a next-generation linear algebra package that uses the GPU as a
+co-processor to achieve speedups over existing linear algebra packages.
+CULA provides the same functionality you receive with your existing package,
+only at a greater speed.</p>
+<p>CULA provides easy access to the NVIDIA computing resources available
+ in your computer system.  The library is a self-contained package that 
+enhances linear algebra programs with little to no knowledge of the GPU 
+computing model.  CULA presents four distinct interfaces:</p>
+<ul class="simple">
+<li><strong>Standard</strong> - The functions in this interface work on data in main memory, as in the <a class="reference external" href="http://www.netlib.org/lapack/">Netlib LAPACK interface</a>, but with semantics more familiar to the C and C++ programmer.</li>
+<li><strong>Device</strong> - This interface follows the standards set forth in the NVIDIA <em>CUBLAS</em>
+ package.  In this interface, the user allocates and populates GPU 
+memory and then calls CULA functions to operate on that memory.  This is
+ useful for closed-loop GPU systems that do large sections of processing
+ on the GPU.</li>
+<li><strong>Fortran</strong> - This functions of this interface match the <strong>Standard</strong> and <strong>Device</strong> interfaces but use Fortran calling conventions.</li>
+<li><strong>Link</strong> -  This interface is targeted at users who are
+ porting existing linear algebra codes to a GPU-accelerated environment.
+  This interface provides a migration path by matching the function 
+names and signatures of several popular linear algebra packages.  It 
+additionally provides a fallback to CPU execution when a user does not 
+have a GPU or when problem size is too small to take advantage of GPU 
+execution.</li>
+</ul>
+<p>For maximum compatibility with the conventions of existing linear 
+algebra packages, CULA uses column-major data storage and 1-based 
+indexing, even on our C-oriented interfaces.  More details are available
+ in the <a class="reference internal" href="#programming-considerations-chapter"><em>Programming Considerations</em></a> chapter.</p>
+<div class="section" id="versions">
+<h2>Versions<a class="headerlink" href="#versions" title="Permalink to this headline">¶</a></h2>
+<p>The official release of CULA is available in several forms.</p>
+<ul class="simple">
+<li><strong>Dense Free Edition</strong> - The basic package contains a basic set of functions and is free of
+cost.  This version supports single-precision real and complex data types.</li>
+<li><strong>Dense</strong> - The standard package is a low-cost solution that provides a
+greater set of functionality than the <strong>Free Edition</strong> package and includes all data
+precisions.  This package is intended for institutional and academic use.</li>
+</ul>
+<p>The following table summarizes the features of these three versions:</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="20%">
+<col width="33%">
+<col width="9%">
+<col width="14%">
+<col width="14%">
+<col width="11%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">&nbsp;</th>
+<th class="head">Price</th>
+<th class="head">Precisions</th>
+<th class="head">Functions</th>
+<th class="head">Redistributable</th>
+<th class="head">Support</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Dense Free Edition</td>
+<td>Free</td>
+<td>S, C</td>
+<td>6 (see below)</td>
+<td>Yes</td>
+<td>Public forums</td>
+</tr>
+<tr><td>Dense</td>
+<td><a class="reference external" href="http://www.culatools.com/">See website</a></td>
+<td>S, D, C, Z</td>
+<td>Many (see below)</td>
+<td>For internal use</td>
+<td>Ticket system</td>
+</tr>
+<tr><td>Dense for Redistribution</td>
+<td><a class="reference external" href="http://www.culatools.com/">See website</a></td>
+<td>S, D, C, Z</td>
+<td>Many</td>
+<td>Yes</td>
+<td>Email &amp; phone</td>
+</tr>
+</tbody>
+</table>
+<p>Precisions in the table above are defined as follows (more details available later): <cite>S</cite> is single precision real, <cite>D</cite> is is double precision real, <cite>C</cite> is single precision complex, and <cite>Z</cite> is double precision complex.</p>
+</div>
+<div class="section" id="cula-dense-free-edition-functions">
+<h2>CULA Dense Free Edition Functions<a class="headerlink" href="#cula-dense-free-edition-functions" title="Permalink to this headline">¶</a></h2>
+<p>CULA Dense Free Edition implements popular single precision real and complex functions from
+LAPACK.  Included are the following routines:</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="51%">
+<col width="24%">
+<col width="24%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Operations</th>
+<th class="head">S</th>
+<th class="head">C</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Factorize and solve</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGESV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGESV</span></tt></td>
+</tr>
+<tr><td>LU factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGETRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGETRF</span></tt></td>
+</tr>
+<tr><td>QR factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGEQRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGEQRF</span></tt></td>
+</tr>
+<tr><td>General least squares solve</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGELS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGELS</span></tt></td>
+</tr>
+<tr><td>Equality-constrained least squares</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGGLSE</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGGLSE</span></tt></td>
+</tr>
+<tr><td>General Singular Value Decomposition</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGESVD</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGESVD</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>All versions of CULA also include symbols to NVIDIA’s <em>CUBLAS</em> functions for
+Level 3 BLAS routines (see the <em>cula_blas.h</em> and <em>cula_blas_device.h</em> headers).  These symbols are present so that CULA may be used as a
+stand-alone linear algebra package without requiring several other packages to
+provide a capable development system.  Additionally, in many cases, we have
+implemented performance tweaks to get even more performance out of these
+functions.  Like our LAPACK functions, all of these BLAS Level 3 functions are
+supported in our <strong>Standard</strong>, <strong>Device</strong>, <strong>Fortran</strong>, and <strong>Link</strong>
+interfaces.  Included are the following routines:</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="14%">
+<col width="34%">
+<col width="13%">
+<col width="13%">
+<col width="13%">
+<col width="13%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Matrix Type</th>
+<th class="head">Operation</th>
+<th class="head">S</th>
+<th class="head">C</th>
+<th class="head">D</th>
+<th class="head">Z</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>General</td>
+<td>Matrix-matrix multiply</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGEMM</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGEMM</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGEMM</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGEMM</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Matrix-vector multiply</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGEMV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGEMV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGEMV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGEMV</span></tt></td>
+</tr>
+<tr><td>Triangular</td>
+<td>Triangular matrix-matrix multiply</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">STRMM</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CTRMM</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DTRMM</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZTRMM</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Triangular matrix solve</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">STRSM</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CTRSM</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DTRSM</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZTRSM</span></tt></td>
+</tr>
+<tr><td>Symmetric</td>
+<td>Symmetric matrix-matrix multiply</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SSYMM</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CSYMM</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DSYMM</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZSYMM</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Symmetric rank 2k update</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SSYR2K</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CSYR2K</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DSYR2K</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZSYR2K</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Symmetric rank k update</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SSYRK</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CSYRK</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DSYRK</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZSYRK</span></tt></td>
+</tr>
+<tr><td>Hermitian</td>
+<td>Hermitian matrix-matrix multiply</td>
+<td>&nbsp;</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CHEMM</span></tt></td>
+<td>&nbsp;</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZHEMM</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Hermitian rank 2k update</td>
+<td>&nbsp;</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CHER2K</span></tt></td>
+<td>&nbsp;</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZHER2K</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Hermitian rank k update</td>
+<td>&nbsp;</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CHERK</span></tt></td>
+<td>&nbsp;</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZHERK</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="cula-dense-functions">
+<h2>CULA Dense Functions<a class="headerlink" href="#cula-dense-functions" title="Permalink to this headline">¶</a></h2>
+<p>CULA’s standard Dense edition implements a much larger set of functions from LAPACK.
+As CULA evolves, more functions and function variants will be supported.</p>
+<div class="section" id="linear-equations">
+<h3>Linear Equations<a class="headerlink" href="#linear-equations" title="Permalink to this headline">¶</a></h3>
+<p>CULA contains the following LAPACK function equivalents from the linear
+equations family of computational routines:</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="14%">
+<col width="34%">
+<col width="13%">
+<col width="13%">
+<col width="13%">
+<col width="14%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Matrix Type</th>
+<th class="head">Operation</th>
+<th class="head">S</th>
+<th class="head">C</th>
+<th class="head">D</th>
+<th class="head">Z</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>General</td>
+<td>Factorize and solve</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGESV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGESV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGESV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGESV</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Factorize and solve with iterative refinement</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DSGESV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZCGESV</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>LU factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGETRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGETRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGETRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGETRF</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Solve using LU factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGETRS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGETRS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGETRS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGETRS</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Invert using LU factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGETRI</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGETRI</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGETRI</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGETRI</span></tt></td>
+</tr>
+<tr><td>Positive Definite</td>
+<td>Factorize and solve</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SPOSV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CPOSV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DPOSV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZPOSV</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Cholesky factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SPOTRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CPOTRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DPOTRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZPOTRF</span></tt></td>
+</tr>
+<tr><td>Triangular</td>
+<td>Invert triangular matrix</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">STRTRI</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CTRTRI</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DTRTRI</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZTRTRI</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Solve triangular system</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">STRTRS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CTRTRS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DTRTRS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZTRTRS</span></tt></td>
+</tr>
+<tr><td>Banded</td>
+<td>LU factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGBTRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGBTRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGBTRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGBTRF</span></tt></td>
+</tr>
+<tr><td>Pos Def Banded</td>
+<td>Cholesky factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SPBTRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CPBTRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DPBTRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZPBTRF</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="orthogonal-factorizations">
+<h3>Orthogonal Factorizations<a class="headerlink" href="#orthogonal-factorizations" title="Permalink to this headline">¶</a></h3>
+<p>CULA contains the following LAPACK function equivalents from the orthogonal
+factorization family of computational routines:</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="14%">
+<col width="34%">
+<col width="13%">
+<col width="13%">
+<col width="13%">
+<col width="14%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Matrix Type</th>
+<th class="head">Operation</th>
+<th class="head">S</th>
+<th class="head">C</th>
+<th class="head">D</th>
+<th class="head">Z</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>General</td>
+<td>QR factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGEQRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGEQRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGEQRF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGEQRF</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>QR factorize and solve</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGEQRS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGEQRS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGEQRS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGEQRS</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Generate Q from QR factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SORGQR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CUNGQR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DORGQR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZUNGQR</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Multiply matrix by Q from QR factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SORMQR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CUNMQR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DORMQR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZUNMQR</span></tt></td>
+</tr>
+<tr><td>General</td>
+<td>LQ factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGELQF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGELQF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGELQF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGELQF</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Generate Q from LQ factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SORGLQ</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CUNGLQ</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DORGLQ</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZUNGLQ</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Multiply matrix by Q from LQ factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SORMLQ</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CUNMLQ</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DORMLQ</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZUNMLQ</span></tt></td>
+</tr>
+<tr><td>General</td>
+<td>RQ factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGERQF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGERQF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGERQF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGERQF</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Multiply matrix by Q from RQ factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SORMRQ</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CUNMRQ</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DORMRQ</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZUNMRQ</span></tt></td>
+</tr>
+<tr><td>General</td>
+<td>QL factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGEQLF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGEQLF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGEQLF</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGEQLF</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Generate Q from QL factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SORGQL</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CUNGQL</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DORGQL</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZUNGQL</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Multiply matrix by Q from QL factorization</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SORMQL</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CUNMQL</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DORMQL</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZUNMQL</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="least-squares-problems">
+<h3>Least Squares Problems<a class="headerlink" href="#least-squares-problems" title="Permalink to this headline">¶</a></h3>
+<p>CULA contains the following LAPACK function equivalents from the least squares
+solver family of computational routines:</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="14%">
+<col width="34%">
+<col width="13%">
+<col width="13%">
+<col width="13%">
+<col width="14%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Matrix Type</th>
+<th class="head">Operation</th>
+<th class="head">S</th>
+<th class="head">C</th>
+<th class="head">D</th>
+<th class="head">Z</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>General</td>
+<td>General least squares solve</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGELS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGELS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGELS</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGELS</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Equality-constrained least squares</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGGLSE</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGGLSE</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGGLSE</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGGLSE</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="symmetric-eigenproblems">
+<h3>Symmetric Eigenproblems<a class="headerlink" href="#symmetric-eigenproblems" title="Permalink to this headline">¶</a></h3>
+<p>CULA contains the following LAPACK function equivalents from the symmetric
+Eigenproblem family of computational routines.</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="14%">
+<col width="34%">
+<col width="13%">
+<col width="13%">
+<col width="13%">
+<col width="14%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Matrix Type</th>
+<th class="head">Operation</th>
+<th class="head">S</th>
+<th class="head">C</th>
+<th class="head">D</th>
+<th class="head">Z</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Symmetric</td>
+<td>Symmetric Eigenproblem solver</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SSYEV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CHEEV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DSYEV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZHEEV</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Symmetric Eigenproblem solver (expert)</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SSYEVX</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CHEEVX</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DSYEVX</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZHEEVX</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Symmetric band reduction</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SSYRDB</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CHERDB</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DSYRDB</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZHERDB</span></tt></td>
+</tr>
+<tr><td>Tridiagonal</td>
+<td>Find eigenvalues using bisection</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SSTEBZ</span></tt></td>
+<td>&nbsp;</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DSTEBZ</span></tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Find eigenvalues using QR/QL iteration</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SSTEQR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CSTEQR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DSYRDB</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZSTEQR</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="non-symmetric-eigenproblems">
+<h3>Non-Symmetric Eigenproblems<a class="headerlink" href="#non-symmetric-eigenproblems" title="Permalink to this headline">¶</a></h3>
+<p>CULA contains the following LAPACK function equivalents from the non-symmetric
+Eigenproblem family of computational routines:</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="14%">
+<col width="34%">
+<col width="13%">
+<col width="13%">
+<col width="13%">
+<col width="14%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Matrix Type</th>
+<th class="head">Operation</th>
+<th class="head">S</th>
+<th class="head">C</th>
+<th class="head">D</th>
+<th class="head">Z</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>General</td>
+<td>General Eigenproblem solver</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGEEV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGEEV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGEEV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGEEV</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Hessenberg reduction</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGEHRD</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGEHRD</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGEHRD</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGEHRD</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Generate Q from Hessenberg reduction</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SORGHR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CUNGHR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DORGHR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZUNGHR</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="generalized-eigenproblems">
+<h3>Generalized Eigenproblems<a class="headerlink" href="#generalized-eigenproblems" title="Permalink to this headline">¶</a></h3>
+<p>CULA contains the following LAPACK function equivalents from the generalized
+Eigenproblem family of computational routines.</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="14%">
+<col width="34%">
+<col width="13%">
+<col width="13%">
+<col width="13%">
+<col width="14%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Matrix Type</th>
+<th class="head">Operation</th>
+<th class="head">S</th>
+<th class="head">C</th>
+<th class="head">D</th>
+<th class="head">Z</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Symmetric</td>
+<td>Symmetric Generalized Eigenproblem solver</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SSYGV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CHEGV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DSYGV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZHEGV</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="singular-value-decomposition">
+<h3>Singular Value Decomposition<a class="headerlink" href="#singular-value-decomposition" title="Permalink to this headline">¶</a></h3>
+<p>CULA contains the following LAPACK function equivalents from the Singular
+Value Decomposition family of computational routines:</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="14%">
+<col width="34%">
+<col width="13%">
+<col width="13%">
+<col width="13%">
+<col width="14%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Matrix Type</th>
+<th class="head">Operation</th>
+<th class="head">S</th>
+<th class="head">C</th>
+<th class="head">D</th>
+<th class="head">Z</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>General</td>
+<td>General Singular Value Decomposition</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGESVD</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGESVD</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGESVD</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGESVD</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Bidiagonal reduction</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SGEBRD</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CGEBRD</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DGEBRD</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZGEBRD</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Generate Q from bidiagonal reduction</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SORGBR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CUNGBR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DORGBR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZUNGBR</span></tt></td>
+</tr>
+<tr><td>Bidiagonal</td>
+<td>Find singular values and vectors</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SBDSQR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CBDSQR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DBDSQR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZBDSQR</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="auxiliary">
+<h3>Auxiliary<a class="headerlink" href="#auxiliary" title="Permalink to this headline">¶</a></h3>
+<p>CULA contains the following LAPACK function equivalents from the Auxiliary family of computational routines:</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="14%">
+<col width="34%">
+<col width="13%">
+<col width="13%">
+<col width="13%">
+<col width="14%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Matrix Type</th>
+<th class="head">Operation</th>
+<th class="head">S</th>
+<th class="head">C</th>
+<th class="head">D</th>
+<th class="head">Z</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>General</td>
+<td>Copy from one Matrix into another</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SLACPY</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CLACPY</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DLACPY</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZLACPY</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Convert a matrix’s precision</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SLAG2D</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CLAG2Z</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DLAG2S</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZLAG2D</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Apply a block reflector to a matrix</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SLARFB</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CLARFB</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DLARFB</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZLARFB</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Generate an elementary reflector</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SLARFG</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CLARFG</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DLARFG</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZLARFG</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Generate a vector of plane rotations</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SLARGV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CLARGV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DLARGV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZLARGV</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Apply a vector of plane rotations</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SLARTV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CLARTV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DLARTV</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZLARTV</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Multiple a matrix by a scalar</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SLASCL</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CLASCL</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DLASCL</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZLASCL</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Initialize a matrix</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SLASET</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CLASET</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DLASET</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZLASET</span></tt></td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>Apply a sequence of plane rotations</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SLASR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CLASR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DLASR</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZLASR</span></tt></td>
+</tr>
+<tr><td>Symmetric</td>
+<td>Apply a vector of plane rotations</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SLAR2V</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CLAR2V</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DLAR2V</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">ZLAR2V</span></tt></td>
+</tr>
+<tr><td>Triangular</td>
+<td>Triangular precision conversion</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">SLAT2D</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">CLAT2Z</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DLAT2S</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">DLAT2Z</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="supported-operating-systems">
+<h2>Supported Operating Systems<a class="headerlink" href="#supported-operating-systems" title="Permalink to this headline">¶</a></h2>
+<p><em>CULA</em> intends to support the full range of operating systems that are supported by <em>CUDA</em>.  Installers are currently available for Windows and Linux in 64-bit versions.  <em>CULA</em> has been tested on the following systems:</p>
+<ul class="simple">
+<li>Windows Vista / 7</li>
+<li>Ubuntu Linux 10.04 (and newer)</li>
+<li>Red Hat Enterprise Linux 5.7 (and newer)</li>
+<li>Fedora 16</li>
+</ul>
+<p>Please provide feedback on any other systems on which you attempt to use <em>CULA</em>.  Although we are continually testing <em>CULA</em>
+ on other systems, at present we officially support the above list.  If 
+your system is not listed, please let us know through the provided 
+feedback channels.</p>
+</div>
+<div class="section" id="attributions">
+<h2>Attributions<a class="headerlink" href="#attributions" title="Permalink to this headline">¶</a></h2>
+<p>This work has been made possible by the NASA Small Business Innovation Research
+(SBIR) program.  We recognize NVIDIA for their support.</p>
+<p>CULA is built on NVIDIA <em>CUDA</em> and NVIDIA <em>CUBLAS</em>. For more information, please
+see the <em>CUDA</em> product page at <a class="reference external" href="http://www.nvidia.com/object/cuda_home.html">http://www.nvidia.com/object/cuda_home.html</a>.</p>
+<p>CULA uses the Intel® Math Kernel Library (MKL) internally.  For more information, please see the MKL product page at
+<a class="reference external" href="http://www.intel.com/software/products/mkl">http://www.intel.com/software/products/mkl</a>.</p>
+<p>The original version of LAPACK from which CULA implements a similar interface
+can be obtained at <a class="reference external" href="http://www.netlib.org/lapack">http://www.netlib.org/lapack</a>.</p>
+</div>
+</div>
+<div class="section" id="license">
+<h1>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>EM Photonics, Inc.</p>
+<p>Software License Agreement</p>
+<p>CULA(TM) DENSE FREE EDITION or CULA DENSE or CULA SPARSE</p>
+<p>IMPORTANT - READ BEFORE COPYING, INSTALLING, USING OR DISTRIBUTING</p>
+<p>This is a legal agreement (“Agreement”) between either a Subscriber 
+or a Licensee, the party licensing either CULA Dense Free Edition or 
+CULA Dense or CULA Sparse, and EM PHOTONICS Inc., a Delaware corporation
+ with its principal place of business at 51 East Main Street, Newark, 
+Delaware, 19711 (“Licensor”).  BY CLICKING ON THE “AGREE” BUTTON BELOW 
+AND PRESSING THE ENTER KEY, YOU ACKNOWLEDGE THAT YOU HAVE READ ALL OF 
+THE TERMS AND CONDITIONS OF THIS AGREEMENT, UNDERSTAND THEM, AND AGREE 
+TO BE LEGALLY BOUND BY THEM.  If you do not agree with the terms of this
+ Agreement, you may not download, install, use or distribute either CULA
+ Dense Free Edition or CULA Dense or CULA Sparse, as applicable.</p>
+<p>1   SCOPE; DEFINITIONS.  This Agreement governs your rights and 
+obligations surrounding the permitted download, installation, use and, 
+if applicable, distribution of either CULA Dense Free Edition or CULA 
+Dense or CULA Sparse.  Unless otherwise defined in this Section 1, the 
+capitalized terms used in this Agreement shall be defined in the context
+ in which they are used.  The following terms shall have the following 
+meanings:</p>
+<p>1.1 “Commercial Purpose” means the use, reproduction or distribution,
+ directly or indirectly, of the Software, or any portion of the 
+foregoing, that is intended to result in a direct or indirect pecuniary 
+gain or any other consideration or economic benefit to any person or 
+entity involved in such use, reproduction or distribution.  Examples of a
+ Commercial Purpose, include without limitation, (v) integrating the 
+Software with other software or hardware for sale, (w) licensing the 
+Software for a fee, (x) using the Software to provide a service to a 
+third party, (y) selling the Software, or (z) distributing the Software 
+for use with other products or other services.</p>
+<p>1.2 “CULA Dense Free Edition” means Licensor’s limited, pre-complied 
+implementation of linear algebra routines for certain third party 
+graphics processing units.</p>
+<p>1.3 “CULA Dense” means Licensor’s more expanded, pre-compiled 
+implementation of linear algebra routines for certain third party 
+graphic processing units.</p>
+<p>1.4 “CULA Sparse” means Licensor’s pre-compiled implementation of 
+sparse linear algebra routines for certain third party graphic 
+processing units.</p>
+<p>1.5 “Licensee” shall mean an individual or entity who has registered 
+as a Licensee on www.culatools.com/register to use CULA Dense or CULA 
+Sparse and who has paid the applicable license fees for such use.</p>
+<p>1.6 “Intellectual Property Rights” shall mean all proprietary rights,
+ including all patents, trademarks, copyrights, know-how, trade secrets,
+ mask works, including all applications and registrations thereto, and 
+any other similar protected rights in any country.</p>
+<p>1.7 “Software” means collectively the CULA Dense Free Edition and the CULA Dense and the CULA Sparse.</p>
+<p>1.8 “Subscriber” shall mean an individual or entity who has 
+registered as a subscriber on www.culatools.com/register to use CULA 
+Dense Free Edition.</p>
+<p>2   GRANT OF LICENSE.</p>
+<p>2.1 CULA Dense Free Edition License Grant.  Only a Subscriber may 
+exercise the rights under this Section 2.1.  Subject to the terms and 
+conditions of this Agreement, Licensor hereby grants to such Subscriber a
+ world-wide, non-transferable, non sub-licensable, non-exclusive, 
+perpetual license to do any of the following with respect to CULA Dense 
+Free Edition in each case, in accordance with the Documentation and the 
+system minimum user requirements:</p>
+<ol class="loweralpha simple">
+<li>download, install and use CULA Dense Free Edition for any purpose;</li>
+<li>distribute certain unmodified CULA Dense Free Edition files 
+identified on Exhibit A (the “Distributable Files”) on a limited stand 
+alone basis to any third party;</li>
+<li>download and use the Documentation and</li>
+<li>reproduce CULA Dense Free Edition and/or the Documentation as 
+strictly necessary in exercising its rights under this Section 2.1.</li>
+</ol>
+<p>2.2 CULA Dense License Grant.  Subject to the terms and conditions of
+ this Agreement, Licensor hereby grants each Licensee a world-wide, 
+non-transferable, non sub-licensable, non-exclusive, perpetual license 
+to do any of the following with respect to CULA Dense:</p>
+<ol class="loweralpha simple">
+<li>download, install and use CULA Dense only for internal use;</li>
+<li>reproduce CULA Dense and/or the Documentation as strictly necessary in exercising its rights under this Section 2.2.</li>
+<li>You as an individual may install and use the CULA Dense on an 
+unlimited number of computers provided that only one copy of the CULA 
+Dense is in use at any one time. A separate license is required for each
+ additional use in all other cases. If you are an entity, you may 
+designate one individual within your organization to have the sole right
+ to use the CULA Dense in the manner provided above.</li>
+</ol>
+<p>2.3 CULA Sparse License Grant.  Subject to the terms and conditions 
+of this Agreement, Licensor hereby grants each Licensee a world-wide, 
+non-transferable, non sub-licensable, non-exclusive, perpetual license 
+to do any of the following with respect to CULA Sparse:</p>
+<ol class="loweralpha simple">
+<li>download, install and use CULA Sparse only for internal use;</li>
+<li>reproduce CULA Sparse and/or the Documentation as strictly necessary in exercising its rights under this Section 2.3.</li>
+<li>You as an individual may install and use the CULA Sparse on an 
+unlimited number of computers provided that only one copy of the CULA 
+Sparse is in use at any one time. A separate license is required for 
+each additional use in all other cases. If you are an entity, you may 
+designate one individual within your organization to have the sole right
+ to use the CULA Sparse in the manner provided above.</li>
+</ol>
+<p>2.4 Limitations on License; Restricted Activities.  Each of the 
+Subscribers and/or Licensees recognize and agree that the Software is 
+the property of Licensor, contain valuable assets and proprietary 
+information and property of Licensor, and are provided to such 
+Subscriber or Licensee, as the case may be, under the terms and 
+conditions of this Agreement.  Notwithstanding anything to the contrary 
+in this Agreement, each Subscriber and/or Licensee agrees that he, she 
+or it shall not do any of the following without Licensor’s prior written
+ consent:</p>
+<ol class="loweralpha simple">
+<li>Download, use, install, deploy, perform, modify, license, display, 
+reproduce, distribute or disclose the Software other than as allowed 
+under this Agreement;</li>
+<li>sell, license, transfer, rent, loan, perform, modify, reproduce, 
+distribute or disclose the Software (in whole or in part and whether 
+done independently or as part of a compilation) for a Commercial 
+Purpose;</li>
+<li>post or make generally available the Software (in whole or in part) 
+to individuals or a group of individuals who have not agreed to the 
+terms and conditions of this Agreement;</li>
+<li>share any license key or authentication information provided to a 
+Licensee by Licensor with any third party to allow such party to access 
+the Software; and</li>
+<li>alter or remove any copyright notice or proprietary legend contained in or on the Software.</li>
+</ol>
+<p>Paragraphs (a) though (e) of this Section 2.4 are collectively referred to as the “Restricted Activities”).</p>
+<p>2.5 Reproduction Obligations.  Each Subscriber and Licensee agrees 
+that any copy or distribution of the Software permitted under this 
+Agreement shall contain the notices set forth in Exhibit A.  In 
+addition, to the extent a Licensee makes any copies of the Software or 
+Documentation under this Agreement, each Subscriber and/or Licensee 
+agrees to ensure that any and all such copies shall contain:</p>
+<ol class="loweralpha simple">
+<li>a copy of an appropriate copyright notice and all other applicable proprietary legends;</li>
+<li>a disclaimer of any warranty consistent with this Agreement; and</li>
+<li>any and all notices referencing this Agreement and absence of warranties.</li>
+</ol>
+<p>2.6 Distribution Obligations.  The Distributable Files may be 
+distributed pursuant to Section 2.1(b), and any use of such 
+Distributable Files by a recipient must be governed by the terms and 
+conditions of this Agreement.  Each Subscriber must include a copy of 
+this Agreement with every copy of the Distributable Files it 
+distributes.  Under no circumstance may a Subscriber or Licensee 
+distribute CULA Dense or CULA Sparse or any files comprising CULA Dense 
+Free Edition not identified on Exhibit A. Each Subscriber must duplicate
+ the notice in Exhibit A with the Distributable Files in a location 
+(such as a relevant directory) where a user would be likely to look for 
+such a notice.</p>
+<p>3   Ownership of Software and Intellectual Property Rights. All 
+right, title and interest to the Software and the Documentation, and all
+ copies thereof, are and shall remain the exclusive property of Licensor
+ and/or its licensors or suppliers. The Software is copyrighted and 
+protected by the laws of the United States and other countries, and 
+international treaty provisions.  Licensor may make changes to the 
+Software, or to items referenced therein, at any time and without 
+notice, and Licensor is not obligated to support and/or update the 
+Software or the Documentation unless otherwise agreed to herein.  Except
+ as otherwise expressly provided, Licensor grants no express or implied 
+right or license (whether by implication, inducement, estoppel or 
+otherwise) under any Licensor patents, copyrights, trademarks, or other 
+intellectual property rights.</p>
+<p>3.1 Feedback.  While neither Party is required to provide the other 
+party any suggestions, comments or other feedback regarding the 
+Software, the Documentation or a Subscriber’s and/or Licensee’s use or 
+implementation of the Software and/or Documentation (“Feedback”), to the
+ extent a Subscriber or a Licensee provides Feedback to the Licensor, 
+Licensor may use and include any Feedback so provided to improve the 
+Software or other Licensor technologies and any new features, 
+functionality, or performance based upon the Feedback that Licensor 
+subsequently incorporates into its products shall be the sole and 
+exclusive property of Licensor.  Accordingly, if a Subscriber and/or 
+Licensee provide Feedback, such Subscriber and/or Licensee hereby agrees
+ that Licensor may freely use, reproduce, license, distribute, and 
+otherwise commercialize the Feedback in the Software or other related 
+technologies without the payment of any royalties or fees.</p>
+<p>3.2 No Reverse Engineering and other Restrictions.  In addition to 
+agreeing to restrictions in Section 2.4 above, each Subscriber and/or 
+Licensee shall not directly or indirectly: (i) sell, lease, redistribute
+ or transfer any of the Software or Documentation; (ii) modify, 
+translate, reverse engineer (except to the limited extent permitted by 
+law), decompile, disassemble, create derivative works based on, 
+sublicense, or distribute any of the Software; (iii) rent or lease any 
+rights in any of the Software or Documentation in any form to any 
+person; (iv) use any Software for the benefit of any third parties 
+(e.g., in an ASP, outsourcing or service bureau relationship) or in any 
+way other than in its intended manner; (v) remove, alter or obscure any 
+proprietary or copyright notice, labels, or marks on the hardware 
+components of the Software or Documentation; or (vi) disable or 
+circumvent any access control or related security measure, process or 
+procedure established with respect to the Software or any other part 
+thereof.  Each Subscriber and/or Licensee is responsible for all use of 
+the Software and the Documentation and any downloading, installing and 
+using the Software and for compliance with this Agreement; any breach by
+ any user shall be deemed to have been made by the applicable Subscriber
+ and/or Licensee.</p>
+<p>4   Third Party Licenses. This Software includes third-party 
+software, listed in Exhibit B, that is governed by a separate license 
+agreement. By using the CULA software and accepting this Agreement, you 
+additionally agree to adhere to the license agreements for each of the 
+software products. Where required by a third-party license, source code 
+for these products are made available within this Software package.</p>
+<p>5   Support.</p>
+<ol class="loweralpha simple">
+<li>A Licensee may subscribe to Licensor’s CULA Dense maintenance and 
+support program by paying Licensor the then-applicable annual 
+maintenance and support fee (the “Support Fee”).  Upon payment of the 
+Support Fee, Licensor shall provide Licensee with the applicable level 
+of maintenance and support services set forth in the support program.  
+Any CULA Dense updates provided to Licensee pursuant to the support 
+program shall be deemed part of the CULA Dense and shall be licensed 
+under the terms and conditions of the CULA Dense.</li>
+<li>A Licensee may subscribe to Licensor’s CULA Sparse maintenance and 
+support program by paying Licensor the then-applicable annual 
+maintenance and support fee (the “Support Fee”).  Upon payment of the 
+Support Fee, Licensor shall provide Licensee with the applicable level 
+of maintenance and support services set forth in the support program.  
+Any CULA Sparse updates provided to Licensee pursuant to the support 
+program shall be deemed part of the CULA Sparse and shall be licensed 
+under the terms and conditions of the CULA Sparse.</li>
+</ol>
+<p>6   Payments.  Licensee agrees to pay amounts invoiced by Licensor 
+for any CULA Dense and/or CULA Sparse made available pursuant to this 
+Agreement.  If any authority imposes a duty, tax or similar levy (other 
+than taxes based on Licensor’s income), Licensee agrees to pay, or to 
+promptly reimburse Licensor for, all such amounts.  Unless otherwise 
+indicated in an invoice, all Licensor invoices are payable thirty (30) 
+days from the date of the invoice.  Licensor reserves the right to 
+charge a late payment in the event Licensee fails to remit payments when
+ due.</p>
+<p>7   Confidentiality.  “Confidential Information” means any non-public
+ technical or business information of a party, including without 
+limitation any information relating to a party’s techniques, algorithms,
+ software, know-how, current and future products and services, research,
+ engineering, vulnerabilities, designs, financial information, 
+procurement requirements, manufacturing, customer lists, business 
+forecasts, marketing plans and information.  Each Party shall maintain 
+in confidence all Confidential Information of the disclosing Party that 
+is delivered to the receiving Party and will not use such Confidential 
+Information except as expressly permitted herein.  Each Party will take 
+all reasonable measures to maintain the confidentiality of such 
+Confidential Information, but in no event less than the measures it uses
+ to protect its own Confidential Information.</p>
+<p>7.1 Each Subscriber and/or Licensee hereby agrees that the Licensor 
+shall be free to use any general knowledge, skills and experience, 
+(including, but not limited to, ideas, concepts, know-how, or 
+techniques) (“Residuals”), contained in any (i)_ Subscriber and/or 
+Licensee Confidential Information, (ii) Feedback provided by a 
+Subscriber and/or Licensee; (iii) Subscriber’s and/or Licensee’s 
+products shared or disclosed to Licensor in connection with the 
+Feedback, in each case, which are retained in the memories of Licensor’s
+ employees, agents, or contractors who have had access to such 
+materials.  Licensor shall have no obligation to limit or restrict the 
+assignment of its employees, agents or contractors or to pay royalties 
+for any work resulting from the use of Residuals.</p>
+<p>8   Limited Warranty and Disclaimer.</p>
+<p>8.1 NO WARRANTIES. THE SOFTWARE IS PROVIDED “AS IS” WITHOUT ANY 
+EXPRESS OR IMPLIED WARRANTY OF ANY KIND, INCLUDING WARRANTIES OF 
+MERCHANTABILITY, NONINFRINGEMENT, OR FITNESS FOR A PARTICULAR PURPOSE. 
+Licensor does not warrant or assume responsibility for the accuracy or 
+completeness of any information, text, graphics, links or other items 
+contained within the Software. Licensor does not represent that errors 
+or other defects will be identified or corrected.</p>
+<p>8.2 LIMITATION OF LIABILITY. EXCEPT WITH RESPECT TO THE MISUSE OF THE
+ OTHER PARTY’S INTELLECTUAL PROPERTY OR DISCLOSURE OF THE OTHER PARTY’S 
+CONFIDENTIAL INFORMATION IN BREACH OF THIS AGREEMENT, IN NO EVENT SHALL 
+LICENSOR, SUBSIDIARIES, LICENSORS, OR ITS SUPPLIERS BE LIABLE FOR ANY 
+DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION,  INDIRECT, LOST 
+PROFITS, CONSEQUENTIAL, BUSINESS INTERRUPTION OR LOST INFORMATION) 
+ARISING OUT OF THE USE OF OR INABILITY TO USE THE SOFTWARE, EVEN IF 
+LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. SOME 
+JURISDICTIONS PROHIBIT EXCLUSION OR LIMITATION OF LIABILITY FOR IMPLIED 
+WARRANTIES OR CONSEQUENTIAL OR INCIDENTAL DAMAGES, SO THE ABOVE 
+LIMITATION MAY NOT APPLY TO SCRIBER AND/OR LICENSEE. SUBSCRIBER AND/OR 
+LICENSEE MAY ALSO HAVE OTHER LEGAL RIGHTS THAT VARY FROM JURISDICTION TO
+ JURISDICTION.  NOTWITHSTANDING THE FOREGOING, LICENSOR’S AGGREGATE 
+LIABILITY ARISING OUT OF THIS AGREEMENT SHALL NOT EXCEED ONE HUNDRED 
+UNITED STATES DOLLARS (USD$100).</p>
+<p>9   Term; Termination.</p>
+<p>9.1 Term.  The term of this Agreement shall commence on the Effective
+ Date and shall expire on the first (1st) anniversary of the Effective 
+Date (the “Initial Term”).  This Agreement shall automatically renew for
+ successive one (1) year periods (the “Renewal Term,” and together with 
+the Initial Term, the “Term”) unless Licensee provides Licensor with 
+notice of non-renewal at least thirty (30) calendar days prior to its 
+expiration.</p>
+<p>9.2 Termination.</p>
+<ol class="loweralpha simple">
+<li>Breach.  Either Party may terminate this Agreement upon thirty (30) 
+days’ prior written notice if the other Party materially breaches this 
+Agreement and does not cure such breach within thirty (30) days 
+following receipt of notice specifying the breach.</li>
+<li>Insolvency.  Either Party may also have the right to terminate this 
+Agreement in the event the other party (i) becomes insolvent, (ii) 
+becomes subject to a petition in bankruptcy filed by or against it that 
+is not dismissed within thirty days of the filing of such petition, 
+(iii) is placed under the control of a receiver, liquidator or committee
+ of creditors, or (iv) dissolves, ceases to function as a going concern 
+or to conduct its business in the normal course.</li>
+</ol>
+<p>9.3 Effect of Termination. Upon the expiration or termination of this
+ Agreement, Customer agrees to pay all amounts accrued or otherwise 
+owing to Licensor on the date of termination, and each Party shall 
+return, or certify the destruction of, the Confidential Information of 
+the other Party.  In the event a support program is in place at the 
+effective date of termination, Licensor agrees to continue providing 
+maintenance and support under the terms of this Agreement and the 
+applicable Support Plan through the expiration date of such Support 
+Plan.  Termination in accordance with this Agreement shall be without 
+prejudice to any other rights or remedies of the Parties.</p>
+<p>10  Miscellaneous.</p>
+<p>10.1        Legal Compliance; Restricted Rights.  Each Party agrees 
+to comply with all applicable Laws.  Without limiting the foregoing, 
+Customer agrees to comply with all U.S. export Laws and applicable 
+export Laws of its locality (if Customer is not located in the United 
+States), and Customer agrees not to export any Network Appliances, 
+Software or other materials provided by Licensor without first obtaining
+ all required authorizations or licenses.  The Network Appliances and 
+Software provided to the United States government are provided with only
+ “LIMITED RIGHTS” and “RESTRICTED RIGHTS” as defined in FAR 52.227-14 if
+ the commercial terms are deemed not to apply.</p>
+<p>10.2        Governing Law; Severability.  This Agreement shall be 
+governed by the laws of the State of New Jersey, USA, without regard to 
+choice-of-law provisions.  If any provision of this Agreement is held to
+ be illegal or unenforceable for any reason, then such provision shall 
+be deemed to be restated so as to be enforceable to the maximum extent 
+permissible under law, and the remainder of this Agreement shall remain 
+in full force and effect.  Each Subscriber and/Licensee and Licensor 
+agree that this Agreement shall not be governed by the U.N. Convention 
+on Contracts for the International Sale of Goods.  Any and all 
+proceedings relating to the subject matter of this Agreement shall be 
+maintained in the courts of the State of Delaware or Federal District 
+Courts sitting in the District of Delaware, which courts shall have 
+exclusive jurisdiction for such purpose, and Subscriber and/or Licensee 
+hereby consents to the personal jurisdiction of such courts.</p>
+<p>10.3        Notices.   Any notices under this Agreement will be 
+personally delivered or sent by certified or registered mail, return 
+receipt requested, or by nationally recognized overnight express 
+courier, to the address specified herein or such other address as a 
+Party may specify in writing.  Such notices will be effective upon 
+receipt, which may be shown by confirmation of delivery. All notices to 
+Licensor shall be sent to the attention of General Counsel (unless 
+otherwise specified by Licensor).</p>
+<p>10.4        Assignment.  Neither Party may assign or otherwise 
+transfer this Agreement without the other Party’s prior written consent,
+ which consent shall not be unreasonably withheld, conditioned or 
+delayed.  Notwithstanding the foregoing, either Party may assign this 
+Agreement without the consent of the other Party if a majority of its 
+outstanding voting capital stock is sold to a third party, or if it 
+sells all or substantially all of its assets or if there is otherwise a 
+change of control.  This Agreement shall be binding upon and inure to 
+the benefit of the Parties’ successors and permitted assigns.</p>
+<p>10.5        Force Majeure.  Neither Party shall be liable for any 
+delay or failure due to a force majeure event and other causes beyond 
+its reasonable control.  This provision shall not apply to any of 
+Customer’s payment obligations.</p>
+<p>10.6        Counterparts.  This Agreement may be executed in 
+counterparts, each of which will be deemed an original, but all of which
+ together will constitute one and the same instrument. This Agreement 
+may be executed by facsimile or scanned signatures.</p>
+<p>10.7        General.  This Agreement, including its exhibits (all of 
+which are incorporated herein), are collectively the Parties’ complete 
+agreement regarding its subject matter, superseding any prior oral or 
+written communications.  Amendments or changes to this Agreement must be
+ in mutually executed writings to be effective.  The individual 
+executing this Agreement on behalf of the Customer has the requisite 
+power and authority to sign this Agreement on behalf of Customer.  The 
+Parties agree that, to the extent any Customer purchase or sales order 
+contains terms or conditions that conflict with, or supplement, this 
+Agreement, such terms and conditions shall be void and have no effect, 
+and the provisions of this Agreement shall control.  Unless otherwise 
+expressly set forth in an exhibit that is executed by the Parties, this 
+Agreement shall control in the event of any conflict with an exhibit.  
+Sections 2, 3, 5, 6, 7, 8, 9 and 10 and all warranty disclaimers, use 
+restrictions and provisions relating to Licensor’s intellectual property
+ ownership, shall survive the termination or expiration of this 
+Agreement.  The Parties are independent contractors for all purposes 
+under this Agreement.</p>
+<p>EXHIBIT A</p>
+<p>CULA Dense Free Edition, CULA Dense, and CULA Sparse Software License Agreement</p>
+<p>The contents of this file are subject to the Software License 
+Agreement (the “Agreement”).  You may not use this file except in 
+compliance with the Agreement.</p>
+<p>Software distributed under the Agreement is distributed on an “AS IS”
+ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ Agreement for the specific language governing rights and limitations 
+under the Agreement.</p>
+<p>The developer of the CULA Dense Free Edition, CULA Dense, and CULA Sparse is EM Photonics, Inc., a Delaware corporation.</p>
+<p>2009 - 2012 Copyright EM Photonics, Inc. All Rights Reserved.</p>
+<p>CULATOOLS(TM), CULA(TM), the EM Photonics logo, and certain other 
+trademarks and logos are trademarks or registered trademarks of EM 
+Photonics, Inc. in the United States and other countries.</p>
+<p>Note: A printer friendly version of this Agreement is available in RTF format.</p>
+<p>CULA Dense Free Edition Files Re-distributable Pursuant to Section 2.1 (b).</p>
+<blockquote>
+<div><p>cula_core.dll</p>
+<p>cula_lapack.dll</p>
+<p>cula_lapack_fortran.dll</p>
+<p>libcula_lapack_pgfortran.dll</p>
+<p>cula_lapack_link.dll</p>
+<p>libcula_core.so.*</p>
+<p>libcula_lapack.so.*</p>
+<p>libcula_lapack_fortran.so.*</p>
+<p>libcula_lapack_pgfortran.so.*</p>
+<p>libcula_lapack_link.so.*</p>
+<p>libcula_core.dylib</p>
+<p>libcula_lapack.dylib</p>
+<p>libcula_lapack_fortran.dylib</p>
+<p>libcula_lapack_pgfortran.dylib</p>
+<p>libcula_lapack_link.dylib</p>
+</div></blockquote>
+<p>CULA Dense Files Files Re-distributable Pursuant to Section 2.2 (b).</p>
+<blockquote>
+<div>None. To Redistribute CULA Dense please contact EM Photonics, Inc. at <a class="reference external" href="mailto:info%40culatools.com">info<span>@</span>culatools<span>.</span>com</a></div></blockquote>
+<p>CULA Sparse Files Re-distributable Pursuant to Section 2.3 (b).</p>
+<blockquote>
+<div>None, except for Third Party content as listed in Exhibit B. To Redistribute CULA Sparse please contact EM Photonics, Inc. at <a class="reference external" href="mailto:info%40culatools.com">info<span>@</span>culatools<span>.</span>com</a>.</div></blockquote>
+<p>EXHIBIT B</p>
+<p>Third Party Files Re-distributable Pursuant to Section 4.</p>
+<blockquote>
+<div><p>UFconfig - LGPL</p>
+<blockquote>
+<div>src/suitesparse/UFconfig.tar.gz</div></blockquote>
+<p>COLAMD - LGPL</p>
+<blockquote>
+<div><p>src/suitesparse/COLAMD.tar.gz</p>
+<p>colamd.dll</p>
+<p>libcolamd.so</p>
+<p>libcolamd.dylib</p>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<p>..Getting Started {{{</p>
+</div>
+<div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="obtaining-cula">
+<h2>Obtaining CULA<a class="headerlink" href="#obtaining-cula" title="Permalink to this headline">¶</a></h2>
+<p>CULA can be downloaded from <a class="reference external" href="http://www.culatools.com/">www.culatools.com</a>.
+  The Dense Free Edition release is available to those who register on 
+the website.  CULA Dense,  which add dozens of extra LAPACK routines as 
+well as double-precision and double-precision complex data formats, can 
+be purchased from the CULAtools website  at <a class="reference external" href="http://www.culatools.com/purchase">www.culatools.com/purchase</a>.</p>
+<p>For vendors interested in CULA Commercial, please contact EM Photonics directly
+<a class="reference external" href="http://www.culatools.com/contact">www.culatools.com/contact</a>.</p>
+</div>
+<div class="section" id="system-requirements">
+<h2>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
+<p>CULA utilizes <em>CUDA</em> on an NVIDIA GPU to perform linear algebra operations.
+Therefore, an NVIDIA GPU with <em>CUDA</em> support is required to use CULA. A list of supported GPUs can be found on <a class="reference external" href="http://www.nvidia.com/object/cuda_learn_products.html">NVIDIA’s CUDA Enabled webpage</a>.</p>
+<p>Support for double-precision operations requires a GPU that supports <em>CUDA</em> Compute Model 1.3.
+To find out what Compute Model your GPU supports, please refer to the <a class="reference external" href="http://developer.download.nvidia.com/compute/cuda/2_21/toolkit/docs/NVIDIA_CUDA_Programming_Guide_2.2.1.pdf">NVIDIA CUDA Programming Guide</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">CULA’s performance is primarily influenced by the 
+processing power of your system’s GPU, and as such a more powerful 
+graphics card will yield better performance.</p>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Installation is completed via the downloadable installation packages.  To install
+CULA, refer to the section below that applies to your system.</p>
+<div class="topic">
+<p class="topic-title first">Windows</p>
+<p>Run the CULA installer and when prompted select the location to which to install.  The default install location is <em>c:\Program Files\CULAR#</em>, where R# represents the release number of CULA.</p>
+</div>
+<div class="topic">
+<p class="topic-title first">Linux</p>
+<p>It is recommended that you run the CULA installer as an administrator in order to
+install to a system-level directory.  The default install location is <em>/usr/local/cula</em>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You may wish to set up environment variables to common CULA locations.  More details are available in the <a class="reference internal" href="#configuring-your-environment"><em>Configuring Your Environment</em></a> chapter.</p>
+</div>
+</div>
+<div class="section" id="compiling-with-cula">
+<h2>Compiling with CULA<a class="headerlink" href="#compiling-with-cula" title="Permalink to this headline">¶</a></h2>
+<p>As described in the <a class="reference internal" href="#intro"><em>Introduction</em></a>,
+ CULA presents four interfaces.  This section describes the differences 
+between the Standard and Device interfaces.  The third interface 
+(Fortran) is discussed in a later section.</p>
+<p>CULA presents two main <em>C</em> headers, <em>cula_lapack.h</em> for the standard interface and <em>cula_lapack_device.h</em> for the device interface. These files
+differ in the type of memory they accept.  For the Standard interface, the pointers that these
+functions accept are to main memory, while in Device interface the pointers are to
+GPU memory.  A convenience header <em>cula.h</em> is provided and includes all C functionality.</p>
+<p>CULA’s Standard interface automatically transfers the contents of the main memory to the GPU
+before beginning processing, and transfers the results back to the main memory
+upon completion of the operation.  Due to internal memory mechanisms, this can be many times
+more efficient than allowing the user to pre-load the data to their GPU.  However, if the programmer
+is building a closed-loop GPU system, the data may already be on-card and the CULA Device
+interface may be more convenient.</p>
+<p>CULA’s Device interface operates on pre-allocated GPU memory.  This 
+interface is intended for those who have pre-existing systems or are 
+trying to build a closed-loop GPU processing system.  These inputs are 
+located in GPU memory and the results are placed in GPU memory.  
+Allocation and transfers of data are the responsibility of the 
+programmer and are performed using the <em>CUDA</em> API.</p>
+</div>
+<div class="section" id="linking-to-cula">
+<span id="linking-to-cula-section"></span><h2>Linking to CULA<a class="headerlink" href="#linking-to-cula" title="Permalink to this headline">¶</a></h2>
+<p>CULA provides a link-time stub library, but is otherwise built as a 
+shared library.  Applications should link against the following 
+libraries:</p>
+<div class="topic">
+<p class="topic-title first">Windows</p>
+<p>Choose to link against cula_lapack.lib or cula_lapack_basic.lib as a link-time option.</p>
+</div>
+<div class="topic">
+<p class="topic-title first">Linux / Mac OS X Leopard</p>
+<p>Add <tt class="xref c c-type docutils literal"><span class="pre">-lcula_lapack</span></tt> or <tt class="xref c c-type docutils literal"><span class="pre">-lcula_lapack_basic</span></tt> to your program’s link line.</p>
+</div>
+<p>CULA is built as a shared library, and as such it must be visible to your
+runtime system. This requires that the shared library is located in a
+directory that is a member of your system’s runtime library path . For more
+detailed information regarding operating-system-specific linking procedures,
+please refer to the <a class="reference internal" href="#configuring-your-environment"><em>Configuring Your Environment</em></a> chapter.</p>
+<p>CULA’s example projects are a good resource for learning how to set up
+CULA for your own project.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">CULA is built against NVIDIA <em>CUDA 6.0</em> and ships with a copy of the
+<em>CUDA 6.0</em> redistributable files.  If you have a different version of
+<em>CUDA</em> installed, you <strong>must</strong> ensure that the <em>CUDA</em> runtime libraries shipped
+with CULA are the first visible copies to your CULA program.  This can be
+accomplished by placing the CULA <em>bin</em> path earlier in your system PATH than
+any <em>CUDA</em> <em>bin</em> path.  If a non-<em>CUDA 6.0</em> runtime loads first, you will
+experience CULA errors.  See the <a class="reference internal" href="#check-library-link-example"><em>Checking That Libraries are Linked Correctly</em></a> example
+for a description of how to programmatically check that the correct version
+is linked.</p>
+</div>
+</div>
+<div class="section" id="uninstallation">
+<h2>Uninstallation<a class="headerlink" href="#uninstallation" title="Permalink to this headline">¶</a></h2>
+<p>After installation, CULA leaves a record to uninstall itself easily.  To uninstall
+CULA, refer to the section below that applies to your system.</p>
+<div class="topic">
+<p class="topic-title first">Windows</p>
+<p>From the Start Menu, navigate to the <em>CULA</em> menu entry under <em>Programs</em>, and select the
+Uninstall option. The CULA uninstaller will remove CULA from your
+system.</p>
+</div>
+<div class="topic">
+<p class="topic-title first">Linux</p>
+<p>Run the CULA installer, providing an ‘uninstall’ argument.</p>
+<blockquote>
+<div>e.g.    ./cula.run uninstall</div></blockquote>
+</div>
+<div class="topic">
+<p class="topic-title first">Mac OS X Leopard</p>
+<p>There is no uninstallation on OS X, but you can remove the folder to which you installed CULA for a complete uninstall.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you have created environment variables with references to CULA, you
+may wish to remove them after uninstallation.</p>
+</div>
+</div>
+</div>
+<div class="section" id="differences-between-cula-and-lapack">
+<h1>Differences Between CULA and LAPACK<a class="headerlink" href="#differences-between-cula-and-lapack" title="Permalink to this headline">¶</a></h1>
+<p>Unlike LAPACK, CULA uses both your system’s CPU and GPU resources.  Because of this difference,
+CULA diverges slightly from the original LAPACK interface. CULA reduces some of the
+complexities of traditional LAPACK interfaces, while providing the flexibility you need
+to manage the GPU as a compute device. This section describes the differences between CULA
+and LAPACK and how they affect your program.</p>
+<p>For a discussion on individual routines, see the <em>CULA Reference Manual</em>.</p>
+<div class="section" id="naming-conventions">
+<h2>Naming Conventions<a class="headerlink" href="#naming-conventions" title="Permalink to this headline">¶</a></h2>
+<p>CULA follows a function naming conventions that is similar but different to that
+of LAPACK.  The primary reason for this different is so that the accelerated
+routines in CULA will be able to link cleanly against other linear algebra
+packages that supply routines that are not present in CULA.  This restriction
+comes from linkage rules in C/C++ that dictate that there can only be one
+function of a given name within a program.  If CULA used names that are
+equivalent to those of other packages, this would prevent users from compiling
+CULA and another linear algebra package in the same program.</p>
+<p>CULA’s routines are named using a system where:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The function begins with <tt class="xref c c-type docutils literal"><span class="pre">cula</span></tt> (in lowercase).  Device interface functions use an extended prefix of <tt class="xref c c-type docutils literal"><span class="pre">culaDevice</span></tt>.</li>
+<li>The next character (in uppercase) represents the data type.</li>
+<li>The following two characters (in lowercase) represent the matrix type.</li>
+<li>The final two to three characters (in lowercase) represent the computation performed by the routine.</li>
+</ul>
+</div></blockquote>
+<p>For example, the following call will perform CULA’s single-precision QR factorization on a general matrix.</p>
+<a class="reference internal image-reference" href="http://www.culatools.com/cula_dense_programmers_guide/_images/culapack_example.png"><img alt="Naming Example" class="align-center" src="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/culapack_example.png"></a>
+<p>The following table outlines the matrix types specific to CULA.</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="27%">
+<col width="73%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Abbreviation</th>
+<th class="head">Matrix Type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">bd</span></tt></td>
+<td>Bidiagonal</td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">ge</span></tt></td>
+<td>General</td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">gg</span></tt></td>
+<td>General matrices, generalized problem</td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">he</span></tt></td>
+<td>Hermitian Symmetric</td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">or</span></tt></td>
+<td>(Real) Orthogonal</td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">sb</span></tt></td>
+<td>Symmetric Band</td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">sy</span></tt></td>
+<td>Symmetric</td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">tr</span></tt></td>
+<td>Triangular</td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">un</span></tt></td>
+<td>(Complex) Unitary</td>
+</tr>
+</tbody>
+</table>
+<p>The following table lists the suffix for some common routines CULA provides.</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="22%">
+<col width="78%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Abbreviation</th>
+<th class="head">Computation Routine</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">trf</span></tt></td>
+<td>Compute a triangular factorization</td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">sv</span></tt></td>
+<td>Factor the matrix and solve a system of equations</td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">qrf</span></tt></td>
+<td>Compute a QR factorization without pivoting</td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">svd</span></tt></td>
+<td>Compute the singular value decomposition</td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">ls</span></tt></td>
+<td>Solve over- or under-determined linear system</td>
+</tr>
+</tbody>
+</table>
+<p>The <a class="reference external" href="http://www.netlib.org/lapack/lawn41/node111.html">full list of abbreviations</a> can be found at the LAPACK website.</p>
+</div>
+<div class="section" id="calling-conventions">
+<h2>Calling Conventions<a class="headerlink" href="#calling-conventions" title="Permalink to this headline">¶</a></h2>
+<p>In addition to using different function names, CULA has moved away from the
+LAPACK interface and takes arguments by value rather than by reference, which is
+a convention more familiar to C/C++ programmers.  Additionally, this simplifies
+calling code by reducing the need for some temporary variables.</p>
+<p>For example, compare a call to a CULA function with one that uses traditional LAPACK
+conventions:</p>
+<div class="highlight-c"><div class="highlight"><pre><span class="c1">// Common variables</span>
+<span class="p">...</span>
+
+<span class="c1">// CULA</span>
+<span class="n">culaStatus</span> <span class="n">s</span><span class="p">;</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">culaSgesvd</span><span class="p">(</span><span class="sc">'O'</span><span class="p">,</span> <span class="sc">'N'</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">lda</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">ldu</span><span class="p">,</span> <span class="n">vt</span><span class="p">,</span> <span class="n">ldvt</span><span class="p">);</span>
+
+<span class="c1">// Traditional</span>
+<span class="kt">char</span> <span class="n">jobu</span> <span class="o">=</span> <span class="sc">'O'</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">jobvt</span> <span class="o">=</span> <span class="sc">'N'</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">info</span><span class="p">;</span>
+<span class="n">sgesvd</span><span class="p">(</span><span class="o">&amp;</span><span class="n">jobu</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">jobvt</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">lda</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ldu</span><span class="p">,</span> <span class="n">vt</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ldvt</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">info</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Compared the to the traditional code, CULA uses fewer lines, has a shorter call
+line, and is no less clear than the traditional usage – one might argue that it
+is even more clear because there is less code to inspect.</p>
+<p>In addition to the Standard and Device interfaces, CULA has a third interface,
+<strong>Fortran</strong>, is intended to be used in Fortran programs.  This interface follows the
+conventions of Fortran programming by taking all parameters by reference rather
+than by value.  For more information on this interface, see
+<a class="reference internal" href="#fortran-chapter"><em>Programming in Fortran</em></a>.</p>
+<p>With version R12, CULA introduced the <strong>Link</strong> interface.  This interface is
+targeted at users who are porting existing linear algebra codes to a
+GPU-accelerated environment.  The <strong>Link</strong> interface provides a migration path by
+matching the function names and signatures of several popular linear algebra
+packages.  It additionally provides a fallback to CPU execution when a user does
+not have a GPU or when problem size is too small to take advantage of GPU
+execution.  For more information on this interface, see the
+‘link_interface.txt’ document in the ‘doc’ directory.</p>
+</div>
+<div class="section" id="data-type-support">
+<h2>Data Type Support<a class="headerlink" href="#data-type-support" title="Permalink to this headline">¶</a></h2>
+<p>CULA provides support for float and float-complex data types by using C’s
+built-in <tt class="xref c c-type docutils literal"><span class="pre">float</span></tt> and the CULA type <tt class="xref c c-type docutils literal"><span class="pre">culaFloatComplex</span></tt>.  Similarly,
+CULA provides support for double and double-complex data types by using C’s
+built-in <tt class="xref c c-type docutils literal"><span class="pre">double</span></tt> and the CULA type <tt class="xref c c-type docutils literal"><span class="pre">culaDoubleComplex</span></tt>, though these data
+types require support from the GPU (see <cite>System Requirements</cite>).</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="14%">
+<col width="24%">
+<col width="31%">
+<col width="32%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Prefix</th>
+<th class="head">Data Type</th>
+<th class="head">CULA Standard Interface Type</th>
+<th class="head">CULA Device Interface Type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">S</span></tt></td>
+<td>Single Precision Real</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">culaFloat</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">culaDeviceFloat</span></tt></td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">C</span></tt></td>
+<td>Single Precision Complex</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">culaFloatComplex</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">culaDeviceFloatComplex</span></tt></td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">D</span></tt></td>
+<td>Double Precision Real</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">culaDouble</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">culaDeviceDouble</span></tt></td>
+</tr>
+<tr><td><tt class="xref c c-type docutils literal"><span class="pre">Z</span></tt></td>
+<td>Double Precision Complex</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">culaDoubleComplex</span></tt></td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">culaDeviceDoubleComplex</span></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><em>CUDA</em> complex types may be used in place of CULA types by defining the
+preprocessor macro CULA_USE_CUDA_COMPLEX before including a CULA header.</p>
+</div>
+</div>
+<div class="section" id="error-handling">
+<span id="error-handling-section"></span><h2>Error Handling<a class="headerlink" href="#error-handling" title="Permalink to this headline">¶</a></h2>
+<p>LAPACK’s error handling is accomplished through an <em>info</em> parameter.  Upon
+return, this parameter specifies whether or not the function succeeded
+(return value of <em>0</em>) and if it did not, indicates the particular parameter that is in
+error by stating the parameter number.  Additionally, LAPACK may print an
+error to <em>stdout</em>.</p>
+<p>CULA uses a system similar to LAPACK’s error handling but adds additional
+functionality.  Instead of requiring an <em>info</em> parameter, CULA returns the
+success or failure of a function using a <em>culaStatus</em> enumeration.  This return
+code specifies conditions that the <em>info</em> parameter does not cover, including:</p>
+<blockquote>
+<div><ul class="simple">
+<li>a valid co-processing device is not available;</li>
+<li>insufficient memory is available to continue;</li>
+<li>a requested feature is not available;</li>
+<li>the co-processing device is missing a required feature to complete the requested operation.</li>
+</ul>
+</div></blockquote>
+<p>Two classes of errors that are typically reported by LAPACK are those in
+arguments passed to a function and those resulting from malformed data.
+CULA reports these errors using <em>culaArgumentError</em> and <em>culaDataError</em>
+return values.  When this value is returned, further information about this
+error can be requested by calling <em>culaGetErrorInfo</em>, which returns an integer
+equivalent to that which would be returned by the analogous LAPACK
+function. Unlike LAPACK, CULA will not print information to <em>stdout</em>. Once the
+info code is received, a readable string may be generated by calling
+<em>culaGetErrorInfoString</em>, which accepts the CULA status code and info code to
+construct a human-readable string that provides an anaylsis of the error
+condition.</p>
+</div>
+<div class="section" id="workspaces">
+<h2>Workspaces<a class="headerlink" href="#workspaces" title="Permalink to this headline">¶</a></h2>
+<p>Many LAPACK functions require a workspace for internal operation. For
+those LAPACK functions that utilize a workspace, workspace sizes are queried by
+providing a -1 argument to what is typically an <em>LWORK</em> parameter. Upon
+inspecting this parameter, the LAPACK function will determine the workspace
+required for this particular problem size and will return the value in the
+<em>WORK</em> parameter.  LAPACK (and other similar packages) then require the
+programmer to provide a pointer to memory of sufficient size, which often
+requires that the programmer allocate new memory.</p>
+<p>CULA uses both main and GPU workspace memories, and as such, LAPACK’s workspace query is
+not appropriate, as the LAPACK interface allows for the specification of only
+one workspace.  Instead of providing a more complicated interface that adds
+parameters for both main and GPU workspace memories, CULA requires neither.  Instead,
+any workspaces that are required are allocated and tracked internally.
+This organization yields no significant performance loss, and furthermore
+reduces the number of function calls by removing the need for a workspace query.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Any workspaces that have been allocated internally may be cleared by
+calling <tt class="xref c c-type docutils literal"><span class="pre">culaFreeBuffers()</span></tt>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="programming-considerations">
+<span id="programming-considerations-chapter"></span><h1>Programming Considerations<a class="headerlink" href="#programming-considerations" title="Permalink to this headline">¶</a></h1>
+<p>This chapter contains a variety of subjects related to programming using CULA.</p>
+<div class="section" id="matrix-storage">
+<span id="naming-conventions-section"></span><h2>Matrix Storage<a class="headerlink" href="#matrix-storage" title="Permalink to this headline">¶</a></h2>
+<p>When providing data to CULA routines, it is important to consider the manner in
+which the data is stored in memory. In particular, there are two important requirements
+to ensure correct results:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Data must be in “column-major” order.</li>
+<li>Complex data must be interleaved.</li>
+</ul>
+</div></blockquote>
+<p>The following sections will briefly explain these requirements.</p>
+<div class="section" id="column-major-ordering">
+<h3>Column-Major Ordering<a class="headerlink" href="#column-major-ordering" title="Permalink to this headline">¶</a></h3>
+<p>CULA routines expect that any data provided will be stored in 
+column-major order. While this storage scheme is also expected for 
+LAPACK routines,
+column-major order may be uncommon to some programmers, especially those
+ unfamiliar with Fortran conventions. Consider the following <em>M-by-N</em> matrix.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="http://www.culatools.com/cula_dense_programmers_guide/_images/matrix.png"><img alt="Matrix" src="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/matrix.png"></a>
+<p class="caption">A basic <em>M x N</em> matrix.</p>
+</div>
+<p>When storing the matrix in memory, two methods are frequently used: row-major and column-major.</p>
+<p>For many C programmers, a familiar storage pattern would involve 
+storing the elements of a particular row first, followed by
+the elements of successive rows. In this storage scheme, elements of a 
+row are contiguous in memory, while elements of a column are not. C, for
+ example,
+is row-major storage by default.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="http://www.culatools.com/cula_dense_programmers_guide/_images/matrix_row_major.png"><img alt="Matrix, Row Major" src="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/matrix_row_major.png"></a>
+<p class="caption">A row-major ordered matrix.  Elements are stored in memory in the order
+shown by the arrow.</p>
+</div>
+<p>Column-major ordering is the opposite of this because elements of the
+ matrix are instead stored by column, rather than by row. In this 
+storage scheme,
+elements of a column are contiguous in memory, while elements of a row 
+are not.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="http://www.culatools.com/cula_dense_programmers_guide/_images/matrix_col_major.png"><img alt="Matrix, Column Major" src="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/matrix_col_major.png"></a>
+<p class="caption">A column-major ordered matrix.  Elements are stored in memory in the order
+shown by the arrow.</p>
+</div>
+<p>As mentioned previously, CULA expects data to be represented in column-major order. Performing a transpose
+on the row-major data will convert it to column-major and vice-versa.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Many CULA functions take a “leading dimension” argument 
+after matrix arguments. Typically these are named LD*. For column-major
+data, the leading dimension the leading dimension is equal to the height
+ of a column, or equivalently, the number of rows in the matrix. This is
+ the height of the matrix <em>as allocated</em> and may be larger than 
+the matrix used in the computation.  For submatrix operations or pitched
+ allocations, remember to report the leading dimension parameter as the 
+number of <em>allocated</em> rows in the matrix.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Note the differences in addressing row-major and column-major order.</p>
+<p>Given an element of matrix A (with leading dimension LDA) located at 
+row “i” and column “j,” this element would be accessed as follows:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li><tt class="xref c c-type docutils literal"><span class="pre">A[i*LDA</span> <span class="pre">+</span> <span class="pre">j]</span></tt> for row-major data.</li>
+<li><tt class="xref c c-type docutils literal"><span class="pre">A[j*LDA</span> <span class="pre">+</span> <span class="pre">i]</span></tt> for column-major data in CULA.</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="complex-data-types">
+<h3>Complex Data Types<a class="headerlink" href="#complex-data-types" title="Permalink to this headline">¶</a></h3>
+<p>When working with complex data, CULA expects real and complex 
+portions of the matrix to be interleaved. In other words, for any 
+particular element, the real and complex
+parts are adjacent in memory, with the complex part being stored after 
+the real part.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="http://www.culatools.com/cula_dense_programmers_guide/_images/complex_element.png"><img alt="Complex Element" src="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/complex_element.png"></a>
+<p class="caption">This figure shows the packing of a complex data element. In memory, the real
+part of an element is directly followed by the complex component of that
+element.</p>
+</div>
+</div>
+</div>
+<div class="section" id="optimizing-for-performance">
+<h2>Optimizing for Performance<a class="headerlink" href="#optimizing-for-performance" title="Permalink to this headline">¶</a></h2>
+<p>CULA is specifically designed to leverage the massively parallel computational resources of the GPU, with
+a particular focus on large problems whose execution on a standard CPU is too time consuming. As such,
+several considerations should be taken into account when applying CULA routines to maximize
+overall performance gains.</p>
+<div class="section" id="problem-size">
+<h3>Problem Size<a class="headerlink" href="#problem-size" title="Permalink to this headline">¶</a></h3>
+<p>Prior to the application of CULA routines it is important to consider problem size. As a general rule, applying
+CULA for larger problems will maximize performance gains with respect to other computational linear algebra packages.
+For example, consider the <em>SGEQRF Speedups</em> Figure.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="http://www.culatools.com/cula_dense_programmers_guide/_images/sgeqrf_speedup.png"><img alt="SQEGRF Speedups" src="CULA%20Programmer%E2%80%99s%20Guide%20%E2%80%94%20programmers_guide%20vR17%20%28CUDA%205.0%29%20documentation_files/sgeqrf_speedup.png"></a>
+<p class="caption">This figure shows the speedup for a selected routine versus problem size.
+High speedups are attained for larger problem sizes.</p>
+</div>
+<p>The speedup chart illustrates the performance of CULA’s QR decomposition with respect to Intel’s Math Kernel
+Library (MKL). Note that for the smallest problem sizes, no performance gains are seen; however, problem complexity
+quickly scales in such a manner that the GPU is able to outperform the CPU, for even modest problem sizes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The maximum problem size is constrained by the data type in use and the
+maximum GPU memory.  For example, the maximum size for a problem that uses
+double-precision complex data is roughly one fourth of the maximum problem
+size of a single-precision problem for the same matrix dimensions, since the
+size of these data types differ by a factor of four.</p>
+</div>
+</div>
+<div class="section" id="accuracy-requirements">
+<h3>Accuracy Requirements<a class="headerlink" href="#accuracy-requirements" title="Permalink to this headline">¶</a></h3>
+<p>CULA offers both single and double-precision floating point support for its included routines. While the latest
+NVIDIA GPU hardware offers support for both of these data types, it should be noted that current NVIDIA GPU hardware
+performs best when operating on single-precision data.</p>
+<p>When applying CULA routines, the accuracy requirements of the program should be evaluated. If extended precision is
+required, then the use of double-precision routines is advised. For programs with more relaxed accuracy requirements, however,
+additional performance can be achieved at the cost of accuracy through the use of single-precision routines.</p>
+</div>
+</div>
+<div class="section" id="using-the-device-interface">
+<h2>Using the Device Interface<a class="headerlink" href="#using-the-device-interface" title="Permalink to this headline">¶</a></h2>
+<p>CULA’s device interface allows a user to directly control GPU memory.  This is
+useful for closed-loop GPU systems that do large sections of processing on the
+GPU.  The device interface is not recommended to those without <em>CUDA</em>
+experience.</p>
+<p>When using the device interface, include <em>cula_lapack_device.h</em> instead of
+<em>cula_lapack.h</em>; see the <a class="reference internal" href="#naming-conventions-section"><em>Matrix Storage</em></a> section for differences
+in naming conventions between the Standard and Device interfaces.  Memory
+allocation is handled via cudaMalloc and cudaFree, available in the <em>CUDA</em>
+toolkit.  If the programmer uses pitched memory, it is up to that programmer to
+ensure that their allocations are appropriate.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">CULA’s standard Dense version provides specialized 
+allocation functions that pitch data to the optimal size for CULA.  
+These functions are <tt class="xref c c-type docutils literal"><span class="pre">culaDeviceMalloc()</span></tt> and <tt class="xref c c-type docutils literal"><span class="pre">culaDeviceFree()</span></tt>, found in the <em>cula_device.h</em> header of CULA Dense.</p>
+</div>
+</div>
+<div class="section" id="thread-safety-multi-gpu-operation">
+<h2>Thread Safety/Multi-GPU Operation<a class="headerlink" href="#thread-safety-multi-gpu-operation" title="Permalink to this headline">¶</a></h2>
+<p>Currently, the default operating mode of CULA is to operate on only one GPU.
+Aside from this default mode, a programmer can manually control the way that
+CULA is used across the various GPU devices in their system.  For a given
+function call, CULA currently supports single-GPU operation only.  However,
+function calls may be made from several threads because all API functions are
+designed to be thread safe.  Thus, you may write a program that is
+multithreaded, with various threads making accesses to CULA to perform their
+individual linear algebra operations.</p>
+<p>By default, CULA binds to the best GPU in a system.  However, this binding may
+be manually controlled by using <tt class="xref c c-type docutils literal"><span class="pre">culaSelectDevice</span></tt> (found in
+<em>cula_device.h</em>).  It is important to note that if a given thread is already bound
+to a particular GPU device, CULA cannot reset this binding, as this is a
+restriction of <em>CUDA</em>.</p>
+<p>To use multiple GPUs, multiple threads must be created.  Each thread must be
+bound to a different GPU device by calling <tt class="xref c c-type docutils literal"><span class="pre">culaSelectDevice</span></tt>, with a
+different GPU id for each thread.  After doing so, call <tt class="xref c c-type docutils literal"><span class="pre">culaInitialize</span></tt>
+in each thread, and proceed to call CULA functions as you need.  Before each
+thread exits, ensure that <tt class="xref c c-type docutils literal"><span class="pre">culaShutdown</span></tt> is called in each.</p>
+<p>When using CULA, normal parallel programming rules apply.  The section below
+outlines a few of these considerations for each of CULA’s interfaces.</p>
+<div class="topic">
+<p class="topic-title first">Standard Interface</p>
+<p>The Standard interface uses (traditional) main memory pointers.  It 
+is up to the programmer to ensure that CULA does not concurrently write 
+to overlapping sections of memory; doing so will yield undefined 
+results.</p>
+</div>
+<div class="topic">
+<p class="topic-title first">Device Interface</p>
+<p>The <em>CUDA</em> programming model specifies that a given thread may
+ only communicate with a single GPU in a system.  To follow this 
+requirement, any call to a <em>CUDA</em> API function or a CULA function
+ will “bind” that thread to that GPU (except where specified).  These 
+calls include memory allocations functions.  A device pointer is only 
+valid on a particular GPU, so care must be taken when calling CULA in a 
+multithreaded environment.  The important point is to only pass device 
+pointers that were allocated in that particular thread context.  To 
+learn which device a thread is bound to, you may call <tt class="xref c c-type docutils literal"><span class="pre">culaGetExecutingDevice()</span></tt> routine found in <em>cula_device.h</em>.</p>
+</div>
+</div>
+<div class="section" id="developing-in-c">
+<h2>Developing in C++<a class="headerlink" href="#developing-in-c" title="Permalink to this headline">¶</a></h2>
+<p>CULA provides a set of generic functions for use in C++ applications.  These
+functions are overloaded to select a function according to the data type of its
+operand, allowing generic code.  For every function in the <em>cula_lapack.h</em> and
+<em>cula_lapack_device.h</em> headers, there is a generic version of that function in the
+<em>cula_lapack.hpp</em> and <em>cula_lapack_device.hpp</em> headers.  The generic functions will
+determine the type of the calling data and dispatch the operation to the
+appropriate typed function. Similarly to the C interfaces, a <em>cula.hpp</em> file is
+provided as a convenience header to include both the Standard and Device
+interfaces simultaneously if desired.</p>
+<p>Please see the <a class="reference internal" href="#examples-chapter"><em>Examples</em></a> chapter for an example of this interface.</p>
+</div>
+</div>
+<div class="section" id="examples">
+<span id="examples-chapter"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>The CULA installation contains several examples that show how to use CULA.  These
+examples are contained in the ‘examples’ directory.</p>
+<p>This section lists several of the common use cases for CULA functions.</p>
+<div class="section" id="initialization-and-shutdown">
+<h2>Initialization and Shutdown<a class="headerlink" href="#initialization-and-shutdown" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;cula.h&gt;</span>
+
+<span class="n">culaStatus</span> <span class="n">s</span><span class="p">;</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">culaInitialize</span><span class="p">();</span>
+<span class="k">if</span><span class="p">(</span><span class="n">s</span> <span class="o">!=</span> <span class="n">culaNoError</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">culaGetStatusString</span><span class="p">(</span><span class="n">s</span><span class="p">));</span>
+    <span class="cm">/* ... Error Handling ... */</span>
+<span class="p">}</span>
+
+<span class="cm">/* ... Your code ... */</span>
+
+<span class="n">culaShutdown</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="argument-errors">
+<h2>Argument Errors<a class="headerlink" href="#argument-errors" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;cula.h&gt;</span>
+
+<span class="n">culaStatus</span> <span class="n">s</span><span class="p">;</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">culaSgeqrf</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="cm">/* obviously wrong */</span>
+<span class="k">if</span><span class="p">(</span><span class="n">s</span> <span class="o">!=</span> <span class="n">culaNoError</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="n">culaArgumentError</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Argument %d has an illegal value</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">culaGetErrorInfo</span><span class="p">());</span>
+    <span class="k">else</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">culaGetStatusString</span><span class="p">(</span><span class="n">s</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="data-errors">
+<h2>Data Errors<a class="headerlink" href="#data-errors" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;cula.h&gt;</span>
+
+<span class="kt">float</span><span class="o">*</span> <span class="n">A</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="mi">20</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+<span class="n">memset</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="o">*</span><span class="mi">20</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span> <span class="cm">/* singular matrix, illegal for LU (getrf) */</span>
+<span class="kt">int</span> <span class="n">ipiv</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">culaSgetrf</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">ipiv</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(</span> <span class="n">s</span> <span class="o">!=</span> <span class="n">culaNoError</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">s</span> <span class="o">==</span> <span class="n">culaDataError</span> <span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Data error with code %d, please see LAPACK documentation</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+            <span class="n">culaGetErrorInfo</span><span class="p">());</span>
+    <span class="k">else</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">culaGetStatusString</span><span class="p">(</span><span class="n">s</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="printing-errors-to-the-console">
+<h2>Printing Errors to the Console<a class="headerlink" href="#printing-errors-to-the-console" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;cula.h&gt;</span>
+
+<span class="n">culaStatus</span> <span class="n">s</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">info</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">cula</span> <span class="n">function</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="k">if</span><span class="p">(</span> <span class="n">s</span> <span class="o">!=</span> <span class="n">culaNoError</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">culaGetErrorInfo</span><span class="p">();</span>
+    <span class="n">culaGetErrorInfoString</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">));</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">buf</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-the-c-interface">
+<h2>Using the C++ Interface<a class="headerlink" href="#using-the-c-interface" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;cula.hpp&gt;</span>
+
+<span class="n">template</span><span class="o">&lt;</span><span class="n">class</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">GenericLU</span><span class="p">(</span><span class="n">T</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">)</span> <span class="c1">// type of T will be determined by the compiler</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">piv</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+
+    <span class="c1">// no need for type specifier - determined automatically on overloads</span>
+    <span class="n">culaStatus</span> <span class="n">s</span> <span class="o">=</span> <span class="n">culaGetrf</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ipiv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+    <span class="c1">// check errors</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="checking-that-libraries-are-linked-correctly">
+<span id="check-library-link-example"></span><h2>Checking That Libraries are Linked Correctly<a class="headerlink" href="#checking-that-libraries-are-linked-correctly" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include &lt;cula.h&gt;</span>
+
+<span class="kt">int</span> <span class="nf">MeetsMinimumCulaRequirements</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">cudaMinimumVersion</span> <span class="o">=</span> <span class="n">culaGetCudaMinimumVersion</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">cudaRuntimeVersion</span> <span class="o">=</span> <span class="n">culaGetCudaRuntimeVersion</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">cudaDriverVersion</span> <span class="o">=</span> <span class="n">culaGetCudaDriverVersion</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">cublasMinimumVersion</span> <span class="o">=</span> <span class="n">culaGetCublasMinimumVersion</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">cublasRuntimeVersion</span> <span class="o">=</span> <span class="n">culaGetCublasRuntimeVersion</span><span class="p">();</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">cudaRuntimeVersion</span> <span class="o">&lt;</span> <span class="n">cudaMinimumVersion</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"CUDA runtime version is insufficient; "</span>
+               <span class="s">"version %d or greater is required</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">cudaMinimumVersion</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">cudaDriverVersion</span> <span class="o">&lt;</span> <span class="n">cudaMinimumVersion</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"CUDA driver version is insufficient; "</span>
+               <span class="s">"version %d or greater is required</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">cudaMinimumVersion</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">cublasRuntimeVersion</span> <span class="o">&lt;</span> <span class="n">cublasMinimumVersion</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"CUBLAS runtime version is insufficient; "</span>
+               <span class="s">"version %d or greater is required</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">cublasMinimumVersion</span><span class="p">);</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="programming-in-fortran">
+<span id="fortran-chapter"></span><h1>Programming in Fortran<a class="headerlink" href="#programming-in-fortran" title="Permalink to this headline">¶</a></h1>
+<p>This section describes the usage of CULA with the Fortran programming language.</p>
+<div class="section" id="id2">
+<h2>Introduction<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways to interface most <em>CUDA</em> programs with the Fortran language.
+CULA supports both of these methods. The first, or traditional, method is to
+mimic the C-style of <em>CUDA</em> programming. In this model, the programmer allocates
+data through the <em>CUDA</em> C runtime environment, and care must be taken to properly
+interface with this model. The other, more recent model, is the Portland Group’s
+CUDA-Fortran programming environment, in which <em>CUDA</em> memory is tagged with the
+“device” attribute but otherwise treated very similarly to other Fortran data.
+CULA supports both of these methods in Fortran, and provides the host memory and
+device memory interfaces, much as with the C-style programming mentioned
+throughout the rest of this guide.</p>
+</div>
+<div class="section" id="routine-naming">
+<h2>Routine Naming<a class="headerlink" href="#routine-naming" title="Permalink to this headline">¶</a></h2>
+<p>Routines in the CULA-Fortran interface are named identically to the C-style
+functions mentioned throughout this guide, with one exception: the
+<tt class="xref c c-type docutils literal"><span class="pre">dropCaps</span></tt> routine naming is replaced by a more Fortran-like style with
+underscores as separators, i.e., <tt class="xref c c-type docutils literal"><span class="pre">DROP_CAPS</span></tt>. Fortran is case
+insensitive and as such, <tt class="xref c c-type docutils literal"><span class="pre">drop_caps</span></tt> is equally applicable. Therefore
+the examples in this guide are largely applicable, except that a routine like
+<tt class="xref c c-type docutils literal"><span class="pre">culaInitialize()</span></tt> should be called in Fortran as
+<tt class="xref c c-type docutils literal"><span class="pre">CULA_INITIALIZE()</span></tt>.</p>
+<p>Some example routine names are shown below:</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="45%">
+<col width="55%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Standard</th>
+<th class="head">Fortran</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>culaInitialize</td>
+<td>CULA_INTIALIZE</td>
+</tr>
+<tr><td>culaSgeqrf</td>
+<td>CULA_SGEQRF</td>
+</tr>
+<tr><td>culaDeviceSgeqrf</td>
+<td>CULA_DEVICE_SGEQRF</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-file-interfacing">
+<h2>Module File Interfacing<a class="headerlink" href="#module-file-interfacing" title="Permalink to this headline">¶</a></h2>
+<p>CULA provides a range of module files in the <em>include</em> folder.
+These are roughly analogous to the C-interface header files located in the
+same folder of the installation. A program will typically invoke one or
+more of these (depending on which routines are needed) via the “use” statement.</p>
+<p>The module files are preferred because array dimensionality, data types, and
+number of arguments will be checked properly by the compiler. Please note that
+array dimensions are not checked (only dimensionality is checked). It is
+recommended to couple the use of the module file with the “implicit none”
+statement in order to enforce the fullest available checking.</p>
+<p>Module files must be first be compiled because they are source code. These can
+be passed to your compiler like any other Fortran source code file. Only the
+modules that are referenced via the “use” statement in a given program should be
+supplied to the compiler.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">GFORTRAN 4.3 is the oldest compiler from the GNU Compiler Collection that
+supports the ISO_C_BINDING semantics required to use the CULA Fortran
+modules.</p>
+</div>
+</div>
+<div class="section" id="using-the-cula-c-style-device-memory-interface">
+<h2>Using the CULA C-Style Device Memory Interface<a class="headerlink" href="#using-the-cula-c-style-device-memory-interface" title="Permalink to this headline">¶</a></h2>
+<p>Using a C-style <em>CUDA</em> memory interface in Fortran can be a difficult
+proposition because it requires interacting with libraries intended for a C
+language programming environment. The principal method for memory allocation is
+via a module declared with ISO_C_BINDING language extension. Modules which
+declare the majority of the <em>CUDA</em> API can be found on the Internet, but are not
+provided in the default <em>CUDA</em> installation.  It is the programmer’s
+responsibility to properly interact with the <em>CUDA</em> library.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">An example of this integration can be found in <em>examples/fortranDeviceInterface</em>.</p>
+</div>
+<p>With the <em>CUDA</em> memory allocation issues addressed, using CULA is a
+straightforward exercise, as the referenced example will illustrate. The
+experience of using the CULA library’s Device interface is exactly the same as
+using the CULA library’s Host interface once <em>CUDA</em> memory is allocated and
+transfered.</p>
+<p>This is the only compatible method for the Intel Fortran and GNU Fortran
+compilers for use of the CULA Device interface.</p>
+</div>
+<div class="section" id="using-the-cula-cuda-fortran-device-memory-interface">
+<h2>Using the CULA CUDA-Fortran Device Memory Interface<a class="headerlink" href="#using-the-cula-cuda-fortran-device-memory-interface" title="Permalink to this headline">¶</a></h2>
+<p>The PGI CUDA-Fortran programming style for <em>CUDA</em> allows memory to be allocated
+and transfered as follows:</p>
+<div class="highlight-fortran"><div class="highlight"><pre><span class="kt">real</span><span class="p">,</span> <span class="k">allocatable</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(:)</span> <span class="kd">::</span> <span class="nv">my_host_vector</span>
+<span class="kt">real</span><span class="p">,</span> <span class="k">allocatable</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(:),</span> <span class="nv">device</span> <span class="kd">::</span> <span class="nv">my_device_vector</span>
+
+<span class="k">allocate</span><span class="p">(</span><span class="nv">my_host_vector</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+<span class="nb">random_number</span><span class="p">(</span><span class="nv">my_host_vector</span><span class="p">)</span>
+
+<span class="c">! allocate device memory</span>
+<span class="k">allocate</span><span class="p">(</span><span class="nv">my_device_vector</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+
+<span class="c">! transfer host data to device memory</span>
+<span class="nv">my_device_vector</span> <span class="o">=</span> <span class="nv">my_host_vector</span>
+</pre></div>
+</div>
+<p>Using CULA with this memory model is simple. The user should “use
+cula_lapack_device_pgfortran” and then can invoke CULA Device functions on the
+arrays tagged with the “device” attribute. See the module file or the API
+Reference to learn which parameters to each function are expected to be “device”
+data and which are host data (host data arrays are those not tagged “device.”)</p>
+</div>
+</div>
+<div class="section" id="configuring-your-environment">
+<span id="id3"></span><h1>Configuring Your Environment<a class="headerlink" href="#configuring-your-environment" title="Permalink to this headline">¶</a></h1>
+<p>This section describes how to set up CULA using common tools,
+such as Microsoft® Visual Studio®, as well as command line tools for Linux and Mac OS X.</p>
+<div class="section" id="microsoft-visual-studio">
+<h2>Microsoft Visual Studio<a class="headerlink" href="#microsoft-visual-studio" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to configure Microsoft Visual Studio to use CULA.
+Before following the steps within this section, take note of where you installed
+CULA (the default is <em>C:\Program Files\CULA</em>).  To set up Visual Studio, you
+will need to set both Global- and Project-level settings.  Each of these steps
+is described in the sections below.</p>
+<div class="section" id="global-settings">
+<h3>Global Settings<a class="headerlink" href="#global-settings" title="Permalink to this headline">¶</a></h3>
+<p>When inside Visual Studio, navigate to the menu bar and select <em>Tools &gt;
+Options</em>.  A window will open that offers several options; in this window,
+navigate to <em>Projects and Solutions &gt; VC++ Directories</em>.  From this dialog you
+will be able to configure global executable, include, and library paths, which
+will allow any project that you create to use CULA.</p>
+<p>The table below specifies the recommended settings for the various directories
+that the <em>VC++ Directories</em> dialog makes available.  When setting up your
+environment, prepend the path of your CULA installation to each of the
+entries in the table below.  For example, to set the include path for a typical
+installation, enter <em>C:\Program Files\CULA\include</em> for the <em>Include Files</em>
+field.</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="57%">
+<col width="21%">
+<col width="21%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Option</th>
+<th class="head">Win32</th>
+<th class="head">x64</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Executable Files</td>
+<td>bin</td>
+<td>bin64</td>
+</tr>
+<tr><td>Include Files</td>
+<td>include</td>
+<td>include</td>
+</tr>
+<tr><td>Library Files</td>
+<td>lib</td>
+<td>lib64</td>
+</tr>
+</tbody>
+</table>
+<p>With these global settings complete, Visual Studio will be able to include
+CULA files in your application.  Before you can compile and link an
+application that uses CULA, however, you will need to set up your project to link
+CULA.</p>
+</div>
+<div class="section" id="project-settings">
+<h3>Project Settings<a class="headerlink" href="#project-settings" title="Permalink to this headline">¶</a></h3>
+<p>To use CULA, you must instruct Visual Studio to link CULA to your
+application.  To do this, right-click on your project and select <em>Properties</em>.
+From here, navigate to <em>Configuration Properties &gt; Linker &gt; Input</em>.  In the
+<em>Additional Dependencies</em> field, enter “cula_lapack.lib” or
+“cula_lapack_basic.lib” as appropriate for your version.</p>
+<p>On the Windows platform, CULA’s libraries are distributed as a dynamic link
+library (DLL) (<em>cula.dll</em>) and an import library (<em>cula_lapack.lib</em>), located  in the <em>bin</em>
+and <em>lib</em> directories of the CULA installation, respectively.  By Linking
+<em>cula_lapack.lib</em>, you are instructing Visual Studio to make an association between
+your application and the CULA DLL, which will allow your application to use
+the code that is contained within the CULA DLL.</p>
+</div>
+<div class="section" id="runtime-path">
+<h3>Runtime Path<a class="headerlink" href="#runtime-path" title="Permalink to this headline">¶</a></h3>
+<p>CULA is built as a dynamically linked library, and as such it must be visible to
+your runtime system.  This requires that cula.dll and its supporting dll’s
+are located in a directory that is a member of your system’s runtime path.  On
+Windows, you may do one of several things:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Add CULA_BIN_PATH_32 or CULA_BIN_PATH_64 to your PATH environment variable.</li>
+<li>Copy cula.dll and its supporting dll’s to the working directory or your project’s executable.</li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="linux-mac-os-x-command-line">
+<h2>Linux / Mac OS X - Command Line<a class="headerlink" href="#linux-mac-os-x-command-line" title="Permalink to this headline">¶</a></h2>
+<p>On a Linux system, a common way of building software is by using command line
+tools.  This section describes how a project that is command line driven can be
+configured to use CULA.</p>
+<div class="section" id="configure-environment-variables">
+<h3>Configure Environment Variables<a class="headerlink" href="#configure-environment-variables" title="Permalink to this headline">¶</a></h3>
+<p>The first step in this process is to set up environment variables so that your
+build scripts can infer the location of CULA.</p>
+<p>On a Linux or Mac OS X system, a simple way to set up CULA to use environment
+variables.  For example, on a system that uses the <em>bourne</em> (<em>sh</em>) or <em>bash</em> shells,
+add the following lines to an appropriate shell configuration file (e.g.
+<em>.bashrc</em>).</p>
+<div class="highlight-c"><pre>export CULA_ROOT=/usr/local/cula
+export CULA_INC_PATH=$CULA_ROOT/include
+export CULA_LIB_PATH_32=$CULA_ROOT/lib
+export CULA_LIB_PATH_64=$CULA_ROOT/lib64</pre>
+</div>
+<p>(where <tt class="xref c c-type docutils literal"><span class="pre">CULA_ROOT</span></tt> is customized to the location you chose to install CULA)</p>
+<p>After setting environment variables, you can now configure your build scripts to
+use CULA.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You may need to reload your shell before you can use these variables.</p>
+</div>
+</div>
+<div class="section" id="configure-project-paths">
+<h3>Configure Project Paths<a class="headerlink" href="#configure-project-paths" title="Permalink to this headline">¶</a></h3>
+<p>This section describes how to set up the <em>gcc</em> compiler to include CULA in
+your application.  When compiling an application, you will typically need to add
+the following arguments to your compiler’s argument list:</p>
+<table class="docutils" border="1">
+<colgroup>
+<col width="33%">
+<col width="67%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Item</th>
+<th class="head">Command</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Include Path</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">-I$CULA_INC_PATH</span></tt></td>
+</tr>
+<tr><td>Library Path (32-bit arch)</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">-L$CULA_LIB_PATH_32</span></tt></td>
+</tr>
+<tr><td>Library Path (64-bit arch)</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">-L$CULA_LIB_PATH_64</span></tt></td>
+</tr>
+<tr><td>Libraries to Link against</td>
+<td><tt class="xref c c-type docutils literal"><span class="pre">-lcula_lapack</span></tt> or <tt class="xref c c-type docutils literal"><span class="pre">-lcula_lapack_basic</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>For a 32-bit compile:</p>
+<div class="highlight-c"><pre>gcc ... -I$CULA_INC_PATH -L$CULA_LIB_PATH_32 . . .
+        -lcula_lapack -lcublas -lcudart ...</pre>
+</div>
+<p>For a 64-bit compile:</p>
+<div class="highlight-c"><pre>gcc ... -I$CULA_INC_PATH -L$CULA_LIB_PATH_64 . . .
+        -lcula_lapack -lcublas -lcudart ...</pre>
+</div>
+<p>Substitute “cula_lapack_basic” in the above commands if using that version.</p>
+</div>
+<div class="section" id="id4">
+<h3>Runtime Path<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>CULA is built as a shared library, and as such it must be visible to your
+runtime system.  This requires that CULA’s shared libraries are located in a
+directory that is a member of your system’s runtime library path.  On Linux,
+you may do one of several things:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Add CULA_LIB_PATH_32 or CULA_LIB_PATH_64 to your LD_LIBRARY_PATH environment variable.</li>
+<li>Edit your system’s ld.so.conf (found in /etc) to include either CULA_LIB_PATH_32 or CULA_LIB_PATH_64.</li>
+</ol>
+</div></blockquote>
+<p>On the Mac OS X platform, you must edit the DYLD_LIBRARY_PATH environment variable for your shell, as above.</p>
+</div>
+</div>
+</div>
+<div class="section" id="troubleshooting">
+<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h1>
+<p>This section lists solutions for common problems encountered when using CULA and
+describes your support options.</p>
+<div class="section" id="common-issues">
+<h2>Common Issues<a class="headerlink" href="#common-issues" title="Permalink to this headline">¶</a></h2>
+<p id="report-system-info-faq"><strong>How do I report information about my system?</strong></p>
+<blockquote>
+<div>Run one of the <em>sysinfo.bat</em> or <em>sysinfo.sh</em> scripts, for Windows or
+Linux systems, respectively.  The information these scripts report
+can be uploaded as an attachment to your support requests or forum posts and
+will aid us greatly in diagnosing your problems.</div></blockquote>
+<p><strong>An LAPACK routine I need is missing. What should I do?</strong></p>
+<blockquote>
+<div>LAPACK is a very large library and we have only written a subset of its
+capabilities so far.  CULA Dense is constantly
+growing as new functions are added.  If there is function you would like to
+see added, contact us on our forums and voice your opinion on which
+functions you use.</div></blockquote>
+<p><strong>I’m having problems with my GPU and/or video drivers. Can you help?</strong></p>
+<blockquote>
+<div>Problems specific to GPU devices and their drivers should be handled by
+NVIDIA.  The latest drivers can always be obtained directly from NVIDIA on
+their Download page.  CULA requires <em>CUDA 6.0</em> compatible drivers (or newer)
+to be installed on your system.  On Linux, this requires driver version
+6.0.37 or newer, and for Windows it is version 6.0.37 or newer.</div></blockquote>
+<p><strong>I think I found a bug. What should I do?</strong></p>
+<blockquote>
+<div>First, be sure that you are experiencing a software bug and not an issue
+related to faulty hardware or drivers. If you are still reasonably sure you
+have encountered a bug, see the Support Options Listed below.</div></blockquote>
+<p><strong>cuda.dll or libcula.so could not be found</strong></p>
+<blockquote>
+<div>Your runtime system has not been set up to locate CULA.  See the
+<a class="reference internal" href="#linking-to-cula-section"><em>Linking to CULA</em></a> section.</div></blockquote>
+<p><strong>CULA returns culaNotInitialized.</strong></p>
+<blockquote>
+<div><p><tt class="xref c c-type docutils literal"><span class="pre">culaInitialize</span></tt> must be called before any CULA functions may be
+used.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some functions have an exception to this rule, see <em>cula_status.h</em> for a
+list of these functions.</p>
+</div>
+</div></blockquote>
+<p><strong>CULA returns culaNoHardware.</strong></p>
+<blockquote>
+<div><p>Your system doesn’t have the proper hardware required to support CULA.  Your
+system may have a non-NVIDIA GPU, may have an NVIDIA GPU that is too old, or
+your system may be missing the appropriate drivers for your graphics card.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This error will also occur when running code that uses CULA functions
+over remote desktop in Windows, as the <em>CUDA</em> runtime currently doesn’t
+support GPU execution over remote desktop.</p>
+</div>
+</div></blockquote>
+<p><strong>CULA returns culaInsufficientRuntime.</strong></p>
+<blockquote>
+<div><p>This error indicates that the GPU driver or library dependencies are too old
+or is too limited to run this code.  See the
+<a class="reference internal" href="#check-library-link-example"><em>Checking That Libraries are Linked Correctly</em></a> example for how to programmatically check
+these dependencies.  If the driver is insufficient, update your drivers a
+newer package, available at NVIDIA’s website.</p>
+<p>Note that CULA ships with the libraries it requires, and therefore this
+error may indicate that a user’s path is incorrectly configured to link
+against these dependencies. See the <a class="reference internal" href="#linking-to-cula-section"><em>Linking to CULA</em></a> section
+for a discussion of how this problem can be fixed.</p>
+</div></blockquote>
+<p><strong>CULA returns culaInsufficientComputeCapability.</strong></p>
+<blockquote>
+<div>Your GPU doesn’t support a required feature to complete this operation.
+Most commonly, this is returned when trying to run a double-precision
+operation on a GPU that doesn’t have double-precision hardware.</div></blockquote>
+<p><strong>CULA returns culaInsufficientMemory.</strong></p>
+<blockquote>
+<div>Your GPU doesn’t have enough memory to complete the operation.  Consider
+purchasing a GPU with more memory.</div></blockquote>
+<p><strong>CULA returns culaFeatureNotImplemented.</strong></p>
+<blockquote>
+<div>The requested variant of a given routine hasn’t been implemented by the CULA
+developers.  While most functions have feature-parity with respect to
+Netlib, this may be the case in an uncommon variant of a function.</div></blockquote>
+<p><strong>CULA returns culaArgumentError.</strong></p>
+<blockquote>
+<div>Your input to one of CULA’s routines is incorrect.  The faulty parameter is
+reported by culaGetErrorInfo; ensure that all of your parameters are
+correct.  See the <a class="reference internal" href="#error-handling-section"><em>Error Handling</em></a> section.</div></blockquote>
+<p><strong>CULA returns culaDataError.</strong></p>
+<blockquote>
+<div>An input to one of CULA’s routines is malformed or singular.  More
+information about the error is reported by culaGetErrorInfo.  See the
+<a class="reference internal" href="#error-handling-section"><em>Error Handling</em></a> section.</div></blockquote>
+<p><strong>CULA returns culaBlasError.</strong></p>
+<blockquote>
+<div><em>CUBLAS</em> has returned an error.  Please file a bug report.</div></blockquote>
+<p><strong>CULA returns culaRuntimeError.</strong></p>
+<blockquote>
+<div><p>The most common cause of this error is related to improperly configured or
+old GPU drivers.  Ensure that you system is up to date by installing the
+latest drivers from NVIDIA.</p>
+<p>If you have made sure that your drivers are up to date, you can learn more
+about this particular error by calling culaGetErrorInfo.  The value returned
+here will correspond to a <em>CUDA</em> runtime API error code; see driver_types.h in
+the <em>CUDA</em> toolkit for these codes.</p>
+<p>See the <a class="reference internal" href="#check-library-link-example"><em>Checking That Libraries are Linked Correctly</em></a> example for how to
+programmatically check if the GPU driver is sufficient.</p>
+<p>If this does not solve your problem, please file a bug report.</p>
+</div></blockquote>
+</div>
+<div class="section" id="support-options">
+<h2>Support Options<a class="headerlink" href="#support-options" title="Permalink to this headline">¶</a></h2>
+<p>If none of the entries above solve your issue, you can seek technical support.
+See your license level below to learn about your support options.</p>
+<ul class="simple">
+<li><strong>Free Edition</strong> - Free Edition users may post problems to the <a class="reference external" href="http://www.culatools.com/forums">CULA forums</a> for community support.</li>
+<li><strong>CULA Dense</strong> - Paid users can submit support tickets through the CULA
+website to receive personalized help.</li>
+<li><strong>Integrators</strong> - Commercial users have direct support.  Please contact your
+support representative directly for help with your issue.</li>
+</ul>
+<p>When reporting a problem, make sure to include the following information:</p>
+<blockquote>
+<div><ul class="simple">
+<li>System Information (see <a class="reference internal" href="#report-system-info-faq"><em>Common Issues</em></a>)</li>
+<li>CULA Version</li>
+<li>Version of NVIDIA® <em>CUDA</em> Toolkit installed, if any</li>
+<li>Problem Description (with code if applicable)</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="release-r18-cuda-6-0-april-16-2014">
+<h2>Release R18 CUDA 6.0 (April 16, 2014)<a class="headerlink" href="#release-r18-cuda-6-0-april-16-2014" title="Permalink to this headline">¶</a></h2>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Changed: Updated for CUDA 6.0</li>
+<li>Changed: CUDART is statically linked</li>
+</ul>
+</div>
+<div class="section" id="release-r17-cuda-5-0-may-8-2013">
+<h2>Release R17 CUDA 5.0 (May 8, 2013)<a class="headerlink" href="#release-r17-cuda-5-0-may-8-2013" title="Permalink to this headline">¶</a></h2>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Changed: cula_core.dll/so is removed - functionality is in cula_lapack.dll/so</li>
+<li>Changed: culaGetLastStatus and culaSetLastStatus are removed</li>
+<li>Changed: Runtime dependency on Intel OpenMP 5 redistributable (libiomp5) added</li>
+<li>Fixed: Several issues in the Link Interface</li>
+</ul>
+<p><strong>CULA Dense Free Version</strong></p>
+<ul class="simple">
+<li>Changed: cula_lapack.dll/so is renamed to cula_lapack_basic.dll/so</li>
+</ul>
+</div>
+<div class="section" id="release-r16a-cuda-5-0-november-20-2012">
+<h2>Release R16a CUDA 5.0 (November 20, 2012)<a class="headerlink" href="#release-r16a-cuda-5-0-november-20-2012" title="Permalink to this headline">¶</a></h2>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Improved: All Fortran modules have been converted to ISO_C_BINDING</li>
+<li>Removed: Implicit Fortran calling method is no longer supported</li>
+<li>Fixed: Inadvertantly missing Fortran examples have been replaced</li>
+<li>Fixed: Updated CUBLAS minor version to remove false dependency on the CUDA driver</li>
+</ul>
+</div>
+<div class="section" id="release-r16-cuda-5-0-october-16-2012">
+<h2>Release R16 CUDA 5.0 (October 16, 2012)<a class="headerlink" href="#release-r16-cuda-5-0-october-16-2012" title="Permalink to this headline">¶</a></h2>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: CUDA runtime upgraded to 5.0</li>
+<li>Feature: K20 support</li>
+<li>Fixed: Incompatibility between Fortran module files and Cray Compiler</li>
+<li>Fixed: Resource leak caused by culaShutdown</li>
+</ul>
+<p><strong>CULA Dense</strong></p>
+<ul class="simple">
+<li>Feature: Implemented symmetric generalized Eigensolvers (sygv)</li>
+<li>Alpha Feature: pgesv (multi-GPU LU-based solve)</li>
+<li>Alpha Feature: pgetrs (multi-GPU LU backsolve)</li>
+</ul>
+</div>
+<div class="section" id="release-r15-cuda-4-2-august-14-2012">
+<h2>Release R15 CUDA 4.2 (August 14, 2012)<a class="headerlink" href="#release-r15-cuda-4-2-august-14-2012" title="Permalink to this headline">¶</a></h2>
+<p><strong>Announcement</strong></p>
+<ul class="simple">
+<li>All packages are now “universal” and contain both 32-bit and 64-bit binaries</li>
+<li>Multi-GPU routines (pCULA) remain in alpha</li>
+</ul>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: CUDA runtime upgraded to 4.2</li>
+<li>Feature: Kepler support</li>
+<li>Feature: Link interface LAPACK compatibility version upgraded to 3.3.1</li>
+<li>Feature: New Fortran module files for CULA Core and LAPACK subsets, with Device interface</li>
+<li>Feature: New PGI Fortran example using CUDA-Fortran semantics</li>
+<li>Feature: New Fortran Device Interface example</li>
+<li>Improved: Performance of geqrf improved by up to 10%</li>
+<li>Improved: Fortran documentation in Programmer’s Guide</li>
+<li>Improved: Link interface compatible with Matlab 2012</li>
+<li>Fixed: Link interface properly functions on GEMM for sizes &gt; 1k</li>
+<li>Fixed: Resource overflow possibility when certain dimensions to gesv are very large</li>
+<li>Changed: Fortran modules are now located in “include”</li>
+</ul>
+<p><strong>CULA Dense</strong></p>
+<ul class="simple">
+<li>Improved: improved speed for multi-GPU routines</li>
+<li>Improved: improved scalability for multi-GPU routines</li>
+<li>Improved: reduced memory overhead</li>
+</ul>
+</div>
+<div class="section" id="release-r14-cuda-4-1-january-30-2012">
+<h2>Release R14 CUDA 4.1 (January 30, 2012)<a class="headerlink" href="#release-r14-cuda-4-1-january-30-2012" title="Permalink to this headline">¶</a></h2>
+<p><strong>Announcement</strong></p>
+<ul class="simple">
+<li>Alpha Feature: Multi-GPU routines are included in the full CULA Dense version as a preview to be finalized in R15</li>
+<li>Alpha Feature: pgetrf (multi-GPU LU factorization)</li>
+<li>Alpha Feature: ppotrf (multi-GPU Cholesky decomposition)</li>
+<li>Alpha Feature: ppotrs (multi-GPU Cholesky backsolve)</li>
+<li>Alpha Feature: pposv (multi-GPU symmetric/hermitian positive-definite factorize and solve)</li>
+<li>Alpha Feature: pgemm (multi-GPU matrix-matrix multiply)</li>
+<li>Alpha Feature: ptrsm (multi-GPU triangular solve)</li>
+<li>Alpha Advisory: Performance, accuracy, routine list, and interface are all subject to change</li>
+</ul>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: CUDA runtime upgraded to 4.1</li>
+<li>Changed: Transitional headers have been removed</li>
+<li>Fixed: Now shipping all dependencies required by OSX systems</li>
+</ul>
+<p><strong>CULA Dense</strong></p>
+<ul class="simple">
+<li>Improved: Up to 3x performance improvement to trtri</li>
+<li>Improved: 10% performance improvement to potrf</li>
+</ul>
+</div>
+<div class="section" id="release-r13-cuda-4-0-november-2-2011">
+<h2>Release R13 CUDA 4.0 (November 2, 2011)<a class="headerlink" href="#release-r13-cuda-4-0-november-2-2011" title="Permalink to this headline">¶</a></h2>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: Compatibility with CULA Sparse S1</li>
+<li>Improved: Significantly improved thread safety</li>
+<li>Fixed: Host transpose function</li>
+<li>Fixed: Workaround for a resource leak in the CUDA toolkit</li>
+<li>Changed: Headers renamed to cula_lapack.h (etc); transitional header available</li>
+</ul>
+<p><strong>CULA Dense</strong></p>
+<ul class="simple">
+<li>Feature: Implemented potri (inverse of symmetric positive definite matrix)</li>
+<li>Feature: Implemented gesdd (singular value decomposition variant)</li>
+<li>Feature: Implemented geqrfp (qr decomposition variant)</li>
+</ul>
+</div>
+<div class="section" id="release-r12-cuda-4-0-may-26-2011">
+<h2>Release R12 CUDA 4.0 (May 26, 2011)<a class="headerlink" href="#release-r12-cuda-4-0-may-26-2011" title="Permalink to this headline">¶</a></h2>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: CUDA runtime upgraded to 4.0</li>
+<li>Feature: New link-compatible interface for compatibility with existing programs</li>
+<li>Improved: Now reserving less memory in multithreaded programs</li>
+<li>Improved: More closely matching cuComplex type for better compatibility</li>
+<li>Improved: Renamed all examples to clarity the purpose of each</li>
+<li>Improved: Compatibility with future GPUs</li>
+</ul>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Fixed: gebrd accuracy for M&lt;N case</li>
+<li>Fixed: Rarely occuring illegal memory access in symv</li>
+</ul>
+</div>
+<div class="section" id="release-r11-cuda-3-2-march-31-2011">
+<h2>Release R11 CUDA 3.2 (March 31, 2011)<a class="headerlink" href="#release-r11-cuda-3-2-march-31-2011" title="Permalink to this headline">¶</a></h2>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Feature: Implemented symv (symmetric matrix vector product)</li>
+<li>Feature: Implemented hemv (hermitian matrix vector product)</li>
+<li>Feature: Implemented geConjugate (conjugate general matrix)</li>
+<li>Feature: Implemented trConjugate (conjugate triangular matrix)</li>
+<li>Feature: Implemented geNancheck (check for NaNs in matrix)</li>
+<li>Feature: Implemented geTranspose (transpose general matrix out of place)</li>
+<li>Feature: Implemented geTransposeConjugate (transpose and conjugate out of place)</li>
+<li>Feature: Implemented geTransposeInplace (transpose square matrix inplace)</li>
+<li>Feature: Implemented geTransposeConjugateInplace (transpose and conjugate square matrix)</li>
+<li>Feature: Implemented lacpy (copy matrix)</li>
+<li>Feature: Implemented lag2 (convert precision)</li>
+<li>Feature: Implemented lar2v (apply rotations)</li>
+<li>Feature: Implemented larfb (apply reflector)</li>
+<li>Feature: Implemented larfg (generate reflector)</li>
+<li>Feature: Implemented largv (generate rotations)</li>
+<li>Feature: Implemented lartv (apply rotations)</li>
+<li>Feature: Implemented lascl (scale matrix)</li>
+<li>Feature: Implemented laset (set matrix)</li>
+<li>Feature: Implemented lasr (apply rotation)</li>
+<li>Feature: Implemented lat2z (convert precision, triangular matrix)</li>
+<li>Improved: Increased speed of syev/syevx significantly when finding eigenvectors</li>
+<li>Improved: Increased speed of gebrd</li>
+<li>Improved: Increased speed of gesvd when calculating singular values</li>
+</ul>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Fixed: Failure to initialize for Quadro X000 cards</li>
+</ul>
+</div>
+<div class="section" id="release-r10-cuda-3-2-december-10-2010">
+<h2>Release R10 CUDA 3.2 (December 10, 2010)<a class="headerlink" href="#release-r10-cuda-3-2-december-10-2010" title="Permalink to this headline">¶</a></h2>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Feature: Implemented pbtrf (positive definite banded matrix factorization)</li>
+<li>Feature: Implemented gbtrf (banded matrix factorization)</li>
+</ul>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: CUDA runtime upgraded to 3.2</li>
+<li>Feature: Explicit support and tuning added for 500-series GPUs</li>
+<li>Feature: Added BLAS interfaces</li>
+<li>Feature: Implemented culaGetErrorInfoString to aid in error diagnosis</li>
+<li>Feature: culatypes.h defines either CULA_BASIC or CULA_PREMIUM</li>
+<li>Improved: All routines retuned for Fermi. Gains of up to 100% are available.</li>
+<li>Improved: Multi-thread performance and stability</li>
+<li>Improved: All examples have more descriptive error output</li>
+</ul>
+</div>
+<div class="section" id="release-2-1-final-august-31-2010">
+<h2>Release 2.1 Final (August 31, 2010)<a class="headerlink" href="#release-2-1-final-august-31-2010" title="Permalink to this headline">¶</a></h2>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Feature: Implemented orgrq</li>
+</ul>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: Support for PGI CUDA Fortran Compiler (link -lcula_pgfortran)</li>
+<li>Feature: OS X supports 64-bit</li>
+<li>Fixed: More reliably detect and produce culaInsufficientRuntime condition</li>
+<li>Fixed: culaShutdown is now safe in a multithreaded context</li>
+</ul>
+</div>
+<div class="section" id="release-2-0-final-june-28-2010">
+<h2>Release 2.0 Final (June 28, 2010)<a class="headerlink" href="#release-2-0-final-june-28-2010" title="Permalink to this headline">¶</a></h2>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Fixed: Improved accuracy of geev for some specific matrices</li>
+</ul>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: CUDA Runtime upgraded to CUDA 3.1</li>
+<li>Fixed: Fortran interface properly accepts floating point constant arguments</li>
+<li>Fixed: Properly detect if an insufficient runtime or driver is installed</li>
+</ul>
+</div>
+<div class="section" id="release-2-0-preview-may-21-2010">
+<h2>Release 2.0 Preview (May 21, 2010)<a class="headerlink" href="#release-2-0-preview-may-21-2010" title="Permalink to this headline">¶</a></h2>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Feature: Implemented dsposv and zcposv (iteratively refined solvers)</li>
+<li>Feature: Implemented complex versions of syev (symmetric eigenvalues)</li>
+<li>Feature: Implemented complex versions of syevx (expert version of syev)</li>
+<li>Feature: Implemented complex versions of syrdb (symmetric reduction to tridiagonal form)</li>
+<li>Feature: Implemented complex versions of steqr (eigenvalues and vectors of a symmetric tridiagonal matrix)</li>
+<li>Improved: Improved performance of syrdb by up to 30%</li>
+<li>Improved: Improved performance of syev by up to 20%</li>
+<li>Improved: Improved performance of potrf by up to 55%</li>
+<li>Improved: Improved performance of most routines in D/Z precision by up to 30%</li>
+</ul>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: CUDA runtime upgraded to 3.1 Beta</li>
+<li>Feature: Support for Fermi-class GPUs</li>
+<li>Feature: Mac OS X version supports all complex and double precision functionality</li>
+</ul>
+</div>
+<div class="section" id="release-1-3a-final-april-19-2010">
+<h2>Release 1.3a Final (April 19, 2010)<a class="headerlink" href="#release-1-3a-final-april-19-2010" title="Permalink to this headline">¶</a></h2>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Fixed: Increased stability of syev, syevx, and stebz for certain types of matrices</li>
+<li>Improved: Improved accuracy of stebz</li>
+</ul>
+</div>
+<div class="section" id="release-1-3-final-april-8-2010">
+<h2>Release 1.3 Final (April 8, 2010)<a class="headerlink" href="#release-1-3-final-april-8-2010" title="Permalink to this headline">¶</a></h2>
+<p><strong>Basic</strong></p>
+<ul class="simple">
+<li>Improved: Removed performance degradation for large NRHS in gesv</li>
+<li>Improved: Increased performance of gesv by up to 45%</li>
+<li>Fixed: gglse properly handles P=0 case</li>
+</ul>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Feature: Benchmark example now supports double precision</li>
+<li>Improved: Increased performance of getrs by up to 50%</li>
+<li>Improved: Increased performance of posv by up to 45%</li>
+<li>Improved: Increased performance of potrf by up to 10%</li>
+<li>Improved: Increased performance of trtrs by up to 60%</li>
+</ul>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Improved: Mac OSX builds have install_name rpath set</li>
+</ul>
+</div>
+<div class="section" id="release-1-2-final-february-17-2010">
+<h2>Release 1.2 Final (February 17, 2010)<a class="headerlink" href="#release-1-2-final-february-17-2010" title="Permalink to this headline">¶</a></h2>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Feature: Implemented syev  (symmetric eigenvalues)</li>
+<li>Feature: Implemented syevx (expert version of syev)</li>
+<li>Feature: Implemented syrdb (symmetric reduction to tridiagonal form)</li>
+<li>Feature: Implemented stebz (calculate eigenvalues of a symmetric matrix)</li>
+<li>Feature: Implemented steqr (eigenvalues and vectors of a symmetric tridiagonal matrix)</li>
+<li>Feature: Implemented geqrs (system solve from QR data)</li>
+<li>Feature: Implemented geqlf (QL factorize)</li>
+<li>Feature: Implemented orgql/ungql (Q matrix generate from LQ data)</li>
+<li>Feature: Implemented ormql/unmql (multiply by Q matrix from LQ data)</li>
+<li>Feature: Implemented ds/zc gesv routine (iteratively refined gesv)</li>
+<li>Feature: Implemented ggrqf (generalized RQ factorization of two matrices)</li>
+<li>Improved: Increased performance of bdsqr by 10%</li>
+<li>Improved: Increased performance of gebrd by up to 100%</li>
+</ul>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Improved: Increased performance of getrf by up to 50% for square matrices</li>
+<li>Improved: Increased performance of getrf by up to 30% for non-square matrices</li>
+<li>Improved: Increased performance of geqrf by up to 10%</li>
+<li>Improved: gesvd produces significantly more accurate unitary matrices</li>
+<li>Improved: gesvd/bdsqr memory requirements reduced significantly</li>
+<li>Fixed: gesvd produces correct unitary matrices for all data inputs</li>
+<li>Fixed: Fortran device interface is now functional</li>
+<li>Fixed: getrf now continues to factorize after encountering a singularity</li>
+</ul>
+</div>
+<div class="section" id="release-1-1b-final-january-6-2009">
+<h2>Release 1.1b Final (January 6, 2009)<a class="headerlink" href="#release-1-1b-final-january-6-2009" title="Permalink to this headline">¶</a></h2>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Fixed: Interface of getrs properly interprets the ‘N’ job code</li>
+</ul>
+</div>
+<div class="section" id="release-1-1a-final-december-21-2009">
+<h2>Release 1.1a Final (December 21, 2009)<a class="headerlink" href="#release-1-1a-final-december-21-2009" title="Permalink to this headline">¶</a></h2>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Improved: Benchmark example easier to use and provides more user control</li>
+<li>Improved: System info script (sysinfo.sh) now properly reports GPU on 195-series driver</li>
+<li>Improved: All error codes are thorougly described in the Programmer’s Guide</li>
+<li>Fixed: OS X builds now no longer reference unnecessary external libraries</li>
+<li>Fixed: All routines properly accept job codes in both upper- and lower-case</li>
+<li>Fixed: Potential infinite loop when allocating mixed-precision data</li>
+<li>Fixed: Now reporting host out-of-memory condition as culaInsufficientMemory</li>
+<li>Fixed: RHEL 4.7 builds include proper dependent libraries</li>
+</ul>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Fixed: cudaDeviceMalloc underallocates for non-float data types</li>
+</ul>
+</div>
+<div class="section" id="release-1-1-final-november-25-2009">
+<h2>Release 1.1 Final (November 25, 2009)<a class="headerlink" href="#release-1-1-final-november-25-2009" title="Permalink to this headline">¶</a></h2>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Improved: Removed culaInitialize() delay</li>
+<li>Improved: GEQRF performance up to 20% improvement for users with older CPUs</li>
+<li>Fixed: Correction to Fortran example Makefile to specify “arch” parameter</li>
+</ul>
+<p><strong>Basic</strong></p>
+<ul class="simple">
+<li>Improved: SVD significant memory usage reduction</li>
+<li>Improved: GELS stability for N &gt; M case</li>
+</ul>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Improved: GELQF performance increase 2-3x</li>
+<li>Improved: GEHRD/GERQF/ORGLQ/ORGQR performance increased by 10-20%</li>
+<li>Improved: GEHRD routine accurate for size N==1</li>
+</ul>
+</div>
+<div class="section" id="release-1-1-beta-november-13-2009">
+<h2>Release 1.1 Beta (November 13, 2009)<a class="headerlink" href="#release-1-1-beta-november-13-2009" title="Permalink to this headline">¶</a></h2>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: Mac OS X 10.5 Leopard “preview” release - single precision only</li>
+<li>Feature: New “Bridge” interface provides for easy and seamless 
+porting of existing LAPACK/MKL/ACML applications (see 
+doc/bridge_interface.txt)</li>
+<li>Feature: New document describing full CULA API</li>
+<li>Feature: New function culaSelectDevice to set executing device</li>
+<li>Feature: New “gesv” example shows operation of all S/C/D/Z data types</li>
+<li>Feature: New “multigpu” example showing multi-GPU CULA operation</li>
+<li>Feature: New “bridge” example showing usage of the Bridge interface</li>
+<li>Improved: SVD optimized for non-square cases</li>
+<li>Improved: Documentation clarified on error conditions and codes</li>
+<li>Improved: Stronger error reporting from example projects</li>
+<li>Improved: culaInitialize detects and reports if driver/runtime version are inadequate</li>
+<li>Improved: Documentation clearer on thread safety issues</li>
+<li>Fixed: CULA can now handle extremely non-square matrices (eg 500000x16)</li>
+<li>Fixed: An error in the “benchmark” example causing it to ignore user arguments</li>
+<li>Fixed: Properly reporting cudaErrorMemoryValueTooLarge as culaInsufficientMemory</li>
+</ul>
+<p><strong>Basic</strong></p>
+<ul class="simple">
+<li>Improved: GESV performance increased by up to 30%</li>
+<li>Improved: Stability of GELS in certain cases</li>
+<li>Improved: Stability of SVD in certain cases</li>
+</ul>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Feature: Implemented geev (general Eigensolver) in S/D/C/Z precisions</li>
+<li>Feature: Implemented gehrd (general Hessenberg reduction) in S/D/C/Z precisions</li>
+<li>Feature: Implemented orghr</li>
+<li>Feature: .hpp headers have name overloads of ORG/UNG functions</li>
+<li>Fixed: Host interface “ORG” functions different results from device interface</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-final-september-30-2009">
+<h2>Release 1.0 Final (September 30, 2009)<a class="headerlink" href="#release-1-0-final-september-30-2009" title="Permalink to this headline">¶</a></h2>
+<p><strong>Basic</strong></p>
+<ul class="simple">
+<li>Feature: All functions feature complex variants</li>
+<li>Fixed: Crash related to getrs pivot array</li>
+</ul>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Feature: All functions implemented in all supported data types</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-beta-3-september-15-2009">
+<h2>Release 1.0 Beta 3 (September 15, 2009)<a class="headerlink" href="#release-1-0-beta-3-september-15-2009" title="Permalink to this headline">¶</a></h2>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: New documentation section on specific routine conventions</li>
+<li>Improved: Updated sysinfo script with more descriptive output</li>
+<li>Improved: Added example that demonstrates the device interface</li>
+<li>Fixed: Various corrections for small-matrix inputs, especially M=N=1</li>
+<li>Fixed: culaInitialize now sets environment variable KMP_DUPLICATE_LIB_OK</li>
+</ul>
+<p><strong>Basic</strong></p>
+<ul class="simple">
+<li>Feature: Complex geqrf included</li>
+<li>Feature: Added culaGetDeviceCount to report the number of available devices</li>
+<li>Feature: Added culaGetDeviceInfo to report information about a device</li>
+<li>Feature: Added culaGetExecutingDevice to report the executing device</li>
+<li>Fixed: Further corrections for unitary output in gesvd for all job codes</li>
+</ul>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Feature: New functions culaDeviceMalloc/culaDeviceFree in culadevice.h</li>
+<li>Fixed: Orglq and orgqr should behave more reliably</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-beta-2-august-27-2009">
+<h2>Release 1.0 Beta 2 (August 27, 2009)<a class="headerlink" href="#release-1-0-beta-2-august-27-2009" title="Permalink to this headline">¶</a></h2>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: Including both 32- and 64-bit libraries on 64-bit Linux release</li>
+<li>Feature: Now shipping precompiled Benchmark example on Linux builds</li>
+<li>Feature: Troubleshooting section added to Programmer’s Guide</li>
+<li>Feature: Added scripts that report system information to <cite>examples</cite> folder</li>
+<li>Improved: Error output for examples is now more descriptive</li>
+<li>Improved: Documentation is more specific about configuring system runtime</li>
+<li>Fixed: Incompatibilities with gcc 4.2 and earlier; gcc 4.1 is now compatible</li>
+</ul>
+<p><strong>Basic</strong></p>
+<ul class="simple">
+<li>Improved: gesvd was optimized for up to a 60% speedup over Beta 1</li>
+<li>Fixed: Error in geqrf for matrices of M &lt;&lt; N</li>
+<li>Fixed: Error in gesvd where some matrices would yield non-unitary U and Vt</li>
+</ul>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Feature: Implemented getri</li>
+<li>Feature: Implemented potrf</li>
+<li>Feature: Implemented potrs</li>
+<li>Feature: Implemented posv</li>
+<li>Feature: Implemented trtrs</li>
+<li>Improved: orglq was optimized for up to a 700% speedup</li>
+</ul>
+</div>
+<div class="section" id="release-1-0-beta-1-august-13-2009">
+<h2>Release 1.0 Beta 1 (August 13, 2009)<a class="headerlink" href="#release-1-0-beta-1-august-13-2009" title="Permalink to this headline">¶</a></h2>
+<p><strong>All Versions</strong></p>
+<ul class="simple">
+<li>Feature: Support Windows XP 32/64</li>
+<li>Feature: Support Linux 32/64</li>
+</ul>
+<p><strong>Basic</strong></p>
+<ul class="simple">
+<li>Feature: Implemented gels</li>
+<li>Feature: Implemented geqrf</li>
+<li>Feature: Implemented gesv</li>
+<li>Feature: Implemented gesvd</li>
+<li>Feature: Implemented getrf</li>
+<li>Feature: Implemented gglse</li>
+</ul>
+<p><strong>Premium</strong></p>
+<ul class="simple">
+<li>Feature: Implemented gebrd</li>
+<li>Feature: Implemented getrs</li>
+<li>Feature: Implemented trtrs</li>
+<li>Feature: Implemented gelqf</li>
+<li>Feature: Implemented gerqf</li>
+<li>Feature: Implemented orgqr</li>
+<li>Feature: Implemented orglq</li>
+<li>Feature: Implemented orgbr</li>
+<li>Feature: Implemented ormqr</li>
+<li>Feature: Implemented ormlq</li>
+<li>Feature: Implemented ormrq</li>
+<li>Feature: Implemented bdsqr</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="http://www.culatools.com/cula_dense_programmers_guide/genindex.html" title="General Index">index</a></li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        © Copyright 2009-2013, EM Photonics, Inc..
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  
+</body></html>
