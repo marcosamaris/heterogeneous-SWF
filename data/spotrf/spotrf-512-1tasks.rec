@@ -1,0 +1,40 @@
+JobId: 11
+DependsOn: 12
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 12
+DependsOn: 10 9
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+Name: spotrf
+Model: spotrf
+JobId: 10
+DependsOn: 9
+Tag: 0
+WorkerId: 4
+SubmitTime: 1910.139908
+StartTime: 1920.936642
+EndTime: 1956.150508
+Footprint: 914f3bef
+Parameters: M512x512x4
+Handles: 1907fb0
+Modes: RW
+Sizes: 1048576
+MPIRank: -1
+
+JobId: 14
+DependsOn: 10
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 13
+DependsOn: 14
+Tag: 0
+Footprint: 0
+MPIRank: -1
+

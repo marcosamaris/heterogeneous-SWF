@@ -1,0 +1,4032 @@
+Name: sgetrf_nopiv
+Model: sgetrf_nopiv
+JobId: 73
+DependsOn: 9
+Tag: 0
+WorkerId: 7
+SubmitTime: 2042.275222
+StartTime: 2054.174079
+EndTime: 2064.285776
+Footprint: 54b49fcb
+Parameters: M256x256x4
+Handles: 8ed1c0
+Modes: RW
+Sizes: 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 75
+DependsOn: 73 9 25
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.271504
+StartTime: 2064.313773
+EndTime: 2069.471973
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 91c320
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 81
+DependsOn: 73 9 10
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.292362
+StartTime: 2064.311887
+EndTime: 2069.477941
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 8f1a60
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 89
+DependsOn: 73 9 11
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.450041
+StartTime: 2064.362128
+EndTime: 2069.472011
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 8f4a30
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 83
+DependsOn: 75 25 81 10 26
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.425282
+StartTime: 2069.496098
+EndTime: 2070.833507
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91c320 8f1a60 91efe0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 76
+DependsOn: 73 9 33
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.275319
+StartTime: 2064.373130
+EndTime: 2070.835668
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 9328a0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 91
+DependsOn: 75 25 89 11 27
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.457817
+StartTime: 2070.104174
+EndTime: 2070.844902
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91c320 8f4a30 9220f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 77
+DependsOn: 73 9 41
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.278971
+StartTime: 2069.492878
+EndTime: 2070.834118
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 94ae20
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 85
+DependsOn: 77 41 81 10 42
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.434077
+StartTime: 2071.094828
+EndTime: 2072.996562
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94ae20 8f1a60 94e030
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 105
+DependsOn: 73 9 13
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.514367
+StartTime: 2070.851608
+EndTime: 2072.999970
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 8fa3b0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 113
+DependsOn: 73 9 14
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.546362
+StartTime: 2070.857553
+EndTime: 2073.000207
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 8fd5c0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 84
+DependsOn: 76 33 81 10 34
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.429691
+StartTime: 2070.856149
+EndTime: 2073.487828
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9328a0 8f1a60 935110
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 78
+DependsOn: 73 9 49
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.282218
+StartTime: 2070.853228
+EndTime: 2090.272495
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 963ea0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 121
+DependsOn: 73 9 15
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.580353
+StartTime: 2073.016062
+EndTime: 2090.301170
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 9007d0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 86
+DependsOn: 78 49 81 10 50
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.437977
+StartTime: 2090.292229
+EndTime: 2101.346480
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 963ea0 8f1a60 9670b0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 93
+DependsOn: 77 41 89 11 43
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.465565
+StartTime: 2073.037121
+EndTime: 2101.348695
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94ae20 8f4a30 951240
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 92
+DependsOn: 76 33 89 11 35
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.461685
+StartTime: 2073.502726
+EndTime: 2101.349782
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9328a0 8f4a30 938240
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 74
+DependsOn: 73 9 17
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.264046
+StartTime: 2064.295385
+EndTime: 2101.348637
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 906bf0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 79
+DependsOn: 73 9 57
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.285868
+StartTime: 2071.397203
+EndTime: 2102.208962
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 97cf20
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 94
+DependsOn: 78 49 89 11 51
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.469652
+StartTime: 2101.356801
+EndTime: 2114.436690
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 963ea0 8f4a30 96a2c0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 107
+DependsOn: 75 25 105 13 29
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.522268
+StartTime: 2073.036342
+EndTime: 2114.437594
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91c320 8fa3b0 927b70
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 87
+DependsOn: 79 57 81 10 58
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.442059
+StartTime: 2102.231618
+EndTime: 2114.438376
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 97cf20 8f1a60 980130
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 97
+DependsOn: 73 9 12
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.480930
+StartTime: 2064.389563
+EndTime: 2114.439333
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 8f76f0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 123
+DependsOn: 75 25 121 15 31
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.587449
+StartTime: 2090.316248
+EndTime: 2114.457114
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91c320 9007d0 92cc50
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 82
+DependsOn: 74 17 81 10 18
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.419524
+StartTime: 2101.370652
+EndTime: 2114.458910
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 906bf0 8f1a60 909460
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 80
+DependsOn: 73 9 65
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.289112
+StartTime: 2101.363934
+EndTime: 2114.461311
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 995fa0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 110
+DependsOn: 78 49 105 13 53
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.534455
+StartTime: 2114.447687
+EndTime: 2138.304682
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 963ea0 8fa3b0 9706e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 124
+DependsOn: 76 33 121 15 39
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.592065
+StartTime: 2101.364704
+EndTime: 2138.319614
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9328a0 9007d0 944a00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 118
+DependsOn: 78 49 113 14 54
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.567211
+StartTime: 2138.314357
+EndTime: 2150.284657
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 963ea0 8fd5c0 9738f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 108
+DependsOn: 76 33 105 13 37
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.525867
+StartTime: 2114.448185
+EndTime: 2150.285739
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9328a0 8fa3b0 93e5e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 95
+DependsOn: 79 57 89 11 59
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.473472
+StartTime: 2114.451175
+EndTime: 2150.286203
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 97cf20 8f4a30 983340
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 125
+DependsOn: 77 41 121 15 47
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.595663
+StartTime: 2114.466174
+EndTime: 2150.306570
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94ae20 9007d0 95da80
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 129
+DependsOn: 73 9 16
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.614507
+StartTime: 2114.482243
+EndTime: 2150.310047
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 8ed1c0 9039e0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 126
+DependsOn: 78 49 121 15 55
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.600311
+StartTime: 2150.297589
+EndTime: 2174.261492
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 963ea0 9007d0 976b00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 115
+DependsOn: 75 25 113 14 30
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.554684
+StartTime: 2150.334473
+EndTime: 2174.263012
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91c320 8fd5c0 92a3e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 98
+DependsOn: 74 17 97 12 20
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.484806
+StartTime: 2114.465469
+EndTime: 2174.264584
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 906bf0 8f76f0 90e7f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 111
+DependsOn: 79 57 105 13 61
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.539132
+StartTime: 2150.299920
+EndTime: 2174.286096
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 97cf20 8fa3b0 989760
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 106
+DependsOn: 74 17 105 13 21
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.518507
+StartTime: 2174.273052
+EndTime: 2222.423508
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 906bf0 8fa3b0 911060
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 99
+DependsOn: 75 25 97 12 28
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.490062
+StartTime: 2138.332247
+EndTime: 2222.424664
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91c320 8f76f0 925300
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 90
+DependsOn: 74 17 89 11 19
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.453626
+StartTime: 2150.315750
+EndTime: 2222.535609
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 906bf0 8f4a30 90bcd0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 100
+DependsOn: 76 33 97 12 36
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.493732
+StartTime: 2174.277385
+EndTime: 2222.536682
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9328a0 8f76f0 93b3f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 116
+DependsOn: 76 33 113 14 38
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.559821
+StartTime: 2174.276920
+EndTime: 2222.537654
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9328a0 8fd5c0 9417f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 114
+DependsOn: 74 17 113 14 22
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.550629
+StartTime: 2222.435985
+EndTime: 2234.554015
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 906bf0 8fd5c0 9138d0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 119
+DependsOn: 79 57 113 14 62
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.571960
+StartTime: 2174.294392
+EndTime: 2234.554471
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 97cf20 8fd5c0 98c970
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 109
+DependsOn: 77 41 105 13 45
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.530506
+StartTime: 2150.297622
+EndTime: 2234.558093
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94ae20 8fa3b0 957660
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 88
+DependsOn: 80 65 81 10 66
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.446185
+StartTime: 2222.551422
+EndTime: 2234.580408
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 995fa0 8f1a60 9991b0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 96
+DependsOn: 80 65 89 11 67
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.477138
+StartTime: 2234.590761
+EndTime: 2258.294081
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 995fa0 8f4a30 99c3c0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 122
+DependsOn: 74 17 121 15 23
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.583513
+StartTime: 2222.544065
+EndTime: 2258.293753
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 906bf0 9007d0 9168a0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 101
+DependsOn: 77 41 97 12 44
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.498691
+StartTime: 2222.438600
+EndTime: 2258.294010
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94ae20 8f76f0 954450
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 127
+DependsOn: 79 57 121 15 63
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.603956
+StartTime: 2234.567777
+EndTime: 2270.462067
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 97cf20 9007d0 98fb80
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 117
+DependsOn: 77 41 113 14 46
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.563552
+StartTime: 2234.569675
+EndTime: 2270.463690
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94ae20 8fd5c0 95a870
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 102
+DependsOn: 78 49 97 12 52
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.502315
+StartTime: 2222.547498
+EndTime: 2270.463970
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 963ea0 8f76f0 96d4d0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 132
+DependsOn: 76 33 129 16 40
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.626375
+StartTime: 2270.472522
+EndTime: 2294.431739
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9328a0 9039e0 947c10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 104
+DependsOn: 80 65 97 12 68
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.510652
+StartTime: 2258.347325
+EndTime: 2303.972572
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 995fa0 8f76f0 99f5d0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 133
+DependsOn: 77 41 129 16 48
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.629898
+StartTime: 2270.495525
+EndTime: 2303.973707
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94ae20 9039e0 960c90
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 120
+DependsOn: 80 65 113 14 70
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.575726
+StartTime: 2294.441785
+EndTime: 2330.516632
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 995fa0 8fd5c0 9a59f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 131
+DependsOn: 75 25 129 16 32
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.621608
+StartTime: 2258.347371
+EndTime: 2330.517867
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91c320 9039e0 92f770
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 134
+DependsOn: 78 49 129 16 56
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.635241
+StartTime: 2303.982713
+EndTime: 2342.282895
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 963ea0 9039e0 979d10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 112
+DependsOn: 80 65 105 13 69
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.542695
+StartTime: 2270.481363
+EndTime: 2342.285152
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 995fa0 8fa3b0 9a27e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 135
+DependsOn: 79 57 129 16 64
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.638869
+StartTime: 2330.527540
+EndTime: 2366.280987
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 97cf20 9039e0 992d90
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 103
+DependsOn: 79 57 97 12 60
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.505986
+StartTime: 2258.392579
+EndTime: 2366.283658
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 97cf20 8f76f0 986550
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 128
+DependsOn: 80 65 121 15 71
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.607557
+StartTime: 2303.988056
+EndTime: 2366.283962
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 995fa0 9007d0 9a8c00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 130
+DependsOn: 74 17 129 16 24
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.617958
+StartTime: 2234.568764
+EndTime: 2390.500255
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 906bf0 9039e0 919ab0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 136
+DependsOn: 80 65 129 16 72
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.642411
+StartTime: 2330.532576
+EndTime: 2402.451412
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 995fa0 9039e0 9abe10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgetrf_nopiv
+Model: sgetrf_nopiv
+JobId: 137
+DependsOn: 82 18
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.646949
+StartTime: 2114.469995
+EndTime: 2411.651882
+Footprint: 54b49fcb
+Parameters: M256x256x4
+Handles: 909460
+Modes: RW
+Sizes: 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 151
+DependsOn: 137 18 98 20
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.704365
+StartTime: 2411.727743
+EndTime: 2413.072474
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 909460 90e7f0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 139
+DependsOn: 137 18 84 34
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.654437
+StartTime: 2411.702623
+EndTime: 2413.071187
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 909460 935110
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 144
+DependsOn: 137 18 90 19
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.673175
+StartTime: 2411.714589
+EndTime: 2413.079023
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 909460 90bcd0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 138
+DependsOn: 137 18 83 26
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.649869
+StartTime: 2411.702682
+EndTime: 2413.070451
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 909460 91efe0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 145
+DependsOn: 138 26 144 19 91 27
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.676565
+StartTime: 2413.117814
+EndTime: 2435.454089
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91efe0 90bcd0 9220f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 146
+DependsOn: 139 34 144 19 92 35
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.681696
+StartTime: 2413.093010
+EndTime: 2435.494158
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 935110 90bcd0 938240
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 152
+DependsOn: 138 26 151 20 99 28
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.707693
+StartTime: 2414.246383
+EndTime: 2435.509822
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91efe0 90e7f0 925300
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 140
+DependsOn: 137 18 85 42
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.657834
+StartTime: 2413.088058
+EndTime: 2435.508708
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 909460 94e030
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 158
+DependsOn: 137 18 106 21
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.734614
+StartTime: 2416.647901
+EndTime: 2435.509985
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 909460 911060
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 153
+DependsOn: 139 34 151 20 100 36
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.712726
+StartTime: 2413.088997
+EndTime: 2438.277027
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 935110 90e7f0 93b3f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 141
+DependsOn: 137 18 86 50
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.661174
+StartTime: 2425.201636
+EndTime: 2438.274787
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 909460 9670b0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 147
+DependsOn: 140 42 144 19 93 43
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.685627
+StartTime: 2435.537702
+EndTime: 2450.274711
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94e030 90bcd0 951240
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 159
+DependsOn: 138 26 158 21 107 29
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.738103
+StartTime: 2435.548531
+EndTime: 2450.276808
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91efe0 911060 927b70
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 142
+DependsOn: 137 18 87 58
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.665494
+StartTime: 2435.504273
+EndTime: 2450.277929
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 909460 980130
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 165
+DependsOn: 137 18 114 22
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.764784
+StartTime: 2425.596666
+EndTime: 2450.276204
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 909460 9138d0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 160
+DependsOn: 139 34 158 21 108 37
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.743160
+StartTime: 2438.290629
+EndTime: 2450.298999
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 935110 911060 93e5e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 148
+DependsOn: 141 50 144 19 94 51
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.689565
+StartTime: 2438.291258
+EndTime: 2474.558988
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9670b0 90bcd0 96a2c0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 156
+DependsOn: 142 58 151 20 103 60
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.725523
+StartTime: 2450.309378
+EndTime: 2474.557598
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 980130 90e7f0 986550
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 149
+DependsOn: 142 58 144 19 95 59
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.695292
+StartTime: 2450.295351
+EndTime: 2474.558140
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 980130 90bcd0 983340
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 172
+DependsOn: 137 18 122 23
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.795896
+StartTime: 2435.528505
+EndTime: 2474.559858
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 909460 9168a0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 161
+DependsOn: 140 42 158 21 109 45
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.747052
+StartTime: 2450.289160
+EndTime: 2474.588150
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94e030 911060 957660
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 163
+DependsOn: 142 58 158 21 111 61
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.755830
+StartTime: 2474.575779
+EndTime: 2498.292291
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 980130 911060 989760
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 166
+DependsOn: 138 26 165 22 115 30
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.768143
+StartTime: 2450.300369
+EndTime: 2498.292544
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91efe0 9138d0 92a3e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 179
+DependsOn: 137 18 130 24
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.826624
+StartTime: 2474.597949
+EndTime: 2498.292466
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 909460 919ab0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 143
+DependsOn: 137 18 88 66
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.668914
+StartTime: 2450.284845
+EndTime: 2498.299027
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 909460 9991b0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 162
+DependsOn: 141 50 158 21 110 53
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.752009
+StartTime: 2474.577397
+EndTime: 2498.334100
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9670b0 911060 9706e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 154
+DependsOn: 140 42 151 20 101 44
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.716584
+StartTime: 2498.310438
+EndTime: 2510.429167
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94e030 90e7f0 954450
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 173
+DependsOn: 138 26 172 23 123 31
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.799262
+StartTime: 2474.585535
+EndTime: 2510.430699
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91efe0 9168a0 92cc50
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 150
+DependsOn: 143 66 144 19 96 67
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.699371
+StartTime: 2498.324367
+EndTime: 2534.637438
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9991b0 90bcd0 99c3c0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 181
+DependsOn: 139 34 179 24 132 40
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.838350
+StartTime: 2498.344100
+EndTime: 2534.638333
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 935110 919ab0 947c10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 155
+DependsOn: 141 50 151 20 102 52
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.721657
+StartTime: 2474.574693
+EndTime: 2534.664975
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9670b0 90e7f0 96d4d0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 180
+DependsOn: 138 26 179 24 131 32
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.829957
+StartTime: 2498.322455
+EndTime: 2534.666718
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 91efe0 919ab0 92f770
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 171
+DependsOn: 143 66 165 22 120 70
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.792004
+StartTime: 2534.674407
+EndTime: 2546.642638
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9991b0 9138d0 9a59f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 182
+DependsOn: 140 42 179 24 133 48
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.842217
+StartTime: 2534.655305
+EndTime: 2546.645346
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94e030 919ab0 960c90
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 164
+DependsOn: 143 66 158 21 112 69
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.759786
+StartTime: 2534.654560
+EndTime: 2546.660707
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9991b0 911060 9a27e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 174
+DependsOn: 139 34 172 23 124 39
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.804530
+StartTime: 2510.443483
+EndTime: 2558.433839
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 935110 9168a0 944a00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 178
+DependsOn: 143 66 172 23 128 71
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.822637
+StartTime: 2546.652291
+EndTime: 2570.430302
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9991b0 9168a0 9a8c00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 157
+DependsOn: 143 66 151 20 104 68
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.729483
+StartTime: 2510.439611
+EndTime: 2570.431502
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9991b0 90e7f0 99f5d0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 184
+DependsOn: 142 58 179 24 135 64
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.850972
+StartTime: 2546.658776
+EndTime: 2570.433591
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 980130 919ab0 992d90
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 185
+DependsOn: 143 66 179 24 136 72
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.856053
+StartTime: 2546.668662
+EndTime: 2570.449363
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9991b0 919ab0 9abe10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 169
+DependsOn: 141 50 165 22 118 54
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.783080
+StartTime: 2570.457408
+EndTime: 2594.340871
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9670b0 9138d0 9738f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 167
+DependsOn: 139 34 165 22 116 38
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.774102
+StartTime: 2498.310670
+EndTime: 2594.434937
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 935110 9138d0 9417f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 168
+DependsOn: 140 42 165 22 117 46
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.778160
+StartTime: 2570.447253
+EndTime: 2594.435513
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94e030 9138d0 95a870
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 175
+DependsOn: 140 42 172 23 125 47
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.808462
+StartTime: 2558.447147
+EndTime: 2606.167456
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 94e030 9168a0 95da80
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 176
+DependsOn: 141 50 172 23 126 55
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.813574
+StartTime: 2570.440592
+EndTime: 2618.548096
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9670b0 9168a0 976b00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 170
+DependsOn: 142 58 165 22 119 62
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.786932
+StartTime: 2594.351647
+EndTime: 2654.522818
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 980130 9138d0 98c970
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 177
+DependsOn: 142 58 172 23 127 63
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.817572
+StartTime: 2570.442798
+EndTime: 2654.523378
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 980130 9168a0 98fb80
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 183
+DependsOn: 141 50 179 24 134 56
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.847115
+StartTime: 2534.676414
+EndTime: 2654.524608
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9670b0 919ab0 979d10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgetrf_nopiv
+Model: sgetrf_nopiv
+JobId: 186
+DependsOn: 145 27
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.859711
+StartTime: 2435.475375
+EndTime: 2675.787983
+Footprint: 54b49fcb
+Parameters: M256x256x4
+Handles: 9220f0
+Modes: RW
+Sizes: 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 198
+DependsOn: 186 27 159 29
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.907428
+StartTime: 2676.067444
+EndTime: 2677.393357
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9220f0 927b70
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 192
+DependsOn: 186 27 152 28
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.882125
+StartTime: 2675.822580
+EndTime: 2677.599018
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9220f0 925300
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 189
+DependsOn: 186 27 148 51
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.870144
+StartTime: 2676.431139
+EndTime: 2677.797497
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9220f0 96a2c0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 195
+DependsOn: 189 51 192 28 155 52
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.894582
+StartTime: 2677.816438
+EndTime: 2679.158236
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 96a2c0 925300 96d4d0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 210
+DependsOn: 186 27 173 31
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.959947
+StartTime: 2677.805448
+EndTime: 2679.158702
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9220f0 92cc50
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 204
+DependsOn: 186 27 166 30
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.934081
+StartTime: 2677.405383
+EndTime: 2679.167730
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9220f0 92a3e0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 187
+DependsOn: 186 27 146 35
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.862514
+StartTime: 2675.799231
+EndTime: 2679.156988
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9220f0 938240
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 190
+DependsOn: 186 27 149 59
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.874400
+StartTime: 2677.609368
+EndTime: 2679.156848
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9220f0 983340
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 207
+DependsOn: 189 51 204 30 169 54
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.947179
+StartTime: 2679.179668
+EndTime: 2702.285779
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 96a2c0 92a3e0 9738f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 213
+DependsOn: 189 51 210 31 176 55
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.973333
+StartTime: 2679.179730
+EndTime: 2702.286935
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 96a2c0 92cc50 976b00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 188
+DependsOn: 186 27 147 43
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.866859
+StartTime: 2675.801470
+EndTime: 2702.287275
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9220f0 951240
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 193
+DependsOn: 187 35 192 28 153 36
+Tag: 0
+WorkerId: 6
+SubmitTime: 2054.885492
+StartTime: 2679.769249
+EndTime: 2702.306186
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 938240 925300 93b3f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 201
+DependsOn: 189 51 198 29 162 53
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.921415
+StartTime: 2679.171137
+EndTime: 2702.318864
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 96a2c0 927b70 9706e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 200
+DependsOn: 188 43 198 29 161 45
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.916567
+StartTime: 2702.308575
+EndTime: 2726.284891
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 951240 927b70 957660
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 196
+DependsOn: 190 59 192 28 156 60
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.898511
+StartTime: 2689.480051
+EndTime: 2726.285453
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 983340 925300 986550
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 199
+DependsOn: 187 35 198 29 160 37
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.912593
+StartTime: 2702.297270
+EndTime: 2786.287101
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 938240 927b70 93e5e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 206
+DependsOn: 188 43 204 30 168 46
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.943255
+StartTime: 2702.327056
+EndTime: 2786.288128
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 951240 92a3e0 95a870
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 202
+DependsOn: 190 59 198 29 163 61
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.925269
+StartTime: 2726.299008
+EndTime: 2786.287150
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 983340 927b70 989760
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 191
+DependsOn: 186 27 150 67
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.877729
+StartTime: 2679.771432
+EndTime: 2786.287044
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9220f0 99c3c0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 212
+DependsOn: 188 43 210 31 175 47
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.968375
+StartTime: 2726.298116
+EndTime: 2786.307495
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 951240 92cc50 95da80
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 194
+DependsOn: 188 43 192 28 154 44
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.889512
+StartTime: 2702.300849
+EndTime: 2786.326306
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 951240 925300 954450
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 205
+DependsOn: 187 35 204 30 167 38
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.937419
+StartTime: 2786.304551
+EndTime: 2812.235283
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 938240 92a3e0 9417f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 209
+DependsOn: 191 67 204 30 171 70
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.956029
+StartTime: 2786.336173
+EndTime: 2812.235135
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 99c3c0 92a3e0 9a59f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 208
+DependsOn: 190 59 204 30 170 62
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.952121
+StartTime: 2786.312566
+EndTime: 2812.235331
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 983340 92a3e0 98c970
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 214
+DependsOn: 190 59 210 31 177 63
+Tag: 0
+WorkerId: 4
+SubmitTime: 2054.977226
+StartTime: 2786.328690
+EndTime: 2812.235228
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 983340 92cc50 98fb80
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 197
+DependsOn: 191 67 192 28 157 68
+Tag: 0
+WorkerId: 7
+SubmitTime: 2054.903404
+StartTime: 2786.308258
+EndTime: 2812.264226
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 99c3c0 925300 99f5d0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 203
+DependsOn: 191 67 198 29 164 69
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.929165
+StartTime: 2786.318228
+EndTime: 2842.999496
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 99c3c0 927b70 9a27e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 211
+DependsOn: 187 35 210 31 174 39
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.964428
+StartTime: 2812.262958
+EndTime: 2843.173630
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 938240 92cc50 944a00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 216
+DependsOn: 186 27 180 32
+Tag: 0
+WorkerId: 1
+SubmitTime: 2054.986059
+StartTime: 2683.268278
+EndTime: 2843.175853
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9220f0 92f770
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 215
+DependsOn: 191 67 210 31 178 71
+Tag: 0
+WorkerId: 5
+SubmitTime: 2054.982080
+StartTime: 2812.263622
+EndTime: 2846.435342
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 99c3c0 92cc50 9a8c00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 217
+DependsOn: 187 35 216 32 181 40
+Tag: 0
+WorkerId: 0
+SubmitTime: 2054.989414
+StartTime: 2843.190857
+EndTime: 2846.436697
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 938240 92f770 947c10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 220
+DependsOn: 190 59 216 32 184 64
+Tag: 0
+WorkerId: 1
+SubmitTime: 2055.003355
+StartTime: 2843.198195
+EndTime: 2861.044949
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 983340 92f770 992d90
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 219
+DependsOn: 189 51 216 32 183 56
+Tag: 0
+WorkerId: 2
+SubmitTime: 2054.998423
+StartTime: 2843.192382
+EndTime: 2861.066015
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 96a2c0 92f770 979d10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 221
+DependsOn: 191 67 216 32 185 72
+Tag: 0
+WorkerId: 7
+SubmitTime: 2055.007345
+StartTime: 2843.205270
+EndTime: 2861.066160
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 99c3c0 92f770 9abe10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 218
+DependsOn: 188 43 216 32 182 48
+Tag: 0
+WorkerId: 3
+SubmitTime: 2054.994495
+StartTime: 2843.192288
+EndTime: 2870.178452
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 951240 92f770 960c90
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgetrf_nopiv
+Model: sgetrf_nopiv
+JobId: 222
+DependsOn: 193 36
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.012181
+StartTime: 2702.316421
+EndTime: 3014.622962
+Footprint: 54b49fcb
+Parameters: M256x256x4
+Handles: 93b3f0
+Modes: RW
+Sizes: 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 227
+DependsOn: 222 36 199 37
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.030427
+StartTime: 3014.651707
+EndTime: 3015.887251
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 93b3f0 93e5e0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 223
+DependsOn: 222 36 194 44
+Tag: 0
+WorkerId: 3
+SubmitTime: 2055.015027
+StartTime: 3014.636336
+EndTime: 3015.887509
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 93b3f0 954450
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 224
+DependsOn: 222 36 195 52
+Tag: 0
+WorkerId: 5
+SubmitTime: 2055.019507
+StartTime: 3014.888690
+EndTime: 3015.887302
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 93b3f0 96d4d0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 232
+DependsOn: 222 36 205 38
+Tag: 0
+WorkerId: 7
+SubmitTime: 2055.052611
+StartTime: 3015.441123
+EndTime: 3016.114459
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 93b3f0 9417f0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 233
+DependsOn: 223 44 232 38 206 46
+Tag: 0
+WorkerId: 7
+SubmitTime: 2055.055958
+StartTime: 3016.127799
+EndTime: 3038.599955
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 954450 9417f0 95a870
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 229
+DependsOn: 224 52 227 37 201 53
+Tag: 0
+WorkerId: 5
+SubmitTime: 2055.038951
+StartTime: 3015.912680
+EndTime: 3038.604189
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 96d4d0 93e5e0 9706e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 242
+DependsOn: 222 36 217 40
+Tag: 0
+WorkerId: 2
+SubmitTime: 2055.094768
+StartTime: 3024.823225
+EndTime: 3038.616711
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 93b3f0 947c10
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 226
+DependsOn: 222 36 197 68
+Tag: 0
+WorkerId: 1
+SubmitTime: 2055.026148
+StartTime: 3023.586421
+EndTime: 3038.598841
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 93b3f0 99f5d0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 225
+DependsOn: 222 36 196 60
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.022798
+StartTime: 3015.903042
+EndTime: 3038.598644
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 93b3f0 986550
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 243
+DependsOn: 223 44 242 40 218 48
+Tag: 0
+WorkerId: 2
+SubmitTime: 2055.099160
+StartTime: 3038.631085
+EndTime: 3062.285706
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 954450 947c10 960c90
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 234
+DependsOn: 224 52 232 38 207 54
+Tag: 0
+WorkerId: 4
+SubmitTime: 2055.060863
+StartTime: 3028.622651
+EndTime: 3062.287624
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 96d4d0 9417f0 9738f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 228
+DependsOn: 223 44 227 37 200 45
+Tag: 0
+WorkerId: 3
+SubmitTime: 2055.033887
+StartTime: 3015.914047
+EndTime: 3062.286797
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 954450 93e5e0 957660
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 235
+DependsOn: 225 60 232 38 208 62
+Tag: 0
+WorkerId: 7
+SubmitTime: 2055.064751
+StartTime: 3038.618365
+EndTime: 3062.319074
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 986550 9417f0 98c970
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 230
+DependsOn: 225 60 227 37 202 61
+Tag: 0
+WorkerId: 5
+SubmitTime: 2055.042898
+StartTime: 3038.617857
+EndTime: 3086.282191
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 986550 93e5e0 989760
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 244
+DependsOn: 224 52 242 40 219 56
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.103074
+StartTime: 3038.644115
+EndTime: 3086.282074
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 96d4d0 947c10 979d10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 231
+DependsOn: 226 68 227 37 203 69
+Tag: 0
+WorkerId: 1
+SubmitTime: 2055.048711
+StartTime: 3038.639173
+EndTime: 3106.499999
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 99f5d0 93e5e0 9a27e0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 246
+DependsOn: 226 68 242 40 221 72
+Tag: 0
+WorkerId: 7
+SubmitTime: 2055.111908
+StartTime: 3062.327851
+EndTime: 3106.501670
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 99f5d0 947c10 9abe10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 245
+DependsOn: 225 60 242 40 220 64
+Tag: 0
+WorkerId: 2
+SubmitTime: 2055.107952
+StartTime: 3062.297349
+EndTime: 3110.160507
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 986550 947c10 992d90
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 237
+DependsOn: 222 36 211 39
+Tag: 0
+WorkerId: 0
+SubmitTime: 2055.073656
+StartTime: 3021.153174
+EndTime: 3156.105737
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 93b3f0 944a00
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 236
+DependsOn: 226 68 232 38 209 70
+Tag: 0
+WorkerId: 4
+SubmitTime: 2055.069788
+StartTime: 3062.301820
+EndTime: 3178.479334
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 99f5d0 9417f0 9a59f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 238
+DependsOn: 223 44 237 39 212 47
+Tag: 0
+WorkerId: 1
+SubmitTime: 2055.078032
+StartTime: 3156.120923
+EndTime: 3178.525880
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 954450 944a00 95da80
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 239
+DependsOn: 224 52 237 39 213 55
+Tag: 0
+WorkerId: 7
+SubmitTime: 2055.081975
+StartTime: 3156.121924
+EndTime: 3178.529265
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 96d4d0 944a00 976b00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 240
+DependsOn: 225 60 237 39 214 63
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.085847
+StartTime: 3156.124255
+EndTime: 3182.160591
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 986550 944a00 98fb80
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 241
+DependsOn: 226 68 237 39 215 71
+Tag: 0
+WorkerId: 0
+SubmitTime: 2055.090927
+StartTime: 3156.131417
+EndTime: 3201.961486
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 99f5d0 944a00 9a8c00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgetrf_nopiv
+Model: sgetrf_nopiv
+JobId: 247
+DependsOn: 228 45
+Tag: 0
+WorkerId: 3
+SubmitTime: 2055.115541
+StartTime: 3062.302921
+EndTime: 3207.514920
+Footprint: 54b49fcb
+Parameters: M256x256x4
+Handles: 957660
+Modes: RW
+Sizes: 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 249
+DependsOn: 247 45 230 61
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.122805
+StartTime: 3207.528447
+EndTime: 3209.706257
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 957660 989760
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 255
+DependsOn: 247 45 238 47
+Tag: 0
+WorkerId: 5
+SubmitTime: 2055.150150
+StartTime: 3207.765331
+EndTime: 3209.744756
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 957660 95da80
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 251
+DependsOn: 247 45 233 46
+Tag: 0
+WorkerId: 3
+SubmitTime: 2055.130454
+StartTime: 3207.541056
+EndTime: 3209.745939
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 957660 95a870
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 248
+DependsOn: 247 45 229 53
+Tag: 0
+WorkerId: 1
+SubmitTime: 2055.119417
+StartTime: 3207.527308
+EndTime: 3210.394929
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 957660 9706e0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 257
+DependsOn: 249 61 255 47 240 63
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.158555
+StartTime: 3209.755420
+EndTime: 3211.089058
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 989760 95da80 98fb80
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 256
+DependsOn: 248 53 255 47 239 55
+Tag: 0
+WorkerId: 1
+SubmitTime: 2055.153620
+StartTime: 3210.407364
+EndTime: 3211.096503
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9706e0 95da80 976b00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 259
+DependsOn: 247 45 243 48
+Tag: 0
+WorkerId: 7
+SubmitTime: 2055.167277
+StartTime: 3208.808050
+EndTime: 3211.091303
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 957660 960c90
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 250
+DependsOn: 247 45 231 69
+Tag: 0
+WorkerId: 4
+SubmitTime: 2055.127143
+StartTime: 3208.646631
+EndTime: 3211.092461
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 957660 9a27e0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 253
+DependsOn: 249 61 251 46 235 62
+Tag: 0
+WorkerId: 5
+SubmitTime: 2055.141324
+StartTime: 3209.759158
+EndTime: 3211.089767
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 989760 95a870 98c970
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 260
+DependsOn: 248 53 259 48 244 56
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.170671
+StartTime: 3211.102382
+EndTime: 3218.288751
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9706e0 960c90 979d10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 262
+DependsOn: 250 69 259 48 246 72
+Tag: 0
+WorkerId: 5
+SubmitTime: 2055.179541
+StartTime: 3211.707843
+EndTime: 3218.289087
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9a27e0 960c90 9abe10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 252
+DependsOn: 248 53 251 46 234 54
+Tag: 0
+WorkerId: 3
+SubmitTime: 2055.133822
+StartTime: 3210.403942
+EndTime: 3218.289419
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9706e0 95a870 9738f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 254
+DependsOn: 250 69 251 46 236 70
+Tag: 0
+WorkerId: 7
+SubmitTime: 2055.145263
+StartTime: 3211.108461
+EndTime: 3230.167153
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9a27e0 95a870 9a59f0
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 261
+DependsOn: 249 61 259 48 245 64
+Tag: 0
+WorkerId: 1
+SubmitTime: 2055.174596
+StartTime: 3211.105200
+EndTime: 3230.186195
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 989760 960c90 992d90
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 258
+DependsOn: 250 69 255 47 241 71
+Tag: 0
+WorkerId: 4
+SubmitTime: 2055.162445
+StartTime: 3211.110994
+EndTime: 3238.025098
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9a27e0 95da80 9a8c00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgetrf_nopiv
+Model: sgetrf_nopiv
+JobId: 263
+DependsOn: 252 54
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.183219
+StartTime: 3218.299720
+EndTime: 3243.705873
+Footprint: 54b49fcb
+Parameters: M256x256x4
+Handles: 9738f0
+Modes: RW
+Sizes: 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 269
+DependsOn: 263 54 260 56
+Tag: 0
+WorkerId: 1
+SubmitTime: 2055.207823
+StartTime: 3243.958364
+EndTime: 3245.104363
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9738f0 979d10
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 266
+DependsOn: 263 54 256 55
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.194572
+StartTime: 3243.752993
+EndTime: 3245.105171
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9738f0 976b00
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 265
+DependsOn: 263 54 254 70
+Tag: 0
+WorkerId: 5
+SubmitTime: 2055.191237
+StartTime: 3243.747389
+EndTime: 3254.163123
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9738f0 9a59f0
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 264
+DependsOn: 263 54 253 62
+Tag: 0
+WorkerId: 3
+SubmitTime: 2055.187797
+StartTime: 3243.748710
+EndTime: 3254.167742
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 9738f0 98c970
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 271
+DependsOn: 265 70 269 56 262 72
+Tag: 0
+WorkerId: 5
+SubmitTime: 2055.216213
+StartTime: 3254.176988
+EndTime: 3255.474465
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9a59f0 979d10 9abe10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 270
+DependsOn: 264 62 269 56 261 64
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.211179
+StartTime: 3254.862973
+EndTime: 3255.474503
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 98c970 979d10 992d90
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 268
+DependsOn: 265 70 266 55 258 71
+Tag: 0
+WorkerId: 2
+SubmitTime: 2055.202850
+StartTime: 3254.175501
+EndTime: 3255.488941
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9a59f0 976b00 9a8c00
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 267
+DependsOn: 264 62 266 55 257 63
+Tag: 0
+WorkerId: 3
+SubmitTime: 2055.198844
+StartTime: 3254.184488
+EndTime: 3255.476003
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 98c970 976b00 98fb80
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgetrf_nopiv
+Model: sgetrf_nopiv
+JobId: 272
+DependsOn: 267 63
+Tag: 0
+WorkerId: 5
+SubmitTime: 2055.219821
+StartTime: 3255.489477
+EndTime: 3267.294483
+Footprint: 54b49fcb
+Parameters: M256x256x4
+Handles: 98fb80
+Modes: RW
+Sizes: 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 273
+DependsOn: 272 63 268 71
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.222626
+StartTime: 3267.306193
+EndTime: 3267.693020
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 98fb80 9a8c00
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: strsm
+Model: strsm
+JobId: 274
+DependsOn: 272 63 270 64
+Tag: 0
+WorkerId: 7
+SubmitTime: 2055.227104
+StartTime: 3290.165683
+EndTime: 3290.553584
+Footprint: b9b75ba5
+Parameters: M256x256x4_M256x256x4
+Handles: 98fb80 992d90
+Modes: R RW
+Sizes: 262144 262144
+MPIRank: -1
+
+Name: sgemm
+Model: sgemm
+JobId: 275
+DependsOn: 273 71 274 64 271 72
+Tag: 0
+WorkerId: 5
+SubmitTime: 2055.230457
+StartTime: 3290.565087
+EndTime: 3291.041822
+Footprint: 5c6c3401
+Parameters: M256x256x4_M256x256x4_M256x256x4
+Handles: 9a8c00 992d90 9abe10
+Modes: R R RW
+Sizes: 262144 262144 262144
+MPIRank: -1
+
+Name: sgetrf_nopiv
+Model: sgetrf_nopiv
+JobId: 276
+DependsOn: 275 72
+Tag: 0
+WorkerId: 6
+SubmitTime: 2055.235260
+StartTime: 3291.053334
+EndTime: 3292.591455
+Footprint: 54b49fcb
+Parameters: M256x256x4
+Handles: 9abe10
+Modes: RW
+Sizes: 262144
+MPIRank: -1
+
+JobId: 278
+DependsOn: 73
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 277
+DependsOn: 278
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 280
+DependsOn: 74
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 279
+DependsOn: 280
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 282
+DependsOn: 75
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 281
+DependsOn: 282
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 284
+DependsOn: 76
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 283
+DependsOn: 284
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 286
+DependsOn: 77
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 285
+DependsOn: 286
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 288
+DependsOn: 78
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 287
+DependsOn: 288
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 290
+DependsOn: 79
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 289
+DependsOn: 290
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 292
+DependsOn: 80
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 291
+DependsOn: 292
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 294
+DependsOn: 81
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 293
+DependsOn: 294
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 296
+DependsOn: 137
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 295
+DependsOn: 296
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 298
+DependsOn: 138
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 297
+DependsOn: 298
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 300
+DependsOn: 139
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 299
+DependsOn: 300
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 302
+DependsOn: 140
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 301
+DependsOn: 302
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 304
+DependsOn: 141
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 303
+DependsOn: 304
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 306
+DependsOn: 142
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 305
+DependsOn: 306
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 308
+DependsOn: 143
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 307
+DependsOn: 308
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 310
+DependsOn: 89
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 309
+DependsOn: 310
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 312
+DependsOn: 144
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 311
+DependsOn: 312
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 314
+DependsOn: 186
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 313
+DependsOn: 314
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 316
+DependsOn: 187
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 315
+DependsOn: 316
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 318
+DependsOn: 188
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 317
+DependsOn: 318
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 320
+DependsOn: 189
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 319
+DependsOn: 320
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 322
+DependsOn: 190
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 321
+DependsOn: 322
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 324
+DependsOn: 191
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 323
+DependsOn: 324
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 326
+DependsOn: 97
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 325
+DependsOn: 326
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 328
+DependsOn: 151
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 327
+DependsOn: 328
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 330
+DependsOn: 192
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 329
+DependsOn: 330
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 332
+DependsOn: 222
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 331
+DependsOn: 332
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 334
+DependsOn: 223
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 333
+DependsOn: 334
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 336
+DependsOn: 224
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 335
+DependsOn: 336
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 338
+DependsOn: 225
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 337
+DependsOn: 338
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 340
+DependsOn: 226
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 339
+DependsOn: 340
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 342
+DependsOn: 105
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 341
+DependsOn: 342
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 344
+DependsOn: 158
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 343
+DependsOn: 344
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 346
+DependsOn: 198
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 345
+DependsOn: 346
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 348
+DependsOn: 227
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 347
+DependsOn: 348
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 350
+DependsOn: 247
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 349
+DependsOn: 350
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 352
+DependsOn: 248
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 351
+DependsOn: 352
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 354
+DependsOn: 249
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 353
+DependsOn: 354
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 356
+DependsOn: 250
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 355
+DependsOn: 356
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 358
+DependsOn: 113
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 357
+DependsOn: 358
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 360
+DependsOn: 165
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 359
+DependsOn: 360
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 362
+DependsOn: 204
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 361
+DependsOn: 362
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 364
+DependsOn: 232
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 363
+DependsOn: 364
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 366
+DependsOn: 251
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 365
+DependsOn: 366
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 368
+DependsOn: 263
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 367
+DependsOn: 368
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 370
+DependsOn: 264
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 369
+DependsOn: 370
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 372
+DependsOn: 265
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 371
+DependsOn: 372
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 374
+DependsOn: 121
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 373
+DependsOn: 374
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 376
+DependsOn: 172
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 375
+DependsOn: 376
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 378
+DependsOn: 210
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 377
+DependsOn: 378
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 380
+DependsOn: 237
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 379
+DependsOn: 380
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 382
+DependsOn: 255
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 381
+DependsOn: 382
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 384
+DependsOn: 266
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 383
+DependsOn: 384
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 386
+DependsOn: 272
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 385
+DependsOn: 386
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 388
+DependsOn: 273
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 387
+DependsOn: 388
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 390
+DependsOn: 129
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 389
+DependsOn: 390
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 392
+DependsOn: 179
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 391
+DependsOn: 392
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 394
+DependsOn: 216
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 393
+DependsOn: 394
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 396
+DependsOn: 242
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 395
+DependsOn: 396
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 398
+DependsOn: 259
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 397
+DependsOn: 398
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 400
+DependsOn: 269
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 399
+DependsOn: 400
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 402
+DependsOn: 274
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 401
+DependsOn: 402
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 404
+DependsOn: 276
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 403
+DependsOn: 404
+Tag: 0
+Footprint: 0
+MPIRank: -1
+

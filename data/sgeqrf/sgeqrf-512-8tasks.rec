@@ -1,0 +1,4233 @@
+JobId: 285
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 284
+DependsOn: 285
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+Name: sgeqrt
+Model: sgeqrt
+JobId: 73
+DependsOn: 9
+Tag: 0
+WorkerId: 1
+SubmitTime: 1981.246512
+StartTime: 1983.547438
+EndTime: 2048.703242
+Footprint: bca8eebc
+Parameters: M512x512x4_M32x512x4_V67584x1
+Handles: f561c0 1019100 1016890
+Modes: RW W S
+Sizes: 1048576 65536 67584
+MPIRank: -1
+
+Name: slacpy
+Model: slacpy
+JobId: 74
+DependsOn: 73 9
+Tag: 0
+WorkerId: 0
+SubmitTime: 1991.541749
+StartTime: 2048.730172
+EndTime: 2048.916319
+Footprint: e6adb9cb
+Parameters: M512x512x4_M512x512x4
+Handles: f561c0 101bfa0
+Modes: R W
+Sizes: 1048576 1048576
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 78
+DependsOn: 74 73 13
+Tag: 0
+WorkerId: 3
+SubmitTime: 1991.626305
+StartTime: 2049.071287
+EndTime: 2537.913389
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 101bfa0 1019100 f63c10 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 75
+DependsOn: 74 73 10
+Tag: 0
+WorkerId: 1
+SubmitTime: 1991.610227
+StartTime: 2048.930570
+EndTime: 2540.907655
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 101bfa0 1019100 f5a820 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 79
+DependsOn: 74 73 14
+Tag: 0
+WorkerId: 0
+SubmitTime: 1991.630458
+StartTime: 2049.295423
+EndTime: 2542.363681
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 101bfa0 1019100 f66e20 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 80
+DependsOn: 74 73 15
+Tag: 0
+WorkerId: 6
+SubmitTime: 1991.634578
+StartTime: 2055.919857
+EndTime: 2543.283755
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 101bfa0 1019100 f69690 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 77
+DependsOn: 74 73 12
+Tag: 0
+WorkerId: 4
+SubmitTime: 1991.621960
+StartTime: 2048.937842
+EndTime: 2551.681884
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 101bfa0 1019100 f60a00 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 81
+DependsOn: 74 73 16
+Tag: 0
+WorkerId: 2
+SubmitTime: 1991.638942
+StartTime: 2065.260335
+EndTime: 2556.046369
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 101bfa0 1019100 f6bf00 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+JobId: 286
+DependsOn: 287
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 287
+DependsOn: 81 80 79 78 77 76 75
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 76
+DependsOn: 74 73 11
+Tag: 0
+WorkerId: 7
+SubmitTime: 1991.617691
+StartTime: 2048.942855
+EndTime: 2558.217207
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 101bfa0 1019100 f5d7f0 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 82
+DependsOn: 74 9 17
+Tag: 0
+WorkerId: 5
+SubmitTime: 1991.696027
+StartTime: 2072.043579
+EndTime: 2592.857979
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f561c0 f6ef10 101f470 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 87
+DependsOn: 79 14 22 82 17 82
+Tag: 0
+WorkerId: 2
+SubmitTime: 1991.756292
+StartTime: 2592.987575
+EndTime: 2975.687967
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f66e20 f7d620 f6ef10 101f470 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 86
+DependsOn: 78 13 21 82 17 82
+Tag: 0
+WorkerId: 5
+SubmitTime: 1991.751318
+StartTime: 2592.899901
+EndTime: 3024.186448
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f63c10 f7adb0 f6ef10 101f470 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 88
+DependsOn: 80 15 23 82 17 82
+Tag: 0
+WorkerId: 7
+SubmitTime: 1991.761548
+StartTime: 2593.799809
+EndTime: 3038.081389
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f69690 f7fe90 f6ef10 101f470 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 85
+DependsOn: 77 12 20 82 17 82
+Tag: 0
+WorkerId: 0
+SubmitTime: 1991.746090
+StartTime: 2592.894177
+EndTime: 3039.320452
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f60a00 f78540 f6ef10 101f470 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 83
+DependsOn: 75 10 18 82 17 82
+Tag: 0
+WorkerId: 6
+SubmitTime: 1991.734582
+StartTime: 2592.877478
+EndTime: 3039.321203
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5a820 f72120 f6ef10 101f470 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 84
+DependsOn: 76 11 19 82 17 82
+Tag: 0
+WorkerId: 4
+SubmitTime: 1991.740730
+StartTime: 2592.877296
+EndTime: 3051.979480
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5d7f0 f75330 f6ef10 101f470 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 89
+DependsOn: 81 16 24 82 17 82
+Tag: 0
+WorkerId: 1
+SubmitTime: 1991.766735
+StartTime: 2601.684719
+EndTime: 3060.554276
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f6bf00 f82700 f6ef10 101f470 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 90
+DependsOn: 82 9 25
+Tag: 0
+WorkerId: 3
+SubmitTime: 1991.778922
+StartTime: 2612.404540
+EndTime: 3084.872285
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f561c0 f84f70 1022940 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 96
+DependsOn: 88 15 31 90 25 90
+Tag: 0
+WorkerId: 3
+SubmitTime: 1991.808016
+StartTime: 3095.565769
+EndTime: 3447.384904
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f69690 f95a20 f84f70 1022940 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 92
+DependsOn: 84 11 27 90 25 90
+Tag: 0
+WorkerId: 2
+SubmitTime: 1991.787863
+StartTime: 3095.531085
+EndTime: 3448.756963
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5d7f0 f8aec0 f84f70 1022940 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 94
+DependsOn: 86 13 29 90 25 90
+Tag: 0
+WorkerId: 4
+SubmitTime: 1991.798047
+StartTime: 3095.546021
+EndTime: 3454.488032
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f63c10 f90940 f84f70 1022940 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: sgeqrt
+Model: sgeqrt
+JobId: 138
+DependsOn: 83 18
+Tag: 0
+WorkerId: 7
+SubmitTime: 1992.044150
+StartTime: 3039.342407
+EndTime: 3454.450180
+Footprint: bca8eebc
+Parameters: M512x512x4_M32x512x4_V67584x1
+Handles: f72120 1048ed0 1016890
+Modes: RW W S
+Sizes: 1048576 65536 67584
+MPIRank: -1
+
+Name: slacpy
+Model: slacpy
+JobId: 139
+DependsOn: 138 18
+Tag: 0
+WorkerId: 2
+SubmitTime: 1992.052490
+StartTime: 3454.498099
+EndTime: 3454.734677
+Footprint: e6adb9cb
+Parameters: M512x512x4_M512x512x4
+Handles: f72120 104c120
+Modes: R W
+Sizes: 1048576 1048576
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 91
+DependsOn: 83 10 26 90 25 90
+Tag: 0
+WorkerId: 0
+SubmitTime: 1991.783031
+StartTime: 3084.894169
+EndTime: 3454.969197
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5a820 f87cd0 f84f70 1022940 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 93
+DependsOn: 85 12 28 90 25 90
+Tag: 0
+WorkerId: 5
+SubmitTime: 1991.793428
+StartTime: 3095.541143
+EndTime: 3470.500159
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f60a00 f8e0d0 f84f70 1022940 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 95
+DependsOn: 87 14 30 90 25 90
+Tag: 0
+WorkerId: 6
+SubmitTime: 1991.803492
+StartTime: 3095.549540
+EndTime: 3470.520304
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f66e20 f931b0 f84f70 1022940 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 97
+DependsOn: 89 16 32 90 25 90
+Tag: 0
+WorkerId: 1
+SubmitTime: 1991.813436
+StartTime: 3099.891569
+EndTime: 3475.511031
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f6bf00 f98950 f84f70 1022940 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 141
+DependsOn: 139 138 85 20
+Tag: 0
+WorkerId: 4
+SubmitTime: 1994.840780
+StartTime: 3454.752193
+EndTime: 3804.000174
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 104c120 1048ed0 f78540 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 140
+DependsOn: 139 138 84 19
+Tag: 0
+WorkerId: 7
+SubmitTime: 1994.835762
+StartTime: 3454.747494
+EndTime: 3836.483190
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 104c120 1048ed0 f75330 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 142
+DependsOn: 139 138 86 21
+Tag: 0
+WorkerId: 2
+SubmitTime: 1994.844646
+StartTime: 3454.765681
+EndTime: 3837.597025
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 104c120 1048ed0 f7adb0 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 143
+DependsOn: 139 138 87 22
+Tag: 0
+WorkerId: 5
+SubmitTime: 1994.848312
+StartTime: 3470.528835
+EndTime: 3837.961709
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 104c120 1048ed0 f7d620 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 144
+DependsOn: 139 138 88 23
+Tag: 0
+WorkerId: 6
+SubmitTime: 1994.853242
+StartTime: 3470.537581
+EndTime: 3839.710371
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 104c120 1048ed0 f7fe90 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+JobId: 288
+DependsOn: 289
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 289
+DependsOn: 145 144 143 142 141 140
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 145
+DependsOn: 139 138 89 24
+Tag: 0
+WorkerId: 1
+SubmitTime: 1994.857132
+StartTime: 3475.537287
+EndTime: 3854.167162
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 104c120 1048ed0 f82700 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 146
+DependsOn: 139 18 91 26
+Tag: 0
+WorkerId: 0
+SubmitTime: 1994.866133
+StartTime: 3454.996204
+EndTime: 3890.036375
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f72120 f87cd0 1051d90 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 147
+DependsOn: 140 19 92 27 146 26 146
+Tag: 0
+WorkerId: 7
+SubmitTime: 1994.871046
+StartTime: 3890.055734
+EndTime: 4265.831160
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f75330 f8aec0 f87cd0 1051d90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 150
+DependsOn: 143 22 95 30 146 26 146
+Tag: 0
+WorkerId: 0
+SubmitTime: 1994.886218
+StartTime: 3890.069345
+EndTime: 4270.193343
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7d620 f931b0 f87cd0 1051d90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 151
+DependsOn: 144 23 96 31 146 26 146
+Tag: 0
+WorkerId: 5
+SubmitTime: 1994.892130
+StartTime: 3890.129523
+EndTime: 4272.679871
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7fe90 f95a20 f87cd0 1051d90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 98
+DependsOn: 90 9 33
+Tag: 0
+WorkerId: 3
+SubmitTime: 1991.822936
+StartTime: 3447.417534
+EndTime: 4279.501508
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f561c0 f9bb40 1028670 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 152
+DependsOn: 145 24 97 32 146 26 146
+Tag: 0
+WorkerId: 4
+SubmitTime: 1994.896760
+StartTime: 3891.344664
+EndTime: 4290.846179
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f82700 f98950 f87cd0 1051d90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 149
+DependsOn: 142 21 94 29 146 26 146
+Tag: 0
+WorkerId: 1
+SubmitTime: 1994.881435
+StartTime: 3890.063096
+EndTime: 4326.205642
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7adb0 f90940 f87cd0 1051d90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 148
+DependsOn: 141 20 93 28 146 26 146
+Tag: 0
+WorkerId: 2
+SubmitTime: 1994.875706
+StartTime: 3890.058142
+EndTime: 4328.983232
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f78540 f8e0d0 f87cd0 1051d90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 102
+DependsOn: 94 13 37 98 33 98
+Tag: 0
+WorkerId: 0
+SubmitTime: 1991.842428
+StartTime: 4281.645999
+EndTime: 4391.642592
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f63c10 fa6a10 f9bb40 1028670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 100
+DependsOn: 92 11 35 98 33 98
+Tag: 0
+WorkerId: 3
+SubmitTime: 1991.832132
+StartTime: 4279.550495
+EndTime: 4392.039322
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5d7f0 fa1070 f9bb40 1028670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 103
+DependsOn: 95 14 38 98 33 98
+Tag: 0
+WorkerId: 4
+SubmitTime: 1991.846954
+StartTime: 4290.867129
+EndTime: 4394.065580
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f66e20 fa96d0 f9bb40 1028670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 99
+DependsOn: 91 10 34 98 33 98
+Tag: 0
+WorkerId: 5
+SubmitTime: 1991.826585
+StartTime: 4279.524422
+EndTime: 4395.000868
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5a820 f9e3b0 f9bb40 1028670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 101
+DependsOn: 93 12 36 98 33 98
+Tag: 0
+WorkerId: 6
+SubmitTime: 1991.836567
+StartTime: 4279.587853
+EndTime: 4411.226762
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f60a00 fa41a0 f9bb40 1028670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 104
+DependsOn: 96 15 39 98 33 98
+Tag: 0
+WorkerId: 1
+SubmitTime: 1991.852760
+StartTime: 4326.232435
+EndTime: 4412.213642
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f69690 fac7c0 f9bb40 1028670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 105
+DependsOn: 97 16 40 98 33 98
+Tag: 0
+WorkerId: 2
+SubmitTime: 1991.857374
+StartTime: 4329.087342
+EndTime: 4452.428277
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f6bf00 faf9d0 f9bb40 1028670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: sgeqrt
+Model: sgeqrt
+JobId: 188
+DependsOn: 147 27
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.110542
+StartTime: 4265.862037
+EndTime: 4458.182284
+Footprint: bca8eebc
+Parameters: M512x512x4_M32x512x4_V67584x1
+Handles: f8aec0 1077740 1016890
+Modes: RW W S
+Sizes: 1048576 65536 67584
+MPIRank: -1
+
+Name: slacpy
+Model: slacpy
+JobId: 189
+DependsOn: 188 27
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.117975
+StartTime: 4458.230886
+EndTime: 4458.517298
+Footprint: e6adb9cb
+Parameters: M512x512x4_M512x512x4
+Handles: f8aec0 107a990
+Modes: R W
+Sizes: 1048576 1048576
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 194
+DependsOn: 189 188 152 32
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.140750
+StartTime: 4463.732230
+EndTime: 4501.711900
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 107a990 1077740 f98950 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 191
+DependsOn: 189 188 149 29
+Tag: 0
+WorkerId: 1
+SubmitTime: 1995.125690
+StartTime: 4458.532007
+EndTime: 4502.682671
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 107a990 1077740 f90940 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 190
+DependsOn: 189 188 148 28
+Tag: 0
+WorkerId: 2
+SubmitTime: 1995.121968
+StartTime: 4458.530045
+EndTime: 4505.373192
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 107a990 1077740 f8e0d0 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 193
+DependsOn: 189 188 151 31
+Tag: 0
+WorkerId: 5
+SubmitTime: 1995.137006
+StartTime: 4463.723721
+EndTime: 4520.171528
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 107a990 1077740 f95a20 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+JobId: 290
+DependsOn: 291
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 291
+DependsOn: 194 193 192 191 190
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 192
+DependsOn: 189 188 150 30
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.129365
+StartTime: 4458.541936
+EndTime: 4521.884259
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 107a990 1077740 f931b0 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 106
+DependsOn: 98 9 41
+Tag: 0
+WorkerId: 0
+SubmitTime: 1991.868597
+StartTime: 4391.685280
+EndTime: 4524.224466
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f561c0 fb2be0 102ee50 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 109
+DependsOn: 101 12 44 106 41 106
+Tag: 0
+WorkerId: 0
+SubmitTime: 1991.881740
+StartTime: 4524.293350
+EndTime: 4668.005761
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f60a00 fbc210 fb2be0 102ee50 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 112
+DependsOn: 104 15 47 106 41 106
+Tag: 0
+WorkerId: 4
+SubmitTime: 1991.896460
+StartTime: 4526.143442
+EndTime: 4670.701497
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f69690 fc5840 fb2be0 102ee50 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 113
+DependsOn: 105 16 48 106 41 106
+Tag: 0
+WorkerId: 6
+SubmitTime: 1991.901717
+StartTime: 4531.423136
+EndTime: 4673.200728
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f6bf00 fc8a50 fb2be0 102ee50 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 110
+DependsOn: 102 13 45 106 41 106
+Tag: 0
+WorkerId: 7
+SubmitTime: 1991.886310
+StartTime: 4524.336029
+EndTime: 4673.924386
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f63c10 fbf420 fb2be0 102ee50 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 108
+DependsOn: 100 11 43 106 41 106
+Tag: 0
+WorkerId: 2
+SubmitTime: 1991.876549
+StartTime: 4524.274522
+EndTime: 4680.177566
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5d7f0 fb9000 fb2be0 102ee50 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 153
+DependsOn: 146 18 99 34
+Tag: 0
+WorkerId: 3
+SubmitTime: 1994.908098
+StartTime: 4395.020365
+EndTime: 4683.123753
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f72120 f9e3b0 10581a0 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 107
+DependsOn: 99 10 42 106 41 106
+Tag: 0
+WorkerId: 5
+SubmitTime: 1991.872089
+StartTime: 4524.273759
+EndTime: 4739.339979
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5a820 fb5df0 fb2be0 102ee50 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 111
+DependsOn: 103 14 46 106 41 106
+Tag: 0
+WorkerId: 1
+SubmitTime: 1991.891853
+StartTime: 4525.582445
+EndTime: 4739.747635
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f66e20 fc2630 fb2be0 102ee50 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 155
+DependsOn: 148 20 101 36 153 34 153
+Tag: 0
+WorkerId: 3
+SubmitTime: 1994.917514
+StartTime: 4683.157286
+EndTime: 4768.690473
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f78540 fa41a0 f9e3b0 10581a0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 154
+DependsOn: 147 19 100 35 153 34 153
+Tag: 0
+WorkerId: 2
+SubmitTime: 1994.911880
+StartTime: 4683.145754
+EndTime: 4772.197878
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f75330 fa1070 f9e3b0 10581a0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 156
+DependsOn: 149 21 102 37 153 34 153
+Tag: 0
+WorkerId: 7
+SubmitTime: 1994.922184
+StartTime: 4685.364254
+EndTime: 4775.252544
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7adb0 fa6a10 f9e3b0 10581a0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 157
+DependsOn: 150 22 103 38 153 34 153
+Tag: 0
+WorkerId: 6
+SubmitTime: 1994.927996
+StartTime: 4685.664923
+EndTime: 4798.227617
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7d620 fa96d0 f9e3b0 10581a0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 159
+DependsOn: 152 24 105 40 153 34 153
+Tag: 0
+WorkerId: 1
+SubmitTime: 1994.938625
+StartTime: 4739.762694
+EndTime: 4801.252380
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f82700 faf9d0 f9e3b0 10581a0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 158
+DependsOn: 151 23 104 39 153 34 153
+Tag: 0
+WorkerId: 4
+SubmitTime: 1994.932721
+StartTime: 4686.159397
+EndTime: 4863.064542
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7fe90 fac7c0 f9e3b0 10581a0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 160
+DependsOn: 153 18 107 42
+Tag: 0
+WorkerId: 5
+SubmitTime: 1994.950266
+StartTime: 4739.387987
+EndTime: 4878.138595
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f72120 fb5df0 105e5b0 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 166
+DependsOn: 159 24 113 48 160 42 160
+Tag: 0
+WorkerId: 7
+SubmitTime: 1994.980133
+StartTime: 4882.129973
+EndTime: 4956.806577
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f82700 fc8a50 fb5df0 105e5b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 162
+DependsOn: 155 20 109 44 160 42 160
+Tag: 0
+WorkerId: 5
+SubmitTime: 1994.959615
+StartTime: 4878.226409
+EndTime: 4956.861115
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f78540 fbc210 fb5df0 105e5b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 161
+DependsOn: 154 19 108 43 160 42 160
+Tag: 0
+WorkerId: 6
+SubmitTime: 1994.954055
+StartTime: 4878.189210
+EndTime: 4956.806638
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f75330 fb9000 fb5df0 105e5b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 163
+DependsOn: 156 21 110 45 160 42 160
+Tag: 0
+WorkerId: 2
+SubmitTime: 1994.964234
+StartTime: 4878.299218
+EndTime: 4967.788532
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7adb0 fbf420 fb5df0 105e5b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 165
+DependsOn: 158 23 112 47 160 42 160
+Tag: 0
+WorkerId: 1
+SubmitTime: 1994.974544
+StartTime: 4881.551140
+EndTime: 4981.483774
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7fe90 fc5840 fb5df0 105e5b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 195
+DependsOn: 189 27 154 35
+Tag: 0
+WorkerId: 3
+SubmitTime: 1995.150294
+StartTime: 4772.223729
+EndTime: 5002.203985
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f8aec0 fa1070 107ff30 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 164
+DependsOn: 157 22 111 46 160 42 160
+Tag: 0
+WorkerId: 4
+SubmitTime: 1994.970126
+StartTime: 4880.588331
+EndTime: 5035.498231
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7d620 fc2630 fb5df0 105e5b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 197
+DependsOn: 191 29 156 37 195 35 195
+Tag: 0
+WorkerId: 5
+SubmitTime: 1995.159539
+StartTime: 5002.225970
+EndTime: 5164.824245
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f90940 fa6a10 fa1070 107ff30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 200
+DependsOn: 194 32 159 40 195 35 195
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.175094
+StartTime: 5002.259559
+EndTime: 5165.446890
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f98950 faf9d0 fa1070 107ff30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 196
+DependsOn: 190 28 155 36 195 35 195
+Tag: 0
+WorkerId: 6
+SubmitTime: 1995.153919
+StartTime: 5002.226016
+EndTime: 5167.535719
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f8e0d0 fa41a0 fa1070 107ff30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 198
+DependsOn: 192 30 157 38 195 35 195
+Tag: 0
+WorkerId: 3
+SubmitTime: 1995.164165
+StartTime: 5002.237281
+EndTime: 5188.296684
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f931b0 fa96d0 fa1070 107ff30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 199
+DependsOn: 193 31 158 39 195 35 195
+Tag: 0
+WorkerId: 2
+SubmitTime: 1995.170563
+StartTime: 5002.247084
+EndTime: 5231.591631
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f95a20 fac7c0 fa1070 107ff30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 114
+DependsOn: 106 9 49
+Tag: 0
+WorkerId: 0
+SubmitTime: 1991.910698
+StartTime: 4668.034902
+EndTime: 5336.641016
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f561c0 fcbc60 1035670 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 116
+DependsOn: 108 11 51 114 49 114
+Tag: 0
+WorkerId: 0
+SubmitTime: 1991.919830
+StartTime: 5336.711502
+EndTime: 5844.952641
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5d7f0 fd2080 fcbc60 1035670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 118
+DependsOn: 110 13 53 114 49 114
+Tag: 0
+WorkerId: 6
+SubmitTime: 1991.929663
+StartTime: 5337.001954
+EndTime: 5855.725156
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f63c10 fd84a0 fcbc60 1035670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 119
+DependsOn: 111 14 54 114 49 114
+Tag: 0
+WorkerId: 4
+SubmitTime: 1991.934034
+StartTime: 5338.338104
+EndTime: 5951.551121
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f66e20 fdb6b0 fcbc60 1035670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 117
+DependsOn: 109 12 52 114 49 114
+Tag: 0
+WorkerId: 7
+SubmitTime: 1991.924236
+StartTime: 5336.964080
+EndTime: 5975.718360
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f60a00 fd5290 fcbc60 1035670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 115
+DependsOn: 107 10 50 114 49 114
+Tag: 0
+WorkerId: 2
+SubmitTime: 1991.914298
+StartTime: 5336.690399
+EndTime: 5996.647221
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5a820 fcee70 fcbc60 1035670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 120
+DependsOn: 112 15 55 114 49 114
+Tag: 0
+WorkerId: 3
+SubmitTime: 1991.939599
+StartTime: 5349.141487
+EndTime: 5997.335130
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f69690 fde8c0 fcbc60 1035670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 201
+DependsOn: 195 27 161 43
+Tag: 0
+WorkerId: 1
+SubmitTime: 1995.185231
+StartTime: 5002.343410
+EndTime: 6021.896244
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f8aec0 fb9000 1085b30 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 121
+DependsOn: 113 16 56 114 49 114
+Tag: 0
+WorkerId: 0
+SubmitTime: 1991.944242
+StartTime: 5844.978361
+EndTime: 6116.392974
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f6bf00 fe1ad0 fcbc60 1035670 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 204
+DependsOn: 198 30 164 46 201 43 201
+Tag: 0
+WorkerId: 1
+SubmitTime: 1995.199645
+StartTime: 6021.931356
+EndTime: 6136.602746
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f931b0 fc2630 fb9000 1085b30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 203
+DependsOn: 197 29 163 45 201 43 201
+Tag: 0
+WorkerId: 3
+SubmitTime: 1995.194277
+StartTime: 6021.917574
+EndTime: 6143.030377
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f90940 fbf420 fb9000 1085b30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 202
+DependsOn: 196 28 162 44 201 43 201
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.189786
+StartTime: 6021.916626
+EndTime: 6147.247160
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f8e0d0 fbc210 fb9000 1085b30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: sgeqrt
+Model: sgeqrt
+JobId: 225
+DependsOn: 196 36
+Tag: 0
+WorkerId: 5
+SubmitTime: 1995.323460
+StartTime: 5167.595811
+EndTime: 6148.419079
+Footprint: bca8eebc
+Parameters: M512x512x4_M32x512x4_V67584x1
+Handles: fa41a0 109cc50 1016890
+Modes: RW W S
+Sizes: 1048576 65536 67584
+MPIRank: -1
+
+Name: slacpy
+Model: slacpy
+JobId: 226
+DependsOn: 225 36
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.332803
+StartTime: 6148.454424
+EndTime: 6148.674626
+Footprint: e6adb9cb
+Parameters: M512x512x4_M512x512x4
+Handles: fa41a0 109fea0
+Modes: R W
+Sizes: 1048576 1048576
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 205
+DependsOn: 199 31 165 47 201 43 201
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.204131
+StartTime: 6022.088067
+EndTime: 6152.110864
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f95a20 fc5840 fb9000 1085b30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 206
+DependsOn: 200 32 166 48 201 43 201
+Tag: 0
+WorkerId: 0
+SubmitTime: 1995.209628
+StartTime: 6116.422296
+EndTime: 6265.040269
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f98950 fc8a50 fb9000 1085b30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 228
+DependsOn: 226 225 198 38
+Tag: 0
+WorkerId: 3
+SubmitTime: 1995.339553
+StartTime: 6148.690078
+EndTime: 6278.171803
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 109fea0 109cc50 fa96d0 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 230
+DependsOn: 226 225 200 40
+Tag: 0
+WorkerId: 1
+SubmitTime: 1995.347787
+StartTime: 6149.546010
+EndTime: 6279.899144
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 109fea0 109cc50 faf9d0 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 227
+DependsOn: 226 225 197 37
+Tag: 0
+WorkerId: 5
+SubmitTime: 1995.335842
+StartTime: 6148.689148
+EndTime: 6284.112380
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 109fea0 109cc50 fa6a10 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+JobId: 292
+DependsOn: 293
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 293
+DependsOn: 230 229 228 227
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 229
+DependsOn: 226 225 199 39
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.344099
+StartTime: 6148.707179
+EndTime: 6284.237020
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 109fea0 109cc50 fac7c0 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 122
+DependsOn: 114 9 57
+Tag: 0
+WorkerId: 6
+SubmitTime: 1991.955210
+StartTime: 5855.776923
+EndTime: 6351.319043
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f561c0 fe4ce0 103be90 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 125
+DependsOn: 117 12 60 122 57 122
+Tag: 0
+WorkerId: 6
+SubmitTime: 1991.968477
+StartTime: 6351.387457
+EndTime: 6680.094526
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f60a00 fee310 fe4ce0 103be90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 126
+DependsOn: 118 13 61 122 57 122
+Tag: 0
+WorkerId: 0
+SubmitTime: 1991.973065
+StartTime: 6351.390446
+EndTime: 6696.236417
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f63c10 ff1520 fe4ce0 103be90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 123
+DependsOn: 115 10 58 122 57 122
+Tag: 0
+WorkerId: 1
+SubmitTime: 1991.958593
+StartTime: 6351.370023
+EndTime: 6696.236351
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5a820 fe7ef0 fe4ce0 103be90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 128
+DependsOn: 120 15 63 122 57 122
+Tag: 0
+WorkerId: 3
+SubmitTime: 1991.985300
+StartTime: 6352.038758
+EndTime: 6698.626549
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f69690 ff7940 fe4ce0 103be90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 124
+DependsOn: 116 11 59 122 57 122
+Tag: 0
+WorkerId: 4
+SubmitTime: 1991.962954
+StartTime: 6351.370759
+EndTime: 6704.505358
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5d7f0 feb100 fe4ce0 103be90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 127
+DependsOn: 119 14 62 122 57 122
+Tag: 0
+WorkerId: 5
+SubmitTime: 1991.980806
+StartTime: 6351.986943
+EndTime: 6711.097468
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f66e20 ff4730 fe4ce0 103be90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 167
+DependsOn: 160 18 115 50
+Tag: 0
+WorkerId: 2
+SubmitTime: 1994.990178
+StartTime: 5996.667175
+EndTime: 6756.868385
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f72120 fcee70 10649c0 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 129
+DependsOn: 121 16 64 122 57 122
+Tag: 0
+WorkerId: 6
+SubmitTime: 1991.990586
+StartTime: 6680.125402
+EndTime: 6777.469366
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f6bf00 ffab50 fe4ce0 103be90 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 171
+DependsOn: 164 22 119 54 167 50 167
+Tag: 0
+WorkerId: 3
+SubmitTime: 1995.010596
+StartTime: 6760.155238
+EndTime: 6978.383873
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7d620 fdb6b0 fcee70 10649c0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 168
+DependsOn: 161 19 116 51 167 50 167
+Tag: 0
+WorkerId: 4
+SubmitTime: 1994.994888
+StartTime: 6756.887523
+EndTime: 7019.617786
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f75330 fd2080 fcee70 10649c0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 172
+DependsOn: 165 23 120 55 167 50 167
+Tag: 0
+WorkerId: 5
+SubmitTime: 1995.016105
+StartTime: 6760.637877
+EndTime: 7074.971699
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7fe90 fde8c0 fcee70 10649c0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 170
+DependsOn: 163 21 118 53 167 50 167
+Tag: 0
+WorkerId: 0
+SubmitTime: 1995.005958
+StartTime: 6757.009093
+EndTime: 7074.971737
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7adb0 fd84a0 fcee70 10649c0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 169
+DependsOn: 162 20 117 52 167 50 167
+Tag: 0
+WorkerId: 2
+SubmitTime: 1994.999429
+StartTime: 6756.908118
+EndTime: 7089.045215
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f78540 fd5290 fcee70 10649c0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 173
+DependsOn: 166 24 121 56 167 50 167
+Tag: 0
+WorkerId: 6
+SubmitTime: 1995.020716
+StartTime: 6777.501516
+EndTime: 7113.647923
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f82700 fe1ad0 fcee70 10649c0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 231
+DependsOn: 226 36 202 44
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.356352
+StartTime: 6152.130530
+EndTime: 7261.430125
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fa41a0 fbc210 10a4d20 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 235
+DependsOn: 230 40 206 48 231 44 231
+Tag: 0
+WorkerId: 2
+SubmitTime: 1995.376471
+StartTime: 7261.859015
+EndTime: 7676.285444
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: faf9d0 fc8a50 fbc210 10a4d20 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 234
+DependsOn: 229 39 205 47 231 44 231
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.371920
+StartTime: 7261.463363
+EndTime: 7764.637291
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fac7c0 fc5840 fbc210 10a4d20 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 233
+DependsOn: 228 38 204 46 231 44 231
+Tag: 0
+WorkerId: 6
+SubmitTime: 1995.365654
+StartTime: 7261.454034
+EndTime: 7764.632203
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fa96d0 fc2630 fbc210 10a4d20 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 232
+DependsOn: 227 37 203 45 231 44 231
+Tag: 0
+WorkerId: 0
+SubmitTime: 1995.361136
+StartTime: 7261.454085
+EndTime: 7764.632073
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fa6a10 fbf420 fbc210 10a4d20 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 130
+DependsOn: 122 9 65
+Tag: 0
+WorkerId: 1
+SubmitTime: 1991.999638
+StartTime: 6696.298678
+EndTime: 7983.109635
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f561c0 ffdd60 10426b0 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 131
+DependsOn: 123 10 66 130 65 130
+Tag: 0
+WorkerId: 6
+SubmitTime: 1992.003315
+StartTime: 7983.131610
+EndTime: 8144.619779
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5a820 1000f70 ffdd60 10426b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 134
+DependsOn: 126 13 69 130 65 130
+Tag: 0
+WorkerId: 7
+SubmitTime: 1992.019879
+StartTime: 7988.509868
+EndTime: 8173.357910
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f63c10 100a5a0 ffdd60 10426b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 133
+DependsOn: 125 12 68 130 65 130
+Tag: 0
+WorkerId: 2
+SubmitTime: 1992.014365
+StartTime: 7986.663246
+EndTime: 8173.357845
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f60a00 1007390 ffdd60 10426b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 135
+DependsOn: 127 14 70 130 65 130
+Tag: 0
+WorkerId: 5
+SubmitTime: 1992.024564
+StartTime: 7991.939516
+EndTime: 8177.309750
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f66e20 100d7b0 ffdd60 10426b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 174
+DependsOn: 167 18 123 58
+Tag: 0
+WorkerId: 3
+SubmitTime: 1995.029810
+StartTime: 6978.413330
+EndTime: 8178.441933
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f72120 fe7ef0 106add0 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 132
+DependsOn: 124 11 67 130 65 130
+Tag: 0
+WorkerId: 1
+SubmitTime: 1992.009886
+StartTime: 7983.153564
+EndTime: 8181.978188
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f5d7f0 1004180 ffdd60 10426b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 137
+DependsOn: 129 16 72 130 65 130
+Tag: 0
+WorkerId: 7
+SubmitTime: 1992.034333
+StartTime: 8173.393846
+EndTime: 8262.841054
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f6bf00 1013bd0 ffdd60 10426b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 136
+DependsOn: 128 15 71 130 65 130
+Tag: 0
+WorkerId: 6
+SubmitTime: 1992.030109
+StartTime: 8144.649395
+EndTime: 8269.262191
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f69690 10109c0 ffdd60 10426b0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 177
+DependsOn: 170 21 126 61 174 58 174
+Tag: 0
+WorkerId: 2
+SubmitTime: 1995.044901
+StartTime: 8179.573244
+EndTime: 8270.498934
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7adb0 ff1520 fe7ef0 106add0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 176
+DependsOn: 169 20 125 60 174 58 174
+Tag: 0
+WorkerId: 3
+SubmitTime: 1995.039041
+StartTime: 8178.486249
+EndTime: 8272.483128
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f78540 fee310 fe7ef0 106add0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 207
+DependsOn: 201 27 168 51
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.218828
+StartTime: 7019.649199
+EndTime: 8362.993419
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f8aec0 fd2080 108b730 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 178
+DependsOn: 171 22 127 62 174 58 174
+Tag: 0
+WorkerId: 1
+SubmitTime: 1995.049579
+StartTime: 8181.996075
+EndTime: 8435.928196
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7d620 ff4730 fe7ef0 106add0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 175
+DependsOn: 168 19 124 59 174 58 174
+Tag: 0
+WorkerId: 5
+SubmitTime: 1995.034436
+StartTime: 8178.471263
+EndTime: 8507.889563
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f75330 feb100 fe7ef0 106add0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 180
+DependsOn: 173 24 129 64 174 58 174
+Tag: 0
+WorkerId: 6
+SubmitTime: 1995.059603
+StartTime: 8269.291504
+EndTime: 8779.719354
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f82700 ffab50 fe7ef0 106add0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 208
+DependsOn: 202 28 169 52 207 51 207
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.222467
+StartTime: 8363.021030
+EndTime: 8883.547443
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f8e0d0 fd5290 fd2080 108b730 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 210
+DependsOn: 204 30 171 54 207 51 207
+Tag: 0
+WorkerId: 1
+SubmitTime: 1995.233706
+StartTime: 8435.955560
+EndTime: 8939.613166
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f931b0 fdb6b0 fd2080 108b730 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 179
+DependsOn: 172 23 128 63 174 58 174
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.055049
+StartTime: 8262.865169
+EndTime: 8939.660541
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7fe90 ff7940 fe7ef0 106add0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 209
+DependsOn: 203 29 170 53 207 51 207
+Tag: 0
+WorkerId: 3
+SubmitTime: 1995.228269
+StartTime: 8371.959223
+EndTime: 9083.588131
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f90940 fd84a0 fd2080 108b730 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 211
+DependsOn: 205 31 172 55 207 51 207
+Tag: 0
+WorkerId: 6
+SubmitTime: 1995.238196
+StartTime: 8779.751654
+EndTime: 9176.578378
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f95a20 fde8c0 fd2080 108b730 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 212
+DependsOn: 206 32 173 56 207 51 207
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.243574
+StartTime: 8883.574001
+EndTime: 9187.601330
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f98950 fe1ad0 fd2080 108b730 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: sgeqrt
+Model: sgeqrt
+JobId: 251
+DependsOn: 232 45
+Tag: 0
+WorkerId: 0
+SubmitTime: 1995.472643
+StartTime: 7764.655066
+EndTime: 9215.749168
+Footprint: bca8eebc
+Parameters: M512x512x4_M32x512x4_V67584x1
+Handles: fbf420 10b9d50 1016890
+Modes: RW W S
+Sizes: 1048576 65536 67584
+MPIRank: -1
+
+Name: slacpy
+Model: slacpy
+JobId: 252
+DependsOn: 251 45
+Tag: 0
+WorkerId: 0
+SubmitTime: 1995.484707
+StartTime: 9215.766247
+EndTime: 9216.032209
+Footprint: e6adb9cb
+Parameters: M512x512x4_M512x512x4
+Handles: fbf420 10bcfe0
+Modes: R W
+Sizes: 1048576 1048576
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 253
+DependsOn: 252 251 233 46
+Tag: 0
+WorkerId: 0
+SubmitTime: 1995.487753
+StartTime: 9216.046949
+EndTime: 9645.803864
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 10bcfe0 10b9d50 fc2630 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 255
+DependsOn: 252 251 235 48
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.496260
+StartTime: 9219.363668
+EndTime: 9798.126038
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 10bcfe0 10b9d50 fc8a50 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+JobId: 294
+DependsOn: 295
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 295
+DependsOn: 255 254 253
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 254
+DependsOn: 252 251 234 47
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.491478
+StartTime: 9219.244441
+EndTime: 9851.744230
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 10bcfe0 10b9d50 fc5840 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 181
+DependsOn: 174 18 131 66
+Tag: 0
+WorkerId: 2
+SubmitTime: 1995.069846
+StartTime: 8270.523544
+EndTime: 9920.335462
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f72120 1000f70 10711e0 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 182
+DependsOn: 175 19 132 67 181 66 181
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.073644
+StartTime: 9920.352457
+EndTime: 10119.618566
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f75330 1004180 1000f70 10711e0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 186
+DependsOn: 179 23 136 71 181 66 181
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.094930
+StartTime: 9922.349376
+EndTime: 10121.961778
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7fe90 10109c0 1000f70 10711e0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 185
+DependsOn: 178 22 135 70 181 66 181
+Tag: 0
+WorkerId: 6
+SubmitTime: 1995.090283
+StartTime: 9921.640388
+EndTime: 10122.657845
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7d620 100d7b0 1000f70 10711e0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 213
+DependsOn: 207 27 175 59
+Tag: 0
+WorkerId: 5
+SubmitTime: 1995.253827
+StartTime: 8507.918926
+EndTime: 10122.776860
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f8aec0 feb100 1091330 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 183
+DependsOn: 176 20 133 68 181 66 181
+Tag: 0
+WorkerId: 2
+SubmitTime: 1995.079714
+StartTime: 9920.369994
+EndTime: 10125.127296
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f78540 1007390 1000f70 10711e0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 184
+DependsOn: 177 21 134 69 181 66 181
+Tag: 0
+WorkerId: 0
+SubmitTime: 1995.084584
+StartTime: 9920.416584
+EndTime: 10126.043195
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f7adb0 100a5a0 1000f70 10711e0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 187
+DependsOn: 180 24 137 72 181 66 181
+Tag: 0
+WorkerId: 3
+SubmitTime: 1995.101270
+StartTime: 9935.013549
+EndTime: 10133.140993
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f82700 1013bd0 1000f70 10711e0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 217
+DependsOn: 211 31 179 63 213 59 213
+Tag: 0
+WorkerId: 5
+SubmitTime: 1995.272774
+StartTime: 10122.888330
+EndTime: 10184.575354
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f95a20 ff7940 feb100 1091330 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 218
+DependsOn: 212 32 180 64 213 59 213
+Tag: 0
+WorkerId: 2
+SubmitTime: 1995.277302
+StartTime: 10125.142008
+EndTime: 10196.112787
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f98950 ffab50 feb100 1091330 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 216
+DependsOn: 210 30 178 62 213 59 213
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.267402
+StartTime: 10122.874411
+EndTime: 10198.031734
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f931b0 ff4730 feb100 1091330 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 236
+DependsOn: 231 36 208 52
+Tag: 0
+WorkerId: 1
+SubmitTime: 1995.386714
+StartTime: 8939.636474
+EndTime: 10198.046980
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fa41a0 fd5290 10aa0c0 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 214
+DependsOn: 208 28 176 60 213 59 213
+Tag: 0
+WorkerId: 6
+SubmitTime: 1995.257467
+StartTime: 10122.797980
+EndTime: 10198.066967
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f8e0d0 fee310 feb100 1091330 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 215
+DependsOn: 209 29 177 61 213 59 213
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.262898
+StartTime: 10122.801884
+EndTime: 10266.312001
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f90940 ff1520 feb100 1091330 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 237
+DependsOn: 232 37 209 53 236 52 236
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.390401
+StartTime: 10198.067567
+EndTime: 10315.043600
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fa6a10 fd84a0 fd5290 10aa0c0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 240
+DependsOn: 235 40 212 56 236 52 236
+Tag: 0
+WorkerId: 2
+SubmitTime: 1995.406911
+StartTime: 10206.318422
+EndTime: 10348.909547
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: faf9d0 fe1ad0 fd5290 10aa0c0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 238
+DependsOn: 233 38 210 54 236 52 236
+Tag: 0
+WorkerId: 1
+SubmitTime: 1995.395962
+StartTime: 10198.075840
+EndTime: 10397.699559
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fa96d0 fdb6b0 fd5290 10aa0c0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 239
+DependsOn: 234 39 211 55 236 52 236
+Tag: 0
+WorkerId: 3
+SubmitTime: 1995.400318
+StartTime: 10206.314913
+EndTime: 10409.321126
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fac7c0 fde8c0 fd5290 10aa0c0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 219
+DependsOn: 213 27 182 67
+Tag: 0
+WorkerId: 0
+SubmitTime: 1995.287380
+StartTime: 10126.067087
+EndTime: 10449.139235
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f8aec0 1004180 1096f30 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 222
+DependsOn: 216 30 185 70 219 67 219
+Tag: 0
+WorkerId: 0
+SubmitTime: 1995.301708
+StartTime: 10449.185673
+EndTime: 10619.804112
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f931b0 100d7b0 1004180 1096f30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 221
+DependsOn: 215 29 184 69 219 67 219
+Tag: 0
+WorkerId: 2
+SubmitTime: 1995.296722
+StartTime: 10449.163010
+EndTime: 10739.747627
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f90940 100a5a0 1004180 1096f30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 220
+DependsOn: 214 28 183 68 219 67 219
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.291036
+StartTime: 10449.161553
+EndTime: 10811.647544
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f8e0d0 1007390 1004180 1096f30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 224
+DependsOn: 218 32 187 72 219 67 219
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.311990
+StartTime: 10451.152761
+EndTime: 10848.702921
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f98950 1013bd0 1004180 1096f30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 223
+DependsOn: 217 31 186 71 219 67 219
+Tag: 0
+WorkerId: 3
+SubmitTime: 1995.307518
+StartTime: 10449.266669
+EndTime: 10871.500975
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: f95a20 10109c0 1004180 1096f30 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 241
+DependsOn: 236 36 214 60
+Tag: 0
+WorkerId: 6
+SubmitTime: 1995.416181
+StartTime: 10198.084786
+EndTime: 10885.238468
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fa41a0 fee310 10af4a0 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 256
+DependsOn: 252 45 237 53
+Tag: 0
+WorkerId: 5
+SubmitTime: 1995.504369
+StartTime: 10315.072865
+EndTime: 11107.121009
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fbf420 fd84a0 10c1740 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 244
+DependsOn: 239 39 217 63 241 60 241
+Tag: 0
+WorkerId: 6
+SubmitTime: 1995.429794
+StartTime: 10885.266085
+EndTime: 11438.479042
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fac7c0 ff7940 fee310 10af4a0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 243
+DependsOn: 238 38 216 62 241 60 241
+Tag: 0
+WorkerId: 0
+SubmitTime: 1995.425392
+StartTime: 10885.259188
+EndTime: 11519.775961
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fa96d0 ff4730 fee310 10af4a0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 245
+DependsOn: 240 40 218 64 241 60 241
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.435269
+StartTime: 10886.129075
+EndTime: 11731.757444
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: faf9d0 ffab50 fee310 10af4a0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 242
+DependsOn: 237 37 215 61 241 60 241
+Tag: 0
+WorkerId: 1
+SubmitTime: 1995.419850
+StartTime: 10885.256888
+EndTime: 11803.763808
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fa6a10 ff1520 fee310 10af4a0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 259
+DependsOn: 255 48 240 56 256 53 256
+Tag: 0
+WorkerId: 3
+SubmitTime: 1995.518796
+StartTime: 11110.233937
+EndTime: 11974.266676
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fc8a50 fe1ad0 fd84a0 10c1740 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 257
+DependsOn: 253 46 238 54 256 53 256
+Tag: 0
+WorkerId: 4
+SubmitTime: 1995.508778
+StartTime: 11107.143718
+EndTime: 11989.791848
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fc2630 fdb6b0 fd84a0 10c1740 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 258
+DependsOn: 254 47 239 55 256 53 256
+Tag: 0
+WorkerId: 5
+SubmitTime: 1995.513303
+StartTime: 11107.152813
+EndTime: 11990.074732
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fc5840 fde8c0 fd84a0 10c1740 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 246
+DependsOn: 241 36 220 68
+Tag: 0
+WorkerId: 2
+SubmitTime: 1995.444352
+StartTime: 10886.131884
+EndTime: 12109.320501
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fa41a0 1007390 10b4880 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 249
+DependsOn: 244 39 223 71 246 68 246
+Tag: 0
+WorkerId: 7
+SubmitTime: 1995.459137
+StartTime: 12110.503613
+EndTime: 12645.902025
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fac7c0 10109c0 1007390 10b4880 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 247
+DependsOn: 242 37 221 69 246 68 246
+Tag: 0
+WorkerId: 0
+SubmitTime: 1995.449204
+StartTime: 12109.339745
+EndTime: 12658.939846
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fa6a10 100a5a0 1007390 10b4880 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 248
+DependsOn: 243 38 222 70 246 68 246
+Tag: 0
+WorkerId: 2
+SubmitTime: 1995.453699
+StartTime: 12109.345985
+EndTime: 12672.159266
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fa96d0 100d7b0 1007390 10b4880 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: sgeqrt
+Model: sgeqrt
+JobId: 268
+DependsOn: 257 54
+Tag: 0
+WorkerId: 4
+SubmitTime: 1996.284175
+StartTime: 11989.816770
+EndTime: 12681.876665
+Footprint: bca8eebc
+Parameters: M512x512x4_M32x512x4_V67584x1
+Handles: fdb6b0 10cfb00 1016890
+Modes: RW W S
+Sizes: 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 250
+DependsOn: 245 40 224 72 246 68 246
+Tag: 0
+WorkerId: 1
+SubmitTime: 1995.463673
+StartTime: 12111.084100
+EndTime: 12681.909299
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: faf9d0 1013bd0 1007390 10b4880 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: slacpy
+Model: slacpy
+JobId: 269
+DependsOn: 268 54
+Tag: 0
+WorkerId: 2
+SubmitTime: 1996.291649
+StartTime: 12681.909399
+EndTime: 12682.080255
+Footprint: e6adb9cb
+Parameters: M512x512x4_M512x512x4
+Handles: fdb6b0 10d2d70
+Modes: R W
+Sizes: 1048576 1048576
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 260
+DependsOn: 256 45 242 61
+Tag: 0
+WorkerId: 6
+SubmitTime: 1996.234921
+StartTime: 11803.788723
+EndTime: 12691.864984
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fbf420 ff1520 10c6300 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 263
+DependsOn: 259 48 245 64 260 61 260
+Tag: 0
+WorkerId: 0
+SubmitTime: 1996.249683
+StartTime: 12692.059298
+EndTime: 13079.080155
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fc8a50 ffab50 ff1520 10c6300 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 261
+DependsOn: 257 46 243 62 260 61 260
+Tag: 0
+WorkerId: 5
+SubmitTime: 1996.238761
+StartTime: 12691.879370
+EndTime: 13086.341550
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fc2630 ff4730 ff1520 10c6300 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 270
+DependsOn: 269 268 258 55
+Tag: 0
+WorkerId: 4
+SubmitTime: 1996.295722
+StartTime: 12682.094085
+EndTime: 13092.017485
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 10d2d70 10cfb00 fde8c0 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 262
+DependsOn: 258 47 244 63 260 61 260
+Tag: 0
+WorkerId: 6
+SubmitTime: 1996.245163
+StartTime: 12691.891465
+EndTime: 13092.343309
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fc5840 ff7940 ff1520 10c6300 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+JobId: 296
+DependsOn: 297
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 297
+DependsOn: 271 270
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 271
+DependsOn: 269 268 259 56
+Tag: 0
+WorkerId: 1
+SubmitTime: 1996.299383
+StartTime: 12682.095590
+EndTime: 13092.609702
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 10d2d70 10cfb00 fe1ad0 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 264
+DependsOn: 260 45 247 69
+Tag: 0
+WorkerId: 7
+SubmitTime: 1996.260716
+StartTime: 12693.867825
+EndTime: 13132.447399
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fbf420 100a5a0 10caea0 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 265
+DependsOn: 261 46 248 70 264 69 264
+Tag: 0
+WorkerId: 0
+SubmitTime: 1996.264371
+StartTime: 13132.465469
+EndTime: 13247.167059
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fc2630 100d7b0 100a5a0 10caea0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 267
+DependsOn: 263 48 250 72 264 69 264
+Tag: 0
+WorkerId: 7
+SubmitTime: 1996.274748
+StartTime: 13132.472707
+EndTime: 13274.404609
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fc8a50 1013bd0 100a5a0 10caea0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 266
+DependsOn: 262 47 249 71 264 69 264
+Tag: 0
+WorkerId: 5
+SubmitTime: 1996.270061
+StartTime: 13132.467111
+EndTime: 13284.139001
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fc5840 10109c0 100a5a0 10caea0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 272
+DependsOn: 269 54 261 62
+Tag: 0
+WorkerId: 2
+SubmitTime: 1996.309486
+StartTime: 13086.366961
+EndTime: 13287.701674
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fdb6b0 ff4730 10d6e00 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 273
+DependsOn: 270 55 262 63 272 62 272
+Tag: 0
+WorkerId: 5
+SubmitTime: 1996.313120
+StartTime: 13287.721751
+EndTime: 13561.735729
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fde8c0 ff7940 ff4730 10d6e00 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 274
+DependsOn: 271 56 263 64 272 62 272
+Tag: 0
+WorkerId: 4
+SubmitTime: 1996.317687
+StartTime: 13287.721654
+EndTime: 13569.065916
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fe1ad0 ffab50 ff4730 10d6e00 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 275
+DependsOn: 272 54 265 70
+Tag: 0
+WorkerId: 7
+SubmitTime: 1996.330560
+StartTime: 13287.727574
+EndTime: 13592.917657
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fdb6b0 100d7b0 10db160 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: sgeqrt
+Model: sgeqrt
+JobId: 278
+DependsOn: 273 63
+Tag: 0
+WorkerId: 3
+SubmitTime: 1996.349181
+StartTime: 13561.758367
+EndTime: 13658.029882
+Footprint: bca8eebc
+Parameters: M512x512x4_M32x512x4_V67584x1
+Handles: ff7940 10df570 1016890
+Modes: RW W S
+Sizes: 1048576 65536 67584
+MPIRank: -1
+
+Name: slacpy
+Model: slacpy
+JobId: 279
+DependsOn: 278 63
+Tag: 0
+WorkerId: 5
+SubmitTime: 1996.356523
+StartTime: 13658.048891
+EndTime: 13658.486711
+Footprint: e6adb9cb
+Parameters: M512x512x4_M512x512x4
+Handles: ff7940 10e2800
+Modes: R W
+Sizes: 1048576 1048576
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 277
+DependsOn: 274 56 267 72 275 70 275
+Tag: 0
+WorkerId: 4
+SubmitTime: 1996.339840
+StartTime: 13592.939603
+EndTime: 13690.956112
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fe1ad0 1013bd0 100d7b0 10db160 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 276
+DependsOn: 273 55 266 71 275 70 275
+Tag: 0
+WorkerId: 2
+SubmitTime: 1996.334241
+StartTime: 13592.939168
+EndTime: 13693.659995
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: fde8c0 10109c0 100d7b0 10db160 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+JobId: 298
+DependsOn: 280
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+Name: sormqr
+Model: sormqr
+JobId: 280
+DependsOn: 279 278 274 64
+Tag: 0
+WorkerId: 6
+SubmitTime: 1996.360625
+StartTime: 13658.517874
+EndTime: 13734.261806
+Footprint: 699633ec
+Parameters: M512x512x4_M32x512x4_M512x512x4_V67584x1
+Handles: 10e2800 10df570 ffab50 1016890
+Modes: R R RW S
+Sizes: 1048576 65536 1048576 67584
+MPIRank: -1
+
+Name: stsqrt
+Model: stsqrt
+JobId: 281
+DependsOn: 279 63 276 71
+Tag: 0
+WorkerId: 7
+SubmitTime: 1996.370097
+StartTime: 13693.677977
+EndTime: 13760.411240
+Footprint: b7bbc549
+Parameters: M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: ff7940 10109c0 10e61c0 1016890
+Modes: RW RW W S
+Sizes: 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: stsmqr
+Model: stsmqr
+JobId: 282
+DependsOn: 280 64 277 72 281 71 281
+Tag: 0
+WorkerId: 4
+SubmitTime: 1996.373721
+StartTime: 13760.429117
+EndTime: 13819.538343
+Footprint: ae6888fe
+Parameters: M512x512x4_M512x512x4_M512x512x4_M32x512x4_V67584x1
+Handles: ffab50 1013bd0 10109c0 10e61c0 1016890
+Modes: RW RW R R S
+Sizes: 1048576 1048576 1048576 65536 67584
+MPIRank: -1
+
+Name: sgeqrt
+Model: sgeqrt
+JobId: 283
+DependsOn: 282 72
+Tag: 0
+WorkerId: 2
+SubmitTime: 1996.383389
+StartTime: 13819.556517
+EndTime: 13898.521723
+Footprint: bca8eebc
+Parameters: M512x512x4_M32x512x4_V67584x1
+Handles: 1013bd0 10e9d70 1016890
+Modes: RW W S
+Sizes: 1048576 65536 67584
+MPIRank: -1
+
+JobId: 300
+DependsOn: 130
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 299
+DependsOn: 300
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 302
+DependsOn: 82
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 301
+DependsOn: 302
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 304
+DependsOn: 90
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 303
+DependsOn: 304
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 306
+DependsOn: 98
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 305
+DependsOn: 306
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 308
+DependsOn: 106
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 307
+DependsOn: 308
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 310
+DependsOn: 114
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 309
+DependsOn: 310
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 312
+DependsOn: 122
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 311
+DependsOn: 312
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 314
+DependsOn: 130
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 313
+DependsOn: 314
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 316
+DependsOn: 131
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 315
+DependsOn: 316
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 318
+DependsOn: 181
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 317
+DependsOn: 318
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 320
+DependsOn: 146
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 319
+DependsOn: 320
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 322
+DependsOn: 153
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 321
+DependsOn: 322
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 324
+DependsOn: 160
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 323
+DependsOn: 324
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 326
+DependsOn: 167
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 325
+DependsOn: 326
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 328
+DependsOn: 174
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 327
+DependsOn: 328
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 330
+DependsOn: 181
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 329
+DependsOn: 330
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 332
+DependsOn: 132
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 331
+DependsOn: 332
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 334
+DependsOn: 182
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 333
+DependsOn: 334
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 336
+DependsOn: 219
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 335
+DependsOn: 336
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 338
+DependsOn: 195
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 337
+DependsOn: 338
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 340
+DependsOn: 201
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 339
+DependsOn: 340
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 342
+DependsOn: 207
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 341
+DependsOn: 342
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 344
+DependsOn: 213
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 343
+DependsOn: 344
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 346
+DependsOn: 219
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 345
+DependsOn: 346
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 348
+DependsOn: 133
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 347
+DependsOn: 348
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 350
+DependsOn: 183
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 349
+DependsOn: 350
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 352
+DependsOn: 220
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 351
+DependsOn: 352
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 354
+DependsOn: 246
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 353
+DependsOn: 354
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 356
+DependsOn: 231
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 355
+DependsOn: 356
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 358
+DependsOn: 236
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 357
+DependsOn: 358
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 360
+DependsOn: 241
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 359
+DependsOn: 360
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 362
+DependsOn: 246
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 361
+DependsOn: 362
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 364
+DependsOn: 134
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 363
+DependsOn: 364
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 366
+DependsOn: 184
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 365
+DependsOn: 366
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 368
+DependsOn: 221
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 367
+DependsOn: 368
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 370
+DependsOn: 247
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 369
+DependsOn: 370
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 372
+DependsOn: 264
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 371
+DependsOn: 372
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 374
+DependsOn: 256
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 373
+DependsOn: 374
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 376
+DependsOn: 260
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 375
+DependsOn: 376
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 378
+DependsOn: 264
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 377
+DependsOn: 378
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 380
+DependsOn: 135
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 379
+DependsOn: 380
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 382
+DependsOn: 185
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 381
+DependsOn: 382
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 384
+DependsOn: 222
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 383
+DependsOn: 384
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 386
+DependsOn: 248
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 385
+DependsOn: 386
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 388
+DependsOn: 265
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 387
+DependsOn: 388
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 390
+DependsOn: 275
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 389
+DependsOn: 390
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 392
+DependsOn: 272
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 391
+DependsOn: 392
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 394
+DependsOn: 275
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 393
+DependsOn: 394
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 396
+DependsOn: 136
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 395
+DependsOn: 396
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 398
+DependsOn: 186
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 397
+DependsOn: 398
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 400
+DependsOn: 223
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 399
+DependsOn: 400
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 402
+DependsOn: 249
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 401
+DependsOn: 402
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 404
+DependsOn: 266
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 403
+DependsOn: 404
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 406
+DependsOn: 276
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 405
+DependsOn: 406
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 408
+DependsOn: 281
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 407
+DependsOn: 408
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 410
+DependsOn: 281
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 409
+DependsOn: 410
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 412
+DependsOn: 137
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 411
+DependsOn: 412
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 414
+DependsOn: 187
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 413
+DependsOn: 414
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 416
+DependsOn: 224
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 415
+DependsOn: 416
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 418
+DependsOn: 250
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 417
+DependsOn: 418
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 420
+DependsOn: 267
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 419
+DependsOn: 420
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 422
+DependsOn: 277
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 421
+DependsOn: 422
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 424
+DependsOn: 282
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 423
+DependsOn: 424
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 426
+DependsOn: 283
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 425
+DependsOn: 426
+Tag: 0
+Footprint: 0
+MPIRank: -1
+

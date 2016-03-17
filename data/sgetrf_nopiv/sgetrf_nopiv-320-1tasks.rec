@@ -1,0 +1,28 @@
+Name: sgetrf_nopiv
+Model: sgetrf_nopiv
+JobId: 10
+DependsOn: 9
+Tag: 0
+WorkerId: 0
+SubmitTime: 1902.841058
+StartTime: 1902.851371
+EndTime: 2033.967413
+Footprint: cea37d6d
+Parameters: M320x320x4
+Handles: 21adfb0
+Modes: RW
+Sizes: 409600
+MPIRank: -1
+
+JobId: 12
+DependsOn: 10
+Tag: 0
+Footprint: 0
+MPIRank: -1
+
+JobId: 11
+DependsOn: 12
+Tag: 0
+Footprint: 0
+MPIRank: -1
+

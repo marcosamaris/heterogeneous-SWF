@@ -1,0 +1,5042 @@
+%EventDef	PajeDefineContainerType	1
+%	Alias	string
+%	Type	string
+%	Name	string
+%EndEventDef
+%EventDef	PajeDefineEventType	2
+%	Alias	string
+%	Type	string
+%	Name	string
+%EndEventDef
+%EventDef	PajeDefineStateType	3
+%	Alias	string
+%	Type	string
+%	Name	string
+%EndEventDef
+%EventDef	PajeDefineVariableType	4
+%	Alias	string
+%	Type	string
+%	Name	string
+%EndEventDef
+%EventDef	PajeDefineLinkType	5
+%	Alias	string
+%	Type	string
+%	StartContainerType	string
+%	EndContainerType	string
+%	Name	string
+%EndEventDef
+%EventDef	PajeDefineEntityValue	6
+%	Alias	string
+%	Type	string
+%	Name	string
+%	Color	color
+%EndEventDef
+%EventDef	PajeCreateContainer	7
+%	Time	date
+%	Alias	string
+%	Type	string
+%	Container	string
+%	Name	string
+%EndEventDef
+%EventDef	PajeDestroyContainer	8
+%	Time	date
+%	Name	string
+%	Type	string
+%EndEventDef
+%EventDef	PajeNewEvent	9
+%	Time	date
+%	Type	string
+%	Container	string
+%	Value	string
+%EndEventDef
+%EventDef PajeSetState 10
+%	Time	date
+%	Container	string
+%	Type	string
+%	Value	string
+%EndEventDef
+%EventDef	PajePushState	11
+%	Time	date
+%	Container	string
+%	Type	string
+%	Value	string
+%EndEventDef
+%EventDef	PajePopState	12
+%	Time	date
+%	Container	string
+%	Type	string
+%EndEventDef
+%EventDef	PajeSetVariable	13
+%	Time	date
+%	Container	string
+%	Type	string
+%	Value	double
+%EndEventDef
+%EventDef	PajeAddVariable	14
+%	Time	date
+%	Type	string
+%	Container	string
+%	Value	double
+%EndEventDef
+%EventDef	PajeSubVariable	15
+%	Time	date
+%	Type	string
+%	Container	string
+%	Value	double
+%EndEventDef
+%EventDef	PajeStartLink	18
+%	Time	date
+%	Type	string
+%	Container	string
+%	Value	string
+%	StartContainer	string
+%	Key	string
+%EndEventDef
+%EventDef	PajeEndLink	19
+%	Time	date
+%	Type	string
+%	Container	string
+%	Value	string
+%	EndContainer	string
+%	Key	string
+%EndEventDef
+%EventDef PajeSetState 20
+%	Time	date
+%	Container	string
+%	Type	string
+%	Value	string
+%	Size	string
+%	Params	string
+%	Footprint	string
+%	Tag	string
+%	JobId	string
+%EndEventDef
+                                        
+1       MPIP      0       "MPI Program"                      	
+1       P      MPIP       "Program"                      	
+1       Mn      P       "Memory Node"                         
+1       T      Mn       "Thread"                               
+1       UT      P       "User Thread"                               
+1       Mm      Mn       "Memory Manager"                         
+1       W      T       "Worker"                               
+1       MPICt   T       "MPI Communication Thread"              
+1       Sc       P       "Scheduler State"                        
+2       prog_event   P       "program event type"				
+2       user_event   T       "user event type"				
+2       thread_event   T       "thread event type"				
+2       user_event   UT       "user event type"				
+2       thread_event   UT       "thread event type"				
+2       MPIev   MPICt    "MPI event type"			
+3       S       T       "Thread State"                        
+3       CtS     MPICt    "Communication Thread State"          
+3       Ctx1      T     "InCtx1"         		
+3       Ctx2      T     "InCtx2"         		
+3       Ctx3      T     "InCtx3"         		
+3       Ctx4      T     "InCtx4"         		
+3       Ctx5      T     "InCtx5"         		
+3       Ctx6      T     "InCtx6"         		
+3       Ctx7      T     "InCtx7"         		
+3       Ctx8      T     "InCtx8"         		
+3       Ctx9      T     "InCtx9"         		
+3       MS       Mm       "Memory Node State"                        
+4       nsubmitted    Sc       "Number of Submitted Uncompleted Tasks"                        
+4       nready    Sc       "Number of Ready Tasks"                        
+4       bw      Mm       "Bandwidth"                        
+6       I       S       Idle         ".9 .1 .0"		
+6       In       S      Initializing       "0.0 .7 1.0"            
+6       D       S      Deinitializing       "0.0 .1 .7"            
+6       Fi       S      FetchingInput       "1.0 .1 1.0"            
+6       Po       S      PushingOutput       "0.1 1.0 1.0"            
+6       C       S       Callback       ".0 .3 .8"            
+6       B       S       Overhead         ".5 .18 .0"		
+6       E       S       Executing         ".0 .6 .5"		
+6       Sc       S      Scheduling         ".7 .36 .0"		
+6       Sl       S      Sleeping         ".9 .1 .0"		
+6       P       S       Progressing         ".4 .1 .6"		
+6       U       S       Unpartitioning      ".0 .0 1.0"		
+6       H       S       Hypervisor      ".5 .18 .0"		
+6       Bu      S       "Building task"   ".5 .18 .0"		
+6       Su      S       "Submittings task" ".3 .09 .0"		
+6       MD      S       "Decoding task for MPI" ".5 .18 .2"		
+6       MPr     S       "Preparing task for MPI" ".4 .14 .2"		
+6       MPo     S       "Post-processing task for MPI" ".3 .09 .2"		
+3       WS       W       "Worker State"                        
+6       I       WS       Idle         ".9 .1 .0"		
+6       In       WS      Initializing       "0.0 .7 1.0"            
+6       D       WS      Deinitializing       "0.0 .1 .7"            
+6       Fi       WS      FetchingInput       "1.0 .1 1.0"            
+6       Po       WS      PushingOutput       "0.1 1.0 1.0"            
+6       C       WS       Callback       ".0 .3 .8"            
+6       B       WS       Overhead         ".5 .18 .0"		
+6       E       WS       Executing         ".0 .6 .5"		
+6       Sc       WS      Scheduling         ".7 .36 .0"		
+6       Sl       WS      Sleeping         ".9 .1 .0"		
+6       P       WS       Progressing         ".4 .1 .6"		
+6       U       WS       Unpartitioning      ".0 .0 1.0"		
+6       H       WS       Hypervisor      ".5 .18 .0"		
+3       US       UT       "User Thread State"                        
+6       Bu      US      "Building task"   ".5 .18 .0"		
+6       Su      US      "Submittings task" ".3 .09 .0"		
+6       MD      US      "Decoding task for MPI" ".5 .18 .2"		
+6       MPr     US      "Preparing task for MPI" ".4 .14 .2"		
+6       MPo     US      "Post-processing task for MPI" ".3 .09 .2"		
+6       W       US      "Waiting task" ".9 .1 .0"		
+6       WA      US      "Waiting all tasks" ".9 .1 .0"		
+6       No      US      Nothing ".0 .0 .0"		
+6       P       CtS       Processing         "0 0 0"		
+6       Sl       CtS      Sleeping         ".9 .1 .0"		
+6       UT       CtS      UserTesting        ".2 .1 .6"	
+6       UW       CtS      UserWaiting        ".4 .1 .3"	
+6       SdS       CtS      SendSubmitted     "1.0 .1 1.0"	
+6       RvS       CtS      RecieveSubmitted  "0.1 1.0 1.0"	
+6       SdC       CtS      SendCompleted     "1.0 .5 1.0"	
+6       RvC       CtS      ReceiveCompleted  "0.5 1.0 1.0"	
+6       Bu      CtS      "Building task"   ".5 .18 .0"		
+6       Su      CtS      "Submittings task" ".3 .09 .0"		
+6       I       Ctx1      Idle         ".9 .1 .0"		
+6       In       Ctx1      Initializing       "0.0 .7 1.0"            
+6       D       Ctx1      Deinitializing       "0.0 .1 .7"            
+6       Fi       Ctx1      FetchingInput       "1.0 .1 1.0"            
+6       Po       Ctx1      PushingOutput       "0.1 1.0 1.0"            
+6       C       Ctx1       Callback       ".0 .3 .8"            
+6       B       Ctx1       Overhead         ".5 .18 .0"		
+6       E       Ctx1       Executing         ".0 .6 .5"		
+6       Sc       Ctx1      Scheduling         ".7 .36 .0"		
+6       Sl       Ctx1      Sleeping         ".9 .1 .0"		
+6       P       Ctx1       Progressing         ".4 .1 .6"		
+6       U       Ctx1       Unpartitioning         ".0 .0 1.0"	
+6       H       Ctx1       Hypervisor         ".5 .18 .0"		
+6       I       Ctx2      Idle         ".9 .1 .0"		
+6       In       Ctx2      Initializing       "0.0 .7 1.0"            
+6       D       Ctx2      Deinitializing       "0.0 .1 .7"            
+6       Fi       Ctx2      FetchingInput       "1.0 .1 1.0"            
+6       Po       Ctx2      PushingOutput       "0.1 1.0 1.0"            
+6       C       Ctx2       Callback       ".0 .3 .8"            
+6       B       Ctx2       Overhead         ".5 .18 .0"		
+6       E       Ctx2       Executing         ".0 .6 .5"		
+6       Sc       Ctx2      Scheduling         ".7 .36 .0"		
+6       Sl       Ctx2      Sleeping         ".9 .1 .0"		
+6       P       Ctx2       Progressing         ".4 .1 .6"		
+6       U       Ctx2       Unpartitioning         ".0 .0 1.0"	
+6       H       Ctx2       Hypervisor         ".5 .18 .0"		
+6       I       Ctx3      Idle         ".9 .1 .0"		
+6       In       Ctx3      Initializing       "0.0 .7 1.0"            
+6       D       Ctx3      Deinitializing       "0.0 .1 .7"            
+6       Fi       Ctx3      FetchingInput       "1.0 .1 1.0"            
+6       Po       Ctx3      PushingOutput       "0.1 1.0 1.0"            
+6       C       Ctx3       Callback       ".0 .3 .8"            
+6       B       Ctx3       Overhead         ".5 .18 .0"		
+6       E       Ctx3       Executing         ".0 .6 .5"		
+6       Sc       Ctx3      Scheduling         ".7 .36 .0"		
+6       Sl       Ctx3      Sleeping         ".9 .1 .0"		
+6       P       Ctx3       Progressing         ".4 .1 .6"		
+6       U       Ctx3       Unpartitioning         ".0 .0 1.0"	
+6       H       Ctx3       Hypervisor         ".5 .18 .0"		
+6       I       Ctx4      Idle         ".9 .1 .0"		
+6       In       Ctx4      Initializing       "0.0 .7 1.0"            
+6       D       Ctx4      Deinitializing       "0.0 .1 .7"            
+6       Fi       Ctx4      FetchingInput       "1.0 .1 1.0"            
+6       Po       Ctx4      PushingOutput       "0.1 1.0 1.0"            
+6       C       Ctx4       Callback       ".0 .3 .8"            
+6       B       Ctx4       Overhead         ".5 .18 .0"		
+6       E       Ctx4       Executing         ".0 .6 .5"		
+6       Sc       Ctx4      Scheduling         ".7 .36 .0"		
+6       Sl       Ctx4      Sleeping         ".9 .1 .0"		
+6       P       Ctx4       Progressing         ".4 .1 .6"		
+6       U       Ctx4       Unpartitioning         ".0 .0 1.0"	
+6       H       Ctx4       Hypervisor         ".5 .18 .0"		
+6       I       Ctx5      Idle         ".9 .1 .0"		
+6       In       Ctx5      Initializing       "0.0 .7 1.0"            
+6       D       Ctx5      Deinitializing       "0.0 .1 .7"            
+6       Fi       Ctx5      FetchingInput       "1.0 .1 1.0"            
+6       Po       Ctx5      PushingOutput       "0.1 1.0 1.0"            
+6       C       Ctx5       Callback       ".0 .3 .8"            
+6       B       Ctx5       Overhead         ".5 .18 .0"		
+6       E       Ctx5       Executing         ".0 .6 .5"		
+6       Sc       Ctx5      Scheduling         ".7 .36 .0"		
+6       Sl       Ctx5      Sleeping         ".9 .1 .0"		
+6       P       Ctx5       Progressing         ".4 .1 .6"		
+6       U       Ctx5       Unpartitioning         ".0 .0 1.0"	
+6       H       Ctx5       Hypervisor         ".5 .18 .0"		
+6       I       Ctx6      Idle         ".9 .1 .0"		
+6       In       Ctx6      Initializing       "0.0 .7 1.0"            
+6       D       Ctx6      Deinitializing       "0.0 .1 .7"            
+6       Fi       Ctx6      FetchingInput       "1.0 .1 1.0"            
+6       Po       Ctx6      PushingOutput       "0.1 1.0 1.0"            
+6       C       Ctx6       Callback       ".0 .3 .8"            
+6       B       Ctx6       Overhead         ".5 .18 .0"		
+6       E       Ctx6       Executing         ".0 .6 .5"		
+6       Sc       Ctx6      Scheduling         ".7 .36 .0"		
+6       Sl       Ctx6      Sleeping         ".9 .1 .0"		
+6       P       Ctx6       Progressing         ".4 .1 .6"		
+6       U       Ctx6       Unpartitioning         ".0 .0 1.0"	
+6       H       Ctx6       Hypervisor         ".5 .18 .0"		
+6       I       Ctx7      Idle         ".9 .1 .0"		
+6       In       Ctx7      Initializing       "0.0 .7 1.0"            
+6       D       Ctx7      Deinitializing       "0.0 .1 .7"            
+6       Fi       Ctx7      FetchingInput       "1.0 .1 1.0"            
+6       Po       Ctx7      PushingOutput       "0.1 1.0 1.0"            
+6       C       Ctx7       Callback       ".0 .3 .8"            
+6       B       Ctx7       Overhead         ".5 .18 .0"		
+6       E       Ctx7       Executing         ".0 .6 .5"		
+6       Sc       Ctx7      Scheduling         ".7 .36 .0"		
+6       Sl       Ctx7      Sleeping         ".9 .1 .0"		
+6       P       Ctx7       Progressing         ".4 .1 .6"		
+6       U       Ctx7       Unpartitioning         ".0 .0 1.0"	
+6       H       Ctx7       Hypervisor         ".5 .18 .0"		
+6       I       Ctx8      Idle         ".9 .1 .0"		
+6       In       Ctx8      Initializing       "0.0 .7 1.0"            
+6       D       Ctx8      Deinitializing       "0.0 .1 .7"            
+6       Fi       Ctx8      FetchingInput       "1.0 .1 1.0"            
+6       Po       Ctx8      PushingOutput       "0.1 1.0 1.0"            
+6       C       Ctx8       Callback       ".0 .3 .8"            
+6       B       Ctx8       Overhead         ".5 .18 .0"		
+6       E       Ctx8       Executing         ".0 .6 .5"		
+6       Sc       Ctx8      Scheduling         ".7 .36 .0"		
+6       Sl       Ctx8      Sleeping         ".9 .1 .0"		
+6       P       Ctx8       Progressing         ".4 .1 .6"		
+6       U       Ctx8       Unpartitioning         ".0 .0 1.0"	
+6       H       Ctx8       Hypervisor         ".5 .18 .0"		
+6       I       Ctx9      Idle         ".9 .1 .0"		
+6       In       Ctx9      Initializing       "0.0 .7 1.0"            
+6       D       Ctx9      Deinitializing       "0.0 .1 .7"            
+6       Fi       Ctx9      FetchingInput       "1.0 .1 1.0"            
+6       Po       Ctx9      PushingOutput       "0.1 1.0 1.0"            
+6       C       Ctx9       Callback       ".0 .3 .8"            
+6       B       Ctx9       Overhead         ".5 .18 .0"		
+6       E       Ctx9       Executing         ".0 .6 .5"		
+6       Sc       Ctx9      Scheduling         ".7 .36 .0"		
+6       Sl       Ctx9      Sleeping         ".9 .1 .0"		
+6       P       Ctx9       Progressing         ".4 .1 .6"		
+6       U       Ctx9       Unpartitioning         ".0 .0 1.0"	
+6       H       Ctx9       Hypervisor         ".5 .18 .0"		
+6       A       MS      Allocating         ".4 .1 .0"		
+6       Ar       MS      AllocatingReuse       ".1 .1 .8"		
+6       F       MS      Freeing         ".6 .3 .0"		
+6       W       MS      WritingBack         ".0 .0 .5"		
+6       Wa       MS     WritingBackAsync    ".0 .0 .4"		
+6       R       MS      Reclaiming         ".0 .1 .6"		
+6       Co       MS     DriverCopy         ".3 .5 .1"		
+6       CoA      MS     DriverCopyAsync         ".1 .3 .1"		
+6       No       MS     Nothing         ".0 .0 .0"		
+5       MPIL     P	MPICt	MPICt   MPIL			
+5       F       P	Mm	Mm      F
+5       PF      P	Mm	Mm      PF
+5       IF      P	Mm	Mm      IF
+5       WSL     P	W	W       WSL
+7      0.0 MPIroot      MPIP      0       root
+7	0.0	p	P	MPIroot	program 
+7	0.000000000	sched	Sc	p	scheduler
+13	0.0	sched	nsubmitted	0.0
+13	0.0	sched	nready	0.0
+7	1873.629883000	mn0	Mn	p	MEMNODE0
+7	1873.629883000	mm0	Mm	mn0	MEMMANAGER0
+13	1873.629883000	mm0	bw	0.0
+7	1873.718035000	t17087	T	mn0	0
+7	1873.718035000	w0	W	t17087	CPU0
+10	1873.718035000	w0	WS	In
+10	1873.768535000	w0	WS	B
+10	1873.768535000	w0	WS	I
+10	1873.785513000	w0	WS	Sc
+10	1873.788751000	w0	WS	Sl
+7	1873.810851000	t17088	T	mn0	2
+7	1873.810851000	w1	W	t17088	CPU1
+10	1873.810851000	w1	WS	In
+10	1878.039074000	w1	WS	B
+10	1878.039074000	w1	WS	I
+10	1878.040234000	w1	WS	Sc
+10	1878.041394000	w1	WS	Sl
+7	1878.069968000	t17089	T	mn0	4
+7	1878.069968000	w2	W	t17089	CPU2
+10	1878.069968000	w2	WS	In
+10	1878.096313000	w2	WS	B
+10	1878.096313000	w2	WS	I
+10	1878.107463000	w2	WS	Sc
+10	1878.108552000	w2	WS	Sl
+7	1878.129803000	t17090	T	mn0	6
+7	1878.129803000	w3	W	t17090	CPU3
+10	1878.129803000	w3	WS	In
+10	1878.145252000	w3	WS	B
+10	1878.145252000	w3	WS	I
+10	1878.146342000	w3	WS	Sc
+10	1878.147703000	w3	WS	Sl
+7	1882.026740000	t17091	T	mn0	0
+7	1882.026740000	w4	W	t17091	CPU4
+10	1882.026740000	w4	WS	In
+10	1886.030475000	w4	WS	B
+10	1886.030475000	w4	WS	I
+10	1886.031452000	w4	WS	Sc
+10	1886.032258000	w4	WS	Sl
+7	1886.049132000	t17092	T	mn0	2
+7	1886.049132000	w5	W	t17092	CPU5
+10	1886.049132000	w5	WS	In
+10	1898.022261000	w5	WS	B
+10	1898.022261000	w5	WS	I
+10	1898.023023000	w5	WS	Sc
+10	1898.023743000	w5	WS	Sl
+7	1898.135907000	t17093	T	mn0	4
+7	1898.135907000	w6	W	t17093	CPU6
+10	1898.135907000	w6	WS	In
+10	1910.019365000	w6	WS	B
+10	1910.019365000	w6	WS	I
+10	1910.019940000	w6	WS	Sc
+10	1910.020429000	w6	WS	Sl
+7	1910.042870000	t17094	T	mn0	6
+7	1910.042870000	w7	W	t17094	CPU7
+10	1910.042870000	w7	WS	In
+10	1914.026666000	w7	WS	B
+10	1914.026666000	w7	WS	I
+10	1914.028324000	w7	WS	Sc
+10	1914.029187000	w7	WS	Sl
+9	1914.035541000	prog_event	p	stop_profiling
+9	2030.905986000	prog_event	p	start_profiling
+7	2030.915433000	t17079	UT	p	UserThread17079
+11	2030.915433000	t17079	US	Bu
+12	2030.932668000	t17079	US
+11	2030.933697000	t17079	US	Su
+13	2030.934877000	sched nsubmitted	1.000000
+13	2031.040263000	sched	nready	1.000000
+12	2031.043730000	t17079	US
+13	2031.043821000	sched	nready	0.000000
+13	2031.043821000	sched	nsubmitted	0.000000
+10	2031.044729000	w0	WS	B
+11	2031.046897000	t17079	US	Bu
+10	2031.047077000	w0	WS	Fi
+10	2031.047652000	w0	WS	B
+6	sgetrf_nopiv	WS	sgetrf_nopiv	"0.000000 0.600000 0.400000" 
+6	sgetrf_nopiv	Ctx1	sgetrf_nopiv	"255.0 102.0 255.0" 
+6	sgetrf_nopiv	Ctx2	sgetrf_nopiv	".0 255.0 .0" 
+6	sgetrf_nopiv	Ctx3	sgetrf_nopiv	"225.0 225.0 .0" 
+6	sgetrf_nopiv	Ctx4	sgetrf_nopiv	".0 245.0 255.0" 
+6	sgetrf_nopiv	Ctx5	sgetrf_nopiv	".0 .0 .0" 
+6	sgetrf_nopiv	Ctx6	sgetrf_nopiv	".0 .0 128.0" 
+6	sgetrf_nopiv	Ctx7	sgetrf_nopiv	"105.0 105.0 105.0" 
+6	sgetrf_nopiv	Ctx8	sgetrf_nopiv	"255.0 .0 255.0" 
+6	sgetrf_nopiv	Ctx9	sgetrf_nopiv	".0 .0 1.0" 
+12	2031.052030000	t17079	US
+11	2031.052545000	t17079	US	Su
+13	2031.053208000	sched nsubmitted	1.000000
+20	2031.050730000	w0	WS	sgetrf_nopiv	2359296	M768x768x4	c5fba424	0000000000000000	73
+12	2031.138134000	t17079	US
+11	2031.139147000	t17079	US	Bu
+12	2031.140182000	t17079	US
+11	2031.140746000	t17079	US	Su
+13	2031.141253000	sched nsubmitted	2.000000
+12	2031.143382000	t17079	US
+11	2031.144046000	t17079	US	Bu
+12	2031.144744000	t17079	US
+11	2031.145223000	t17079	US	Su
+13	2031.145512000	sched nsubmitted	3.000000
+12	2031.147031000	t17079	US
+11	2031.147522000	t17079	US	Bu
+12	2031.148249000	t17079	US
+11	2031.148651000	t17079	US	Su
+13	2031.148924000	sched nsubmitted	4.000000
+12	2031.150399000	t17079	US
+11	2031.150860000	t17079	US	Bu
+12	2031.151490000	t17079	US
+11	2031.151894000	t17079	US	Su
+13	2031.152173000	sched nsubmitted	5.000000
+12	2031.153885000	t17079	US
+11	2031.154369000	t17079	US	Bu
+12	2031.155064000	t17079	US
+11	2031.155431000	t17079	US	Su
+13	2031.155707000	sched nsubmitted	6.000000
+12	2031.157115000	t17079	US
+11	2031.157672000	t17079	US	Bu
+12	2031.158300000	t17079	US
+11	2031.158670000	t17079	US	Su
+13	2031.158941000	sched nsubmitted	7.000000
+12	2031.160555000	t17079	US
+11	2031.161066000	t17079	US	Bu
+12	2031.161748000	t17079	US
+11	2031.162186000	t17079	US	Su
+13	2031.162449000	sched nsubmitted	8.000000
+12	2031.164303000	t17079	US
+11	2031.166748000	t17079	US	Bu
+12	2031.167418000	t17079	US
+11	2031.168101000	t17079	US	Su
+13	2031.168446000	sched nsubmitted	9.000000
+12	2031.294433000	t17079	US
+11	2031.295404000	t17079	US	Bu
+12	2031.296154000	t17079	US
+11	2031.296626000	t17079	US	Su
+13	2031.297066000	sched nsubmitted	10.000000
+12	2031.299443000	t17079	US
+11	2031.299916000	t17079	US	Bu
+12	2031.300547000	t17079	US
+11	2031.301243000	t17079	US	Su
+13	2031.301513000	sched nsubmitted	11.000000
+12	2031.303672000	t17079	US
+11	2031.304151000	t17079	US	Bu
+12	2031.304893000	t17079	US
+11	2031.305284000	t17079	US	Su
+13	2031.305549000	sched nsubmitted	12.000000
+12	2031.307574000	t17079	US
+11	2031.308137000	t17079	US	Bu
+12	2031.308735000	t17079	US
+11	2031.309134000	t17079	US	Su
+13	2031.309407000	sched nsubmitted	13.000000
+12	2031.311766000	t17079	US
+11	2031.312305000	t17079	US	Bu
+12	2031.312929000	t17079	US
+11	2031.313355000	t17079	US	Su
+13	2031.313619000	sched nsubmitted	14.000000
+12	2031.315799000	t17079	US
+11	2031.316383000	t17079	US	Bu
+12	2031.316991000	t17079	US
+11	2031.317417000	t17079	US	Su
+13	2031.317681000	sched nsubmitted	15.000000
+12	2031.319907000	t17079	US
+11	2031.320441000	t17079	US	Bu
+12	2031.321044000	t17079	US
+11	2031.321442000	t17079	US	Su
+13	2031.321721000	sched nsubmitted	16.000000
+12	2031.323405000	t17079	US
+11	2031.323883000	t17079	US	Bu
+12	2031.324491000	t17079	US
+11	2031.324890000	t17079	US	Su
+13	2031.325161000	sched nsubmitted	17.000000
+12	2031.327285000	t17079	US
+11	2031.327925000	t17079	US	Bu
+12	2031.328520000	t17079	US
+11	2031.328868000	t17079	US	Su
+13	2031.329136000	sched nsubmitted	18.000000
+12	2031.331207000	t17079	US
+11	2031.331866000	t17079	US	Bu
+12	2031.332470000	t17079	US
+11	2031.332893000	t17079	US	Su
+13	2031.333157000	sched nsubmitted	19.000000
+12	2031.335398000	t17079	US
+11	2031.335874000	t17079	US	Bu
+12	2031.336471000	t17079	US
+11	2031.336869000	t17079	US	Su
+13	2031.337140000	sched nsubmitted	20.000000
+12	2031.339208000	t17079	US
+11	2031.340073000	t17079	US	Bu
+12	2031.340765000	t17079	US
+11	2031.341173000	t17079	US	Su
+13	2031.341443000	sched nsubmitted	21.000000
+12	2031.343625000	t17079	US
+11	2031.344134000	t17079	US	Bu
+12	2031.344825000	t17079	US
+11	2031.345252000	t17079	US	Su
+13	2031.345528000	sched nsubmitted	22.000000
+12	2031.347695000	t17079	US
+11	2031.348232000	t17079	US	Bu
+12	2031.348972000	t17079	US
+11	2031.349428000	t17079	US	Su
+13	2031.349701000	sched nsubmitted	23.000000
+12	2031.351746000	t17079	US
+11	2031.352280000	t17079	US	Bu
+12	2031.353037000	t17079	US
+11	2031.353354000	t17079	US	Su
+13	2031.353621000	sched nsubmitted	24.000000
+12	2031.355149000	t17079	US
+11	2031.355644000	t17079	US	Bu
+12	2031.356283000	t17079	US
+11	2031.356706000	t17079	US	Su
+13	2031.356995000	sched nsubmitted	25.000000
+12	2031.359477000	t17079	US
+11	2031.360103000	t17079	US	Bu
+12	2031.360722000	t17079	US
+11	2031.361141000	t17079	US	Su
+13	2031.361411000	sched nsubmitted	26.000000
+12	2031.363776000	t17079	US
+11	2031.364264000	t17079	US	Bu
+12	2031.364888000	t17079	US
+11	2031.365271000	t17079	US	Su
+13	2031.365545000	sched nsubmitted	27.000000
+12	2031.367656000	t17079	US
+11	2031.369909000	t17079	US	Bu
+12	2031.370590000	t17079	US
+11	2031.370925000	t17079	US	Su
+13	2031.371189000	sched nsubmitted	28.000000
+12	2031.373282000	t17079	US
+11	2031.373763000	t17079	US	Bu
+12	2031.374442000	t17079	US
+11	2031.374760000	t17079	US	Su
+13	2031.375036000	sched nsubmitted	29.000000
+12	2031.377179000	t17079	US
+11	2031.377661000	t17079	US	Bu
+12	2031.378346000	t17079	US
+11	2031.379778000	t17079	US	Su
+13	2031.380056000	sched nsubmitted	30.000000
+12	2031.382106000	t17079	US
+11	2031.382592000	t17079	US	Bu
+12	2031.383227000	t17079	US
+11	2031.383543000	t17079	US	Su
+13	2031.383819000	sched nsubmitted	31.000000
+12	2031.385717000	t17079	US
+11	2031.386180000	t17079	US	Bu
+12	2031.386791000	t17079	US
+11	2031.387108000	t17079	US	Su
+13	2031.387384000	sched nsubmitted	32.000000
+12	2031.388954000	t17079	US
+11	2031.390447000	t17079	US	Bu
+12	2031.391078000	t17079	US
+11	2031.391394000	t17079	US	Su
+13	2031.391667000	sched nsubmitted	33.000000
+12	2031.393817000	t17079	US
+11	2031.394568000	t17079	US	Bu
+12	2031.395181000	t17079	US
+11	2031.395494000	t17079	US	Su
+13	2031.395766000	sched nsubmitted	34.000000
+12	2031.397882000	t17079	US
+11	2031.398343000	t17079	US	Bu
+12	2031.398955000	t17079	US
+11	2031.400370000	t17079	US	Su
+13	2031.400636000	sched nsubmitted	35.000000
+12	2031.402613000	t17079	US
+11	2031.403079000	t17079	US	Bu
+12	2031.403707000	t17079	US
+11	2031.404030000	t17079	US	Su
+13	2031.404305000	sched nsubmitted	36.000000
+12	2031.406243000	t17079	US
+11	2031.406710000	t17079	US	Bu
+12	2031.407308000	t17079	US
+11	2031.407615000	t17079	US	Su
+13	2031.407888000	sched nsubmitted	37.000000
+12	2031.409979000	t17079	US
+11	2031.411742000	t17079	US	Bu
+12	2031.412367000	t17079	US
+11	2031.412685000	t17079	US	Su
+13	2031.412946000	sched nsubmitted	38.000000
+12	2031.414952000	t17079	US
+11	2031.415451000	t17079	US	Bu
+12	2031.416093000	t17079	US
+11	2031.416411000	t17079	US	Su
+13	2031.416674000	sched nsubmitted	39.000000
+12	2031.418673000	t17079	US
+11	2031.419131000	t17079	US	Bu
+12	2031.419737000	t17079	US
+11	2031.421178000	t17079	US	Su
+13	2031.421456000	sched nsubmitted	40.000000
+12	2031.423076000	t17079	US
+11	2031.423547000	t17079	US	Bu
+12	2031.424149000	t17079	US
+11	2031.424451000	t17079	US	Su
+13	2031.424730000	sched nsubmitted	41.000000
+12	2031.426899000	t17079	US
+11	2031.427434000	t17079	US	Bu
+12	2031.428057000	t17079	US
+11	2031.428371000	t17079	US	Su
+13	2031.428643000	sched nsubmitted	42.000000
+12	2031.430823000	t17079	US
+11	2031.431289000	t17079	US	Bu
+12	2031.432938000	t17079	US
+11	2031.433257000	t17079	US	Su
+13	2031.433527000	sched nsubmitted	43.000000
+12	2031.435579000	t17079	US
+11	2031.436050000	t17079	US	Bu
+12	2031.436672000	t17079	US
+11	2031.436997000	t17079	US	Su
+13	2031.437272000	sched nsubmitted	44.000000
+12	2031.439465000	t17079	US
+11	2031.439946000	t17079	US	Bu
+12	2031.440594000	t17079	US
+11	2031.441927000	t17079	US	Su
+13	2031.442203000	sched nsubmitted	45.000000
+12	2031.444414000	t17079	US
+11	2031.444873000	t17079	US	Bu
+12	2031.445512000	t17079	US
+11	2031.445821000	t17079	US	Su
+13	2031.446085000	sched nsubmitted	46.000000
+12	2031.448004000	t17079	US
+11	2031.448479000	t17079	US	Bu
+12	2031.449098000	t17079	US
+11	2031.449417000	t17079	US	Su
+13	2031.449693000	sched nsubmitted	47.000000
+12	2031.451633000	t17079	US
+11	2031.453200000	t17079	US	Bu
+12	2031.453836000	t17079	US
+11	2031.454146000	t17079	US	Su
+13	2031.454420000	sched nsubmitted	48.000000
+12	2031.455911000	t17079	US
+11	2031.456376000	t17079	US	Bu
+12	2031.456992000	t17079	US
+11	2031.457304000	t17079	US	Su
+13	2031.457557000	sched nsubmitted	49.000000
+12	2031.459710000	t17079	US
+11	2031.460232000	t17079	US	Bu
+12	2031.460872000	t17079	US
+11	2031.462272000	t17079	US	Su
+13	2031.462535000	sched nsubmitted	50.000000
+12	2031.464638000	t17079	US
+11	2031.465120000	t17079	US	Bu
+12	2031.465748000	t17079	US
+11	2031.466062000	t17079	US	Su
+13	2031.466337000	sched nsubmitted	51.000000
+12	2031.468328000	t17079	US
+11	2031.468805000	t17079	US	Bu
+12	2031.469415000	t17079	US
+11	2031.469717000	t17079	US	Su
+13	2031.469988000	sched nsubmitted	52.000000
+12	2031.471974000	t17079	US
+11	2031.473407000	t17079	US	Bu
+12	2031.474038000	t17079	US
+11	2031.474358000	t17079	US	Su
+13	2031.474626000	sched nsubmitted	53.000000
+12	2031.476878000	t17079	US
+11	2031.477333000	t17079	US	Bu
+12	2031.477947000	t17079	US
+11	2031.478250000	t17079	US	Su
+13	2031.478519000	sched nsubmitted	54.000000
+12	2031.480403000	t17079	US
+11	2031.480898000	t17079	US	Bu
+12	2031.481531000	t17079	US
+11	2031.482851000	t17079	US	Su
+13	2031.483134000	sched nsubmitted	55.000000
+12	2031.485296000	t17079	US
+11	2031.485785000	t17079	US	Bu
+12	2031.486386000	t17079	US
+11	2031.486701000	t17079	US	Su
+13	2031.486976000	sched nsubmitted	56.000000
+12	2031.488508000	t17079	US
+11	2031.488984000	t17079	US	Bu
+12	2031.489621000	t17079	US
+11	2031.489941000	t17079	US	Su
+13	2031.490218000	sched nsubmitted	57.000000
+12	2031.492425000	t17079	US
+11	2031.492951000	t17079	US	Bu
+12	2031.497436000	t17079	US
+11	2031.497772000	t17079	US	Su
+13	2031.498046000	sched nsubmitted	58.000000
+12	2031.500061000	t17079	US
+11	2031.500568000	t17079	US	Bu
+12	2031.501223000	t17079	US
+11	2031.501541000	t17079	US	Su
+13	2031.501814000	sched nsubmitted	59.000000
+12	2031.503891000	t17079	US
+11	2031.504367000	t17079	US	Bu
+12	2031.505108000	t17079	US
+11	2031.505426000	t17079	US	Su
+13	2031.505701000	sched nsubmitted	60.000000
+12	2031.508831000	t17079	US
+11	2031.509325000	t17079	US	Bu
+12	2031.510001000	t17079	US
+11	2031.510318000	t17079	US	Su
+13	2031.510586000	sched nsubmitted	61.000000
+12	2031.512760000	t17079	US
+11	2031.513229000	t17079	US	Bu
+12	2031.513877000	t17079	US
+11	2031.514195000	t17079	US	Su
+13	2031.514471000	sched nsubmitted	62.000000
+12	2031.516425000	t17079	US
+11	2031.516920000	t17079	US	Bu
+12	2031.517562000	t17079	US
+11	2031.519859000	t17079	US	Su
+13	2031.520134000	sched nsubmitted	63.000000
+12	2031.522231000	t17079	US
+11	2031.522653000	t17079	US	Bu
+12	2031.523184000	t17079	US
+11	2031.523511000	t17079	US	Su
+13	2031.523817000	sched nsubmitted	64.000000
+12	2031.525000000	t17079	US
+11	2031.525517000	t17079	US	Bu
+12	2031.526148000	t17079	US
+11	2031.526465000	t17079	US	Su
+13	2031.526742000	sched nsubmitted	65.000000
+12	2031.528515000	t17079	US
+11	2031.530010000	t17079	US	Bu
+12	2031.530634000	t17079	US
+11	2031.530948000	t17079	US	Su
+13	2031.531233000	sched nsubmitted	66.000000
+12	2031.532894000	t17079	US
+11	2031.533360000	t17079	US	Bu
+12	2031.533980000	t17079	US
+11	2031.534294000	t17079	US	Su
+13	2031.534564000	sched nsubmitted	67.000000
+12	2031.536216000	t17079	US
+11	2031.536686000	t17079	US	Bu
+12	2031.537300000	t17079	US
+11	2031.538945000	t17079	US	Su
+13	2031.539227000	sched nsubmitted	68.000000
+12	2031.540868000	t17079	US
+11	2031.541341000	t17079	US	Bu
+12	2031.541917000	t17079	US
+11	2031.542230000	t17079	US	Su
+13	2031.542505000	sched nsubmitted	69.000000
+12	2031.544230000	t17079	US
+11	2031.544708000	t17079	US	Bu
+12	2031.545304000	t17079	US
+11	2031.545609000	t17079	US	Su
+13	2031.545879000	sched nsubmitted	70.000000
+12	2031.548429000	t17079	US
+11	2031.548926000	t17079	US	Bu
+12	2031.549517000	t17079	US
+11	2031.549834000	t17079	US	Su
+13	2031.550097000	sched nsubmitted	71.000000
+12	2031.551741000	t17079	US
+11	2031.552215000	t17079	US	Bu
+12	2031.552860000	t17079	US
+11	2031.553177000	t17079	US	Su
+13	2031.553450000	sched nsubmitted	72.000000
+12	2031.555780000	t17079	US
+11	2031.556252000	t17079	US	Bu
+12	2031.557858000	t17079	US
+11	2031.558174000	t17079	US	Su
+13	2031.558442000	sched nsubmitted	73.000000
+12	2031.560700000	t17079	US
+11	2031.561178000	t17079	US	Bu
+12	2031.561807000	t17079	US
+11	2031.562123000	t17079	US	Su
+13	2031.562400000	sched nsubmitted	74.000000
+12	2031.564655000	t17079	US
+11	2031.565125000	t17079	US	Bu
+12	2031.565776000	t17079	US
+11	2031.567144000	t17079	US	Su
+13	2031.567410000	sched nsubmitted	75.000000
+12	2031.569666000	t17079	US
+11	2031.570143000	t17079	US	Bu
+12	2031.570747000	t17079	US
+11	2031.571061000	t17079	US	Su
+13	2031.571329000	sched nsubmitted	76.000000
+12	2031.573677000	t17079	US
+11	2031.574154000	t17079	US	Bu
+12	2031.574781000	t17079	US
+11	2031.576182000	t17079	US	Su
+13	2031.576444000	sched nsubmitted	77.000000
+12	2031.578717000	t17079	US
+11	2031.579198000	t17079	US	Bu
+12	2031.579808000	t17079	US
+11	2031.580143000	t17079	US	Su
+13	2031.580404000	sched nsubmitted	78.000000
+12	2031.582067000	t17079	US
+11	2031.582521000	t17079	US	Bu
+12	2031.583134000	t17079	US
+11	2031.583452000	t17079	US	Su
+13	2031.583723000	sched nsubmitted	79.000000
+12	2031.585972000	t17079	US
+11	2031.587503000	t17079	US	Bu
+12	2031.588136000	t17079	US
+11	2031.588443000	t17079	US	Su
+13	2031.588705000	sched nsubmitted	80.000000
+12	2031.590889000	t17079	US
+11	2031.591358000	t17079	US	Bu
+12	2031.591985000	t17079	US
+11	2031.592305000	t17079	US	Su
+13	2031.592574000	sched nsubmitted	81.000000
+12	2031.594736000	t17079	US
+11	2031.595207000	t17079	US	Bu
+12	2031.596909000	t17079	US
+11	2031.597233000	t17079	US	Su
+13	2031.597504000	sched nsubmitted	82.000000
+12	2031.599673000	t17079	US
+11	2031.600122000	t17079	US	Bu
+12	2031.600754000	t17079	US
+11	2031.601058000	t17079	US	Su
+13	2031.601332000	sched nsubmitted	83.000000
+12	2031.603608000	t17079	US
+11	2031.604082000	t17079	US	Bu
+12	2031.604731000	t17079	US
+11	2031.605967000	t17079	US	Su
+13	2031.606234000	sched nsubmitted	84.000000
+12	2031.608430000	t17079	US
+11	2031.608896000	t17079	US	Bu
+12	2031.609509000	t17079	US
+11	2031.609822000	t17079	US	Su
+13	2031.610097000	sched nsubmitted	85.000000
+12	2031.611883000	t17079	US
+11	2031.612361000	t17079	US	Bu
+12	2031.612992000	t17079	US
+11	2031.613308000	t17079	US	Su
+13	2031.613569000	sched nsubmitted	86.000000
+12	2031.616847000	t17079	US
+11	2031.617360000	t17079	US	Bu
+12	2031.617998000	t17079	US
+11	2031.618315000	t17079	US	Su
+13	2031.618582000	sched nsubmitted	87.000000
+12	2031.620773000	t17079	US
+11	2031.621238000	t17079	US	Bu
+12	2031.621845000	t17079	US
+11	2031.622166000	t17079	US	Su
+13	2031.622441000	sched nsubmitted	88.000000
+12	2031.624645000	t17079	US
+11	2031.626096000	t17079	US	Bu
+12	2031.626713000	t17079	US
+11	2031.627038000	t17079	US	Su
+13	2031.627306000	sched nsubmitted	89.000000
+12	2031.629462000	t17079	US
+11	2031.629921000	t17079	US	Bu
+12	2031.630545000	t17079	US
+11	2031.630850000	t17079	US	Su
+13	2031.631123000	sched nsubmitted	90.000000
+12	2031.633363000	t17079	US
+11	2031.633852000	t17079	US	Bu
+12	2031.634456000	t17079	US
+11	2031.635841000	t17079	US	Su
+13	2031.636117000	sched nsubmitted	91.000000
+12	2031.638298000	t17079	US
+11	2031.638774000	t17079	US	Bu
+12	2031.639368000	t17079	US
+11	2031.639683000	t17079	US	Su
+13	2031.639947000	sched nsubmitted	92.000000
+12	2031.641592000	t17079	US
+11	2031.642063000	t17079	US	Bu
+12	2031.642677000	t17079	US
+11	2031.642996000	t17079	US	Su
+13	2031.643271000	sched nsubmitted	93.000000
+12	2031.649989000	t17079	US
+11	2031.650510000	t17079	US	Bu
+12	2031.651133000	t17079	US
+11	2031.651452000	t17079	US	Su
+13	2031.651720000	sched nsubmitted	94.000000
+12	2031.653885000	t17079	US
+11	2031.654356000	t17079	US	Bu
+12	2031.654964000	t17079	US
+11	2031.655277000	t17079	US	Su
+13	2031.655543000	sched nsubmitted	95.000000
+12	2031.657752000	t17079	US
+11	2031.660015000	t17079	US	Bu
+12	2031.660649000	t17079	US
+11	2031.660972000	t17079	US	Su
+13	2031.661240000	sched nsubmitted	96.000000
+12	2031.663415000	t17079	US
+11	2031.663877000	t17079	US	Bu
+12	2031.664501000	t17079	US
+11	2031.664804000	t17079	US	Su
+13	2031.665081000	sched nsubmitted	97.000000
+12	2031.667360000	t17079	US
+11	2031.667855000	t17079	US	Bu
+12	2031.669526000	t17079	US
+11	2031.669843000	t17079	US	Su
+13	2031.670122000	sched nsubmitted	98.000000
+12	2031.672263000	t17079	US
+11	2031.672733000	t17079	US	Bu
+12	2031.673343000	t17079	US
+11	2031.673653000	t17079	US	Su
+13	2031.673929000	sched nsubmitted	99.000000
+12	2031.675571000	t17079	US
+11	2031.676048000	t17079	US	Bu
+12	2031.676668000	t17079	US
+11	2031.677981000	t17079	US	Su
+13	2031.678261000	sched nsubmitted	100.000000
+12	2031.680604000	t17079	US
+11	2031.681080000	t17079	US	Bu
+12	2031.681696000	t17079	US
+11	2031.682009000	t17079	US	Su
+13	2031.682283000	sched nsubmitted	101.000000
+12	2031.684565000	t17079	US
+11	2031.685047000	t17079	US	Bu
+12	2031.685671000	t17079	US
+11	2031.685999000	t17079	US	Su
+13	2031.686277000	sched nsubmitted	102.000000
+12	2031.689528000	t17079	US
+11	2031.690038000	t17079	US	Bu
+12	2031.690647000	t17079	US
+11	2031.690968000	t17079	US	Su
+13	2031.691230000	sched nsubmitted	103.000000
+12	2031.693458000	t17079	US
+11	2031.693930000	t17079	US	Bu
+12	2031.694546000	t17079	US
+11	2031.694861000	t17079	US	Su
+13	2031.695131000	sched nsubmitted	104.000000
+12	2031.697560000	t17079	US
+11	2031.699140000	t17079	US	Bu
+12	2031.699760000	t17079	US
+11	2031.700075000	t17079	US	Su
+13	2031.700352000	sched nsubmitted	105.000000
+12	2031.702651000	t17079	US
+11	2031.703123000	t17079	US	Bu
+12	2031.703716000	t17079	US
+11	2031.704033000	t17079	US	Su
+13	2031.704298000	sched nsubmitted	106.000000
+12	2031.705936000	t17079	US
+11	2031.706401000	t17079	US	Bu
+12	2031.707008000	t17079	US
+11	2031.708337000	t17079	US	Su
+13	2031.708615000	sched nsubmitted	107.000000
+12	2031.710891000	t17079	US
+11	2031.711370000	t17079	US	Bu
+12	2031.712007000	t17079	US
+11	2031.712310000	t17079	US	Su
+13	2031.712583000	sched nsubmitted	108.000000
+12	2031.714778000	t17079	US
+11	2031.715246000	t17079	US	Bu
+12	2031.715865000	t17079	US
+11	2031.717200000	t17079	US	Su
+13	2031.717476000	sched nsubmitted	109.000000
+12	2031.719693000	t17079	US
+11	2031.720176000	t17079	US	Bu
+12	2031.720789000	t17079	US
+11	2031.721096000	t17079	US	Su
+13	2031.721367000	sched nsubmitted	110.000000
+12	2031.723541000	t17079	US
+11	2031.724008000	t17079	US	Bu
+12	2031.724613000	t17079	US
+11	2031.724934000	t17079	US	Su
+13	2031.725203000	sched nsubmitted	111.000000
+12	2031.728493000	t17079	US
+11	2031.729007000	t17079	US	Bu
+12	2031.729648000	t17079	US
+11	2031.729968000	t17079	US	Su
+13	2031.730232000	sched nsubmitted	112.000000
+12	2031.732426000	t17079	US
+11	2031.732789000	t17079	US	Bu
+12	2031.733306000	t17079	US
+11	2031.733617000	t17079	US	Su
+13	2031.733900000	sched nsubmitted	113.000000
+12	2031.735023000	t17079	US
+11	2031.735491000	t17079	US	Bu
+12	2031.736102000	t17079	US
+11	2031.737349000	t17079	US	Su
+13	2031.737633000	sched nsubmitted	114.000000
+12	2031.739360000	t17079	US
+11	2031.739839000	t17079	US	Bu
+12	2031.740452000	t17079	US
+11	2031.740765000	t17079	US	Su
+13	2031.741038000	sched nsubmitted	115.000000
+12	2031.742695000	t17079	US
+11	2031.743172000	t17079	US	Bu
+12	2031.743769000	t17079	US
+11	2031.744097000	t17079	US	Su
+13	2031.744365000	sched nsubmitted	116.000000
+12	2031.746989000	t17079	US
+11	2031.747478000	t17079	US	Bu
+12	2031.748101000	t17079	US
+11	2031.748423000	t17079	US	Su
+13	2031.748699000	sched nsubmitted	117.000000
+12	2031.750339000	t17079	US
+11	2031.750808000	t17079	US	Bu
+12	2031.751418000	t17079	US
+11	2031.751724000	t17079	US	Su
+13	2031.751994000	sched nsubmitted	118.000000
+12	2031.753690000	t17079	US
+11	2031.754146000	t17079	US	Bu
+12	2031.755763000	t17079	US
+11	2031.756081000	t17079	US	Su
+13	2031.756350000	sched nsubmitted	119.000000
+12	2031.758004000	t17079	US
+11	2031.758476000	t17079	US	Bu
+12	2031.759117000	t17079	US
+11	2031.759423000	t17079	US	Su
+13	2031.759698000	sched nsubmitted	120.000000
+12	2031.762017000	t17079	US
+11	2031.762472000	t17079	US	Bu
+12	2031.763102000	t17079	US
+11	2031.764371000	t17079	US	Su
+13	2031.764634000	sched nsubmitted	121.000000
+12	2031.766882000	t17079	US
+11	2031.767357000	t17079	US	Bu
+12	2031.767991000	t17079	US
+11	2031.768311000	t17079	US	Su
+13	2031.768590000	sched nsubmitted	122.000000
+12	2031.770870000	t17079	US
+11	2031.771334000	t17079	US	Bu
+12	2031.771974000	t17079	US
+11	2031.772298000	t17079	US	Su
+13	2031.772569000	sched nsubmitted	123.000000
+12	2031.775881000	t17079	US
+11	2031.776402000	t17079	US	Bu
+12	2031.777046000	t17079	US
+11	2031.777358000	t17079	US	Su
+13	2031.777621000	sched nsubmitted	124.000000
+12	2031.779986000	t17079	US
+11	2031.780465000	t17079	US	Bu
+12	2031.781066000	t17079	US
+11	2031.781381000	t17079	US	Su
+13	2031.781657000	sched nsubmitted	125.000000
+12	2031.783303000	t17079	US
+11	2031.784815000	t17079	US	Bu
+12	2031.785440000	t17079	US
+11	2031.785761000	t17079	US	Su
+13	2031.786034000	sched nsubmitted	126.000000
+12	2031.788272000	t17079	US
+11	2031.788727000	t17079	US	Bu
+12	2031.789367000	t17079	US
+11	2031.789686000	t17079	US	Su
+13	2031.789958000	sched nsubmitted	127.000000
+12	2031.792116000	t17079	US
+11	2031.792573000	t17079	US	Bu
+12	2031.795018000	t17079	US
+11	2031.795331000	t17079	US	Su
+13	2031.795603000	sched nsubmitted	128.000000
+12	2031.797765000	t17079	US
+11	2031.798233000	t17079	US	Bu
+12	2031.798852000	t17079	US
+11	2031.799156000	t17079	US	Su
+13	2031.799424000	sched nsubmitted	129.000000
+12	2031.801599000	t17079	US
+11	2031.802076000	t17079	US	Bu
+12	2031.802667000	t17079	US
+11	2031.803971000	t17079	US	Su
+13	2031.804243000	sched nsubmitted	130.000000
+12	2031.806516000	t17079	US
+11	2031.806992000	t17079	US	Bu
+12	2031.807604000	t17079	US
+11	2031.807915000	t17079	US	Su
+13	2031.808189000	sched nsubmitted	131.000000
+12	2031.809838000	t17079	US
+11	2031.810294000	t17079	US	Bu
+12	2031.810921000	t17079	US
+11	2031.811246000	t17079	US	Su
+13	2031.811520000	sched nsubmitted	132.000000
+12	2031.814816000	t17079	US
+11	2031.815313000	t17079	US	Bu
+12	2031.815916000	t17079	US
+11	2031.816235000	t17079	US	Su
+13	2031.816502000	sched nsubmitted	133.000000
+12	2031.818703000	t17079	US
+11	2031.819180000	t17079	US	Bu
+12	2031.819799000	t17079	US
+11	2031.820113000	t17079	US	Su
+13	2031.820385000	sched nsubmitted	134.000000
+12	2031.822585000	t17079	US
+11	2031.824958000	t17079	US	Bu
+12	2031.825594000	t17079	US
+11	2031.825911000	t17079	US	Su
+13	2031.826171000	sched nsubmitted	135.000000
+12	2031.828371000	t17079	US
+11	2031.828866000	t17079	US	Bu
+12	2031.829495000	t17079	US
+11	2031.829805000	t17079	US	Su
+13	2031.830068000	sched nsubmitted	136.000000
+12	2031.832327000	t17079	US
+11	2031.832787000	t17079	US	Bu
+12	2031.833384000	t17079	US
+11	2031.834614000	t17079	US	Su
+13	2031.834879000	sched nsubmitted	137.000000
+12	2031.836645000	t17079	US
+11	2031.837111000	t17079	US	Bu
+12	2031.837738000	t17079	US
+11	2031.838045000	t17079	US	Su
+13	2031.838319000	sched nsubmitted	138.000000
+12	2031.840567000	t17079	US
+11	2031.841036000	t17079	US	Bu
+12	2031.841642000	t17079	US
+11	2031.843174000	t17079	US	Su
+13	2031.843442000	sched nsubmitted	139.000000
+12	2031.845616000	t17079	US
+11	2031.846082000	t17079	US	Bu
+12	2031.846709000	t17079	US
+11	2031.847021000	t17079	US	Su
+13	2031.847293000	sched nsubmitted	140.000000
+12	2031.849470000	t17079	US
+11	2031.849945000	t17079	US	Bu
+12	2031.850558000	t17079	US
+11	2031.850870000	t17079	US	Su
+13	2031.851143000	sched nsubmitted	141.000000
+12	2031.853308000	t17079	US
+11	2031.854827000	t17079	US	Bu
+12	2031.855436000	t17079	US
+11	2031.855745000	t17079	US	Su
+13	2031.856008000	sched nsubmitted	142.000000
+12	2031.858283000	t17079	US
+11	2031.858760000	t17079	US	Bu
+12	2031.859373000	t17079	US
+11	2031.859686000	t17079	US	Su
+13	2031.859969000	sched nsubmitted	143.000000
+12	2031.861641000	t17079	US
+11	2031.862095000	t17079	US	Bu
+12	2031.862702000	t17079	US
+11	2031.864046000	t17079	US	Su
+13	2031.864322000	sched nsubmitted	144.000000
+12	2031.866649000	t17079	US
+11	2031.867109000	t17079	US	Bu
+12	2031.867733000	t17079	US
+11	2031.868049000	t17079	US	Su
+13	2031.868311000	sched nsubmitted	145.000000
+12	2031.870551000	t17079	US
+11	2031.871004000	t17079	US	Bu
+12	2031.871624000	t17079	US
+11	2031.872925000	t17079	US	Su
+13	2031.873201000	sched nsubmitted	146.000000
+12	2031.875480000	t17079	US
+11	2031.875952000	t17079	US	Bu
+12	2031.876558000	t17079	US
+11	2031.876879000	t17079	US	Su
+13	2031.877148000	sched nsubmitted	147.000000
+12	2031.879368000	t17079	US
+11	2031.879855000	t17079	US	Bu
+12	2031.880467000	t17079	US
+11	2031.880787000	t17079	US	Su
+13	2031.881054000	sched nsubmitted	148.000000
+12	2031.884415000	t17079	US
+11	2031.884815000	t17079	US	Bu
+12	2031.885333000	t17079	US
+11	2031.885634000	t17079	US	Su
+13	2031.885912000	sched nsubmitted	149.000000
+12	2031.887014000	t17079	US
+11	2031.887465000	t17079	US	Bu
+12	2031.888071000	t17079	US
+11	2031.888386000	t17079	US	Su
+13	2031.888655000	sched nsubmitted	150.000000
+12	2031.890383000	t17079	US
+11	2031.890876000	t17079	US	Bu
+12	2031.892495000	t17079	US
+11	2031.892816000	t17079	US	Su
+13	2031.893088000	sched nsubmitted	151.000000
+12	2031.894739000	t17079	US
+11	2031.895211000	t17079	US	Bu
+12	2031.895831000	t17079	US
+11	2031.896141000	t17079	US	Su
+13	2031.896408000	sched nsubmitted	152.000000
+12	2031.898058000	t17079	US
+11	2031.898525000	t17079	US	Bu
+12	2031.899127000	t17079	US
+11	2031.900453000	t17079	US	Su
+13	2031.900730000	sched nsubmitted	153.000000
+12	2031.902396000	t17079	US
+11	2031.902868000	t17079	US	Bu
+12	2031.903457000	t17079	US
+11	2031.903760000	t17079	US	Su
+13	2031.904027000	sched nsubmitted	154.000000
+12	2031.905752000	t17079	US
+11	2031.906222000	t17079	US	Bu
+12	2031.906859000	t17079	US
+11	2031.907178000	t17079	US	Su
+13	2031.907442000	sched nsubmitted	155.000000
+12	2031.909750000	t17079	US
+11	2031.911256000	t17079	US	Bu
+12	2031.911890000	t17079	US
+11	2031.912213000	t17079	US	Su
+13	2031.912481000	sched nsubmitted	156.000000
+12	2031.914703000	t17079	US
+11	2031.915170000	t17079	US	Bu
+12	2031.915805000	t17079	US
+11	2031.916110000	t17079	US	Su
+13	2031.916380000	sched nsubmitted	157.000000
+12	2031.918606000	t17079	US
+11	2031.919075000	t17079	US	Bu
+12	2031.920690000	t17079	US
+11	2031.921010000	t17079	US	Su
+13	2031.921281000	sched nsubmitted	158.000000
+12	2031.923544000	t17079	US
+11	2031.924023000	t17079	US	Bu
+12	2031.924621000	t17079	US
+11	2031.924927000	t17079	US	Su
+13	2031.925197000	sched nsubmitted	159.000000
+12	2031.926879000	t17079	US
+11	2031.927358000	t17079	US	Bu
+12	2031.927977000	t17079	US
+11	2031.930100000	t17079	US	Su
+13	2031.930382000	sched nsubmitted	160.000000
+12	2031.932651000	t17079	US
+11	2031.933130000	t17079	US	Bu
+12	2031.933737000	t17079	US
+11	2031.934059000	t17079	US	Su
+13	2031.934333000	sched nsubmitted	161.000000
+12	2031.936511000	t17079	US
+11	2031.936980000	t17079	US	Bu
+12	2031.937589000	t17079	US
+11	2031.937903000	t17079	US	Su
+13	2031.938172000	sched nsubmitted	162.000000
+12	2031.941321000	t17079	US
+11	2031.941833000	t17079	US	Bu
+12	2031.942460000	t17079	US
+11	2031.942782000	t17079	US	Su
+13	2031.943068000	sched nsubmitted	163.000000
+12	2031.945244000	t17079	US
+11	2031.945714000	t17079	US	Bu
+12	2031.946319000	t17079	US
+11	2031.946631000	t17079	US	Su
+13	2031.946898000	sched nsubmitted	164.000000
+12	2031.948557000	t17079	US
+11	2031.949020000	t17079	US	Bu
+12	2031.953452000	t17079	US
+11	2031.953778000	t17079	US	Su
+13	2031.954053000	sched nsubmitted	165.000000
+12	2031.956263000	t17079	US
+11	2031.956737000	t17079	US	Bu
+12	2031.957377000	t17079	US
+11	2031.957679000	t17079	US	Su
+13	2031.957953000	sched nsubmitted	166.000000
+12	2031.960128000	t17079	US
+11	2031.960595000	t17079	US	Bu
+12	2031.961228000	t17079	US
+11	2031.962552000	t17079	US	Su
+13	2031.962830000	sched nsubmitted	167.000000
+12	2031.965002000	t17079	US
+11	2031.965477000	t17079	US	Bu
+12	2031.966104000	t17079	US
+11	2031.966436000	t17079	US	Su
+13	2031.966697000	sched nsubmitted	168.000000
+12	2031.968887000	t17079	US
+11	2031.969361000	t17079	US	Bu
+12	2031.969948000	t17079	US
+11	2031.970271000	t17079	US	Su
+13	2031.970537000	sched nsubmitted	169.000000
+12	2031.973140000	t17079	US
+11	2031.973628000	t17079	US	Bu
+12	2031.974252000	t17079	US
+11	2031.974575000	t17079	US	Su
+13	2031.974840000	sched nsubmitted	170.000000
+12	2031.977111000	t17079	US
+11	2031.977584000	t17079	US	Bu
+12	2031.978197000	t17079	US
+11	2031.978523000	t17079	US	Su
+13	2031.978794000	sched nsubmitted	171.000000
+12	2031.981036000	t17079	US
+11	2031.982556000	t17079	US	Bu
+12	2031.983179000	t17079	US
+11	2031.983499000	t17079	US	Su
+13	2031.983765000	sched nsubmitted	172.000000
+12	2031.985986000	t17079	US
+11	2031.986468000	t17079	US	Bu
+12	2031.987092000	t17079	US
+11	2031.987407000	t17079	US	Su
+13	2031.987683000	sched nsubmitted	173.000000
+12	2031.989895000	t17079	US
+11	2031.990251000	t17079	US	Bu
+12	2031.990750000	t17079	US
+11	2031.991901000	t17079	US	Su
+13	2031.992187000	sched nsubmitted	174.000000
+12	2031.993314000	t17079	US
+11	2031.993785000	t17079	US	Bu
+12	2031.994390000	t17079	US
+11	2031.994706000	t17079	US	Su
+13	2031.994969000	sched nsubmitted	175.000000
+12	2031.996693000	t17079	US
+11	2031.997159000	t17079	US	Bu
+12	2031.997768000	t17079	US
+11	2031.998087000	t17079	US	Su
+13	2031.998368000	sched nsubmitted	176.000000
+12	2032.001128000	t17079	US
+11	2032.001662000	t17079	US	Bu
+12	2032.002286000	t17079	US
+11	2032.002624000	t17079	US	Su
+13	2032.002900000	sched nsubmitted	177.000000
+12	2032.004549000	t17079	US
+11	2032.005011000	t17079	US	Bu
+12	2032.005624000	t17079	US
+11	2032.005941000	t17079	US	Su
+13	2032.006213000	sched nsubmitted	178.000000
+12	2032.007881000	t17079	US
+11	2032.008348000	t17079	US	Bu
+12	2032.008977000	t17079	US
+11	2032.010343000	t17079	US	Su
+13	2032.010608000	sched nsubmitted	179.000000
+12	2032.012942000	t17079	US
+11	2032.013401000	t17079	US	Bu
+12	2032.014016000	t17079	US
+11	2032.014325000	t17079	US	Su
+13	2032.014601000	sched nsubmitted	180.000000
+12	2032.016834000	t17079	US
+11	2032.017299000	t17079	US	Bu
+12	2032.017924000	t17079	US
+11	2032.019339000	t17079	US	Su
+13	2032.019614000	sched nsubmitted	181.000000
+12	2032.021844000	t17079	US
+11	2032.022309000	t17079	US	Bu
+12	2032.022908000	t17079	US
+11	2032.023227000	t17079	US	Su
+13	2032.023499000	sched nsubmitted	182.000000
+12	2032.025259000	t17079	US
+11	2032.025713000	t17079	US	Bu
+12	2032.026430000	t17079	US
+11	2032.026739000	t17079	US	Su
+13	2032.027003000	sched nsubmitted	183.000000
+12	2032.030237000	t17079	US
+11	2032.030723000	t17079	US	Bu
+12	2032.031344000	t17079	US
+11	2032.031669000	t17079	US	Su
+13	2032.031927000	sched nsubmitted	184.000000
+12	2032.034112000	t17079	US
+11	2032.034579000	t17079	US	Bu
+12	2032.035199000	t17079	US
+11	2032.035504000	t17079	US	Su
+13	2032.035775000	sched nsubmitted	185.000000
+12	2032.038006000	t17079	US
+11	2032.039502000	t17079	US	Bu
+12	2032.040130000	t17079	US
+11	2032.040460000	t17079	US	Su
+13	2032.040733000	sched nsubmitted	186.000000
+12	2032.042382000	t17079	US
+11	2032.042852000	t17079	US	Bu
+12	2032.043464000	t17079	US
+11	2032.043761000	t17079	US	Su
+13	2032.044037000	sched nsubmitted	187.000000
+12	2032.046236000	t17079	US
+11	2032.046706000	t17079	US	Bu
+12	2032.047314000	t17079	US
+11	2032.048650000	t17079	US	Su
+13	2032.048922000	sched nsubmitted	188.000000
+12	2032.051096000	t17079	US
+11	2032.051579000	t17079	US	Bu
+12	2032.052214000	t17079	US
+11	2032.052533000	t17079	US	Su
+13	2032.052805000	sched nsubmitted	189.000000
+12	2032.054978000	t17079	US
+11	2032.055333000	t17079	US	Bu
+12	2032.055844000	t17079	US
+11	2032.056138000	t17079	US	Su
+13	2032.056418000	sched nsubmitted	190.000000
+12	2032.058541000	t17079	US
+11	2032.059025000	t17079	US	Bu
+12	2032.059639000	t17079	US
+11	2032.059946000	t17079	US	Su
+13	2032.060224000	sched nsubmitted	191.000000
+12	2032.061941000	t17079	US
+11	2032.062396000	t17079	US	Bu
+12	2032.063005000	t17079	US
+11	2032.063314000	t17079	US	Su
+13	2032.063586000	sched nsubmitted	192.000000
+12	2032.065212000	t17079	US
+11	2032.065678000	t17079	US	Bu
+12	2032.068048000	t17079	US
+11	2032.068372000	t17079	US	Su
+13	2032.068654000	sched nsubmitted	193.000000
+12	2032.070332000	t17079	US
+11	2032.070807000	t17079	US	Bu
+12	2032.071444000	t17079	US
+11	2032.071742000	t17079	US	Su
+13	2032.072016000	sched nsubmitted	194.000000
+12	2032.074298000	t17079	US
+11	2032.074778000	t17079	US	Bu
+12	2032.075391000	t17079	US
+11	2032.076792000	t17079	US	Su
+13	2032.077075000	sched nsubmitted	195.000000
+12	2032.079279000	t17079	US
+11	2032.079743000	t17079	US	Bu
+12	2032.080379000	t17079	US
+11	2032.080681000	t17079	US	Su
+13	2032.080960000	sched nsubmitted	196.000000
+12	2032.082598000	t17079	US
+11	2032.083072000	t17079	US	Bu
+12	2032.083710000	t17079	US
+11	2032.084029000	t17079	US	Su
+13	2032.084291000	sched nsubmitted	197.000000
+12	2032.087500000	t17079	US
+11	2032.088005000	t17079	US	Bu
+12	2032.088638000	t17079	US
+11	2032.088944000	t17079	US	Su
+13	2032.089222000	sched nsubmitted	198.000000
+12	2032.091418000	t17079	US
+11	2032.091769000	t17079	US	Bu
+12	2032.092276000	t17079	US
+11	2032.092574000	t17079	US	Su
+13	2032.092858000	sched nsubmitted	199.000000
+12	2032.093988000	t17079	US
+11	2032.094493000	t17079	US	Bu
+12	2032.095103000	t17079	US
+11	2032.096444000	t17079	US	Su
+13	2032.096719000	sched nsubmitted	200.000000
+12	2032.098426000	t17079	US
+11	2032.098887000	t17079	US	Bu
+12	2032.099492000	t17079	US
+11	2032.099798000	t17079	US	Su
+13	2032.100073000	sched nsubmitted	201.000000
+12	2032.101726000	t17079	US
+11	2032.102230000	t17079	US	Bu
+12	2032.102855000	t17079	US
+11	2032.103169000	t17079	US	Su
+13	2032.103442000	sched nsubmitted	202.000000
+12	2032.106742000	t17079	US
+11	2032.107170000	t17079	US	Bu
+12	2032.107683000	t17079	US
+11	2032.107983000	t17079	US	Su
+13	2032.108255000	sched nsubmitted	203.000000
+12	2032.109388000	t17079	US
+11	2032.109906000	t17079	US	WA
+10	2068.942101000	w0	WS	I
+10	2068.943946000	w0	WS	Po
+10	2068.944780000	w0	WS	B
+13	2068.947797000	sched	nready	1.000000
+11	2068.948348000	w0	WS	Sc
+12	2068.948949000	w0	WS
+18	2068.949727000	WSL	p	0	w0	steal_0
+19	2068.949727001	WSL	p	0	w2	steal_0
+13	2068.949769000	sched	nready	2.000000
+11	2068.950010000	w0	WS	Sc
+12	2068.950314000	w0	WS
+13	2068.951069000	sched	nready	3.000000
+11	2068.951271000	w0	WS	Sc
+12	2068.951551000	w0	WS
+18	2068.952171000	WSL	p	0	w0	steal_1
+19	2068.952171001	WSL	p	0	w3	steal_1
+13	2068.952192000	sched	nready	2.000000
+13	2068.952192000	sched	nsubmitted	202.000000
+13	2068.952288000	sched	nready	3.000000
+13	2068.952516000	sched	nready	2.000000
+13	2068.952516000	sched	nsubmitted	201.000000
+11	2068.952603000	w0	WS	Sc
+12	2068.952924000	w0	WS
+10	2068.953007000	w2	WS	B
+10	2068.953439000	w3	WS	B
+10	2068.953685000	w2	WS	Fi
+13	2068.953763000	sched	nready	3.000000
+10	2068.953984000	w3	WS	Fi
+11	2068.954054000	w0	WS	Sc
+12	2068.954330000	w0	WS
+10	2068.954942000	w2	WS	B
+13	2068.955139000	sched	nready	4.000000
+10	2068.955276000	w3	WS	B
+11	2068.955417000	w0	WS	Sc
+12	2068.955728000	w0	WS
+6	strsm	WS	strsm	"0.000000 0.600000 0.400000" 
+6	strsm	Ctx1	strsm	"255.0 102.0 255.0" 
+6	strsm	Ctx2	strsm	".0 255.0 .0" 
+6	strsm	Ctx3	strsm	"225.0 225.0 .0" 
+6	strsm	Ctx4	strsm	".0 245.0 255.0" 
+6	strsm	Ctx5	strsm	".0 .0 .0" 
+6	strsm	Ctx6	strsm	".0 .0 128.0" 
+6	strsm	Ctx7	strsm	"105.0 105.0 105.0" 
+6	strsm	Ctx8	strsm	"255.0 .0 255.0" 
+6	strsm	Ctx9	strsm	".0 .0 1.0" 
+13	2068.957015000	sched	nready	5.000000
+11	2068.957231000	w0	WS	Sc
+12	2068.957514000	w0	WS
+13	2068.958316000	sched	nready	6.000000
+11	2068.958541000	w0	WS	Sc
+12	2068.958977000	w0	WS
+13	2068.959676000	sched	nready	7.000000
+11	2068.959970000	w0	WS	Sc
+12	2068.960321000	w0	WS
+13	2068.961115000	sched	nready	8.000000
+11	2068.961314000	w0	WS	Sc
+12	2068.961589000	w0	WS
+20	2068.956196000	w3	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	75
+20	2068.955788000	w2	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	74
+13	2068.962466000	sched	nready	9.000000
+11	2068.962705000	w0	WS	Sc
+12	2068.962999000	w0	WS
+13	2068.963787000	sched	nready	10.000000
+11	2068.963983000	w0	WS	Sc
+12	2068.964268000	w0	WS
+13	2068.965035000	sched	nready	11.000000
+11	2068.965237000	w0	WS	Sc
+18	2068.965446000	WSL	p	0	w0	steal_2
+19	2068.965446001	WSL	p	0	w6	steal_2
+13	2068.965918000	sched	nready	10.000000
+13	2068.965918000	sched	nsubmitted	200.000000
+12	2068.966359000	w0	WS
+10	2068.966487000	w6	WS	B
+10	2068.966826000	w6	WS	Fi
+10	2068.967604000	w6	WS	B
+13	2068.967736000	sched	nready	11.000000
+11	2068.967973000	w0	WS	Sc
+12	2068.968410000	w0	WS
+10	2068.968850000	w0	WS	C
+10	2068.969126000	w0	WS	B
+20	2068.968080000	w6	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	81
+10	2068.973302000	w0	WS	Sc
+13	2068.973928000	sched	nready	10.000000
+13	2068.973928000	sched	nsubmitted	199.000000
+10	2068.974310000	w0	WS	B
+10	2068.974670000	w0	WS	Fi
+10	2068.975777000	w0	WS	B
+20	2068.976374000	w0	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	89
+18	2068.983591000	WSL	p	0	w0	steal_3
+19	2068.983591001	WSL	p	0	w5	steal_3
+13	2068.984109000	sched	nready	9.000000
+13	2068.984109000	sched	nsubmitted	198.000000
+10	2068.985156000	w5	WS	B
+10	2068.985796000	w5	WS	Fi
+18	2068.986376000	WSL	p	0	w0	steal_4
+19	2068.986376001	WSL	p	0	w4	steal_4
+13	2068.986617000	sched	nready	8.000000
+13	2068.986617000	sched	nsubmitted	197.000000
+10	2068.987071000	w5	WS	B
+10	2068.987239000	w4	WS	B
+10	2068.987579000	w4	WS	Fi
+10	2068.988483000	w4	WS	B
+20	2068.988904000	w4	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	97
+20	2068.987938000	w5	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	76
+18	2069.008141000	WSL	p	0	w0	steal_5
+19	2069.008141001	WSL	p	0	w1	steal_5
+13	2069.008360000	sched	nready	7.000000
+13	2069.008360000	sched	nsubmitted	196.000000
+10	2069.009269000	w1	WS	B
+10	2069.009624000	w1	WS	Fi
+10	2069.010589000	w1	WS	B
+20	2069.011083000	w1	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	77
+18	2069.027394000	WSL	p	0	w0	steal_6
+19	2069.027394001	WSL	p	0	w7	steal_6
+13	2069.027987000	sched	nready	6.000000
+13	2069.027987000	sched	nsubmitted	195.000000
+10	2069.028651000	w7	WS	B
+10	2069.029036000	w7	WS	Fi
+10	2069.029849000	w7	WS	B
+20	2069.030333000	w7	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	105
+10	2113.292885000	w5	WS	I
+10	2113.297360000	w5	WS	Po
+10	2113.299258000	w5	WS	B
+10	2113.305200000	w5	WS	C
+10	2113.305543000	w5	WS	B
+10	2113.312845000	w5	WS	Sc
+18	2113.315864000	WSL	p	0	w0	steal_7
+19	2113.315864001	WSL	p	0	w5	steal_7
+13	2113.316104000	sched	nready	5.000000
+13	2113.316104000	sched	nsubmitted	194.000000
+10	2113.317128000	w5	WS	B
+10	2113.318163000	w5	WS	Fi
+10	2113.320204000	w5	WS	B
+20	2113.321449000	w5	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	78
+10	2113.732075000	w2	WS	I
+10	2113.733587000	w2	WS	Po
+10	2113.734595000	w2	WS	B
+10	2113.738919000	w2	WS	C
+10	2113.739237000	w2	WS	B
+10	2113.743816000	w2	WS	Sc
+18	2113.745190000	WSL	p	0	w0	steal_8
+19	2113.745190001	WSL	p	0	w2	steal_8
+13	2113.745411000	sched	nready	4.000000
+13	2113.745411000	sched	nsubmitted	193.000000
+10	2113.745990000	w2	WS	B
+10	2113.746470000	w2	WS	Fi
+10	2113.747451000	w2	WS	B
+20	2113.748064000	w2	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	113
+10	2124.246379000	w0	WS	I
+10	2124.250384000	w0	WS	Po
+10	2124.252389000	w0	WS	B
+13	2124.258153000	sched	nready	5.000000
+11	2124.259027000	w0	WS	Sc
+12	2124.260311000	w0	WS
+13	2124.262575000	sched	nready	6.000000
+11	2124.262802000	w0	WS	Sc
+12	2124.263095000	w0	WS
+10	2124.264796000	w0	WS	C
+10	2124.265061000	w0	WS	B
+10	2124.272032000	w0	WS	Sc
+13	2124.273547000	sched	nready	5.000000
+13	2124.273547000	sched	nsubmitted	192.000000
+10	2124.274507000	w0	WS	B
+10	2124.275042000	w0	WS	Fi
+10	2124.276993000	w0	WS	B
+6	sgemm	WS	sgemm	"0.000000 0.600000 0.400000" 
+6	sgemm	Ctx1	sgemm	"255.0 102.0 255.0" 
+6	sgemm	Ctx2	sgemm	".0 255.0 .0" 
+6	sgemm	Ctx3	sgemm	"225.0 225.0 .0" 
+6	sgemm	Ctx4	sgemm	".0 245.0 255.0" 
+6	sgemm	Ctx5	sgemm	".0 .0 .0" 
+6	sgemm	Ctx6	sgemm	".0 .0 128.0" 
+6	sgemm	Ctx7	sgemm	"105.0 105.0 105.0" 
+6	sgemm	Ctx8	sgemm	"255.0 .0 255.0" 
+6	sgemm	Ctx9	sgemm	".0 .0 1.0" 
+20	2124.278194000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	90
+10	2145.501963000	w0	WS	I
+10	2145.502081000	w5	WS	I
+10	2145.502274000	w2	WS	I
+10	2145.503063000	w7	WS	I
+10	2145.505941000	w7	WS	Po
+10	2145.507562000	w7	WS	B
+10	2145.511215000	w2	WS	Po
+10	2145.511324000	w5	WS	Po
+10	2145.511341000	w0	WS	Po
+10	2145.512126000	w2	WS	B
+10	2145.512582000	w0	WS	B
+10	2145.512606000	w5	WS	B
+13	2145.514924000	sched	nready	6.000000
+10	2145.515109000	w0	WS	C
+10	2145.515399000	w0	WS	B
+11	2145.515762000	w7	WS	Sc
+13	2145.515914000	sched	nready	7.000000
+11	2145.516394000	w2	WS	Sc
+12	2145.516720000	w7	WS
+12	2145.517016000	w2	WS
+13	2145.517588000	sched	nready	8.000000
+11	2145.518139000	w5	WS	Sc
+12	2145.518693000	w5	WS
+13	2145.518971000	sched	nready	9.000000
+11	2145.519232000	w7	WS	Sc
+12	2145.519550000	w7	WS
+13	2145.519832000	sched	nready	10.000000
+10	2145.519872000	w0	WS	Sc
+11	2145.520123000	w2	WS	Sc
+12	2145.520400000	w2	WS
+10	2145.520743000	w5	WS	C
+10	2145.520955000	w5	WS	B
+13	2145.521420000	sched	nready	11.000000
+13	2145.521588000	sched	nready	10.000000
+13	2145.521588000	sched	nsubmitted	191.000000
+11	2145.521716000	w7	WS	Sc
+12	2145.522059000	w7	WS
+10	2145.522109000	w0	WS	B
+13	2145.522155000	sched	nready	11.000000
+11	2145.522437000	w2	WS	Sc
+10	2145.522641000	w0	WS	Fi
+12	2145.522752000	w2	WS
+10	2145.522992000	w7	WS	C
+10	2145.523228000	w7	WS	B
+10	2145.523811000	w2	WS	C
+10	2145.524094000	w2	WS	B
+10	2145.524998000	w0	WS	B
+10	2145.525419000	w5	WS	Sc
+13	2145.526445000	sched	nready	10.000000
+13	2145.526445000	sched	nsubmitted	190.000000
+10	2145.527032000	w5	WS	B
+10	2145.527125000	w2	WS	Sc
+10	2145.527609000	w5	WS	Fi
+13	2145.527864000	sched	nready	9.000000
+13	2145.527864000	sched	nsubmitted	189.000000
+10	2145.528272000	w2	WS	B
+10	2145.528710000	w2	WS	Fi
+10	2145.529053000	w5	WS	B
+10	2145.530045000	w2	WS	B
+20	2145.525786000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	92
+10	2145.531934000	w7	WS	Sc
+13	2145.532726000	sched	nready	8.000000
+13	2145.532726000	sched	nsubmitted	188.000000
+10	2145.533180000	w7	WS	B
+10	2145.533527000	w7	WS	Fi
+20	2145.530634000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	114
+20	2145.529936000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	94
+10	2145.535079000	w7	WS	B
+20	2145.535768000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	106
+10	2145.561049000	w6	WS	I
+10	2145.562092000	w6	WS	Po
+10	2145.562937000	w6	WS	B
+10	2145.563239000	w3	WS	I
+10	2145.564271000	w3	WS	Po
+10	2145.565239000	w3	WS	B
+13	2145.565839000	sched	nready	9.000000
+11	2145.566074000	w6	WS	Sc
+12	2145.566450000	w6	WS
+13	2145.568298000	sched	nready	10.000000
+11	2145.568470000	w6	WS	Sc
+13	2145.568598000	sched	nready	11.000000
+12	2145.568815000	w6	WS
+11	2145.568889000	w3	WS	Sc
+12	2145.569425000	w3	WS
+13	2145.570831000	sched	nready	12.000000
+13	2145.570963000	sched	nready	13.000000
+11	2145.571083000	w6	WS	Sc
+11	2145.571232000	w3	WS	Sc
+12	2145.571386000	w6	WS
+12	2145.571538000	w3	WS
+10	2145.572572000	w6	WS	C
+10	2145.572759000	w6	WS	B
+13	2145.572990000	sched	nready	14.000000
+11	2145.573255000	w3	WS	Sc
+12	2145.573776000	w3	WS
+13	2145.574618000	sched	nready	15.000000
+11	2145.574783000	w3	WS	Sc
+12	2145.574996000	w3	WS
+10	2145.575939000	w6	WS	Sc
+10	2145.576106000	w3	WS	C
+10	2145.576356000	w3	WS	B
+13	2145.576432000	sched	nready	14.000000
+13	2145.576432000	sched	nsubmitted	187.000000
+10	2145.576818000	w6	WS	B
+10	2145.577101000	w6	WS	Fi
+10	2145.577977000	w6	WS	B
+10	2145.579230000	w3	WS	Sc
+13	2145.579700000	sched	nready	13.000000
+13	2145.579700000	sched	nsubmitted	186.000000
+10	2145.579993000	w3	WS	B
+10	2145.580276000	w3	WS	Fi
+10	2145.581445000	w3	WS	B
+20	2145.578378000	w6	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	82
+20	2145.581929000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	83
+10	2194.805955000	w4	WS	I
+10	2194.808513000	w4	WS	Po
+10	2194.809848000	w4	WS	B
+13	2194.814919000	sched	nready	14.000000
+11	2194.815578000	w4	WS	Sc
+12	2194.816968000	w4	WS
+13	2194.818424000	sched	nready	15.000000
+11	2194.818623000	w4	WS	Sc
+12	2194.818927000	w4	WS
+13	2194.820240000	sched	nready	16.000000
+11	2194.820430000	w4	WS	Sc
+12	2194.820732000	w4	WS
+13	2194.822163000	sched	nready	17.000000
+11	2194.822376000	w4	WS	Sc
+12	2194.822633000	w4	WS
+10	2194.823830000	w4	WS	C
+10	2194.824080000	w4	WS	B
+10	2194.829847000	w4	WS	Sc
+13	2194.831059000	sched	nready	16.000000
+13	2194.831059000	sched	nsubmitted	185.000000
+10	2194.831518000	w4	WS	B
+10	2194.832229000	w4	WS	Fi
+10	2194.833940000	w4	WS	B
+20	2194.834908000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	98
+10	2194.936890000	w0	WS	I
+10	2194.938154000	w0	WS	Po
+10	2194.939005000	w0	WS	B
+10	2194.939407000	w2	WS	I
+10	2194.939610000	w5	WS	I
+10	2194.940719000	w0	WS	C
+10	2194.940912000	w0	WS	B
+10	2194.942509000	w2	WS	Po
+10	2194.942784000	w5	WS	Po
+10	2194.942860000	w0	WS	Sc
+13	2194.943833000	sched	nready	15.000000
+13	2194.943833000	sched	nsubmitted	184.000000
+10	2194.943936000	w2	WS	B
+10	2194.944107000	w5	WS	B
+10	2194.944325000	w0	WS	B
+10	2194.944643000	w0	WS	Fi
+10	2194.945451000	w0	WS	B
+10	2194.946472000	w2	WS	C
+10	2194.946668000	w5	WS	C
+10	2194.947079000	w2	WS	B
+10	2194.947155000	w5	WS	B
+20	2194.945870000	w0	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	79
+10	2194.950231000	w2	WS	Sc
+13	2194.951183000	sched	nready	14.000000
+13	2194.951183000	sched	nsubmitted	183.000000
+10	2194.951234000	w5	WS	Sc
+10	2194.951622000	w2	WS	B
+10	2194.952018000	w2	WS	Fi
+18	2194.952675000	WSL	p	0	w2	steal_9
+19	2194.952675001	WSL	p	0	w5	steal_9
+13	2194.952950000	sched	nready	13.000000
+13	2194.952950000	sched	nsubmitted	182.000000
+10	2194.953242000	w2	WS	B
+10	2194.953547000	w5	WS	B
+10	2194.954155000	w5	WS	Fi
+10	2194.955733000	w5	WS	B
+20	2194.953990000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	116
+20	2194.956488000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	118
+10	2194.967659000	w1	WS	I
+10	2194.968695000	w1	WS	Po
+10	2194.969763000	w1	WS	B
+13	2194.973171000	sched	nready	14.000000
+11	2194.973745000	w1	WS	Sc
+12	2194.974226000	w1	WS
+13	2194.975494000	sched	nready	15.000000
+11	2194.975710000	w1	WS	Sc
+12	2194.976031000	w1	WS
+13	2194.977056000	sched	nready	16.000000
+11	2194.977326000	w1	WS	Sc
+12	2194.977603000	w1	WS
+13	2194.978661000	sched	nready	17.000000
+11	2194.978857000	w1	WS	Sc
+12	2194.979094000	w1	WS
+13	2194.980335000	sched	nready	18.000000
+11	2194.980535000	w1	WS	Sc
+12	2194.980818000	w1	WS
+10	2194.981807000	w1	WS	C
+10	2194.982034000	w1	WS	B
+10	2194.985067000	w1	WS	Sc
+13	2194.985659000	sched	nready	17.000000
+13	2194.985659000	sched	nsubmitted	181.000000
+10	2194.985955000	w1	WS	B
+10	2194.986219000	w1	WS	Fi
+10	2194.987344000	w1	WS	B
+20	2194.987951000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	85
+10	2239.599284000	w3	WS	I
+10	2239.599447000	w1	WS	I
+10	2239.605629000	w3	WS	Po
+10	2239.607784000	w3	WS	B
+10	2239.610823000	w3	WS	C
+10	2239.611361000	w3	WS	B
+10	2239.616945000	w3	WS	Sc
+13	2239.618858000	sched	nready	16.000000
+13	2239.618858000	sched	nsubmitted	180.000000
+10	2239.618924000	w1	WS	Po
+10	2239.619409000	w3	WS	B
+10	2239.619931000	w3	WS	Fi
+10	2239.620363000	w1	WS	B
+10	2239.622116000	w3	WS	B
+10	2239.623359000	w1	WS	C
+10	2239.623640000	w1	WS	B
+20	2239.622895000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	91
+10	2239.627862000	w1	WS	Sc
+13	2239.629173000	sched	nready	15.000000
+13	2239.629173000	sched	nsubmitted	179.000000
+10	2239.629722000	w1	WS	B
+10	2239.630364000	w1	WS	Fi
+10	2239.631676000	w1	WS	B
+20	2239.632599000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	93
+10	2240.177669000	w2	WS	I
+10	2240.178979000	w2	WS	Po
+10	2240.180085000	w2	WS	B
+10	2240.182388000	w2	WS	C
+10	2240.182668000	w2	WS	B
+10	2240.185312000	w2	WS	Sc
+18	2240.186689000	WSL	p	0	w6	steal_10
+19	2240.186689001	WSL	p	0	w2	steal_10
+13	2240.186935000	sched	nready	14.000000
+13	2240.186935000	sched	nsubmitted	178.000000
+10	2240.187275000	w2	WS	B
+10	2240.187657000	w2	WS	Fi
+10	2240.188816000	w2	WS	B
+20	2240.189409000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	84
+10	2291.002943000	w4	WS	I
+10	2291.003186000	w1	WS	I
+10	2291.009752000	w4	WS	Po
+10	2291.011387000	w4	WS	B
+10	2291.014289000	w4	WS	C
+10	2291.014636000	w4	WS	B
+10	2291.020131000	w4	WS	Sc
+13	2291.021831000	sched	nready	13.000000
+13	2291.021831000	sched	nsubmitted	177.000000
+10	2291.022329000	w4	WS	B
+10	2291.022738000	w4	WS	Fi
+10	2291.023057000	w1	WS	Po
+10	2291.024603000	w4	WS	B
+10	2291.024654000	w1	WS	B
+10	2291.027535000	w1	WS	C
+10	2291.027864000	w1	WS	B
+20	2291.025542000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	99
+10	2291.032633000	w1	WS	Sc
+13	2291.033784000	sched	nready	12.000000
+13	2291.033784000	sched	nsubmitted	176.000000
+10	2291.034380000	w1	WS	B
+10	2291.034938000	w1	WS	Fi
+10	2291.036679000	w1	WS	B
+10	2291.037788000	w0	WS	I
+10	2291.039074000	w0	WS	Po
+10	2291.039943000	w0	WS	B
+20	2291.037503000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	101
+13	2291.044242000	sched	nready	13.000000
+11	2291.044839000	w0	WS	Sc
+12	2291.045827000	w0	WS
+13	2291.046948000	sched	nready	14.000000
+11	2291.047150000	w0	WS	Sc
+12	2291.047440000	w0	WS
+13	2291.048676000	sched	nready	15.000000
+11	2291.048882000	w0	WS	Sc
+12	2291.049174000	w0	WS
+13	2291.050272000	sched	nready	16.000000
+11	2291.050463000	w0	WS	Sc
+12	2291.050763000	w0	WS
+13	2291.051759000	sched	nready	17.000000
+11	2291.051966000	w0	WS	Sc
+12	2291.052241000	w0	WS
+10	2291.053088000	w0	WS	C
+10	2291.053389000	w0	WS	B
+10	2291.056185000	w0	WS	Sc
+13	2291.057015000	sched	nready	16.000000
+13	2291.057015000	sched	nsubmitted	175.000000
+10	2291.057330000	w0	WS	B
+10	2291.057622000	w0	WS	Fi
+10	2291.058515000	w0	WS	B
+20	2291.058909000	w0	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	121
+10	2291.653681000	w2	WS	I
+10	2291.655149000	w2	WS	Po
+10	2291.656200000	w2	WS	B
+10	2291.658575000	w2	WS	C
+10	2291.658843000	w2	WS	B
+10	2291.662169000	w2	WS	Sc
+18	2291.663517000	WSL	p	0	w6	steal_11
+19	2291.663517001	WSL	p	0	w2	steal_11
+13	2291.663783000	sched	nready	15.000000
+13	2291.663783000	sched	nsubmitted	174.000000
+10	2291.664215000	w2	WS	B
+10	2291.664597000	w2	WS	Fi
+10	2291.665865000	w2	WS	B
+20	2291.666467000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	86
+10	2358.126960000	w3	WS	I
+10	2358.130338000	w3	WS	Po
+10	2358.131914000	w3	WS	B
+10	2358.135252000	w3	WS	C
+10	2358.135590000	w3	WS	B
+10	2358.141631000	w3	WS	Sc
+13	2358.143436000	sched	nready	14.000000
+13	2358.143436000	sched	nsubmitted	173.000000
+10	2358.143841000	w3	WS	B
+10	2358.144603000	w3	WS	Fi
+10	2358.146558000	w3	WS	B
+20	2358.147445000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	107
+10	2370.871370000	w2	WS	I
+10	2370.871423000	w4	WS	I
+10	2370.871543000	w1	WS	I
+10	2370.879221000	w5	WS	I
+10	2370.879407000	w4	WS	Po
+10	2370.880792000	w5	WS	Po
+10	2370.880953000	w4	WS	B
+10	2370.882360000	w5	WS	B
+10	2370.884222000	w4	WS	C
+10	2370.884496000	w4	WS	B
+10	2370.885434000	w5	WS	C
+10	2370.885755000	w5	WS	B
+10	2370.890264000	w4	WS	Sc
+10	2370.890693000	w5	WS	Sc
+13	2370.891995000	sched	nready	13.000000
+13	2370.891995000	sched	nsubmitted	172.000000
+10	2370.892439000	w4	WS	B
+18	2370.892691000	WSL	p	0	w1	steal_12
+19	2370.892691001	WSL	p	0	w5	steal_12
+10	2370.892927000	w4	WS	Fi
+13	2370.892972000	sched	nready	12.000000
+13	2370.892972000	sched	nsubmitted	171.000000
+10	2370.893657000	w5	WS	B
+10	2370.894255000	w5	WS	Fi
+10	2370.894857000	w4	WS	B
+10	2370.895556000	w2	WS	Po
+10	2370.895824000	w5	WS	B
+10	2370.896769000	w2	WS	B
+10	2370.899830000	w2	WS	C
+10	2370.900150000	w2	WS	B
+20	2370.895932000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	100
+20	2370.896665000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	109
+10	2370.903324000	w2	WS	Sc
+18	2370.904578000	WSL	p	0	w3	steal_13
+19	2370.904578001	WSL	p	0	w2	steal_13
+13	2370.904798000	sched	nready	11.000000
+13	2370.904798000	sched	nsubmitted	170.000000
+10	2370.905286000	w2	WS	B
+10	2370.905640000	w2	WS	Fi
+10	2370.906201000	w1	WS	Po
+10	2370.906951000	w2	WS	B
+10	2370.907188000	w1	WS	B
+10	2370.909488000	w1	WS	C
+10	2370.909854000	w1	WS	B
+20	2370.907567000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	115
+10	2370.912562000	w1	WS	Sc
+13	2370.913342000	sched	nready	10.000000
+13	2370.913342000	sched	nsubmitted	169.000000
+10	2370.913761000	w1	WS	B
+10	2370.914127000	w1	WS	Fi
+10	2370.915129000	w1	WS	B
+20	2370.915679000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	117
+10	2477.929788000	w4	WS	I
+10	2477.929800000	w7	WS	I
+10	2477.932212000	w2	WS	I
+10	2477.932309000	w5	WS	I
+10	2477.935462000	w4	WS	Po
+10	2477.935519000	w2	WS	Po
+10	2477.935912000	w5	WS	Po
+10	2477.937089000	w4	WS	B
+10	2477.937240000	w2	WS	B
+10	2477.937477000	w5	WS	B
+10	2477.940414000	w4	WS	C
+10	2477.940470000	w2	WS	C
+10	2477.940516000	w5	WS	C
+10	2477.940796000	w4	WS	B
+10	2477.940858000	w2	WS	B
+10	2477.940912000	w5	WS	B
+10	2477.949123000	w4	WS	Sc
+10	2477.949209000	w2	WS	Sc
+13	2477.950550000	sched	nready	9.000000
+13	2477.950550000	sched	nsubmitted	168.000000
+10	2477.951005000	w4	WS	B
+18	2477.951219000	WSL	p	0	w7	steal_14
+19	2477.951219001	WSL	p	0	w2	steal_14
+10	2477.951469000	w4	WS	Fi
+13	2477.951525000	sched	nready	8.000000
+13	2477.951525000	sched	nsubmitted	167.000000
+10	2477.952378000	w2	WS	B
+10	2477.952817000	w2	WS	Fi
+10	2477.953784000	w4	WS	B
+10	2477.954442000	w2	WS	B
+10	2477.955346000	w5	WS	Sc
+18	2477.956765000	WSL	p	0	w7	steal_15
+19	2477.956765001	WSL	p	0	w5	steal_15
+13	2477.957054000	sched	nready	7.000000
+13	2477.957054000	sched	nsubmitted	166.000000
+10	2477.958445000	w5	WS	B
+20	2477.954576000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	102
+10	2477.959127000	w5	WS	Fi
+20	2477.955373000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	108
+10	2477.960602000	w5	WS	B
+20	2477.961358000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	110
+10	2477.966627000	w6	WS	I
+10	2477.967658000	w6	WS	Po
+10	2477.968802000	w6	WS	B
+10	2477.969773000	w7	WS	Po
+10	2477.970740000	w7	WS	B
+10	2477.972708000	w7	WS	C
+10	2477.972951000	w7	WS	B
+13	2477.973488000	sched	nready	8.000000
+11	2477.974652000	w6	WS	Sc
+10	2477.975563000	w7	WS	Sc
+12	2477.975676000	w6	WS
+10	2477.976072000	w6	WS	C
+10	2477.976337000	w6	WS	B
+18	2477.976668000	WSL	p	0	w0	steal_16
+19	2477.976668001	WSL	p	0	w7	steal_16
+13	2477.976921000	sched	nready	7.000000
+13	2477.976921000	sched	nsubmitted	165.000000
+10	2477.977356000	w7	WS	B
+10	2477.977691000	w7	WS	Fi
+10	2477.978634000	w6	WS	Sc
+10	2477.978824000	w7	WS	B
+13	2477.979197000	sched	nready	6.000000
+13	2477.979197000	sched	nsubmitted	164.000000
+10	2477.979429000	w6	WS	B
+10	2477.979752000	w6	WS	Fi
+10	2477.980218000	w6	WS	B
+20	2477.980846000	w6	WS	sgetrf_nopiv	2359296	M768x768x4	c5fba424	0000000000000000	137
+20	2477.979664000	w7	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	80
+10	2551.659957000	w3	WS	I
+10	2551.660028000	w0	WS	I
+10	2551.660071000	w2	WS	I
+10	2551.660169000	w5	WS	I
+10	2551.666697000	w0	WS	Po
+10	2551.668256000	w0	WS	B
+10	2551.669676000	w3	WS	Po
+10	2551.669727000	w5	WS	Po
+10	2551.670790000	w3	WS	B
+10	2551.671311000	w5	WS	B
+10	2551.673208000	w3	WS	C
+13	2551.673431000	sched	nready	7.000000
+10	2551.673549000	w3	WS	B
+11	2551.674248000	w0	WS	Sc
+10	2551.674524000	w5	WS	C
+10	2551.674873000	w5	WS	B
+12	2551.675174000	w0	WS
+13	2551.676711000	sched	nready	8.000000
+11	2551.676925000	w0	WS	Sc
+12	2551.677301000	w0	WS
+13	2551.678778000	sched	nready	9.000000
+11	2551.678981000	w0	WS	Sc
+12	2551.679351000	w0	WS
+10	2551.679537000	w3	WS	Sc
+10	2551.679578000	w5	WS	Sc
+13	2551.680728000	sched	nready	10.000000
+11	2551.680951000	w0	WS	Sc
+18	2551.681366000	WSL	p	0	w0	steal_17
+19	2551.681366001	WSL	p	0	w3	steal_17
+18	2551.681927000	WSL	p	0	w0	steal_18
+19	2551.681927001	WSL	p	0	w5	steal_18
+13	2551.683938000	sched	nready	9.000000
+13	2551.683938000	sched	nsubmitted	163.000000
+13	2551.684056000	sched	nready	8.000000
+13	2551.684056000	sched	nsubmitted	162.000000
+10	2551.684466000	w3	WS	B
+10	2551.684865000	w5	WS	B
+10	2551.684942000	w3	WS	Fi
+10	2551.685330000	w2	WS	Po
+10	2551.685510000	w5	WS	Fi
+10	2551.686018000	w4	WS	I
+10	2551.686520000	w3	WS	B
+10	2551.686620000	w2	WS	B
+10	2551.686881000	w4	WS	Po
+10	2551.687243000	w5	WS	B
+10	2551.687721000	w4	WS	B
+10	2551.689092000	w2	WS	C
+10	2551.689424000	w2	WS	B
+10	2551.689548000	w4	WS	C
+10	2551.689864000	w4	WS	B
+20	2551.687441000	w3	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	129
+10	2551.692629000	w2	WS	Sc
+20	2551.688082000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	87
+10	2551.692899000	w4	WS	Sc
+18	2551.693720000	WSL	p	0	w0	steal_19
+19	2551.693720001	WSL	p	0	w4	steal_19
+13	2551.695597000	sched	nready	7.000000
+13	2551.695597000	sched	nsubmitted	161.000000
+10	2551.695948000	w4	WS	B
+10	2551.696277000	w4	WS	Fi
+10	2551.697449000	w4	WS	B
+20	2551.697953000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	122
+18	2551.704884000	WSL	p	0	w0	steal_20
+19	2551.704884001	WSL	p	0	w2	steal_20
+13	2551.706842000	sched	nready	6.000000
+13	2551.706842000	sched	nsubmitted	160.000000
+10	2551.707221000	w2	WS	B
+10	2551.707607000	w2	WS	Fi
+12	2551.707901000	w0	WS
+10	2551.709047000	w2	WS	B
+13	2551.709199000	sched	nready	7.000000
+11	2551.709433000	w0	WS	Sc
+12	2551.709810000	w0	WS
+13	2551.711175000	sched	nready	8.000000
+11	2551.711458000	w0	WS	Sc
+12	2551.711783000	w0	WS
+10	2551.712583000	w0	WS	C
+10	2551.712823000	w0	WS	B
+20	2551.709679000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	95
+10	2551.714960000	w0	WS	Sc
+13	2551.715434000	sched	nready	7.000000
+13	2551.715434000	sched	nsubmitted	159.000000
+10	2551.715675000	w0	WS	B
+10	2551.715943000	w0	WS	Fi
+10	2551.716726000	w0	WS	B
+20	2551.717137000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	123
+10	2552.125403000	w1	WS	I
+10	2552.126800000	w1	WS	Po
+10	2552.128216000	w1	WS	B
+10	2552.130697000	w1	WS	C
+10	2552.130964000	w1	WS	B
+10	2552.134137000	w1	WS	Sc
+18	2552.135124000	WSL	p	0	w0	steal_21
+19	2552.135124001	WSL	p	0	w1	steal_21
+13	2552.135381000	sched	nready	6.000000
+13	2552.135381000	sched	nsubmitted	158.000000
+10	2552.135813000	w1	WS	B
+10	2552.136257000	w1	WS	Fi
+10	2552.137402000	w1	WS	B
+20	2552.138129000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	103
+10	2579.761657000	w7	WS	I
+10	2579.764599000	w7	WS	Po
+10	2579.765955000	w7	WS	B
+13	2579.772097000	sched	nready	7.000000
+11	2579.772734000	w7	WS	Sc
+12	2579.773601000	w7	WS
+13	2579.775169000	sched	nready	8.000000
+11	2579.775379000	w7	WS	Sc
+12	2579.775661000	w7	WS
+13	2579.777094000	sched	nready	9.000000
+11	2579.777291000	w7	WS	Sc
+12	2579.777570000	w7	WS
+13	2579.778647000	sched	nready	10.000000
+11	2579.778843000	w7	WS	Sc
+12	2579.779131000	w7	WS
+13	2579.780215000	sched	nready	11.000000
+11	2579.780411000	w7	WS	Sc
+12	2579.780697000	w7	WS
+13	2579.782101000	sched	nready	12.000000
+11	2579.782302000	w7	WS	Sc
+12	2579.782592000	w7	WS
+10	2579.783420000	w7	WS	C
+10	2579.783739000	w7	WS	B
+10	2579.789492000	w7	WS	Sc
+13	2579.790938000	sched	nready	11.000000
+13	2579.790938000	sched	nsubmitted	157.000000
+10	2579.791399000	w7	WS	B
+10	2579.791956000	w7	WS	Fi
+10	2579.793628000	w7	WS	B
+20	2579.794865000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	88
+10	2579.803147000	w2	WS	I
+10	2579.805466000	w2	WS	Po
+10	2579.806669000	w2	WS	B
+10	2579.809144000	w2	WS	C
+10	2579.809486000	w2	WS	B
+10	2579.813066000	w2	WS	Sc
+18	2579.814390000	WSL	p	0	w7	steal_22
+19	2579.814390001	WSL	p	0	w2	steal_22
+13	2579.814598000	sched	nready	10.000000
+13	2579.814598000	sched	nsubmitted	156.000000
+10	2579.814947000	w2	WS	B
+10	2579.815318000	w2	WS	Fi
+10	2579.816556000	w2	WS	B
+20	2579.817079000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	96
+10	2651.005983000	w3	WS	I
+10	2651.006053000	w0	WS	I
+10	2651.006146000	w2	WS	I
+10	2651.006216000	w5	WS	I
+10	2651.012396000	w3	WS	Po
+10	2651.012554000	w0	WS	Po
+10	2651.012823000	w2	WS	Po
+10	2651.013978000	w3	WS	B
+10	2651.014117000	w0	WS	B
+10	2651.014161000	w2	WS	B
+10	2651.016836000	w0	WS	C
+10	2651.017068000	w2	WS	C
+10	2651.017238000	w0	WS	B
+10	2651.017446000	w2	WS	B
+13	2651.019176000	sched	nready	11.000000
+11	2651.019784000	w3	WS	Sc
+12	2651.020756000	w3	WS
+13	2651.022017000	sched	nready	12.000000
+11	2651.022261000	w3	WS	Sc
+12	2651.022549000	w3	WS
+10	2651.023302000	w5	WS	Po
+10	2651.023836000	w2	WS	Sc
+10	2651.023867000	w0	WS	Sc
+13	2651.024073000	sched	nready	13.000000
+11	2651.024304000	w3	WS	Sc
+12	2651.024566000	w3	WS
+10	2651.024744000	w5	WS	B
+13	2651.025203000	sched	nready	12.000000
+13	2651.025203000	sched	nsubmitted	155.000000
+18	2651.025546000	WSL	p	0	w3	steal_23
+19	2651.025546001	WSL	p	0	w2	steal_23
+10	2651.025648000	w0	WS	B
+13	2651.025804000	sched	nready	11.000000
+13	2651.025804000	sched	nsubmitted	154.000000
+13	2651.025870000	sched	nready	12.000000
+11	2651.026083000	w3	WS	Sc
+10	2651.026183000	w0	WS	Fi
+10	2651.026228000	w2	WS	B
+12	2651.026432000	w3	WS
+10	2651.026594000	w2	WS	Fi
+10	2651.027891000	w5	WS	C
+13	2651.027930000	sched	nready	13.000000
+10	2651.028052000	w0	WS	B
+10	2651.028088000	w2	WS	B
+11	2651.028238000	w3	WS	Sc
+10	2651.028288000	w5	WS	B
+12	2651.028595000	w3	WS
+13	2651.030175000	sched	nready	14.000000
+11	2651.030403000	w3	WS	Sc
+12	2651.030680000	w3	WS
+13	2651.031853000	sched	nready	15.000000
+11	2651.032144000	w3	WS	Sc
+10	2651.032417000	w5	WS	Sc
+12	2651.032492000	w3	WS
+10	2651.033213000	w3	WS	C
+10	2651.033493000	w3	WS	B
+20	2651.029110000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	124
+20	2651.029225000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	130
+18	2651.033867000	WSL	p	0	w3	steal_24
+19	2651.033867001	WSL	p	0	w5	steal_24
+13	2651.038295000	sched	nready	14.000000
+13	2651.038295000	sched	nsubmitted	153.000000
+10	2651.038839000	w5	WS	B
+10	2651.039494000	w5	WS	Fi
+10	2651.041029000	w5	WS	B
+10	2651.041766000	w3	WS	Sc
+13	2651.042357000	sched	nready	13.000000
+13	2651.042357000	sched	nsubmitted	152.000000
+10	2651.042626000	w3	WS	B
+10	2651.042924000	w3	WS	Fi
+10	2651.043974000	w3	WS	B
+20	2651.041840000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	131
+20	2651.044464000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	132
+10	2682.946831000	w7	WS	I
+10	2682.946888000	w4	WS	I
+10	2682.952217000	w7	WS	Po
+10	2682.953995000	w0	WS	I
+10	2682.954236000	w7	WS	B
+10	2682.955159000	w0	WS	Po
+10	2682.956153000	w0	WS	B
+10	2682.957544000	w7	WS	C
+10	2682.957782000	w7	WS	B
+10	2682.958166000	w0	WS	C
+10	2682.958387000	w0	WS	B
+10	2682.963971000	w0	WS	Sc
+10	2682.964031000	w7	WS	Sc
+13	2682.965138000	sched	nready	12.000000
+13	2682.965138000	sched	nsubmitted	151.000000
+13	2682.965175000	sched	nready	11.000000
+13	2682.965175000	sched	nsubmitted	150.000000
+10	2682.965623000	w7	WS	B
+10	2682.965667000	w0	WS	B
+10	2682.966281000	w0	WS	Fi
+10	2682.966326000	w7	WS	Fi
+10	2682.968322000	w7	WS	B
+10	2682.968495000	w0	WS	B
+20	2682.969179000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	111
+20	2682.969470000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	104
+10	2682.977611000	w4	WS	Po
+10	2682.978407000	w4	WS	B
+10	2682.980495000	w4	WS	C
+10	2682.980727000	w4	WS	B
+10	2682.982505000	w4	WS	Sc
+18	2682.983467000	WSL	p	0	w0	steal_25
+19	2682.983467001	WSL	p	0	w4	steal_25
+13	2682.983667000	sched	nready	10.000000
+13	2682.983667000	sched	nsubmitted	149.000000
+10	2682.984010000	w4	WS	B
+10	2682.984303000	w4	WS	Fi
+10	2682.985376000	w4	WS	B
+20	2682.985784000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	125
+10	2763.752361000	w0	WS	I
+10	2763.754484000	w3	WS	I
+10	2763.754865000	w2	WS	I
+10	2763.756718000	w1	WS	I
+10	2763.758980000	w0	WS	Po
+10	2763.759032000	w2	WS	Po
+10	2763.759079000	w1	WS	Po
+10	2763.759802000	w3	WS	Po
+10	2763.761046000	w0	WS	B
+10	2763.761106000	w2	WS	B
+10	2763.761247000	w1	WS	B
+10	2763.761289000	w3	WS	B
+10	2763.765043000	w3	WS	C
+10	2763.765106000	w2	WS	C
+10	2763.765433000	w2	WS	B
+10	2763.765477000	w3	WS	B
+10	2763.767002000	w0	WS	C
+10	2763.767337000	w0	WS	B
+10	2763.769580000	w1	WS	C
+10	2763.769942000	w1	WS	B
+10	2763.775128000	w0	WS	Sc
+10	2763.775274000	w2	WS	Sc
+10	2763.775339000	w1	WS	Sc
+13	2763.777023000	sched	nready	9.000000
+13	2763.777023000	sched	nsubmitted	148.000000
+10	2763.777605000	w0	WS	B
+18	2763.778019000	WSL	p	0	w3	steal_26
+19	2763.778019001	WSL	p	0	w2	steal_26
+10	2763.778085000	w0	WS	Fi
+10	2763.780219000	w0	WS	B
+13	2763.780866000	sched	nready	8.000000
+13	2763.780866000	sched	nsubmitted	147.000000
+10	2763.781462000	w2	WS	B
+18	2763.781712000	WSL	p	0	w3	steal_27
+19	2763.781712001	WSL	p	0	w1	steal_27
+10	2763.781984000	w2	WS	Fi
+13	2763.782312000	sched	nready	7.000000
+13	2763.782312000	sched	nsubmitted	146.000000
+10	2763.782998000	w1	WS	B
+10	2763.783803000	w1	WS	Fi
+10	2763.784376000	w2	WS	B
+10	2763.785504000	w1	WS	B
+20	2763.781290000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	119
+20	2763.785200000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	133
+20	2763.786293000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	134
+10	2764.158069000	w3	WS	Sc
+13	2764.159017000	sched	nready	6.000000
+13	2764.159017000	sched	nsubmitted	145.000000
+10	2764.159432000	w3	WS	B
+10	2764.159796000	w3	WS	Fi
+10	2764.160990000	w3	WS	B
+20	2764.161594000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	135
+10	2810.799786000	w4	WS	I
+10	2810.803256000	w4	WS	Po
+10	2810.804940000	w4	WS	B
+10	2810.808051000	w4	WS	C
+10	2810.808392000	w4	WS	B
+10	2810.813218000	w4	WS	Sc
+18	2810.815722000	WSL	p	0	w0	steal_28
+19	2810.815722001	WSL	p	0	w4	steal_28
+13	2810.815909000	sched	nready	5.000000
+13	2810.815909000	sched	nsubmitted	144.000000
+10	2810.816484000	w4	WS	B
+10	2810.816941000	w4	WS	Fi
+10	2810.818996000	w4	WS	B
+20	2810.819781000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	126
+10	2834.086934000	w4	WS	I
+10	2834.086972000	w3	WS	I
+10	2834.087180000	w2	WS	I
+10	2834.087995000	w1	WS	I
+10	2834.091985000	w3	WS	Po
+10	2834.093752000	w3	WS	B
+10	2834.093942000	w0	WS	I
+10	2834.094267000	w1	WS	Po
+10	2834.095002000	w0	WS	Po
+10	2834.095494000	w2	WS	Po
+10	2834.095827000	w1	WS	B
+10	2834.095966000	w0	WS	B
+10	2834.096802000	w2	WS	B
+10	2834.096838000	w3	WS	C
+10	2834.097183000	w3	WS	B
+10	2834.098092000	w0	WS	C
+10	2834.098354000	w0	WS	B
+10	2834.099236000	w1	WS	C
+10	2834.099527000	w2	WS	C
+10	2834.099599000	w1	WS	B
+10	2834.099973000	w2	WS	B
+10	2834.103856000	w0	WS	Sc
+10	2834.103895000	w3	WS	Sc
+10	2834.104236000	w2	WS	Sc
+10	2834.104430000	w1	WS	Sc
+13	2834.105330000	sched	nready	4.000000
+13	2834.105330000	sched	nsubmitted	143.000000
+13	2834.105370000	sched	nready	3.000000
+13	2834.105370000	sched	nsubmitted	142.000000
+10	2834.105751000	w0	WS	B
+10	2834.105798000	w3	WS	B
+18	2834.106001000	WSL	p	0	w7	steal_29
+19	2834.106001001	WSL	p	0	w2	steal_29
+10	2834.106200000	w0	WS	Fi
+10	2834.106247000	w3	WS	Fi
+13	2834.106523000	sched	nready	2.000000
+13	2834.106523000	sched	nsubmitted	141.000000
+18	2834.106562000	WSL	p	0	w7	steal_30
+19	2834.106562001	WSL	p	0	w1	steal_30
+13	2834.107078000	sched	nready	1.000000
+13	2834.107078000	sched	nsubmitted	140.000000
+10	2834.107150000	w2	WS	B
+10	2834.107546000	w2	WS	Fi
+10	2834.107625000	w1	WS	B
+10	2834.108215000	w0	WS	B
+10	2834.108322000	w1	WS	Fi
+10	2834.108361000	w3	WS	B
+10	2834.109169000	w2	WS	B
+10	2834.109810000	w1	WS	B
+20	2834.109069000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	127
+20	2834.109140000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	136
+20	2834.109865000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	112
+20	2834.110551000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	120
+10	2834.379362000	w4	WS	Po
+10	2834.380574000	w4	WS	B
+10	2834.383082000	w4	WS	C
+10	2834.383358000	w4	WS	B
+10	2834.385627000	w4	WS	Sc
+18	2834.386607000	WSL	p	0	w7	steal_31
+19	2834.386607001	WSL	p	0	w4	steal_31
+13	2834.386800000	sched	nready	0.000000
+13	2834.386800000	sched	nsubmitted	139.000000
+10	2834.387130000	w4	WS	B
+10	2834.387448000	w4	WS	Fi
+10	2834.388568000	w4	WS	B
+20	2834.389028000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	128
+10	2860.699446000	w0	WS	I
+10	2860.699534000	w5	WS	I
+10	2860.699562000	w7	WS	I
+10	2860.700593000	w2	WS	I
+10	2860.705488000	w0	WS	Po
+10	2860.705575000	w7	WS	Po
+10	2860.706149000	w5	WS	Po
+10	2860.706983000	w0	WS	B
+10	2860.707028000	w7	WS	B
+10	2860.707705000	w5	WS	B
+10	2860.710030000	w0	WS	C
+10	2860.710079000	w7	WS	C
+10	2860.710300000	w0	WS	B
+10	2860.710410000	w7	WS	B
+10	2860.710708000	w5	WS	C
+10	2860.710951000	w5	WS	B
+10	2860.711343000	w2	WS	Po
+10	2860.712593000	w2	WS	B
+10	2860.714922000	w2	WS	C
+10	2860.715130000	w2	WS	B
+10	2860.718845000	w0	WS	Sc
+10	2860.718884000	w7	WS	Sc
+10	2860.719745000	w5	WS	Sc
+10	2860.719794000	w2	WS	Sc
+10	2860.720728000	w7	WS	Sl
+10	2860.720758000	w0	WS	Sl
+10	2860.721273000	w2	WS	Sl
+10	2860.721572000	w5	WS	Sl
+10	2882.029118000	w3	WS	I
+10	2882.031525000	w3	WS	Po
+10	2882.033937000	w3	WS	B
+10	2882.037026000	w3	WS	C
+10	2882.037408000	w3	WS	B
+10	2882.042492000	w3	WS	Sc
+10	2882.043282000	w3	WS	Sl
+10	2918.031198000	w4	WS	I
+10	2918.031434000	w1	WS	I
+10	2918.034207000	w4	WS	Po
+10	2918.034851000	w1	WS	Po
+10	2918.036008000	w4	WS	B
+10	2918.036417000	w1	WS	B
+10	2918.042545000	w4	WS	C
+10	2918.042877000	w4	WS	B
+10	2918.044459000	w1	WS	C
+10	2918.044793000	w1	WS	B
+10	2918.047658000	w4	WS	Sc
+10	2918.048229000	w1	WS	Sc
+10	2918.048424000	w4	WS	Sl
+10	2918.049434000	w1	WS	Sl
+10	2925.264520000	w6	WS	I
+10	2925.305224000	w6	WS	Po
+10	2925.306067000	w6	WS	B
+13	2925.310365000	sched	nready	1.000000
+11	2925.311155000	w6	WS	Sc
+12	2925.311919000	w6	WS
+18	2925.312572000	WSL	p	0	w6	steal_32
+19	2925.312572001	WSL	p	0	w1	steal_32
+13	2925.313393000	sched	nready	2.000000
+11	2925.313599000	w6	WS	Sc
+12	2925.313914000	w6	WS
+18	2925.314795000	WSL	p	0	w6	steal_33
+19	2925.314795001	WSL	p	0	w3	steal_33
+13	2925.315067000	sched	nready	1.000000
+13	2925.315067000	sched	nsubmitted	138.000000
+13	2925.315212000	sched	nready	2.000000
+11	2925.315483000	w6	WS	Sc
+10	2925.315715000	w3	WS	B
+12	2925.315837000	w6	WS
+13	2925.316022000	sched	nready	1.000000
+13	2925.316022000	sched	nsubmitted	137.000000
+10	2925.316477000	w3	WS	Fi
+18	2925.316801000	WSL	p	0	w6	steal_34
+19	2925.316801001	WSL	p	0	w0	steal_34
+10	2925.317006000	w1	WS	B
+13	2925.317083000	sched	nready	0.000000
+13	2925.317083000	sched	nsubmitted	136.000000
+13	2925.317165000	sched	nready	1.000000
+11	2925.317444000	w6	WS	Sc
+10	2925.317634000	w1	WS	Fi
+10	2925.317697000	w0	WS	B
+12	2925.317788000	w6	WS
+10	2925.318122000	w0	WS	Fi
+10	2925.318236000	w3	WS	B
+13	2925.319004000	sched	nready	2.000000
+10	2925.319086000	w1	WS	B
+10	2925.319140000	w0	WS	B
+11	2925.319271000	w6	WS	Sc
+12	2925.319645000	w6	WS
+13	2925.320884000	sched	nready	3.000000
+11	2925.321093000	w6	WS	Sc
+12	2925.321377000	w6	WS
+13	2925.322381000	sched	nready	4.000000
+11	2925.322742000	w6	WS	Sc
+12	2925.323102000	w6	WS
+20	2925.319752000	w0	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	140
+13	2925.324156000	sched	nready	5.000000
+20	2925.319238000	w3	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	139
+20	2925.320013000	w1	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	138
+11	2925.324522000	w6	WS	Sc
+12	2925.324883000	w6	WS
+13	2925.325960000	sched	nready	6.000000
+11	2925.326155000	w6	WS	Sc
+12	2925.326408000	w6	WS
+13	2925.327797000	sched	nready	7.000000
+11	2925.327966000	w6	WS	Sc
+12	2925.328302000	w6	WS
+18	2925.329486000	WSL	p	0	w6	steal_35
+19	2925.329486001	WSL	p	0	w5	steal_35
+13	2925.329724000	sched	nready	6.000000
+13	2925.329724000	sched	nsubmitted	135.000000
+13	2925.329855000	sched	nready	7.000000
+11	2925.330076000	w6	WS	Sc
+10	2925.330372000	w5	WS	B
+12	2925.330586000	w6	WS
+10	2925.330771000	w5	WS	Fi
+10	2925.331695000	w5	WS	B
+13	2925.332493000	sched	nready	8.000000
+11	2925.332687000	w6	WS	Sc
+12	2925.332957000	w6	WS
+10	2925.333354000	w6	WS	C
+10	2925.333836000	w6	WS	B
+20	2925.332198000	w5	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	144
+10	2925.338689000	w6	WS	Sc
+13	2925.339387000	sched	nready	7.000000
+13	2925.339387000	sched	nsubmitted	134.000000
+10	2925.339969000	w6	WS	B
+10	2925.340288000	w6	WS	Fi
+10	2925.341436000	w6	WS	B
+20	2925.342078000	w6	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	151
+18	2930.042162000	WSL	p	0	w6	steal_36
+19	2930.042162001	WSL	p	0	w7	steal_36
+13	2930.047515000	sched	nready	6.000000
+13	2930.047515000	sched	nsubmitted	133.000000
+18	2930.048705000	WSL	p	0	w6	steal_37
+19	2930.048705001	WSL	p	0	w4	steal_37
+13	2930.049576000	sched	nready	5.000000
+13	2930.049576000	sched	nsubmitted	132.000000
+10	2930.050083000	w7	WS	B
+10	2930.050393000	w4	WS	B
+10	2930.051342000	w4	WS	Fi
+10	2930.051502000	w7	WS	Fi
+10	2930.053489000	w4	WS	B
+10	2930.055213000	w7	WS	B
+20	2930.054542000	w4	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	141
+20	2930.056226000	w7	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	158
+18	2934.219348000	WSL	p	0	w6	steal_38
+19	2934.219348001	WSL	p	0	w2	steal_38
+13	2934.219824000	sched	nready	4.000000
+13	2934.219824000	sched	nsubmitted	131.000000
+10	2934.221571000	w2	WS	B
+10	2934.222531000	w2	WS	Fi
+10	2934.225020000	w2	WS	B
+20	2934.226609000	w2	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	165
+10	2971.090142000	w4	WS	I
+10	2971.090215000	w2	WS	I
+10	2971.090263000	w1	WS	I
+10	2971.090306000	w7	WS	I
+10	2971.096672000	w0	WS	I
+10	2971.099280000	w7	WS	Po
+10	2971.100406000	w0	WS	Po
+10	2971.100540000	w6	WS	I
+10	2971.101371000	w7	WS	B
+10	2971.101594000	w0	WS	B
+10	2971.101826000	w6	WS	Po
+10	2971.102445000	w5	WS	I
+10	2971.104132000	w5	WS	Po
+10	2971.104724000	w6	WS	B
+10	2971.104854000	w4	WS	Po
+10	2971.105454000	w5	WS	B
+10	2971.108160000	w4	WS	B
+10	2971.108402000	w6	WS	C
+10	2971.108474000	w7	WS	C
+10	2971.108800000	w6	WS	B
+10	2971.108847000	w7	WS	B
+10	2971.111891000	w5	WS	C
+10	2971.112266000	w5	WS	B
+13	2971.114063000	sched	nready	5.000000
+11	2971.114900000	w0	WS	Sc
+12	2971.116441000	w0	WS
+10	2971.116924000	w7	WS	Sc
+10	2971.117115000	w6	WS	Sc
+10	2971.117214000	w5	WS	Sc
+13	2971.117858000	sched	nready	6.000000
+11	2971.118077000	w0	WS	Sc
+12	2971.118359000	w0	WS
+13	2971.118730000	sched	nready	5.000000
+13	2971.118730000	sched	nsubmitted	130.000000
+18	2971.118936000	WSL	p	0	w0	steal_39
+19	2971.118936001	WSL	p	0	w7	steal_39
+13	2971.119216000	sched	nready	4.000000
+13	2971.119216000	sched	nsubmitted	129.000000
+10	2971.119309000	w6	WS	B
+13	2971.119642000	sched	nready	5.000000
+10	2971.119691000	w7	WS	B
+11	2971.119927000	w0	WS	Sc
+12	2971.120269000	w0	WS
+10	2971.120337000	w7	WS	Fi
+10	2971.121197000	w1	WS	Po
+10	2971.121548000	w0	WS	C
+10	2971.121815000	w0	WS	B
+10	2971.121914000	w6	WS	Fi
+10	2971.122231000	w1	WS	B
+10	2971.122610000	w7	WS	B
+10	2971.123072000	w6	WS	B
+10	2971.124650000	w0	WS	Sc
+13	2971.125183000	sched	nready	4.000000
+13	2971.125183000	sched	nsubmitted	128.000000
+13	2971.125556000	sched	nready	5.000000
+10	2971.125586000	w0	WS	B
+10	2971.126002000	w0	WS	Fi
+11	2971.126041000	w1	WS	Sc
+12	2971.126915000	w1	WS
+10	2971.127050000	w0	WS	B
+20	2971.123608000	w6	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	142
+13	2971.128187000	sched	nready	6.000000
+20	2971.123693000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	147
+11	2971.128482000	w1	WS	Sc
+12	2971.128874000	w1	WS
+13	2971.130399000	sched	nready	7.000000
+11	2971.130616000	w1	WS	Sc
+12	2971.131013000	w1	WS
+20	2971.127579000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	154
+10	2971.132973000	w1	WS	C
+10	2971.133203000	w1	WS	B
+10	2971.136912000	w1	WS	Sc
+13	2971.137964000	sched	nready	6.000000
+13	2971.137964000	sched	nsubmitted	127.000000
+10	2971.138423000	w1	WS	B
+10	2971.138936000	w1	WS	Fi
+13	2971.140672000	sched	nready	7.000000
+10	2971.140773000	w1	WS	B
+11	2971.140924000	w4	WS	Sc
+12	2971.141244000	w4	WS
+13	2971.143103000	sched	nready	8.000000
+11	2971.143284000	w4	WS	Sc
+12	2971.143492000	w4	WS
+13	2971.145054000	sched	nready	9.000000
+11	2971.145219000	w4	WS	Sc
+12	2971.145503000	w4	WS
+20	2971.141497000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	145
+10	2971.148131000	w4	WS	C
+10	2971.148306000	w4	WS	B
+10	2971.151192000	w4	WS	Sc
+13	2971.151958000	sched	nready	8.000000
+13	2971.151958000	sched	nsubmitted	126.000000
+10	2971.152244000	w4	WS	B
+10	2971.152475000	w4	WS	Fi
+10	2971.154051000	w4	WS	B
+18	2971.154634000	WSL	p	0	w6	steal_40
+19	2971.154634001	WSL	p	0	w5	steal_40
+13	2971.155232000	sched	nready	7.000000
+13	2971.155232000	sched	nsubmitted	125.000000
+10	2971.155905000	w5	WS	B
+10	2971.156459000	w5	WS	Fi
+20	2971.154470000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	148
+10	2971.158238000	w5	WS	B
+20	2971.158988000	w5	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	172
+10	2974.119569000	w2	WS	Po
+10	2974.121897000	w2	WS	B
+13	2974.129104000	sched	nready	8.000000
+11	2974.129987000	w2	WS	Sc
+12	2974.131041000	w2	WS
+13	2974.133453000	sched	nready	9.000000
+11	2974.133668000	w2	WS	Sc
+12	2974.134048000	w2	WS
+13	2974.135390000	sched	nready	10.000000
+11	2974.135596000	w2	WS	Sc
+12	2974.135899000	w2	WS
+10	2974.137173000	w2	WS	C
+10	2974.137438000	w2	WS	B
+10	2974.143289000	w2	WS	Sc
+13	2974.144859000	sched	nready	9.000000
+13	2974.144859000	sched	nsubmitted	124.000000
+10	2974.145387000	w2	WS	B
+10	2974.145862000	w2	WS	Fi
+10	2974.148006000	w2	WS	B
+20	2974.149067000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	166
+10	3062.163777000	w3	WS	I
+10	3062.163851000	w6	WS	I
+10	3062.170507000	w6	WS	Po
+10	3062.171516000	w3	WS	Po
+10	3062.172527000	w6	WS	B
+10	3062.172891000	w3	WS	B
+13	3062.181570000	sched	nready	10.000000
+13	3062.181639000	sched	nready	11.000000
+10	3062.181912000	w1	WS	I
+11	3062.182406000	w6	WS	Sc
+11	3062.182448000	w3	WS	Sc
+12	3062.183293000	w3	WS
+12	3062.183417000	w6	WS
+10	3062.184264000	w1	WS	Po
+13	3062.184877000	sched	nready	12.000000
+13	3062.184965000	sched	nready	13.000000
+11	3062.185216000	w3	WS	Sc
+11	3062.185280000	w6	WS	Sc
+12	3062.185555000	w3	WS
+10	3062.185618000	w1	WS	B
+12	3062.185649000	w6	WS
+13	3062.187270000	sched	nready	14.000000
+11	3062.187514000	w3	WS	Sc
+12	3062.187777000	w3	WS
+13	3062.188600000	sched	nready	15.000000
+11	3062.188851000	w6	WS	Sc
+13	3062.188945000	sched	nready	16.000000
+11	3062.189221000	w3	WS	Sc
+12	3062.189268000	w6	WS
+13	3062.189467000	sched	nready	17.000000
+12	3062.189548000	w3	WS
+10	3062.190932000	w3	WS	C
+13	3062.190990000	sched	nready	18.000000
+10	3062.191249000	w3	WS	B
+11	3062.191292000	w6	WS	Sc
+11	3062.191602000	w1	WS	Sc
+12	3062.191690000	w6	WS
+12	3062.192238000	w1	WS
+10	3062.192772000	w6	WS	C
+10	3062.192813000	w1	WS	C
+10	3062.193090000	w6	WS	B
+10	3062.193148000	w1	WS	B
+10	3062.196244000	w3	WS	Sc
+10	3062.197667000	w6	WS	Sc
+13	3062.197930000	sched	nready	17.000000
+13	3062.197930000	sched	nsubmitted	123.000000
+10	3062.198149000	w1	WS	Sc
+10	3062.198307000	w3	WS	B
+13	3062.198553000	sched	nready	16.000000
+13	3062.198553000	sched	nsubmitted	122.000000
+10	3062.198847000	w3	WS	Fi
+10	3062.199054000	w6	WS	B
+13	3062.199106000	sched	nready	15.000000
+13	3062.199106000	sched	nsubmitted	121.000000
+10	3062.199475000	w1	WS	B
+10	3062.199559000	w6	WS	Fi
+10	3062.200049000	w1	WS	Fi
+10	3062.200096000	w3	WS	B
+10	3062.200642000	w6	WS	B
+10	3062.200817000	w1	WS	B
+20	3062.201575000	w1	WS	sgetrf_nopiv	2359296	M768x768x4	c5fba424	0000000000000000	186
+20	3062.201354000	w6	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	143
+20	3062.200952000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	146
+10	3062.461969000	w7	WS	I
+10	3062.463044000	w7	WS	Po
+10	3062.463765000	w2	WS	I
+10	3062.464090000	w4	WS	I
+10	3062.464185000	w7	WS	B
+10	3062.464776000	w2	WS	Po
+10	3062.465229000	w4	WS	Po
+10	3062.465746000	w2	WS	B
+10	3062.466122000	w7	WS	C
+10	3062.466362000	w7	WS	B
+10	3062.466416000	w4	WS	B
+10	3062.468035000	w2	WS	C
+10	3062.468289000	w2	WS	B
+10	3062.468473000	w7	WS	Sc
+10	3062.468577000	w4	WS	C
+10	3062.468900000	w4	WS	B
+18	3062.469281000	WSL	p	0	w3	steal_41
+19	3062.469281001	WSL	p	0	w7	steal_41
+13	3062.469548000	sched	nready	14.000000
+13	3062.469548000	sched	nsubmitted	120.000000
+10	3062.469813000	w7	WS	B
+10	3062.470093000	w7	WS	Fi
+10	3062.470435000	w2	WS	Sc
+10	3062.471008000	w7	WS	B
+13	3062.471060000	sched	nready	13.000000
+13	3062.471060000	sched	nsubmitted	119.000000
+10	3062.471335000	w4	WS	Sc
+10	3062.471471000	w2	WS	B
+10	3062.471875000	w2	WS	Fi
+13	3062.472162000	sched	nready	12.000000
+13	3062.472162000	sched	nsubmitted	118.000000
+10	3062.472454000	w4	WS	B
+10	3062.472895000	w4	WS	Fi
+10	3062.473269000	w2	WS	B
+10	3062.473968000	w4	WS	B
+20	3062.471517000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	153
+20	3062.473698000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	168
+20	3062.474516000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	155
+10	3062.483584000	w0	WS	I
+10	3062.484296000	w0	WS	Po
+10	3062.485052000	w0	WS	B
+10	3062.487069000	w0	WS	C
+10	3062.487255000	w0	WS	B
+10	3062.488785000	w0	WS	Sc
+13	3062.489324000	sched	nready	11.000000
+13	3062.489324000	sched	nsubmitted	117.000000
+10	3062.489600000	w0	WS	B
+10	3062.489912000	w0	WS	Fi
+10	3062.490945000	w0	WS	B
+20	3062.491381000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	161
+10	3099.104419000	w0	WS	I
+10	3099.104438000	w7	WS	I
+10	3099.104502000	w5	WS	I
+10	3099.107550000	w5	WS	Po
+10	3099.109449000	w0	WS	Po
+10	3099.109648000	w5	WS	B
+10	3099.110695000	w0	WS	B
+10	3099.113048000	w0	WS	C
+10	3099.113374000	w0	WS	B
+13	3099.116263000	sched	nready	12.000000
+11	3099.117036000	w5	WS	Sc
+12	3099.117865000	w5	WS
+10	3099.118206000	w0	WS	Sc
+13	3099.119329000	sched	nready	13.000000
+11	3099.119592000	w5	WS	Sc
+12	3099.119920000	w5	WS
+18	3099.120220000	WSL	p	0	w4	steal_42
+19	3099.120220001	WSL	p	0	w0	steal_42
+13	3099.120436000	sched	nready	12.000000
+13	3099.120436000	sched	nsubmitted	116.000000
+10	3099.121050000	w7	WS	Po
+10	3099.121121000	w0	WS	B
+13	3099.121401000	sched	nready	13.000000
+10	3099.121669000	w0	WS	Fi
+11	3099.121719000	w5	WS	Sc
+12	3099.122046000	w5	WS
+10	3099.122143000	w7	WS	B
+13	3099.123380000	sched	nready	14.000000
+10	3099.123646000	w0	WS	B
+11	3099.123684000	w5	WS	Sc
+12	3099.124006000	w5	WS
+10	3099.124101000	w7	WS	C
+10	3099.124417000	w7	WS	B
+13	3099.125254000	sched	nready	15.000000
+11	3099.125460000	w5	WS	Sc
+12	3099.125730000	w5	WS
+10	3099.126540000	w5	WS	C
+10	3099.126824000	w5	WS	B
+10	3099.126931000	w7	WS	Sc
+18	3099.128090000	WSL	p	0	w3	steal_43
+19	3099.128090001	WSL	p	0	w7	steal_43
+13	3099.128338000	sched	nready	14.000000
+13	3099.128338000	sched	nsubmitted	115.000000
+10	3099.128731000	w7	WS	B
+10	3099.129096000	w7	WS	Fi
+20	3099.124522000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	162
+10	3099.130258000	w7	WS	B
+10	3099.130965000	w5	WS	Sc
+13	3099.131949000	sched	nready	13.000000
+13	3099.131949000	sched	nsubmitted	114.000000
+10	3099.132357000	w5	WS	B
+10	3099.132867000	w5	WS	Fi
+10	3099.134508000	w5	WS	B
+20	3099.130819000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	160
+20	3099.135393000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	173
+10	3196.124046000	w0	WS	I
+10	3196.125287000	w3	WS	I
+10	3196.126004000	w2	WS	I
+10	3196.126871000	w0	WS	Po
+10	3196.127295000	w3	WS	Po
+10	3196.127424000	w5	WS	I
+10	3196.127644000	w2	WS	Po
+10	3196.128900000	w3	WS	B
+10	3196.128956000	w0	WS	B
+10	3196.129095000	w2	WS	B
+10	3196.129352000	w5	WS	Po
+10	3196.130790000	w5	WS	B
+10	3196.131685000	w0	WS	C
+10	3196.131734000	w3	WS	C
+10	3196.131777000	w2	WS	C
+10	3196.132051000	w3	WS	B
+10	3196.132121000	w0	WS	B
+10	3196.132158000	w2	WS	B
+10	3196.133580000	w5	WS	C
+10	3196.133924000	w5	WS	B
+10	3196.147856000	w5	WS	Sc
+10	3196.148084000	w4	WS	I
+10	3196.148344000	w3	WS	Sc
+10	3196.148527000	w2	WS	Sc
+10	3196.148918000	w4	WS	Po
+13	3196.149637000	sched	nready	12.000000
+13	3196.149637000	sched	nsubmitted	113.000000
+13	3196.149717000	sched	nready	11.000000
+13	3196.149717000	sched	nsubmitted	112.000000
+13	3196.149768000	sched	nready	10.000000
+13	3196.149768000	sched	nsubmitted	111.000000
+10	3196.149823000	w4	WS	B
+10	3196.150180000	w3	WS	B
+10	3196.150346000	w2	WS	B
+10	3196.150507000	w5	WS	B
+10	3196.150636000	w3	WS	Fi
+10	3196.150810000	w2	WS	Fi
+10	3196.151160000	w5	WS	Fi
+10	3196.151862000	w4	WS	C
+10	3196.152137000	w4	WS	B
+10	3196.152255000	w3	WS	B
+10	3196.152673000	w5	WS	B
+10	3196.152733000	w2	WS	B
+10	3196.154345000	w4	WS	Sc
+18	3196.155593000	WSL	p	0	w1	steal_44
+19	3196.155593001	WSL	p	0	w4	steal_44
+13	3196.155817000	sched	nready	9.000000
+13	3196.155817000	sched	nsubmitted	110.000000
+10	3196.156199000	w4	WS	B
+10	3196.156632000	w4	WS	Fi
+10	3196.157791000	w4	WS	B
+20	3196.153109000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	167
+20	3196.153497000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	169
+20	3196.153547000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	174
+20	3196.158322000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	152
+10	3196.164756000	w7	WS	I
+10	3196.165631000	w7	WS	Po
+10	3196.166364000	w7	WS	B
+10	3196.166818000	w0	WS	Sc
+18	3196.167729000	WSL	p	0	w1	steal_45
+19	3196.167729001	WSL	p	0	w0	steal_45
+13	3196.167889000	sched	nready	8.000000
+13	3196.167889000	sched	nsubmitted	109.000000
+10	3196.168220000	w0	WS	B
+10	3196.168315000	w7	WS	C
+10	3196.168609000	w0	WS	Fi
+10	3196.168720000	w7	WS	B
+10	3196.169524000	w0	WS	B
+10	3196.170589000	w7	WS	Sc
+18	3196.171395000	WSL	p	0	w5	steal_46
+19	3196.171395001	WSL	p	0	w7	steal_46
+13	3196.171572000	sched	nready	7.000000
+13	3196.171572000	sched	nsubmitted	108.000000
+10	3196.171968000	w7	WS	B
+10	3196.172562000	w7	WS	Fi
+20	3196.169931000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	159
+10	3196.173571000	w7	WS	B
+20	3196.174092000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	175
+10	3243.527249000	w5	WS	I
+10	3243.527240000	w6	WS	I
+10	3243.530925000	w6	WS	Po
+10	3243.531114000	w5	WS	Po
+10	3243.532462000	w6	WS	B
+10	3243.532668000	w5	WS	B
+10	3243.535967000	w5	WS	C
+10	3243.536311000	w5	WS	B
+13	3243.538389000	sched	nready	8.000000
+11	3243.539391000	w6	WS	Sc
+12	3243.540595000	w6	WS
+13	3243.542080000	sched	nready	9.000000
+11	3243.542285000	w6	WS	Sc
+12	3243.542663000	w6	WS
+10	3243.543062000	w5	WS	Sc
+13	3243.543958000	sched	nready	10.000000
+11	3243.544187000	w6	WS	Sc
+12	3243.544571000	w6	WS
+13	3243.545013000	sched	nready	9.000000
+13	3243.545013000	sched	nsubmitted	107.000000
+10	3243.546053000	w5	WS	B
+13	3243.546198000	sched	nready	10.000000
+11	3243.546438000	w6	WS	Sc
+12	3243.546774000	w6	WS
+10	3243.546867000	w5	WS	Fi
+13	3243.548435000	sched	nready	11.000000
+11	3243.548651000	w6	WS	Sc
+12	3243.548978000	w6	WS
+10	3243.549028000	w5	WS	B
+10	3243.549727000	w6	WS	C
+10	3243.549978000	w6	WS	B
+10	3243.552936000	w6	WS	Sc
+13	3243.553939000	sched	nready	10.000000
+13	3243.553939000	sched	nsubmitted	106.000000
+10	3243.554367000	w6	WS	B
+10	3243.554771000	w6	WS	Fi
+20	3243.550203000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	176
+10	3243.555791000	w6	WS	B
+20	3243.556451000	w6	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	179
+10	3243.608276000	w4	WS	I
+10	3243.609923000	w4	WS	Po
+10	3243.610825000	w4	WS	B
+10	3243.612593000	w4	WS	C
+10	3243.612800000	w4	WS	B
+10	3243.615201000	w4	WS	Sc
+18	3243.616320000	WSL	p	0	w5	steal_47
+19	3243.616320001	WSL	p	0	w4	steal_47
+13	3243.616493000	sched	nready	9.000000
+13	3243.616493000	sched	nsubmitted	105.000000
+10	3243.616821000	w4	WS	B
+10	3243.617154000	w4	WS	Fi
+10	3243.618259000	w4	WS	B
+20	3243.618763000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	177
+10	3260.962143000	w7	WS	I
+10	3260.964854000	w7	WS	Po
+10	3260.966457000	w7	WS	B
+10	3260.969242000	w7	WS	C
+10	3260.970048000	w7	WS	B
+10	3260.975215000	w7	WS	Sc
+18	3260.977308000	WSL	p	0	w6	steal_48
+19	3260.977308001	WSL	p	0	w7	steal_48
+13	3260.977499000	sched	nready	8.000000
+13	3260.977499000	sched	nsubmitted	104.000000
+10	3260.978227000	w7	WS	B
+10	3260.978674000	w7	WS	Fi
+10	3260.980393000	w7	WS	B
+20	3260.981386000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	149
+10	3291.976805000	w7	WS	I
+10	3291.976946000	w2	WS	I
+10	3291.983285000	w2	WS	Po
+10	3291.985168000	w2	WS	B
+10	3291.988514000	w2	WS	C
+10	3291.988846000	w2	WS	B
+10	3291.994974000	w2	WS	Sc
+10	3291.996601000	w7	WS	Po
+10	3291.997686000	w7	WS	B
+18	3291.997834000	WSL	p	0	w6	steal_49
+19	3291.997834001	WSL	p	0	w2	steal_49
+13	3291.998070000	sched	nready	7.000000
+13	3291.998070000	sched	nsubmitted	103.000000
+10	3291.998671000	w2	WS	B
+10	3291.999085000	w2	WS	Fi
+10	3291.999737000	w7	WS	C
+10	3291.999950000	w7	WS	B
+10	3292.001304000	w2	WS	B
+10	3292.002548000	w7	WS	Sc
+18	3292.003461000	WSL	p	0	w6	steal_50
+19	3292.003461001	WSL	p	0	w7	steal_50
+13	3292.003649000	sched	nready	6.000000
+13	3292.003649000	sched	nsubmitted	102.000000
+10	3292.004025000	w7	WS	B
+10	3292.004431000	w7	WS	Fi
+10	3292.005556000	w7	WS	B
+20	3292.002186000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	156
+20	3292.006202000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	150
+10	3386.330359000	w6	WS	I
+10	3386.365309000	w6	WS	Po
+10	3386.367161000	w6	WS	B
+13	3386.373341000	sched	nready	7.000000
+11	3386.374315000	w6	WS	Sc
+12	3386.375334000	w6	WS
+13	3386.376651000	sched	nready	8.000000
+11	3386.376854000	w6	WS	Sc
+12	3386.377349000	w6	WS
+13	3386.378980000	sched	nready	9.000000
+11	3386.379178000	w6	WS	Sc
+12	3386.379590000	w6	WS
+13	3386.380896000	sched	nready	10.000000
+11	3386.381098000	w6	WS	Sc
+12	3386.381522000	w6	WS
+13	3386.383097000	sched	nready	11.000000
+11	3386.383285000	w6	WS	Sc
+12	3386.383618000	w6	WS
+13	3386.384687000	sched	nready	12.000000
+11	3386.384887000	w6	WS	Sc
+12	3386.385158000	w6	WS
+10	3386.385685000	w6	WS	C
+10	3386.385945000	w6	WS	B
+10	3386.392121000	w6	WS	Sc
+13	3386.394299000	sched	nready	11.000000
+13	3386.394299000	sched	nsubmitted	101.000000
+10	3386.394884000	w6	WS	B
+10	3386.395384000	w6	WS	Fi
+10	3386.397618000	w6	WS	B
+20	3386.398796000	w6	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	180
+10	3398.027624000	w4	WS	I
+10	3398.029828000	w4	WS	Po
+10	3398.031133000	w4	WS	B
+10	3398.033749000	w4	WS	C
+10	3398.034000000	w4	WS	B
+10	3398.038323000	w4	WS	Sc
+18	3398.040526000	WSL	p	0	w6	steal_51
+19	3398.040526001	WSL	p	0	w4	steal_51
+13	3398.040711000	sched	nready	10.000000
+13	3398.040711000	sched	nsubmitted	100.000000
+10	3398.041137000	w4	WS	B
+10	3398.041570000	w4	WS	Fi
+10	3398.043125000	w4	WS	B
+20	3398.043747000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	163
+10	3466.002901000	w7	WS	I
+10	3466.007491000	w7	WS	Po
+10	3466.009546000	w7	WS	B
+10	3466.047272000	w7	WS	C
+10	3466.047678000	w7	WS	B
+10	3466.054579000	w7	WS	Sc
+18	3466.057380000	WSL	p	0	w6	steal_52
+19	3466.057380001	WSL	p	0	w7	steal_52
+13	3466.057615000	sched	nready	9.000000
+13	3466.057615000	sched	nsubmitted	99.000000
+10	3466.058350000	w7	WS	B
+10	3466.058972000	w7	WS	Fi
+10	3466.061176000	w7	WS	B
+20	3466.062300000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	157
+10	3478.164683000	w3	WS	I
+10	3478.167709000	w3	WS	Po
+10	3478.169431000	w3	WS	B
+10	3478.172922000	w3	WS	C
+10	3478.173305000	w3	WS	B
+10	3478.179058000	w3	WS	Sc
+18	3478.180979000	WSL	p	0	w6	steal_53
+19	3478.180979001	WSL	p	0	w3	steal_53
+13	3478.181203000	sched	nready	8.000000
+13	3478.181203000	sched	nsubmitted	98.000000
+10	3478.181673000	w3	WS	B
+10	3478.182145000	w3	WS	Fi
+10	3478.183794000	w3	WS	B
+20	3478.184734000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	181
+10	3489.983633000	w0	WS	I
+10	3489.986361000	w0	WS	Po
+10	3489.987915000	w0	WS	B
+10	3489.990891000	w0	WS	C
+10	3489.991366000	w0	WS	B
+10	3489.996107000	w0	WS	Sc
+18	3489.998281000	WSL	p	0	w6	steal_54
+19	3489.998281001	WSL	p	0	w0	steal_54
+13	3489.998469000	sched	nready	7.000000
+13	3489.998469000	sched	nsubmitted	97.000000
+10	3489.999045000	w0	WS	B
+10	3489.999742000	w0	WS	Fi
+10	3490.001565000	w0	WS	B
+20	3490.002436000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	170
+10	3501.360816000	w5	WS	I
+10	3501.365133000	w5	WS	Po
+10	3501.367490000	w5	WS	B
+10	3501.371629000	w5	WS	C
+10	3501.371965000	w5	WS	B
+10	3501.378764000	w5	WS	Sc
+18	3501.381767000	WSL	p	0	w6	steal_55
+19	3501.381767001	WSL	p	0	w5	steal_55
+13	3501.382001000	sched	nready	6.000000
+13	3501.382001000	sched	nsubmitted	96.000000
+10	3501.382653000	w5	WS	B
+10	3501.383465000	w5	WS	Fi
+10	3501.385445000	w5	WS	B
+20	3501.386965000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	164
+10	3517.462237000	w2	WS	I
+10	3517.466417000	w2	WS	Po
+10	3517.468320000	w2	WS	B
+10	3517.472820000	w5	WS	I
+10	3517.473116000	w2	WS	C
+10	3517.473448000	w2	WS	B
+10	3517.474234000	w0	WS	I
+10	3517.474697000	w5	WS	Po
+10	3517.475317000	w0	WS	Po
+10	3517.476181000	w5	WS	B
+10	3517.476269000	w0	WS	B
+10	3517.478408000	w0	WS	C
+10	3517.478688000	w0	WS	B
+10	3517.478904000	w5	WS	C
+10	3517.479198000	w5	WS	B
+10	3517.480463000	w2	WS	Sc
+10	3517.481199000	w0	WS	Sc
+10	3517.482563000	w5	WS	Sc
+18	3517.482940000	WSL	p	0	w6	steal_56
+19	3517.482940001	WSL	p	0	w0	steal_56
+13	3517.484094000	sched	nready	5.000000
+13	3517.484094000	sched	nsubmitted	95.000000
+18	3517.484147000	WSL	p	0	w6	steal_57
+19	3517.484147001	WSL	p	0	w5	steal_57
+10	3517.484549000	w0	WS	B
+10	3517.484938000	w0	WS	Fi
+10	3517.486774000	w0	WS	B
+13	3517.489048000	sched	nready	4.000000
+13	3517.489048000	sched	nsubmitted	94.000000
+10	3517.489778000	w5	WS	B
+10	3517.490379000	w5	WS	Fi
+10	3517.490572000	w6	WS	I
+10	3517.491533000	w6	WS	Po
+10	3517.491886000	w5	WS	B
+10	3517.492587000	w7	WS	I
+10	3517.492640000	w6	WS	B
+20	3517.487683000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	182
+10	3517.493877000	w7	WS	Po
+10	3517.495033000	w7	WS	B
+10	3517.495271000	w6	WS	C
+10	3517.495527000	w6	WS	B
+10	3517.497229000	w7	WS	C
+20	3517.492739000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	171
+10	3517.497627000	w7	WS	B
+10	3517.497936000	w6	WS	Sc
+13	3517.498962000	sched	nready	3.000000
+13	3517.498962000	sched	nsubmitted	93.000000
+10	3517.499733000	w6	WS	B
+10	3517.500211000	w6	WS	Fi
+10	3517.500566000	w7	WS	Sc
+18	3517.501331000	WSL	p	0	w6	steal_58
+19	3517.501331001	WSL	p	0	w7	steal_58
+13	3517.501496000	sched	nready	2.000000
+13	3517.501496000	sched	nsubmitted	92.000000
+10	3517.501996000	w7	WS	B
+10	3517.502053000	w6	WS	B
+10	3517.502402000	w7	WS	Fi
+10	3517.503836000	w7	WS	B
+20	3517.503054000	w6	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	183
+20	3517.504378000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	178
+18	3517.512919000	WSL	p	0	w6	steal_59
+19	3517.512919001	WSL	p	0	w2	steal_59
+13	3517.513687000	sched	nready	1.000000
+13	3517.513687000	sched	nsubmitted	91.000000
+10	3517.514216000	w2	WS	B
+10	3517.514562000	w2	WS	Fi
+10	3517.515547000	w2	WS	B
+20	3517.515982000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	184
+10	3542.817333000	w3	WS	I
+10	3542.820515000	w3	WS	Po
+10	3542.822261000	w3	WS	B
+10	3542.825347000	w3	WS	C
+10	3542.825945000	w3	WS	B
+10	3542.833973000	w3	WS	Sc
+18	3542.836054000	WSL	p	0	w6	steal_60
+19	3542.836054001	WSL	p	0	w3	steal_60
+13	3542.836252000	sched	nready	0.000000
+13	3542.836252000	sched	nsubmitted	90.000000
+10	3542.836770000	w3	WS	B
+10	3542.837381000	w3	WS	Fi
+10	3542.838990000	w3	WS	B
+20	3542.839841000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	185
+10	3542.949260000	w4	WS	I
+10	3542.950331000	w4	WS	Po
+10	3542.951437000	w4	WS	B
+10	3542.953421000	w4	WS	C
+10	3542.953684000	w4	WS	B
+10	3542.956042000	w4	WS	Sc
+10	3542.957080000	w4	WS	Sl
+10	3543.248706000	w5	WS	I
+10	3543.250541000	w5	WS	Po
+10	3543.251857000	w5	WS	B
+10	3543.255109000	w5	WS	C
+10	3543.255555000	w5	WS	B
+10	3543.259126000	w5	WS	Sc
+10	3543.260706000	w5	WS	Sl
+10	3579.999551000	w7	WS	I
+10	3579.999600000	w0	WS	I
+10	3579.999713000	w6	WS	I
+10	3580.007092000	w7	WS	Po
+10	3580.007136000	w0	WS	Po
+10	3580.008642000	w6	WS	Po
+10	3580.009782000	w0	WS	B
+10	3580.009939000	w7	WS	B
+10	3580.010022000	w6	WS	B
+10	3580.013661000	w7	WS	C
+10	3580.013724000	w0	WS	C
+10	3580.013930000	w6	WS	C
+10	3580.014123000	w7	WS	B
+10	3580.014184000	w0	WS	B
+10	3580.014327000	w6	WS	B
+10	3580.019944000	w7	WS	Sc
+10	3580.020018000	w6	WS	Sc
+10	3580.020043000	w0	WS	Sc
+10	3580.021044000	w0	WS	Sl
+10	3580.021130000	w7	WS	Sl
+10	3580.021394000	w6	WS	Sl
+10	3614.028610000	w2	WS	I
+10	3614.031867000	w2	WS	Po
+10	3614.034510000	w2	WS	B
+10	3614.039030000	w2	WS	C
+10	3614.039876000	w2	WS	B
+10	3614.045453000	w2	WS	Sc
+10	3614.046415000	w2	WS	Sl
+10	3626.033539000	w3	WS	I
+10	3626.036320000	w3	WS	Po
+10	3626.038013000	w3	WS	B
+10	3626.041169000	w3	WS	C
+10	3626.041515000	w3	WS	B
+10	3626.045969000	w3	WS	Sc
+10	3626.046803000	w3	WS	Sl
+10	3634.474780000	w1	WS	I
+10	3634.477923000	w1	WS	Po
+10	3634.478962000	w1	WS	B
+13	3634.484056000	sched	nready	1.000000
+11	3634.484740000	w1	WS	Sc
+18	3634.486005000	WSL	p	0	w1	steal_61
+19	3634.486005001	WSL	p	0	w7	steal_61
+12	3634.490499000	w1	WS
+13	3634.490572000	sched	nready	0.000000
+13	3634.490572000	sched	nsubmitted	89.000000
+10	3634.491461000	w7	WS	B
+10	3634.492005000	w7	WS	Fi
+13	3634.492058000	sched	nready	1.000000
+11	3634.492312000	w1	WS	Sc
+12	3634.492677000	w1	WS
+18	3634.493167000	WSL	p	0	w1	steal_62
+19	3634.493167001	WSL	p	0	w6	steal_62
+10	3634.493752000	w7	WS	B
+13	3634.493920000	sched	nready	2.000000
+11	3634.494118000	w1	WS	Sc
+12	3634.494446000	w1	WS
+18	3634.494967000	WSL	p	0	w1	steal_63
+19	3634.494967001	WSL	p	0	w0	steal_63
+13	3634.495828000	sched	nready	3.000000
+13	3634.495922000	sched	nready	2.000000
+13	3634.495922000	sched	nsubmitted	88.000000
+13	3634.495954000	sched	nready	1.000000
+13	3634.495954000	sched	nsubmitted	87.000000
+11	3634.496124000	w1	WS	Sc
+12	3634.496464000	w1	WS
+10	3634.496659000	w0	WS	B
+10	3634.496764000	w6	WS	B
+10	3634.497104000	w0	WS	Fi
+10	3634.497342000	w6	WS	Fi
+13	3634.497563000	sched	nready	2.000000
+11	3634.497774000	w1	WS	Sc
+12	3634.498116000	w1	WS
+10	3634.498175000	w0	WS	B
+10	3634.498615000	w6	WS	B
+13	3634.499196000	sched	nready	3.000000
+11	3634.499471000	w1	WS	Sc
+20	3634.494673000	w7	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	187
+12	3634.499804000	w1	WS
+13	3634.501043000	sched	nready	4.000000
+11	3634.501265000	w1	WS	Sc
+12	3634.501610000	w1	WS
+20	3634.498834000	w0	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	189
+13	3634.502939000	sched	nready	5.000000
+11	3634.503219000	w1	WS	Sc
+20	3634.499423000	w6	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	188
+12	3634.503587000	w1	WS
+13	3634.505450000	sched	nready	6.000000
+11	3634.505661000	w1	WS	Sc
+12	3634.506053000	w1	WS
+13	3634.507380000	sched	nready	7.000000
+11	3634.507588000	w1	WS	Sc
+12	3634.508090000	w1	WS
+18	3634.508419000	WSL	p	0	w1	steal_64
+19	3634.508419001	WSL	p	0	w2	steal_64
+13	3634.508887000	sched	nready	6.000000
+13	3634.508887000	sched	nsubmitted	86.000000
+10	3634.509362000	w1	WS	C
+10	3634.509723000	w2	WS	B
+10	3634.509775000	w1	WS	B
+10	3634.510132000	w2	WS	Fi
+10	3634.511246000	w2	WS	B
+20	3634.511590000	w2	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	192
+10	3634.516924000	w1	WS	Sc
+13	3634.517956000	sched	nready	5.000000
+13	3634.517956000	sched	nsubmitted	85.000000
+10	3634.518701000	w1	WS	B
+10	3634.519237000	w1	WS	Fi
+10	3634.520588000	w1	WS	B
+20	3634.521260000	w1	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	198
+18	3636.806214000	WSL	p	0	w1	steal_65
+19	3636.806214001	WSL	p	0	w5	steal_65
+13	3636.806588000	sched	nready	4.000000
+13	3636.806588000	sched	nsubmitted	84.000000
+10	3636.808473000	w5	WS	B
+10	3636.809488000	w5	WS	Fi
+10	3636.811680000	w5	WS	B
+20	3636.812915000	w5	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	204
+18	3637.460642000	WSL	p	0	w1	steal_66
+19	3637.460642001	WSL	p	0	w3	steal_66
+13	3637.461011000	sched	nready	3.000000
+13	3637.461011000	sched	nsubmitted	83.000000
+10	3637.461997000	w3	WS	B
+10	3637.462292000	w3	WS	Fi
+10	3637.463359000	w3	WS	B
+20	3637.463849000	w3	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	190
+18	3638.033349000	WSL	p	0	w1	steal_67
+19	3638.033349001	WSL	p	0	w4	steal_67
+13	3638.034688000	sched	nready	2.000000
+13	3638.034688000	sched	nsubmitted	82.000000
+10	3638.035625000	w4	WS	B
+10	3638.036189000	w4	WS	Fi
+10	3638.037676000	w4	WS	B
+20	3638.038449000	w4	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	210
+10	3681.692783000	w0	WS	I
+10	3681.692833000	w3	WS	I
+10	3681.699459000	w0	WS	Po
+10	3681.701124000	w0	WS	B
+10	3681.705467000	w0	WS	C
+10	3681.705865000	w0	WS	B
+10	3681.711762000	w0	WS	Sc
+10	3681.713732000	w3	WS	Po
+18	3681.714383000	WSL	p	0	w1	steal_68
+19	3681.714383001	WSL	p	0	w0	steal_68
+13	3681.714599000	sched	nready	1.000000
+13	3681.714599000	sched	nsubmitted	81.000000
+10	3681.714779000	w3	WS	B
+10	3681.715164000	w0	WS	B
+10	3681.715573000	w0	WS	Fi
+10	3681.717165000	w0	WS	B
+10	3681.717910000	w3	WS	C
+10	3681.718260000	w3	WS	B
+20	3681.718071000	w0	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	191
+10	3681.721664000	w3	WS	Sc
+18	3681.722789000	WSL	p	0	w1	steal_69
+19	3681.722789001	WSL	p	0	w3	steal_69
+13	3681.723008000	sched	nready	0.000000
+13	3681.723008000	sched	nsubmitted	80.000000
+10	3681.723525000	w3	WS	B
+10	3681.723874000	w3	WS	Fi
+10	3681.724845000	w3	WS	B
+20	3681.725283000	w3	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	216
+10	3689.953118000	w4	WS	I
+10	3689.953236000	w6	WS	I
+10	3689.953484000	w1	WS	I
+10	3689.956866000	w4	WS	Po
+10	3689.958849000	w4	WS	B
+10	3689.959905000	w6	WS	Po
+10	3689.960137000	w1	WS	Po
+10	3689.961495000	w6	WS	B
+10	3689.962401000	w1	WS	B
+13	3689.970886000	sched	nready	1.000000
+11	3689.972809000	w4	WS	Sc
+12	3689.974646000	w4	WS
+13	3689.976858000	sched	nready	2.000000
+11	3689.977063000	w4	WS	Sc
+13	3689.977297000	sched	nready	3.000000
+12	3689.977354000	w4	WS
+11	3689.977896000	w6	WS	Sc
+10	3689.978368000	w4	WS	C
+12	3689.978486000	w6	WS
+13	3689.978745000	sched	nready	4.000000
+10	3689.978812000	w4	WS	B
+10	3689.979489000	w6	WS	C
+11	3689.979538000	w1	WS	Sc
+10	3689.979769000	w6	WS	B
+12	3689.980279000	w1	WS
+13	3689.982205000	sched	nready	5.000000
+11	3689.982429000	w1	WS	Sc
+12	3689.982773000	w1	WS
+13	3689.984115000	sched	nready	6.000000
+11	3689.984315000	w1	WS	Sc
+12	3689.984765000	w1	WS
+10	3689.985894000	w1	WS	C
+10	3689.986183000	w1	WS	B
+10	3689.988553000	w4	WS	Sc
+10	3689.988598000	w6	WS	Sc
+13	3689.990476000	sched	nready	5.000000
+13	3689.990476000	sched	nsubmitted	79.000000
+13	3689.990785000	sched	nready	4.000000
+13	3689.990785000	sched	nsubmitted	78.000000
+10	3689.990866000	w4	WS	B
+10	3689.991056000	w1	WS	Sc
+10	3689.991245000	w4	WS	Fi
+10	3689.991321000	w6	WS	B
+10	3689.991937000	w6	WS	Fi
+13	3689.992409000	sched	nready	3.000000
+13	3689.992409000	sched	nsubmitted	77.000000
+10	3689.992952000	w1	WS	B
+10	3689.993532000	w1	WS	Fi
+10	3689.993837000	w4	WS	B
+10	3689.994101000	w6	WS	B
+10	3689.995084000	w1	WS	B
+20	3689.995036000	w6	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	212
+20	3689.994834000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	213
+20	3689.995803000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	200
+10	3732.051551000	w2	WS	I
+10	3732.055318000	w2	WS	Po
+10	3732.057188000	w2	WS	B
+13	3732.063932000	sched	nready	4.000000
+11	3732.064855000	w2	WS	Sc
+12	3732.065780000	w2	WS
+13	3732.067126000	sched	nready	5.000000
+11	3732.067339000	w2	WS	Sc
+12	3732.067616000	w2	WS
+13	3732.068810000	sched	nready	6.000000
+11	3732.069027000	w2	WS	Sc
+12	3732.069300000	w2	WS
+10	3732.070258000	w2	WS	C
+10	3732.070530000	w2	WS	B
+10	3732.076249000	w2	WS	Sc
+13	3732.078149000	sched	nready	5.000000
+13	3732.078149000	sched	nsubmitted	76.000000
+10	3732.078675000	w2	WS	B
+10	3732.079150000	w2	WS	Fi
+10	3732.081168000	w2	WS	B
+20	3732.082039000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	194
+10	3732.742185000	w4	WS	I
+10	3732.743291000	w7	WS	I
+10	3732.743739000	w4	WS	Po
+10	3732.744507000	w5	WS	I
+10	3732.744513000	w7	WS	Po
+10	3732.744777000	w4	WS	B
+10	3732.745396000	w7	WS	B
+10	3732.746335000	w5	WS	Po
+10	3732.746853000	w4	WS	C
+10	3732.747068000	w4	WS	B
+10	3732.747572000	w5	WS	B
+13	3732.748842000	sched	nready	6.000000
+11	3732.749304000	w7	WS	Sc
+10	3732.749558000	w4	WS	Sc
+12	3732.749858000	w7	WS
+13	3732.750517000	sched	nready	5.000000
+13	3732.750517000	sched	nsubmitted	75.000000
+10	3732.751068000	w4	WS	B
+13	3732.751374000	sched	nready	6.000000
+10	3732.751424000	w4	WS	Fi
+11	3732.751736000	w7	WS	Sc
+12	3732.752010000	w7	WS
+13	3732.752274000	sched	nready	7.000000
+10	3732.752635000	w4	WS	B
+11	3732.752766000	w5	WS	Sc
+13	3732.753112000	sched	nready	8.000000
+12	3732.753387000	w5	WS
+11	3732.753424000	w7	WS	Sc
+12	3732.753717000	w7	WS
+13	3732.754761000	sched	nready	9.000000
+11	3732.754979000	w7	WS	Sc
+13	3732.755203000	sched	nready	10.000000
+12	3732.755378000	w7	WS
+11	3732.755504000	w5	WS	Sc
+12	3732.756005000	w5	WS
+10	3732.756120000	w7	WS	C
+10	3732.756439000	w7	WS	B
+20	3732.753160000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	214
+13	3732.757088000	sched	nready	11.000000
+11	3732.757473000	w5	WS	Sc
+12	3732.757747000	w5	WS
+10	3732.758516000	w5	WS	C
+10	3732.758987000	w5	WS	B
+10	3732.759212000	w7	WS	Sc
+13	3732.759831000	sched	nready	10.000000
+13	3732.759831000	sched	nsubmitted	74.000000
+10	3732.760186000	w7	WS	B
+10	3732.760527000	w7	WS	Fi
+10	3732.761568000	w7	WS	B
+10	3732.762656000	w0	WS	I
+10	3732.763110000	w5	WS	Sc
+10	3732.763732000	w0	WS	Po
+13	3732.764052000	sched	nready	9.000000
+13	3732.764052000	sched	nsubmitted	73.000000
+10	3732.764425000	w0	WS	B
+10	3732.764503000	w5	WS	B
+10	3732.765009000	w5	WS	Fi
+20	3732.762151000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	193
+10	3732.766340000	w5	WS	B
+13	3732.767162000	sched	nready	10.000000
+11	3732.767446000	w0	WS	Sc
+12	3732.767853000	w0	WS
+13	3732.769110000	sched	nready	11.000000
+11	3732.769328000	w0	WS	Sc
+12	3732.769654000	w0	WS
+13	3732.770647000	sched	nready	12.000000
+11	3732.770932000	w0	WS	Sc
+12	3732.771273000	w0	WS
+20	3732.767104000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	206
+10	3732.772342000	w3	WS	I
+13	3732.772410000	sched	nready	13.000000
+11	3732.772646000	w0	WS	Sc
+12	3732.772885000	w0	WS
+10	3732.773194000	w3	WS	Po
+10	3732.773601000	w0	WS	C
+10	3732.773784000	w0	WS	B
+10	3732.774177000	w3	WS	B
+10	3732.776213000	w0	WS	Sc
+13	3732.776612000	sched	nready	14.000000
+13	3732.776683000	sched	nready	13.000000
+13	3732.776683000	sched	nsubmitted	72.000000
+11	3732.776887000	w3	WS	Sc
+10	3732.777010000	w0	WS	B
+12	3732.777306000	w3	WS
+10	3732.777333000	w0	WS	Fi
+10	3732.778101000	w0	WS	B
+13	3732.778479000	sched	nready	14.000000
+11	3732.778759000	w3	WS	Sc
+12	3732.779084000	w3	WS
+10	3732.779137000	w1	WS	I
+13	3732.780161000	sched	nready	15.000000
+10	3732.780273000	w1	WS	Po
+11	3732.780418000	w3	WS	Sc
+12	3732.780762000	w3	WS
+10	3732.781381000	w1	WS	B
+13	3732.781879000	sched	nready	16.000000
+20	3732.778551000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	197
+11	3732.782137000	w3	WS	Sc
+12	3732.782459000	w3	WS
+13	3732.783519000	sched	nready	17.000000
+10	3732.783566000	w1	WS	C
+10	3732.783814000	w1	WS	B
+11	3732.783854000	w3	WS	Sc
+12	3732.784120000	w3	WS
+10	3732.784464000	w3	WS	C
+10	3732.784680000	w3	WS	B
+10	3732.786565000	w1	WS	Sc
+10	3732.786795000	w3	WS	Sc
+13	3732.787167000	sched	nready	16.000000
+13	3732.787167000	sched	nsubmitted	71.000000
+13	3732.787379000	sched	nready	15.000000
+13	3732.787379000	sched	nsubmitted	70.000000
+10	3732.787474000	w3	WS	B
+10	3732.787773000	w3	WS	Fi
+10	3732.787819000	w1	WS	B
+10	3732.788439000	w1	WS	Fi
+10	3732.788761000	w3	WS	B
+10	3732.789536000	w1	WS	B
+20	3732.789159000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	217
+20	3732.790013000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	201
+10	3797.542167000	w4	WS	I
+10	3797.542227000	w7	WS	I
+10	3797.542290000	w6	WS	I
+10	3797.547988000	w7	WS	Po
+10	3797.548033000	w6	WS	Po
+10	3797.549481000	w7	WS	B
+10	3797.549564000	w6	WS	B
+10	3797.550995000	w4	WS	Po
+10	3797.552878000	w6	WS	C
+10	3797.553159000	w6	WS	B
+10	3797.553394000	w4	WS	B
+13	3797.554653000	sched	nready	16.000000
+10	3797.555425000	w4	WS	C
+10	3797.555657000	w4	WS	B
+11	3797.556404000	w7	WS	Sc
+12	3797.557729000	w7	WS
+10	3797.558029000	w4	WS	Sc
+10	3797.558107000	w6	WS	Sc
+10	3797.558202000	w7	WS	C
+10	3797.558478000	w7	WS	B
+18	3797.559819000	WSL	p	0	w0	steal_70
+19	3797.559819001	WSL	p	0	w4	steal_70
+18	3797.559865000	WSL	p	0	w2	steal_71
+19	3797.559865001	WSL	p	0	w6	steal_71
+13	3797.560093000	sched	nready	15.000000
+13	3797.560093000	sched	nsubmitted	69.000000
+13	3797.560156000	sched	nready	14.000000
+13	3797.560156000	sched	nsubmitted	68.000000
+10	3797.560543000	w6	WS	B
+10	3797.560581000	w4	WS	B
+10	3797.560843000	w7	WS	Sc
+10	3797.560979000	w4	WS	Fi
+10	3797.561025000	w6	WS	Fi
+13	3797.561434000	sched	nready	13.000000
+13	3797.561434000	sched	nsubmitted	67.000000
+10	3797.561692000	w7	WS	B
+10	3797.562000000	w7	WS	Fi
+10	3797.562469000	w4	WS	B
+10	3797.562536000	w6	WS	B
+10	3797.562598000	w7	WS	B
+20	3797.563462000	w7	WS	sgetrf_nopiv	2359296	M768x768x4	c5fba424	0000000000000000	222
+20	3797.563547000	w6	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	195
+20	3797.563379000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	203
+10	3797.582654000	w3	WS	I
+10	3797.583455000	w3	WS	Po
+10	3797.584328000	w3	WS	B
+10	3797.586308000	w3	WS	C
+10	3797.586570000	w3	WS	B
+10	3797.588266000	w3	WS	Sc
+13	3797.588755000	sched	nready	12.000000
+13	3797.588755000	sched	nsubmitted	66.000000
+10	3797.589059000	w3	WS	B
+10	3797.589313000	w3	WS	Fi
+10	3797.590231000	w3	WS	B
+20	3797.590646000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	218
+10	3887.710843000	w1	WS	I
+10	3887.715013000	w1	WS	Po
+10	3887.717039000	w1	WS	B
+10	3887.721247000	w1	WS	C
+10	3887.721645000	w1	WS	B
+10	3887.728568000	w1	WS	Sc
+13	3887.730433000	sched	nready	11.000000
+13	3887.730433000	sched	nsubmitted	65.000000
+10	3887.731533000	w1	WS	B
+10	3887.732454000	w1	WS	Fi
+10	3887.734417000	w1	WS	B
+20	3887.735582000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	202
+10	3887.971810000	w5	WS	I
+10	3887.971917000	w4	WS	I
+10	3887.971978000	w3	WS	I
+10	3887.973612000	w2	WS	I
+10	3887.977438000	w5	WS	Po
+10	3887.978863000	w0	WS	I
+10	3887.978948000	w5	WS	B
+10	3887.979824000	w2	WS	Po
+10	3887.979890000	w0	WS	Po
+10	3887.981056000	w0	WS	B
+10	3887.981372000	w3	WS	Po
+10	3887.981540000	w2	WS	B
+10	3887.981937000	w5	WS	C
+10	3887.982272000	w5	WS	B
+10	3887.982532000	w3	WS	B
+10	3887.982969000	w0	WS	C
+10	3887.983210000	w0	WS	B
+10	3887.983943000	w2	WS	C
+10	3887.984151000	w2	WS	B
+10	3887.984581000	w3	WS	C
+10	3887.984894000	w3	WS	B
+10	3887.985418000	w5	WS	Sc
+10	3887.985511000	w0	WS	Sc
+13	3887.986306000	sched	nready	10.000000
+13	3887.986306000	sched	nsubmitted	64.000000
+13	3887.986448000	sched	nready	9.000000
+13	3887.986448000	sched	nsubmitted	63.000000
+10	3887.986705000	w0	WS	B
+10	3887.986970000	w5	WS	B
+10	3887.987071000	w0	WS	Fi
+10	3887.987151000	w2	WS	Sc
+10	3887.987480000	w5	WS	Fi
+10	3887.987783000	w3	WS	Sc
+13	3887.988310000	sched	nready	8.000000
+13	3887.988310000	sched	nsubmitted	62.000000
+10	3887.988410000	w0	WS	B
+13	3887.988497000	sched	nready	7.000000
+13	3887.988497000	sched	nsubmitted	61.000000
+10	3887.988754000	w2	WS	B
+10	3887.988895000	w3	WS	B
+10	3887.989143000	w5	WS	B
+10	3887.989534000	w2	WS	Fi
+10	3887.989586000	w3	WS	Fi
+10	3887.990774000	w3	WS	B
+10	3887.990812000	w2	WS	B
+20	3887.988995000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	209
+20	3887.989907000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	207
+20	3887.991389000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	219
+20	3887.991479000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	196
+10	3890.090454000	w4	WS	Po
+10	3890.092266000	w4	WS	B
+10	3890.095068000	w4	WS	C
+10	3890.095320000	w4	WS	B
+10	3890.098993000	w4	WS	Sc
+18	3890.100681000	WSL	p	0	w0	steal_72
+19	3890.100681001	WSL	p	0	w4	steal_72
+13	3890.100890000	sched	nready	6.000000
+13	3890.100890000	sched	nsubmitted	60.000000
+10	3890.101304000	w4	WS	B
+10	3890.101639000	w4	WS	Fi
+10	3890.103031000	w4	WS	B
+20	3890.103859000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	215
+10	3922.182394000	w6	WS	I
+10	3922.185887000	w6	WS	Po
+10	3922.187724000	w6	WS	B
+10	3922.191375000	w6	WS	C
+10	3922.191703000	w6	WS	B
+10	3922.197952000	w6	WS	Sc
+18	3922.201329000	WSL	p	0	w3	steal_73
+19	3922.201329001	WSL	p	0	w6	steal_73
+13	3922.201570000	sched	nready	5.000000
+13	3922.201570000	sched	nsubmitted	59.000000
+10	3922.202153000	w6	WS	B
+10	3922.202659000	w6	WS	Fi
+10	3922.204657000	w6	WS	B
+20	3922.205666000	w6	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	220
+10	3992.416856000	w4	WS	I
+10	3992.416892000	w2	WS	I
+10	3992.416971000	w1	WS	I
+10	3992.423341000	w4	WS	Po
+10	3992.423522000	w2	WS	Po
+10	3992.424931000	w2	WS	B
+10	3992.425052000	w4	WS	B
+10	3992.427954000	w4	WS	C
+10	3992.428024000	w2	WS	C
+10	3992.428263000	w4	WS	B
+10	3992.428376000	w2	WS	B
+10	3992.430094000	w1	WS	Po
+10	3992.431526000	w1	WS	B
+10	3992.434576000	w1	WS	C
+10	3992.434899000	w1	WS	B
+10	3992.434936000	w4	WS	Sc
+10	3992.434986000	w2	WS	Sc
+18	3992.437123000	WSL	p	0	w5	steal_74
+19	3992.437123001	WSL	p	0	w4	steal_74
+18	3992.437243000	WSL	p	0	w3	steal_75
+19	3992.437243001	WSL	p	0	w2	steal_75
+13	3992.437374000	sched	nready	4.000000
+13	3992.437374000	sched	nsubmitted	58.000000
+13	3992.437566000	sched	nready	3.000000
+13	3992.437566000	sched	nsubmitted	57.000000
+10	3992.437874000	w4	WS	B
+10	3992.438257000	w2	WS	B
+10	3992.438386000	w1	WS	Sc
+10	3992.438450000	w4	WS	Fi
+10	3992.438681000	w2	WS	Fi
+18	3992.439864000	WSL	p	0	w7	steal_76
+19	3992.439864001	WSL	p	0	w1	steal_76
+13	3992.440117000	sched	nready	2.000000
+13	3992.440117000	sched	nsubmitted	56.000000
+10	3992.440734000	w2	WS	B
+10	3992.440772000	w4	WS	B
+10	3992.440825000	w1	WS	B
+10	3992.441504000	w1	WS	Fi
+10	3992.443124000	w1	WS	B
+20	3992.441460000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	208
+20	3992.441615000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	221
+20	3992.443885000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	199
+10	4026.368189000	w3	WS	I
+10	4026.368340000	w5	WS	I
+10	4026.374708000	w3	WS	Po
+10	4026.376235000	w5	WS	Po
+10	4026.376794000	w3	WS	B
+10	4026.377835000	w5	WS	B
+10	4026.379722000	w3	WS	C
+10	4026.380006000	w3	WS	B
+10	4026.380925000	w5	WS	C
+10	4026.381268000	w5	WS	B
+10	4026.385705000	w3	WS	Sc
+10	4026.386188000	w5	WS	Sc
+18	4026.387899000	WSL	p	0	w7	steal_77
+19	4026.387899001	WSL	p	0	w3	steal_77
+13	4026.389872000	sched	nready	1.000000
+13	4026.389872000	sched	nsubmitted	55.000000
+10	4026.390368000	w3	WS	B
+18	4026.390868000	WSL	p	0	w7	steal_78
+19	4026.390868001	WSL	p	0	w5	steal_78
+10	4026.390960000	w3	WS	Fi
+13	4026.391413000	sched	nready	0.000000
+13	4026.391413000	sched	nsubmitted	54.000000
+10	4026.392086000	w5	WS	B
+10	4026.392673000	w5	WS	Fi
+10	4026.392934000	w3	WS	B
+10	4026.394290000	w5	WS	B
+20	4026.393718000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	205
+20	4026.395097000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	211
+10	4049.039117000	w3	WS	I
+10	4049.039211000	w0	WS	I
+10	4049.039309000	w6	WS	I
+10	4049.039335000	w1	WS	I
+10	4049.045320000	w0	WS	Po
+10	4049.045538000	w3	WS	Po
+10	4049.046097000	w1	WS	Po
+10	4049.046339000	w6	WS	Po
+10	4049.047112000	w3	WS	B
+10	4049.047575000	w1	WS	B
+10	4049.047610000	w6	WS	B
+10	4049.047685000	w0	WS	B
+10	4049.050328000	w0	WS	C
+10	4049.050385000	w3	WS	C
+10	4049.050523000	w6	WS	C
+10	4049.050629000	w0	WS	B
+10	4049.050720000	w3	WS	B
+10	4049.050863000	w6	WS	B
+10	4049.051272000	w1	WS	C
+10	4049.051645000	w1	WS	B
+10	4049.058267000	w0	WS	Sc
+10	4049.058579000	w6	WS	Sc
+10	4049.059085000	w1	WS	Sc
+10	4049.060131000	w0	WS	Sl
+10	4049.060278000	w6	WS	Sl
+10	4049.060624000	w1	WS	Sl
+10	4049.064426000	w3	WS	Sc
+10	4049.065417000	w3	WS	Sl
+10	4058.024117000	w2	WS	I
+10	4058.025278000	w2	WS	Po
+10	4058.026446000	w2	WS	B
+10	4058.027160000	w5	WS	I
+10	4058.027982000	w4	WS	I
+10	4058.028789000	w2	WS	C
+10	4058.028877000	w5	WS	Po
+10	4058.029080000	w2	WS	B
+10	4058.029144000	w4	WS	Po
+10	4058.030277000	w5	WS	B
+10	4058.030333000	w4	WS	B
+10	4058.031732000	w2	WS	Sc
+10	4058.032302000	w4	WS	C
+10	4058.032547000	w4	WS	B
+10	4058.032683000	w5	WS	C
+10	4058.032852000	w2	WS	Sl
+10	4058.033260000	w5	WS	B
+10	4058.044003000	w4	WS	Sc
+10	4058.044837000	w4	WS	Sl
+10	4058.045143000	w5	WS	Sc
+10	4058.046061000	w5	WS	Sl
+10	4070.286469000	w7	WS	I
+10	4070.318357000	w7	WS	Po
+10	4070.319078000	w7	WS	B
+13	4070.322931000	sched	nready	1.000000
+11	4070.323875000	w7	WS	Sc
+12	4070.324955000	w7	WS
+18	4070.325505000	WSL	p	0	w7	steal_79
+19	4070.325505001	WSL	p	0	w1	steal_79
+13	4070.326470000	sched	nready	2.000000
+11	4070.326681000	w7	WS	Sc
+12	4070.326961000	w7	WS
+18	4070.327414000	WSL	p	0	w7	steal_80
+19	4070.327414001	WSL	p	0	w4	steal_80
+13	4070.327617000	sched	nready	1.000000
+13	4070.327617000	sched	nsubmitted	53.000000
+13	4070.327991000	sched	nready	2.000000
+10	4070.328123000	w4	WS	B
+11	4070.328235000	w7	WS	Sc
+12	4070.328522000	w7	WS
+13	4070.329163000	sched	nready	1.000000
+13	4070.329163000	sched	nsubmitted	52.000000
+13	4070.329629000	sched	nready	2.000000
+11	4070.329808000	w7	WS	Sc
+18	4070.329895000	WSL	p	0	w7	steal_81
+19	4070.329895001	WSL	p	0	w6	steal_81
+10	4070.329951000	w1	WS	B
+10	4070.330671000	w1	WS	Fi
+10	4070.331102000	w4	WS	Fi
+12	4070.332368000	w7	WS
+13	4070.332434000	sched	nready	1.000000
+13	4070.332434000	sched	nsubmitted	51.000000
+10	4070.333117000	w1	WS	B
+18	4070.333187000	WSL	p	0	w7	steal_82
+19	4070.333187001	WSL	p	0	w0	steal_82
+10	4070.333377000	w6	WS	B
+13	4070.333723000	sched	nready	0.000000
+13	4070.333723000	sched	nsubmitted	50.000000
+10	4070.333868000	w6	WS	Fi
+13	4070.333968000	sched	nready	1.000000
+10	4070.334196000	w0	WS	B
+11	4070.334242000	w7	WS	Sc
+10	4070.334562000	w0	WS	Fi
+12	4070.334641000	w7	WS
+10	4070.335024000	w6	WS	B
+10	4070.335585000	w0	WS	B
+13	4070.335731000	sched	nready	2.000000
+11	4070.335963000	w7	WS	Sc
+12	4070.336265000	w7	WS
+13	4070.337585000	sched	nready	3.000000
+11	4070.337859000	w7	WS	Sc
+12	4070.338149000	w7	WS
+13	4070.339171000	sched	nready	4.000000
+11	4070.339432000	w7	WS	Sc
+12	4070.339701000	w7	WS
+10	4070.340127000	w7	WS	C
+10	4070.340371000	w7	WS	B
+20	4070.335819000	w6	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	225
+20	4070.334371000	w1	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	223
+20	4070.336202000	w0	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	226
+10	4070.343793000	w7	WS	Sc
+13	4070.344388000	sched	nready	3.000000
+13	4070.344388000	sched	nsubmitted	49.000000
+10	4070.344708000	w7	WS	B
+10	4070.345004000	w7	WS	Fi
+10	4070.346483000	w7	WS	B
+20	4070.347227000	w7	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	227
+18	4073.013040000	WSL	p	0	w7	steal_83
+19	4073.013040001	WSL	p	0	w5	steal_83
+13	4073.013689000	sched	nready	2.000000
+13	4073.013689000	sched	nsubmitted	48.000000
+10	4073.015162000	w5	WS	B
+10	4073.016137000	w5	WS	Fi
+10	4073.018732000	w5	WS	B
+20	4073.020323000	w5	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	232
+18	4073.064852000	WSL	p	0	w7	steal_84
+19	4073.064852001	WSL	p	0	w3	steal_84
+13	4073.065210000	sched	nready	1.000000
+13	4073.065210000	sched	nsubmitted	47.000000
+10	4073.066327000	w3	WS	B
+10	4073.066808000	w3	WS	Fi
+10	4073.068261000	w3	WS	B
+20	4073.068996000	w3	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	237
+10	4073.342616000	w4	WS	B
+20	4073.343899000	w4	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	224
+18	4081.119944000	WSL	p	0	w7	steal_85
+19	4081.119944001	WSL	p	0	w2	steal_85
+13	4081.120424000	sched	nready	0.000000
+13	4081.120424000	sched	nsubmitted	46.000000
+10	4081.121837000	w2	WS	B
+10	4081.122771000	w2	WS	Fi
+10	4081.125006000	w2	WS	B
+20	4081.126258000	w2	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	242
+10	4119.569952000	w4	WS	I
+10	4119.570014000	w6	WS	I
+10	4119.570091000	w5	WS	I
+10	4119.570117000	w3	WS	I
+10	4119.576280000	w4	WS	Po
+10	4119.577964000	w4	WS	B
+10	4119.578453000	w7	WS	I
+10	4119.578662000	w5	WS	Po
+10	4119.580004000	w7	WS	Po
+10	4119.580056000	w5	WS	B
+10	4119.581131000	w7	WS	B
+10	4119.581620000	w2	WS	I
+10	4119.582092000	w4	WS	C
+10	4119.582385000	w4	WS	B
+10	4119.582867000	w2	WS	Po
+10	4119.583771000	w2	WS	B
+13	4119.586772000	sched	nready	1.000000
+11	4119.587680000	w5	WS	Sc
+10	4119.587717000	w4	WS	Sc
+13	4119.587787000	sched	nready	2.000000
+13	4119.587920000	sched	nready	3.000000
+11	4119.588413000	w7	WS	Sc
+12	4119.588575000	w5	WS
+11	4119.588682000	w2	WS	Sc
+12	4119.589091000	w7	WS
+12	4119.589345000	w2	WS
+10	4119.589710000	w5	WS	C
+10	4119.589939000	w5	WS	B
+18	4119.590180000	WSL	p	0	w5	steal_86
+19	4119.590180001	WSL	p	0	w4	steal_86
+10	4119.590488000	w7	WS	C
+13	4119.590733000	sched	nready	2.000000
+13	4119.590733000	sched	nsubmitted	45.000000
+10	4119.590804000	w2	WS	C
+10	4119.590847000	w7	WS	B
+10	4119.591154000	w2	WS	B
+10	4119.591287000	w4	WS	B
+10	4119.591864000	w4	WS	Fi
+10	4119.593597000	w4	WS	B
+10	4119.598347000	w7	WS	Sc
+10	4119.598701000	w2	WS	Sc
+20	4119.594479000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	234
+13	4119.599267000	sched	nready	1.000000
+13	4119.599267000	sched	nsubmitted	44.000000
+13	4119.599587000	sched	nready	0.000000
+13	4119.599587000	sched	nsubmitted	43.000000
+10	4119.599703000	w7	WS	B
+10	4119.600012000	w1	WS	I
+10	4119.600099000	w2	WS	B
+10	4119.600200000	w7	WS	Fi
+10	4119.600504000	w2	WS	Fi
+10	4119.601392000	w1	WS	Po
+10	4119.601556000	w7	WS	B
+10	4119.601710000	w2	WS	B
+10	4119.602279000	w1	WS	B
+13	4119.606206000	sched	nready	1.000000
+20	4119.602432000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	244
+20	4119.602317000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	229
+11	4119.606629000	w1	WS	Sc
+12	4119.607210000	w1	WS
+13	4119.609099000	sched	nready	2.000000
+11	4119.609308000	w1	WS	Sc
+12	4119.609627000	w1	WS
+13	4119.612213000	sched	nready	3.000000
+11	4119.612426000	w1	WS	Sc
+12	4119.612714000	w1	WS
+10	4119.613093000	w1	WS	C
+10	4119.613282000	w1	WS	B
+10	4119.614963000	w3	WS	Po
+10	4119.616022000	w3	WS	B
+10	4119.617560000	w1	WS	Sc
+13	4119.618591000	sched	nready	2.000000
+13	4119.618591000	sched	nsubmitted	42.000000
+10	4119.618952000	w1	WS	B
+10	4119.619566000	w1	WS	Fi
+13	4119.619961000	sched	nready	3.000000
+11	4119.620204000	w3	WS	Sc
+12	4119.620608000	w3	WS
+10	4119.620958000	w1	WS	B
+13	4119.622482000	sched	nready	4.000000
+11	4119.622662000	w3	WS	Sc
+12	4119.622970000	w3	WS
+10	4119.625169000	w3	WS	C
+10	4119.625610000	w3	WS	B
+20	4119.621642000	w1	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	228
+10	4119.629065000	w3	WS	Sc
+13	4119.629514000	sched	nready	3.000000
+13	4119.629514000	sched	nsubmitted	41.000000
+10	4119.629819000	w3	WS	B
+10	4119.630061000	w3	WS	Fi
+10	4119.631641000	w3	WS	B
+20	4119.632153000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	238
+10	4119.635311000	w5	WS	Sc
+18	4119.636800000	WSL	p	0	w1	steal_87
+19	4119.636800001	WSL	p	0	w5	steal_87
+13	4119.637039000	sched	nready	2.000000
+13	4119.637039000	sched	nsubmitted	40.000000
+10	4119.637618000	w5	WS	B
+10	4119.637900000	w5	WS	Fi
+10	4119.638939000	w5	WS	B
+20	4119.639465000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	233
+10	4130.020865000	w6	WS	Po
+10	4130.022115000	w6	WS	B
+13	4130.025628000	sched	nready	3.000000
+11	4130.025954000	w6	WS	Sc
+12	4130.026709000	w6	WS
+13	4130.028200000	sched	nready	4.000000
+11	4130.028396000	w6	WS	Sc
+12	4130.028684000	w6	WS
+13	4130.029703000	sched	nready	5.000000
+11	4130.029903000	w6	WS	Sc
+12	4130.030153000	w6	WS
+13	4130.031413000	sched	nready	6.000000
+11	4130.031625000	w6	WS	Sc
+12	4130.031878000	w6	WS
+10	4130.032318000	w6	WS	C
+10	4130.032590000	w6	WS	B
+10	4130.035675000	w6	WS	Sc
+13	4130.036692000	sched	nready	5.000000
+13	4130.036692000	sched	nsubmitted	39.000000
+10	4130.036961000	w6	WS	B
+10	4130.037409000	w6	WS	Fi
+10	4130.038604000	w6	WS	B
+20	4130.039143000	w6	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	230
+10	4137.389318000	w4	WS	I
+10	4137.391888000	w4	WS	Po
+10	4137.393484000	w4	WS	B
+10	4137.395933000	w4	WS	C
+10	4137.396190000	w4	WS	B
+10	4137.400189000	w4	WS	Sc
+18	4137.401636000	WSL	p	0	w1	steal_88
+19	4137.401636001	WSL	p	0	w4	steal_88
+13	4137.401830000	sched	nready	4.000000
+13	4137.401830000	sched	nsubmitted	38.000000
+10	4137.402503000	w4	WS	B
+10	4137.402981000	w4	WS	Fi
+10	4137.404461000	w4	WS	B
+20	4137.405428000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	243
+10	4137.415766000	w0	WS	I
+10	4137.416938000	w0	WS	Po
+10	4137.417932000	w0	WS	B
+13	4137.421386000	sched	nready	5.000000
+11	4137.421924000	w0	WS	Sc
+12	4137.422533000	w0	WS
+13	4137.423648000	sched	nready	6.000000
+11	4137.423857000	w0	WS	Sc
+12	4137.424137000	w0	WS
+13	4137.425249000	sched	nready	7.000000
+11	4137.425451000	w0	WS	Sc
+12	4137.425697000	w0	WS
+13	4137.426771000	sched	nready	8.000000
+11	4137.426973000	w0	WS	Sc
+12	4137.427235000	w0	WS
+10	4137.427594000	w0	WS	C
+10	4137.427836000	w0	WS	B
+10	4137.429748000	w0	WS	Sc
+13	4137.430165000	sched	nready	7.000000
+13	4137.430165000	sched	nsubmitted	37.000000
+10	4137.430431000	w0	WS	B
+10	4137.430685000	w0	WS	Fi
+10	4137.431471000	w0	WS	B
+20	4137.431896000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	231
+10	4158.971853000	w2	WS	I
+10	4158.975006000	w2	WS	Po
+10	4158.976607000	w2	WS	B
+10	4158.980299000	w2	WS	C
+10	4158.980672000	w2	WS	B
+10	4158.986728000	w2	WS	Sc
+18	4158.989304000	WSL	p	0	w6	steal_89
+19	4158.989304001	WSL	p	0	w2	steal_89
+13	4158.989539000	sched	nready	6.000000
+13	4158.989539000	sched	nsubmitted	36.000000
+10	4158.990063000	w2	WS	B
+10	4158.990553000	w2	WS	Fi
+10	4158.992711000	w2	WS	B
+20	4158.993599000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	235
+10	4259.444676000	w0	WS	I
+10	4259.444703000	w3	WS	I
+10	4259.444776000	w6	WS	I
+10	4259.444828000	w5	WS	I
+10	4259.450304000	w0	WS	Po
+10	4259.452306000	w0	WS	B
+10	4259.454141000	w3	WS	Po
+10	4259.455728000	w3	WS	B
+10	4259.455999000	w0	WS	C
+10	4259.456244000	w0	WS	B
+10	4259.456812000	w6	WS	Po
+10	4259.458010000	w5	WS	Po
+10	4259.458252000	w6	WS	B
+10	4259.458818000	w3	WS	C
+10	4259.459263000	w3	WS	B
+10	4259.459826000	w5	WS	B
+10	4259.461133000	w6	WS	C
+10	4259.461370000	w6	WS	B
+10	4259.463157000	w5	WS	C
+10	4259.463343000	w3	WS	Sc
+10	4259.463410000	w0	WS	Sc
+10	4259.463469000	w5	WS	B
+10	4259.465041000	w6	WS	Sc
+13	4259.465486000	sched	nready	5.000000
+13	4259.465486000	sched	nsubmitted	35.000000
+13	4259.465533000	sched	nready	4.000000
+13	4259.465533000	sched	nsubmitted	34.000000
+10	4259.465825000	w0	WS	B
+10	4259.466162000	w3	WS	B
+13	4259.466286000	sched	nready	3.000000
+13	4259.466286000	sched	nsubmitted	33.000000
+10	4259.466397000	w0	WS	Fi
+10	4259.466816000	w3	WS	Fi
+10	4259.466899000	w6	WS	B
+10	4259.467379000	w6	WS	Fi
+10	4259.467429000	w5	WS	Sc
+10	4259.468620000	w0	WS	B
+10	4259.468682000	w3	WS	B
+10	4259.469197000	w6	WS	B
+18	4259.469606000	WSL	p	0	w6	steal_90
+19	4259.469606001	WSL	p	0	w5	steal_90
+13	4259.472462000	sched	nready	2.000000
+13	4259.472462000	sched	nsubmitted	32.000000
+10	4259.473232000	w5	WS	B
+10	4259.473895000	w5	WS	Fi
+20	4259.469538000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	236
+20	4259.469585000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	239
+10	4259.475528000	w5	WS	B
+20	4259.473579000	w6	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	240
+20	4259.476453000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	245
+10	4301.082005000	w1	WS	I
+10	4301.082044000	w2	WS	I
+10	4301.089803000	w2	WS	Po
+10	4301.091704000	w1	WS	Po
+10	4301.092648000	w2	WS	B
+10	4301.093666000	w1	WS	B
+10	4301.097339000	w2	WS	C
+10	4301.097821000	w2	WS	B
+13	4301.100470000	sched	nready	3.000000
+11	4301.102859000	w1	WS	Sc
+12	4301.104058000	w1	WS
+10	4301.104678000	w1	WS	C
+10	4301.104959000	w1	WS	B
+10	4301.105739000	w2	WS	Sc
+10	4301.108610000	w1	WS	Sc
+18	4301.108679000	WSL	p	0	w0	steal_91
+19	4301.108679001	WSL	p	0	w2	steal_91
+13	4301.108922000	sched	nready	2.000000
+13	4301.108922000	sched	nsubmitted	31.000000
+13	4301.109848000	sched	nready	1.000000
+13	4301.109848000	sched	nsubmitted	30.000000
+10	4301.110030000	w2	WS	B
+10	4301.110272000	w1	WS	B
+10	4301.110633000	w2	WS	Fi
+10	4301.110870000	w1	WS	Fi
+10	4301.111773000	w1	WS	B
+10	4301.112173000	w2	WS	B
+20	4301.113138000	w1	WS	sgetrf_nopiv	2359296	M768x768x4	c5fba424	0000000000000000	247
+20	4301.112846000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	241
+10	4329.353192000	w0	WS	I
+10	4329.353236000	w6	WS	I
+10	4329.359246000	w6	WS	Po
+10	4329.360949000	w6	WS	B
+10	4329.364223000	w6	WS	C
+10	4329.364743000	w6	WS	B
+10	4329.369826000	w0	WS	Po
+10	4329.371180000	w0	WS	B
+10	4329.371278000	w6	WS	Sc
+18	4329.373259000	WSL	p	0	w0	steal_92
+19	4329.373259001	WSL	p	0	w6	steal_92
+13	4329.373739000	sched	nready	0.000000
+13	4329.373739000	sched	nsubmitted	29.000000
+10	4329.373861000	w0	WS	C
+10	4329.374135000	w0	WS	B
+10	4329.374431000	w6	WS	B
+10	4329.374892000	w6	WS	Fi
+10	4329.376433000	w0	WS	Sc
+10	4329.376846000	w6	WS	B
+10	4329.377622000	w0	WS	Sl
+20	4329.377776000	w6	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	246
+10	4329.630103000	w7	WS	I
+10	4329.631396000	w5	WS	I
+10	4329.631666000	w7	WS	Po
+10	4329.632706000	w7	WS	B
+10	4329.633053000	w5	WS	Po
+10	4329.634272000	w5	WS	B
+10	4329.634854000	w7	WS	C
+10	4329.635142000	w7	WS	B
+10	4329.637089000	w5	WS	C
+10	4329.637404000	w5	WS	B
+10	4329.638088000	w7	WS	Sc
+10	4329.639271000	w7	WS	Sl
+10	4329.640666000	w5	WS	Sc
+10	4329.642340000	w5	WS	Sl
+10	4334.022370000	w4	WS	I
+10	4334.023150000	w4	WS	Po
+10	4334.023970000	w4	WS	B
+10	4334.025771000	w4	WS	C
+10	4334.026016000	w4	WS	B
+10	4334.027764000	w4	WS	Sc
+10	4334.028425000	w4	WS	Sl
+10	4380.816589000	w2	WS	I
+10	4380.819322000	w2	WS	Po
+10	4380.821198000	w2	WS	B
+10	4380.824331000	w2	WS	C
+10	4380.824868000	w2	WS	B
+10	4380.829583000	w2	WS	Sc
+10	4380.830769000	w2	WS	Sl
+10	4382.024728000	w3	WS	I
+10	4382.027111000	w3	WS	Po
+10	4382.028463000	w3	WS	B
+10	4382.031588000	w3	WS	C
+10	4382.031846000	w3	WS	B
+10	4382.034473000	w3	WS	Sc
+10	4382.035237000	w3	WS	Sl
+10	4394.023208000	w6	WS	I
+10	4394.024312000	w6	WS	Po
+10	4394.025401000	w6	WS	B
+10	4394.027204000	w6	WS	C
+10	4394.027458000	w6	WS	B
+10	4394.029617000	w6	WS	Sc
+10	4394.030361000	w6	WS	Sl
+10	4420.058047000	w1	WS	I
+10	4420.060536000	w1	WS	Po
+10	4420.061591000	w1	WS	B
+13	4420.066156000	sched	nready	1.000000
+11	4420.066836000	w1	WS	Sc
+12	4420.067767000	w1	WS
+18	4420.068288000	WSL	p	0	w1	steal_93
+19	4420.068288001	WSL	p	0	w0	steal_93
+13	4420.069040000	sched	nready	2.000000
+13	4420.069105000	sched	nready	1.000000
+13	4420.069105000	sched	nsubmitted	28.000000
+11	4420.069284000	w1	WS	Sc
+12	4420.069628000	w1	WS
+10	4420.069891000	w0	WS	B
+10	4420.070264000	w0	WS	Fi
+18	4420.070602000	WSL	p	0	w1	steal_94
+19	4420.070602001	WSL	p	0	w3	steal_94
+13	4420.070758000	sched	nready	2.000000
+13	4420.070906000	sched	nready	1.000000
+13	4420.070906000	sched	nsubmitted	27.000000
+11	4420.071036000	w1	WS	Sc
+12	4420.071361000	w1	WS
+10	4420.071641000	w3	WS	B
+10	4420.072116000	w0	WS	B
+10	4420.072209000	w3	WS	Fi
+13	4420.072436000	sched	nready	2.000000
+11	4420.072659000	w1	WS	Sc
+12	4420.073004000	w1	WS
+10	4420.073496000	w3	WS	B
+13	4420.074173000	sched	nready	3.000000
+11	4420.074441000	w1	WS	Sc
+12	4420.074764000	w1	WS
+13	4420.075717000	sched	nready	4.000000
+11	4420.075903000	w1	WS	Sc
+12	4420.076329000	w1	WS
+10	4420.076880000	w1	WS	C
+10	4420.077214000	w1	WS	B
+20	4420.072945000	w0	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	248
+20	4420.074248000	w3	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	249
+10	4420.081292000	w1	WS	Sc
+13	4420.082138000	sched	nready	3.000000
+13	4420.082138000	sched	nsubmitted	26.000000
+10	4420.082543000	w1	WS	B
+10	4420.082947000	w1	WS	Fi
+10	4420.084566000	w1	WS	B
+20	4420.085303000	w1	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	251
+18	4422.034387000	WSL	p	0	w1	steal_95
+19	4422.034387001	WSL	p	0	w7	steal_95
+13	4422.034769000	sched	nready	2.000000
+13	4422.034769000	sched	nsubmitted	25.000000
+10	4422.035692000	w7	WS	B
+10	4422.036247000	w7	WS	Fi
+10	4422.037894000	w7	WS	B
+20	4422.039014000	w7	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	255
+18	4423.084670000	WSL	p	0	w1	steal_96
+19	4423.084670001	WSL	p	0	w6	steal_96
+13	4423.085117000	sched	nready	1.000000
+13	4423.085117000	sched	nsubmitted	24.000000
+10	4423.086219000	w6	WS	B
+10	4423.087027000	w6	WS	Fi
+10	4423.088985000	w6	WS	B
+20	4423.089955000	w6	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	250
+18	4423.099175000	WSL	p	0	w1	steal_97
+19	4423.099175001	WSL	p	0	w4	steal_97
+13	4423.099429000	sched	nready	0.000000
+13	4423.099429000	sched	nsubmitted	23.000000
+10	4423.100013000	w4	WS	B
+10	4423.100346000	w4	WS	Fi
+10	4423.101291000	w4	WS	B
+20	4423.101758000	w4	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	259
+10	4454.177836000	w7	WS	I
+10	4454.178049000	w1	WS	I
+10	4454.185172000	w7	WS	Po
+10	4454.186612000	w7	WS	B
+10	4454.186945000	w1	WS	Po
+10	4454.188335000	w1	WS	B
+10	4454.190480000	w7	WS	C
+10	4454.190801000	w7	WS	B
+10	4454.191871000	w1	WS	C
+10	4454.192172000	w1	WS	B
+10	4454.196095000	w1	WS	Sc
+10	4454.196168000	w7	WS	Sc
+10	4454.197016000	w1	WS	Sl
+10	4454.197459000	w7	WS	Sl
+10	4456.559575000	w0	WS	I
+10	4456.560685000	w0	WS	Po
+10	4456.561477000	w0	WS	B
+13	4456.565066000	sched	nready	1.000000
+11	4456.565737000	w0	WS	Sc
+12	4456.567192000	w0	WS
+18	4456.567702000	WSL	p	0	w0	steal_98
+19	4456.567702001	WSL	p	0	w2	steal_98
+13	4456.568336000	sched	nready	2.000000
+11	4456.568543000	w0	WS	Sc
+12	4456.568883000	w0	WS
+10	4456.569656000	w0	WS	C
+10	4456.569927000	w0	WS	B
+13	4456.571580000	sched	nready	1.000000
+13	4456.571580000	sched	nsubmitted	22.000000
+10	4456.572272000	w3	WS	I
+10	4456.572754000	w2	WS	B
+10	4456.573222000	w3	WS	Po
+10	4456.573476000	w2	WS	Fi
+10	4456.573976000	w3	WS	B
+18	4456.574158000	WSL	p	0	w0	steal_99
+19	4456.574158001	WSL	p	0	w5	steal_99
+10	4456.575473000	w2	WS	B
+13	4456.576864000	sched	nready	0.000000
+13	4456.576864000	sched	nsubmitted	21.000000
+13	4456.576979000	sched	nready	1.000000
+10	4456.577262000	w4	WS	I
+11	4456.577386000	w3	WS	Sc
+10	4456.577821000	w5	WS	B
+12	4456.577884000	w3	WS
+10	4456.578065000	w4	WS	Po
+10	4456.578443000	w5	WS	Fi
+10	4456.578804000	w4	WS	B
+13	4456.579244000	sched	nready	2.000000
+11	4456.579479000	w3	WS	Sc
+12	4456.579781000	w3	WS
+10	4456.580158000	w5	WS	B
+10	4456.580398000	w3	WS	C
+10	4456.580601000	w3	WS	B
+13	4456.580869000	sched	nready	3.000000
+11	4456.581172000	w4	WS	Sc
+12	4456.581470000	w4	WS
+13	4456.582514000	sched	nready	4.000000
+20	4456.576519000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	252
+10	4456.582670000	w3	WS	Sc
+11	4456.582784000	w4	WS	Sc
+12	4456.583141000	w4	WS
+13	4456.583196000	sched	nready	3.000000
+13	4456.583196000	sched	nsubmitted	20.000000
+10	4456.583568000	w3	WS	B
+10	4456.583788000	w4	WS	C
+10	4456.583967000	w3	WS	Fi
+10	4456.584079000	w4	WS	B
+10	4456.585462000	w3	WS	B
+20	4456.581027000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	256
+10	4456.586519000	w4	WS	Sc
+13	4456.587081000	sched	nready	2.000000
+13	4456.587081000	sched	nsubmitted	19.000000
+10	4456.587509000	w4	WS	B
+10	4456.587830000	w4	WS	Fi
+10	4456.588822000	w4	WS	B
+20	4456.586039000	w3	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	253
+20	4456.589246000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	260
+18	4458.978051000	WSL	p	0	w3	steal_100
+19	4458.978051001	WSL	p	0	w7	steal_100
+13	4458.978363000	sched	nready	1.000000
+13	4458.978363000	sched	nsubmitted	18.000000
+10	4458.978942000	w0	WS	Sc
+10	4458.979214000	w7	WS	B
+10	4458.979697000	w7	WS	Fi
+18	4458.980036000	WSL	p	0	w4	steal_101
+19	4458.980036001	WSL	p	0	w0	steal_101
+13	4458.980235000	sched	nready	0.000000
+13	4458.980235000	sched	nsubmitted	17.000000
+10	4458.980606000	w0	WS	B
+10	4458.981114000	w0	WS	Fi
+10	4458.981463000	w7	WS	B
+10	4458.982252000	w0	WS	B
+20	4458.982846000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	261
+20	4458.982752000	w7	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	257
+10	4468.015574000	w2	WS	I
+10	4468.018192000	w2	WS	Po
+10	4468.019997000	w2	WS	B
+13	4468.025510000	sched	nready	1.000000
+11	4468.027336000	w2	WS	Sc
+12	4468.028104000	w2	WS
+18	4468.029020000	WSL	p	0	w2	steal_102
+19	4468.029020001	WSL	p	0	w1	steal_102
+13	4468.031080000	sched	nready	0.000000
+13	4468.031080000	sched	nsubmitted	16.000000
+10	4468.031605000	w2	WS	C
+10	4468.031863000	w2	WS	B
+10	4468.032131000	w1	WS	B
+10	4468.033028000	w1	WS	Fi
+10	4468.034178000	w1	WS	B
+10	4468.036538000	w2	WS	Sc
+10	4468.037496000	w2	WS	Sl
+20	4468.035212000	w1	WS	sgetrf_nopiv	2359296	M768x768x4	c5fba424	0000000000000000	263
+10	4478.943110000	w6	WS	I
+10	4478.943341000	w5	WS	I
+10	4478.945368000	w6	WS	Po
+10	4478.945630000	w5	WS	Po
+10	4478.947166000	w6	WS	B
+10	4478.947636000	w5	WS	B
+10	4478.950803000	w5	WS	C
+10	4478.951196000	w5	WS	B
+13	4478.951762000	sched	nready	1.000000
+11	4478.952460000	w6	WS	Sc
+12	4478.953242000	w6	WS
+13	4478.954635000	sched	nready	2.000000
+11	4478.954845000	w6	WS	Sc
+12	4478.955110000	w6	WS
+13	4478.956286000	sched	nready	3.000000
+11	4478.956483000	w6	WS	Sc
+10	4478.956660000	w5	WS	Sc
+12	4478.956787000	w6	WS
+10	4478.957168000	w6	WS	C
+10	4478.957401000	w6	WS	B
+18	4478.958406000	WSL	p	0	w6	steal_103
+19	4478.958406001	WSL	p	0	w5	steal_103
+13	4478.958652000	sched	nready	2.000000
+13	4478.958652000	sched	nsubmitted	15.000000
+10	4478.959279000	w5	WS	B
+10	4478.960105000	w5	WS	Fi
+10	4478.960367000	w6	WS	Sc
+13	4478.960972000	sched	nready	1.000000
+13	4478.960972000	sched	nsubmitted	14.000000
+10	4478.961334000	w6	WS	B
+10	4478.961703000	w6	WS	Fi
+10	4478.962151000	w5	WS	B
+10	4478.962860000	w6	WS	B
+20	4478.963522000	w6	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	258
+20	4478.963245000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	254
+18	4500.381805000	WSL	p	0	w6	steal_104
+19	4500.381805001	WSL	p	0	w2	steal_104
+13	4500.382272000	sched	nready	0.000000
+13	4500.382272000	sched	nsubmitted	13.000000
+10	4500.383721000	w2	WS	B
+10	4500.384701000	w2	WS	Fi
+10	4500.387666000	w2	WS	B
+20	4500.388931000	w2	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	262
+10	4566.798069000	w4	WS	I
+10	4566.798170000	w5	WS	I
+10	4566.798329000	w2	WS	I
+10	4566.803926000	w2	WS	Po
+10	4566.804019000	w5	WS	Po
+10	4566.806295000	w2	WS	B
+10	4566.806470000	w0	WS	I
+10	4566.807485000	w0	WS	Po
+10	4566.807625000	w5	WS	B
+10	4566.808525000	w0	WS	B
+10	4566.810453000	w2	WS	C
+10	4566.810735000	w0	WS	C
+10	4566.810772000	w2	WS	B
+10	4566.811034000	w5	WS	C
+10	4566.811071000	w0	WS	B
+10	4566.811418000	w5	WS	B
+10	4566.817536000	w0	WS	Sc
+10	4566.817590000	w2	WS	Sc
+10	4566.817663000	w5	WS	Sc
+10	4566.819609000	w0	WS	Sl
+10	4566.819692000	w2	WS	Sl
+10	4566.819754000	w5	WS	Sl
+10	4567.368366000	w3	WS	I
+10	4567.369464000	w6	WS	I
+10	4567.370496000	w3	WS	Po
+10	4567.370795000	w6	WS	Po
+10	4567.371692000	w6	WS	B
+10	4567.371737000	w3	WS	B
+10	4567.373861000	w6	WS	C
+10	4567.374140000	w6	WS	B
+10	4567.374520000	w3	WS	C
+10	4567.374856000	w3	WS	B
+10	4567.376455000	w6	WS	Sc
+10	4567.377295000	w6	WS	Sl
+10	4567.378461000	w3	WS	Sc
+10	4567.379856000	w3	WS	Sl
+10	4574.025650000	w4	WS	Po
+10	4574.026570000	w4	WS	B
+10	4574.028375000	w4	WS	C
+10	4574.028575000	w4	WS	B
+10	4574.030663000	w4	WS	Sc
+10	4574.031392000	w4	WS	Sl
+10	4578.893670000	w7	WS	I
+10	4578.895111000	w7	WS	Po
+10	4578.896457000	w7	WS	B
+10	4578.899080000	w7	WS	C
+10	4578.899423000	w7	WS	B
+10	4578.902551000	w7	WS	Sc
+10	4578.903760000	w7	WS	Sl
+10	4595.254322000	w1	WS	I
+10	4595.256486000	w1	WS	Po
+10	4595.257529000	w1	WS	B
+13	4595.261818000	sched	nready	1.000000
+11	4595.262479000	w1	WS	Sc
+12	4595.263061000	w1	WS
+18	4595.263919000	WSL	p	0	w1	steal_105
+19	4595.263919001	WSL	p	0	w6	steal_105
+13	4595.264393000	sched	nready	2.000000
+11	4595.264621000	w1	WS	Sc
+12	4595.264939000	w1	WS
+13	4595.265987000	sched	nready	3.000000
+11	4595.266178000	w1	WS	Sc
+12	4595.266461000	w1	WS
+18	4595.266760000	WSL	p	0	w1	steal_106
+19	4595.266760001	WSL	p	0	w0	steal_106
+13	4595.267065000	sched	nready	2.000000
+13	4595.267065000	sched	nsubmitted	12.000000
+13	4595.267223000	sched	nready	1.000000
+13	4595.267223000	sched	nsubmitted	11.000000
+13	4595.267310000	sched	nready	2.000000
+11	4595.267850000	w1	WS	Sc
+10	4595.268031000	w0	WS	B
+10	4595.268181000	w6	WS	B
+18	4595.268521000	WSL	p	0	w1	steal_107
+19	4595.268521001	WSL	p	0	w3	steal_107
+10	4595.268606000	w0	WS	Fi
+10	4595.268729000	w6	WS	Fi
+10	4595.270339000	w0	WS	B
+10	4595.270638000	w6	WS	B
+13	4595.272276000	sched	nready	1.000000
+13	4595.272276000	sched	nsubmitted	10.000000
+10	4595.273042000	w3	WS	B
+10	4595.273633000	w3	WS	Fi
+12	4595.274046000	w1	WS
+10	4595.274808000	w1	WS	C
+10	4595.275077000	w1	WS	B
+10	4595.275141000	w3	WS	B
+20	4595.271248000	w0	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	265
+20	4595.271503000	w6	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	264
+10	4595.278990000	w1	WS	Sc
+13	4595.279816000	sched	nready	0.000000
+13	4595.279816000	sched	nsubmitted	9.000000
+10	4595.280188000	w1	WS	B
+10	4595.280635000	w1	WS	Fi
+20	4595.275959000	w3	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	266
+10	4595.281757000	w1	WS	B
+20	4595.282564000	w1	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	269
+10	4624.069967000	w6	WS	I
+10	4624.070107000	w1	WS	I
+10	4624.070079000	w0	WS	I
+10	4624.076173000	w0	WS	Po
+10	4624.076249000	w1	WS	Po
+10	4624.077638000	w6	WS	Po
+10	4624.077907000	w0	WS	B
+10	4624.078155000	w1	WS	B
+10	4624.078720000	w6	WS	B
+10	4624.084232000	w0	WS	C
+10	4624.084582000	w0	WS	B
+10	4624.088732000	w0	WS	Sc
+10	4624.089637000	w0	WS	Sl
+13	4624.091790000	sched	nready	1.000000
+13	4624.091859000	sched	nready	2.000000
+11	4624.092539000	w6	WS	Sc
+11	4624.092630000	w1	WS	Sc
+12	4624.093187000	w1	WS
+12	4624.093220000	w6	WS
+10	4624.093701000	w6	WS	C
+10	4624.093845000	w1	WS	C
+10	4624.093947000	w6	WS	B
+10	4624.094125000	w1	WS	B
+18	4624.094188000	WSL	p	0	w1	steal_108
+19	4624.094188001	WSL	p	0	w0	steal_108
+13	4624.094902000	sched	nready	1.000000
+13	4624.094902000	sched	nsubmitted	8.000000
+10	4624.095528000	w0	WS	B
+10	4624.096010000	w0	WS	Fi
+10	4624.096844000	w6	WS	Sc
+13	4624.097408000	sched	nready	0.000000
+13	4624.097408000	sched	nsubmitted	7.000000
+10	4624.097742000	w1	WS	Sc
+10	4624.097787000	w6	WS	B
+10	4624.097899000	w0	WS	B
+10	4624.098574000	w6	WS	Fi
+10	4624.099161000	w1	WS	Sl
+10	4624.099601000	w6	WS	B
+20	4624.099216000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	271
+20	4624.100244000	w6	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	270
+10	4636.185017000	w3	WS	I
+10	4636.187798000	w3	WS	Po
+10	4636.189559000	w3	WS	B
+13	4636.196246000	sched	nready	1.000000
+11	4636.196891000	w3	WS	Sc
+12	4636.197817000	w3	WS
+18	4636.198528000	WSL	p	0	w3	steal_109
+19	4636.198528001	WSL	p	0	w5	steal_109
+13	4636.199488000	sched	nready	0.000000
+13	4636.199488000	sched	nsubmitted	6.000000
+13	4636.199574000	sched	nready	1.000000
+11	4636.199804000	w3	WS	Sc
+12	4636.200119000	w3	WS
+10	4636.200502000	w5	WS	B
+10	4636.200735000	w3	WS	C
+18	4636.200779000	WSL	p	0	w3	steal_110
+19	4636.200779001	WSL	p	0	w4	steal_110
+10	4636.201044000	w3	WS	B
+13	4636.201084000	sched	nready	0.000000
+13	4636.201084000	sched	nsubmitted	5.000000
+10	4636.201264000	w5	WS	Fi
+10	4636.201754000	w4	WS	B
+10	4636.202113000	w4	WS	Fi
+10	4636.203444000	w4	WS	B
+10	4636.203497000	w5	WS	B
+10	4636.206377000	w3	WS	Sc
+10	4636.207658000	w3	WS	Sl
+20	4636.204235000	w4	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	268
+20	4636.204701000	w5	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	267
+10	4636.222252000	w0	WS	I
+10	4636.223487000	w0	WS	Po
+10	4636.224374000	w0	WS	B
+10	4636.226454000	w0	WS	C
+10	4636.226718000	w0	WS	B
+10	4636.228939000	w0	WS	Sc
+10	4636.229608000	w0	WS	Sl
+10	4694.026729000	w4	WS	I
+10	4694.026952000	w6	WS	I
+10	4694.027660000	w5	WS	I
+10	4694.029123000	w4	WS	Po
+10	4694.031039000	w4	WS	B
+10	4694.033039000	w5	WS	Po
+10	4694.034008000	w6	WS	Po
+10	4694.034210000	w4	WS	C
+10	4694.034539000	w4	WS	B
+10	4694.034588000	w5	WS	B
+10	4694.035257000	w6	WS	B
+10	4694.039147000	w6	WS	C
+10	4694.039181000	w4	WS	Sc
+10	4694.039435000	w6	WS	B
+10	4694.039966000	w4	WS	Sl
+13	4694.040066000	sched	nready	1.000000
+11	4694.042108000	w5	WS	Sc
+10	4694.042823000	w6	WS	Sc
+12	4694.042973000	w5	WS
+18	4694.043576000	WSL	p	0	w5	steal_111
+19	4694.043576001	WSL	p	0	w7	steal_111
+10	4694.046260000	w5	WS	C
+10	4694.046573000	w5	WS	B
+13	4694.047761000	sched	nready	0.000000
+13	4694.047761000	sched	nsubmitted	4.000000
+10	4694.048789000	w7	WS	B
+10	4694.048919000	w6	WS	Sl
+10	4694.049659000	w7	WS	Fi
+10	4694.050342000	w5	WS	Sc
+10	4694.050868000	w7	WS	B
+10	4694.051341000	w5	WS	Sl
+20	4694.052040000	w7	WS	sgetrf_nopiv	2359296	M768x768x4	c5fba424	0000000000000000	272
+10	4714.915843000	w7	WS	I
+10	4714.917832000	w7	WS	Po
+10	4714.918689000	w7	WS	B
+13	4714.921889000	sched	nready	1.000000
+11	4714.922302000	w7	WS	Sc
+12	4714.922746000	w7	WS
+18	4714.923118000	WSL	p	0	w7	steal_112
+19	4714.923118001	WSL	p	0	w0	steal_112
+13	4714.923712000	sched	nready	0.000000
+13	4714.923712000	sched	nsubmitted	3.000000
+13	4714.923765000	sched	nready	1.000000
+11	4714.923975000	w7	WS	Sc
+12	4714.924295000	w7	WS
+10	4714.924401000	w0	WS	B
+18	4714.924744000	WSL	p	0	w7	steal_113
+19	4714.924744001	WSL	p	0	w2	steal_113
+10	4714.924848000	w0	WS	Fi
+10	4714.925984000	w0	WS	B
+13	4714.928337000	sched	nready	0.000000
+13	4714.928337000	sched	nsubmitted	2.000000
+10	4714.928416000	w7	WS	C
+10	4714.928636000	w7	WS	B
+10	4714.929275000	w2	WS	B
+10	4714.929833000	w2	WS	Fi
+20	4714.926732000	w0	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	273
+10	4714.931091000	w2	WS	B
+10	4714.931843000	w7	WS	Sc
+10	4714.932723000	w7	WS	Sl
+20	4714.931886000	w2	WS	strsm	4718592	M768x768x4_M768x768x4	5f1ae26e	0000000000000000	274
+10	4742.029467000	w2	WS	I
+10	4742.029504000	w0	WS	I
+10	4742.034244000	w0	WS	Po
+10	4742.035701000	w2	WS	Po
+10	4742.035962000	w0	WS	B
+10	4742.036875000	w2	WS	B
+10	4742.041151000	w0	WS	C
+10	4742.041425000	w0	WS	B
+10	4742.045500000	w0	WS	Sc
+13	4742.045941000	sched	nready	1.000000
+10	4742.046301000	w0	WS	Sl
+11	4742.046777000	w2	WS	Sc
+12	4742.047349000	w2	WS
+18	4742.047864000	WSL	p	0	w2	steal_114
+19	4742.047864001	WSL	p	0	w0	steal_114
+13	4742.050372000	sched	nready	0.000000
+13	4742.050372000	sched	nsubmitted	1.000000
+10	4742.050840000	w0	WS	B
+10	4742.051197000	w2	WS	C
+10	4742.051238000	w0	WS	Fi
+10	4742.051513000	w2	WS	B
+10	4742.052938000	w0	WS	B
+10	4742.054448000	w2	WS	Sc
+10	4742.055194000	w2	WS	Sl
+20	4742.053982000	w0	WS	sgemm	7077888	M768x768x4_M768x768x4_M768x768x4	19cb29ef	0000000000000000	275
+10	4752.718012000	w0	WS	I
+10	4752.719766000	w0	WS	Po
+10	4752.721226000	w0	WS	B
+13	4752.725999000	sched	nready	1.000000
+11	4752.727804000	w0	WS	Sc
+12	4752.728673000	w0	WS
+18	4752.729718000	WSL	p	0	w0	steal_115
+19	4752.729718001	WSL	p	0	w5	steal_115
+13	4752.733830000	sched	nready	0.000000
+13	4752.733830000	sched	nsubmitted	0.000000
+10	4752.735259000	w5	WS	B
+10	4752.736219000	w5	WS	Fi
+10	4752.737425000	w5	WS	B
+20	4752.738811000	w5	WS	sgetrf_nopiv	2359296	M768x768x4	c5fba424	0000000000000000	276
+10	4766.020156000	w0	WS	C
+10	4766.020476000	w0	WS	B
+10	4766.023520000	w0	WS	Sc
+10	4766.024127000	w0	WS	Sl
+10	4783.225947000	w5	WS	I
+10	4783.259619000	w5	WS	Po
+10	4783.260540000	w5	WS	B
+10	4783.262445000	w5	WS	C
+10	4783.262725000	w5	WS	B
+10	4783.268750000	w5	WS	Sc
+10	4783.269910000	w5	WS	Sl
+12	4783.310143000	t17079	US
+11	4783.328886000	t17079	US	Su
+12	4783.339068000	t17079	US
+11	4783.340617000	t17079	US	Su
+12	4783.345243000	t17079	US
+11	4783.350365000	t17079	US	Su
+12	4783.351888000	t17079	US
+11	4783.352618000	t17079	US	Su
+12	4783.356823000	t17079	US
+11	4783.362789000	t17079	US	Su
+12	4783.367519000	t17079	US
+11	4783.371538000	t17079	US	Su
+12	4783.372884000	t17079	US
+11	4783.378016000	t17079	US	Su
+12	4783.382190000	t17079	US
+11	4783.382887000	t17079	US	Su
+12	4783.384209000	t17079	US
+11	4783.388901000	t17079	US	Su
+12	4783.393211000	t17079	US
+11	4783.393905000	t17079	US	Su
+12	4783.395198000	t17079	US
+11	4783.404694000	t17079	US	Su
+12	4783.406370000	t17079	US
+11	4783.407084000	t17079	US	Su
+12	4783.411385000	t17079	US
+11	4783.416187000	t17079	US	Su
+12	4783.417705000	t17079	US
+11	4783.421365000	t17079	US	Su
+12	4783.422724000	t17079	US
+11	4783.475049000	t17079	US	Su
+12	4783.479191000	t17079	US
+11	4783.479814000	t17079	US	Su
+12	4783.481039000	t17079	US
+11	4783.485947000	t17079	US	Su
+12	4783.490236000	t17079	US
+11	4783.490934000	t17079	US	Su
+12	4783.492126000	t17079	US
+11	4783.496504000	t17079	US	Su
+12	4783.500988000	t17079	US
+11	4783.501798000	t17079	US	Su
+12	4783.503076000	t17079	US
+11	4783.504552000	t17079	US	Su
+12	4783.505761000	t17079	US
+11	4783.506334000	t17079	US	Su
+12	4783.507432000	t17079	US
+11	4783.509079000	t17079	US	Su
+12	4783.510252000	t17079	US
+11	4783.510760000	t17079	US	Su
+12	4783.511912000	t17079	US
+11	4783.513415000	t17079	US	Su
+12	4783.514690000	t17079	US
+11	4783.515352000	t17079	US	Su
+12	4783.516465000	t17079	US
+11	4783.517977000	t17079	US	Su
+12	4783.519316000	t17079	US
+11	4783.519958000	t17079	US	Su
+12	4783.521119000	t17079	US
+11	4783.522477000	t17079	US	Su
+12	4783.523750000	t17079	US
+11	4783.524376000	t17079	US	Su
+12	4783.525534000	t17079	US
+11	4783.529833000	t17079	US	Su
+12	4783.534143000	t17079	US
+11	4783.535045000	t17079	US	Su
+12	4783.536207000	t17079	US
+11	4783.537622000	t17079	US	Su
+12	4783.541720000	t17079	US
+11	4783.542360000	t17079	US	Su
+12	4783.543612000	t17079	US
+11	4783.545117000	t17079	US	Su
+12	4783.549497000	t17079	US
+11	4783.553074000	t17079	US	Su
+12	4783.554385000	t17079	US
+11	4783.558579000	t17079	US	Su
+12	4783.559963000	t17079	US
+11	4783.560483000	t17079	US	Su
+12	4783.561603000	t17079	US
+11	4783.562919000	t17079	US	Su
+12	4783.564208000	t17079	US
+11	4783.564890000	t17079	US	Su
+12	4783.566066000	t17079	US
+11	4783.567433000	t17079	US	Su
+12	4783.568778000	t17079	US
+11	4783.906439000	t17079	US	Su
+12	4783.909586000	t17079	US
+11	4783.911911000	t17079	US	Su
+12	4783.913537000	t17079	US
+11	4783.914536000	t17079	US	Su
+12	4783.915664000	t17079	US
+11	4783.917143000	t17079	US	Su
+12	4783.918463000	t17079	US
+11	4783.919107000	t17079	US	Su
+12	4783.920305000	t17079	US
+11	4783.921720000	t17079	US	Su
+12	4783.923090000	t17079	US
+11	4783.923728000	t17079	US	Su
+12	4783.924904000	t17079	US
+11	4783.926378000	t17079	US	Su
+12	4783.927693000	t17079	US
+11	4783.928377000	t17079	US	Su
+12	4783.929450000	t17079	US
+11	4783.930783000	t17079	US	Su
+12	4783.932082000	t17079	US
+11	4783.932713000	t17079	US	Su
+12	4783.933836000	t17079	US
+11	4783.935142000	t17079	US	Su
+12	4783.940649000	t17079	US
+11	4783.941301000	t17079	US	Su
+12	4783.942418000	t17079	US
+11	4783.943807000	t17079	US	Su
+12	4783.982600000	t17079	US
+11	4783.983862000	t17079	US	Su
+12	4783.991354000	t17079	US
+11	4783.995824000	t17079	US	Su
+12	4783.997246000	t17079	US
+11	4783.997941000	t17079	US	Su
+12	4783.999032000	t17079	US
+11	4784.048504000	t17079	US	Su
+12	4784.050717000	t17079	US
+11	4784.051677000	t17079	US	Su
+12	4784.052891000	t17079	US
+11	4784.054521000	t17079	US	Su
+12	4784.055838000	t17079	US
+11	4784.056467000	t17079	US	Su
+12	4784.057602000	t17079	US
+11	4784.059015000	t17079	US	Su
+12	4784.060484000	t17079	US
+11	4784.061191000	t17079	US	Su
+12	4784.062295000	t17079	US
+11	4784.063701000	t17079	US	Su
+12	4784.065212000	t17079	US
+11	4784.065906000	t17079	US	Su
+12	4784.066972000	t17079	US
+11	4784.068468000	t17079	US	Su
+12	4784.069871000	t17079	US
+11	4784.070561000	t17079	US	Su
+12	4784.071645000	t17079	US
+11	4784.073164000	t17079	US	Su
+12	4784.074485000	t17079	US
+11	4784.075159000	t17079	US	Su
+12	4784.079981000	t17079	US
+11	4784.081479000	t17079	US	Su
+12	4784.082832000	t17079	US
+11	4784.083408000	t17079	US	Su
+12	4784.084565000	t17079	US
+11	4784.086183000	t17079	US	Su
+12	4784.087663000	t17079	US
+11	4784.088282000	t17079	US	Su
+12	4784.089389000	t17079	US
+11	4784.090607000	t17079	US	Su
+12	4784.091872000	t17079	US
+11	4784.092492000	t17079	US	Su
+12	4784.093679000	t17079	US
+11	4784.094971000	t17079	US	Su
+12	4784.230602000	t17079	US
+11	4784.326584000	t17079	US	Su
+12	4784.329499000	t17079	US
+11	4784.335641000	t17079	US	Su
+12	4784.337269000	t17079	US
+11	4784.338098000	t17079	US	Su
+12	4784.339358000	t17079	US
+11	4784.352969000	t17079	US	Su
+12	4784.492537000	t17079	US
+11	4784.494262000	t17079	US	Su
+12	4784.499990000	t17079	US
+11	4784.504856000	t17079	US	Su
+12	4784.506525000	t17079	US
+11	4784.507309000	t17079	US	Su
+12	4784.508553000	t17079	US
+11	4784.510070000	t17079	US	Su
+12	4784.511391000	t17079	US
+11	4784.512000000	t17079	US	Su
+12	4784.513166000	t17079	US
+11	4784.514534000	t17079	US	Su
+12	4784.515936000	t17079	US
+11	4784.516607000	t17079	US	Su
+12	4784.517688000	t17079	US
+11	4784.519136000	t17079	US	Su
+12	4784.520403000	t17079	US
+11	4784.521094000	t17079	US	Su
+12	4784.522203000	t17079	US
+11	4784.523549000	t17079	US	Su
+12	4784.524907000	t17079	US
+11	4784.525544000	t17079	US	Su
+12	4784.526715000	t17079	US
+11	4784.528076000	t17079	US	Su
+12	4784.529353000	t17079	US
+11	4784.530097000	t17079	US	Su
+12	4784.534542000	t17079	US
+11	4784.536052000	t17079	US	Su
+12	4784.537658000	t17079	US
+11	4784.538317000	t17079	US	Su
+12	4784.549749000	t17079	US
+11	4784.554414000	t17079	US	Su
+12	4784.555939000	t17079	US
+11	4784.556696000	t17079	US	Su
+12	4784.561391000	t17079	US
+11	4784.562980000	t17079	US	Su
+12	4784.564331000	t17079	US
+11	4784.564963000	t17079	US	Su
+12	4784.566103000	t17079	US
+11	4784.567440000	t17079	US	Su
+12	4784.568749000	t17079	US
+11	4784.569470000	t17079	US	Su
+12	4784.570569000	t17079	US
+11	4784.571874000	t17079	US	Su
+12	4784.573175000	t17079	US
+11	4784.573786000	t17079	US	Su
+12	4784.574922000	t17079	US
+11	4784.576487000	t17079	US	Su
+12	4784.577771000	t17079	US
+11	4784.578467000	t17079	US	Su
+12	4784.579613000	t17079	US
+11	4784.581020000	t17079	US	Su
+12	4784.582316000	t17079	US
+11	4784.583009000	t17079	US	Su
+12	4784.584422000	t17079	US
+11	4784.588821000	t17079	US	Su
+12	4784.590284000	t17079	US
+11	4784.590953000	t17079	US	Su
+12	4784.592201000	t17079	US
+11	4784.593425000	t17079	US	Su
+12	4784.594722000	t17079	US
+11	4784.595336000	t17079	US	Su
+12	4784.596526000	t17079	US
+11	4784.597962000	t17079	US	Su
+12	4784.599282000	t17079	US
+11	4784.600066000	t17079	US	Su
+12	4784.601481000	t17079	US
+11	4784.606184000	t17079	US	Su
+12	4784.607659000	t17079	US
+11	4784.608346000	t17079	US	Su
+12	4784.609517000	t17079	US
+11	4784.615490000	t17079	US	Su
+12	4784.817183000	t17079	US
+11	4784.821520000	t17079	US	Su
+12	4784.823802000	t17079	US
+11	4784.825885000	t17079	US	Su
+12	4784.827413000	t17079	US
+11	4784.828112000	t17079	US	Su
+12	4784.829224000	t17079	US
+11	4784.830809000	t17079	US	Su
+12	4784.832138000	t17079	US
+11	4784.832755000	t17079	US	Su
+12	4784.833847000	t17079	US
+11	4784.835330000	t17079	US	Su
+12	4784.836571000	t17079	US
+11	4784.837231000	t17079	US	Su
+12	4784.838346000	t17079	US
+11	4784.839749000	t17079	US	Su
+12	4784.841128000	t17079	US
+11	4784.841755000	t17079	US	Su
+12	4784.842916000	t17079	US
+11	4784.844403000	t17079	US	Su
+12	4784.849117000	t17079	US
+11	4784.849775000	t17079	US	Su
+12	4784.851024000	t17079	US
+9	4784.852004000	prog_event	p	stop_profiling
