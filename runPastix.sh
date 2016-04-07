@@ -4,7 +4,7 @@ STARPU_HOSTNAME=supermicro
 STARPU_PERF_MODEL_DIR=./morse_tutorial/chameleon/perfmodels/.starpu/sampling/
 STARPU_FXT_PREFIX=./
 
-CPUExecution= '-t 20'
+CPUExecution='-t 20'
 
 GPUExecution='-iparm IPARM_CUDA_NBR 4 -iparm IPARM_GPU_CRITERIUM 4'
 
@@ -12,11 +12,11 @@ PASTIX_DIR=`spack location -i pastix@develop~mpi+starpu+cuda^starpu@svn-trunk+fx
 
 declare -a apps=( backward_only forward_backward forward_only reentrant simple )
 
-declare -a Matriz=( af_shell10  )
+declare -a Matriz=( af_shell10  audikw_1 dielFilterV2clx Flan_1565 Geo_1438 Hook_1498 Serena )
 
-declare -a TILES=( 64  )
+declare -a TILES=( 60 120 240 360 600 720 960  )
 
-declare -a sizes=( 960  )
+declare -a sizes=( 960 4800  9600 48000 96000)
 
 for app in "${apps[@]}"; do
     mkdir -p data/${app}
