@@ -1,0 +1,14 @@
+module load ccc
+module load dfldatadir/own
+module load c/intel/14.0.3.174
+module load fortran/intel/14.0.3.174
+module load idb/14.0.3.174
+module load bullxmpi/1.2.7.2
+module load datadir/own
+module load licsrv/intel
+module load c++/intel/14.0.3.174
+module load mkl/14.0.3.174
+module load intel/14.0.3.174
+module load cuda/5.5.22
+module load cmake/2.8.9
+module load hwloc/1.7.1
