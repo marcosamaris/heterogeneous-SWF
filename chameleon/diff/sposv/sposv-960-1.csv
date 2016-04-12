@@ -1,0 +1,3 @@
+CPU18 15.486533 26 spotrf spotrf CPU -1 66 40
+CPU14 0.570391 29 strsm strsm CPU -1 69 40
+CPU18 0.326580 34 strsm strsm CPU -1 74 40
