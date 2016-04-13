@@ -1,0 +1,3 @@
+CPU2 0.448300 16 spotrf spotrf CPU -1 56 40
+CPU14 0.240136 21 strtri strtri CPU -1 61 40
+CPU10 0.187194 25 slauum slauum CPU -1 65 40
