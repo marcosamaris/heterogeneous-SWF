@@ -1,3 +1,0 @@
-26, spotrf, M64x64x4, 16384,	66, spotrf, M64x64x4, 16384, 40
-29, strsm, M64x64x4_M64x1x4, 16640,	69, strsm, M64x64x4_M64x1x4, 16640, 40
-34, strsm, M64x64x4_M64x1x4, 16640,	74, strsm, M64x64x4_M64x1x4, 16640, 40
