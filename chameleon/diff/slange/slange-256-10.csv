@@ -95,7 +95,7 @@ CPU6 0.008160 840 sgeadd sgeadd CPU -1 880 40
 CPU7 0.009174 841 sgeadd sgeadd CPU -1 881 40
 CPU13 0.014201 842 slange slange CPU -1 882 40
 CPU18 0.008974 843 slaset slaset CPU -1 883 40
-CPU6 0.009504 844 slaset slaset CPU -1 884 40
+CPU6 0.009504 844 slaset slaset CPU10 0.018202 884 40
 CPU2 0.008182 845 slaset slaset CPU -1 885 40
 CPU5 0.007838 846 slaset slaset CPU -1 886 40
 CPU19 0.011433 847 slaset slaset CPU -1 887 40
