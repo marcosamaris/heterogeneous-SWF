@@ -4,7 +4,7 @@ STARPU_HOSTNAME=supermicro
 STARPU_PERF_MODEL_DIR=./morse_tutorial/chameleon/perfmodels/.starpu/sampling/
 STARPU_FXT_PREFIX=./
 
-CHAMELEON_EXE=`./spack/bin/spack location -i chameleon@trunk+cuda+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+cuda+fxt`/lib/chameleon/timing/
+CHAMELEON_EXE=`./spack/bin/spack location -i chameleon@src+cuda+fxt~quark+examples~shared~simu ^starpu@svn-trunk~shared+cuda+fxt`/lib/chameleon/timing/
 
 declare -a apps=( sgetrf_nopiv sgetrs_nopiv slange sposv spotrf spotri spotrs )
 
