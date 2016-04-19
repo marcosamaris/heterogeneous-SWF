@@ -1,9 +1,0 @@
-CPU16 0.007978 18 slaset slaset CPU -1 58 40
-CPU15 0.058496 19 sasum sasum CPU -1 59 40
-CPU0 0.026627 20 slaset slaset CPU -1 60 40
-CPU8 0.028587 21 sgeadd sgeadd CPU -1 61 40
-CPU7 0.035320 22 slange slange CPU -1 62 40
-CPU17 0.008004 23 slaset slaset CPU -1 63 40
-CPU0 0.022457 24 slange_max slange_max CPU -1 64 40
-CPU15 0.008721 25 slange_max slange_max CPU -1 65 40
-CPU11 0.010807 26 slacpy slacpy CPU -1 66 40
