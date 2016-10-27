@@ -1,3 +1,0 @@
-Here is an overview of the dependency DAG of MaPHYS:
-#+attr_html: :width 640px
-[[file:figures/maphys_dep.png]]
