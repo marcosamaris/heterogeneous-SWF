@@ -7,23 +7,21 @@ The five applications of Chameleon, named \emph{getrf$\_$nopiv}, \emph{posv}, \e
 
 ## Basic kernel of linear algebra of each application}
 
-
-	|Kernels\Apps| | getrf_nopiv | posv | potrf | potri | potrs|
-    |------------|---|-------------|--------|---------|---------|------|	
-    
-	|syrk|      | x | x | x |  |	
-	| gemm| x | x | x | x | x |
-	| trsm| x | x | x | x | x |
+|Kernels\Apps| | getrf_nopiv | posv | potrf | potri | potrs|
+|------------|---|-------------|--------|---------|---------|------|	
+|syrk|      | x | x | x |  |	
+| gemm| x | x | x | x | x |
+| trsm| x | x | x | x | x |
     
 To generate the applications, different tilings of the matrices have been used, varying the number of sub-matrices denoted by $nb\_blocks$ and the size of the sub-matrices denoted by $block\_size$. The different values of $nb\_blocks$ were 5, 10 and 20 and the different values of $block\_size$ were 64, 128, 320, 512, 768 and 960, for a total of 18 configurations per application. Table \ref{fig:nb_tasks} shows the total number of tasks for each application and each value of $nb\_blocks$. Notice that the value of $block\_size$ does not impact the number of tasks.
 
 ## Total number of tasks in function of the number of blocks
 
-	|Nb_blocks\Apps | {\bf getrf$\_$nopiv} | {\bf posv} | {\bf potrf} | {\bf potri} | {\bf potrs} |
-    |---------| --- | ----- | -----| ----- | ----- |
-	|{\bf 5} | 55 | 65 | 35 | 105 | 30 |
-	|{\bf 10} | 385 | 330 | 220 | 660 | 110 |
-	|{\bf 20} | 2870 | 1960 | 1540 | 4620 | 420 |
+|Nb_blocks\Apps | {\bf getrf$\_$nopiv} | {\bf posv} | {\bf potrf} | {\bf potri} | {\bf potrs} |
+|---------| --- | ----- | -----| ----- | ----- |
+|{\bf 5} | 55 | 65 | 35 | 105 | 30 |
+|{\bf 10} | 385 | 330 | 220 | 660 | 110 |
+|{\bf 20} | 2870 | 1960 | 1540 | 4620 | 420 |
     
 The Chameleon applications were executed with the runtime StarPU~\cite{Augonnet:StarPU} and the traces of executions were collected. At first, all the applications were executed on CPUs and then were forced to execute on GPUs to have the processing times of each task of the application for both computing units.
 
@@ -38,11 +36,11 @@ The application generated with GGen is \emph{fork-join}. It represents a real ap
 
 ## Total number of tasks in function of the number of phases and the width of the phase
 
-	|Nb_phases\Diameter | {\bf 100} | {\bf 200} | {\bf 300} | {\bf 400} | {\bf 500} 
-    |--- | --- | --- | --- | --- | --- |    
-	|{\bf 2} | 203 | 403 | 603 | 803 | 1003 |
-	|{\bf 5} | 506 | 1006 | 1506 | 2006 | 2506 |
-	|{\bf 10} | 1011 | 2011 | 3011 | 4011 | 5011 |
+|Nb_phases\Diameter | {\bf 100} | {\bf 200} | {\bf 300} | {\bf 400} | {\bf 500} 
+|--- | --- | --- | --- | --- | --- |    
+|{\bf 2} | 203 | 403 | 603 | 803 | 1003 |
+|{\bf 5} | 506 | 1006 | 1506 | 2006 | 2506 |
+|{\bf 10} | 1011 | 2011 | 3011 | 4011 | 5011 |
 
 | Tables        | Are           | Cool  |
 | ------------- |:-------------:| -----:|
