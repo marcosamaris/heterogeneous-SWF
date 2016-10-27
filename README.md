@@ -5,23 +5,23 @@ The benchmark is composed of six parallel applications. Five of them have been g
 The five applications of Chameleon, named \emph{getrf$\_$nopiv}, \emph{posv}, \emph{potrs}, \emph{potri} and \emph{potrs}, are composed of multiple sequential basic tasks of linear algebra such as \emph{SYRK} (symetric rank update), \emph{GEMM} (general matrix-matrix multiply) and \emph{TRSM} (triangular matrix equation solver), as shown in Table~\ref{tab:kernels}. 
 
 
-## Basic kernel of linear algebra of each application}
+### Basic kernel of linear algebra of each application}
 
-|Kernels\Apps| | getrf_nopiv | posv | potrf | potri | potrs|
+|**Kernels\Apps**| | **getrf_nopiv** | **posv** | **potrf** | **potri** | **potrs**|
 |------------|---|-------------|--------|---------|---------|------|	
-|syrk|      | x | x | x |  |	
-| gemm| x | x | x | x | x |
-| trsm| x | x | x | x | x |
+|**syrk**|      | x | x | x |  |	
+| **gemm**| x | x | x | x | x |
+| **trsm**| x | x | x | x | x |
     
 To generate the applications, different tilings of the matrices have been used, varying the number of sub-matrices denoted by $nb\_blocks$ and the size of the sub-matrices denoted by $block\_size$. The different values of $nb\_blocks$ were 5, 10 and 20 and the different values of $block\_size$ were 64, 128, 320, 512, 768 and 960, for a total of 18 configurations per application. Table \ref{fig:nb_tasks} shows the total number of tasks for each application and each value of $nb\_blocks$. Notice that the value of $block\_size$ does not impact the number of tasks.
 
-## Total number of tasks in function of the number of blocks
+### Total number of tasks in function of the number of blocks
 
-|Nb_blocks\Apps | {\bf getrf$\_$nopiv} | {\bf posv} | {\bf potrf} | {\bf potri} | {\bf potrs} |
+|**Nb_blocks\Apps** | **getrf_nopiv** | **posv** | **potrf** | **potri** | **potrs** |
 |---------| --- | ----- | -----| ----- | ----- |
-|{\bf 5} | 55 | 65 | 35 | 105 | 30 |
-|{\bf 10} | 385 | 330 | 220 | 660 | 110 |
-|{\bf 20} | 2870 | 1960 | 1540 | 4620 | 420 |
+|**5** | 55 | 65 | 35 | 105 | 30 |
+|**10** | 385 | 330 | 220 | 660 | 110 |
+|**20** | 2870 | 1960 | 1540 | 4620 | 420 |
     
 The Chameleon applications were executed with the runtime StarPU~\cite{Augonnet:StarPU} and the traces of executions were collected. At first, all the applications were executed on CPUs and then were forced to execute on GPUs to have the processing times of each task of the application for both computing units.
 
@@ -34,21 +34,10 @@ The data set and other information are available\footnote{Hosted at: \url{https:
 The application generated with GGen is \emph{fork-join}. It represents a real application that starts by executing sequentially and then forks to be executed in parallel with a specific diameter (number of parallel tasks), when the parallel execution has completed, results are aggregated by performing a join operation. This procedure can be repeated several times depending on the number of phases. For our experiments, we used 2, 5 and 10 phases with a diameter of 100, 200, 300, 400 and 500 for a total of 15 different configurations. Table \ref{fig:nb_tasksFork} shows the total number of tasks for each configuration of the fork-join application.
 
 
-## Total number of tasks in function of the number of phases and the width of the phase
+### Total number of tasks in function of the number of phases and the width of the phase
 
-|Nb_phases\Diameter | {\bf 100} | {\bf 200} | {\bf 300} | {\bf 400} | {\bf 500} 
+|**Nb_phases\Diameter** | **100** | **200**| **300** | **400** | **500**| 
 |--- | --- | --- | --- | --- | --- |    
-|{\bf 2} | 203 | 403 | 603 | 803 | 1003 |
-|{\bf 5} | 506 | 1006 | 1506 | 2006 | 2506 |
-|{\bf 10} | 1011 | 2011 | 3011 | 4011 | 5011 |
-
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-
-Markdown | Less | Pretty
---- | --- | ---
-*Still* | `renders` | **nicely**
-1 | 2 | 3
+|**2** | 203 | 403 | 603 | 803 | 1003 |
+|**5** | 506 | 1006 | 1506 | 2006 | 2506 |
+|**10** | 1011 | 2011 | 3011 | 4011 | 5011 |
