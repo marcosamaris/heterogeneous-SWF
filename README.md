@@ -7,9 +7,9 @@ The five applications of Chameleon, named \emph{getrf$\_$nopiv}, \emph{posv}, \e
 
 ### Basic kernel of linear algebra of each application}
 
-|**Kernels\Apps**| | **getrf_nopiv** | **posv** | **potrf** | **potri** | **potrs**|
-|------------|---|-------------|--------|---------|---------|------|	
-|**syrk**|      | x | x | x |  |	
+|**Kernels\Apps**| **getrf_nopiv** | **posv** | **potrf** | **potri** | **potrs**|
+|------------|---|-------------|--------|---------|---------|
+|**syrk**|    | x | x | x |  |	
 | **gemm**| x | x | x | x | x |
 | **trsm**| x | x | x | x | x |
     
