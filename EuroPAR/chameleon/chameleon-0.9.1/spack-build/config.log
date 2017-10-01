@@ -1,0 +1,55 @@
+
+Configuration of Chameleon:
+        BUILDNAME ...........: Linux-amd64-gcc-RelWithDebInfo-StarPU-mpi
+        SITE ................: lcpd-cluster1
+ 
+        Compiler: C .........: /home/marcos/chameleon/spack/lib/spack/env/gcc/gcc (GNU)
+        Compiler: Fortran ...: /home/marcos/chameleon/spack/lib/spack/env/gcc/gfortran (GNU)
+        Compiler: MPI .......: /home/marcos/chameleon/spack/opt/spack/linux-x86_64/gcc-4.8.5/openmpi-2.0.1-wmrycolmrlgieebzmb7vbndworuorggr/bin/mpicc
+        compiler flags ......: 
+        Linker: .............: /home/marcos/chameleon/spack/lib/spack/env/ld
+ 
+        Build type ..........: RelWithDebInfo
+        Build shared ........: ON
+        CFlags ..............: 
+        LDFlags .............: 
+ 
+        Implementation paradigm
+        CUDA ................: OFF
+        MPI .................: ON
+ 
+        Runtime specific
+        QUARK ...............: OFF
+        StarPU ..............: ON
+        FxT .................: OFF
+ 
+        Kernels specific
+        BLAS ................: All
+        MAGMA ...............: OFF
+ 
+        Simulation mode .....: OFF
+ 
+        Binaries to build
+        documentation ........: OFF
+        example ..............: ON
+        testing ..............: ON
+        timing ...............: ON
+ 
+        CHAMELEON dependencies :
+                                  -lchameleon
+                                  -lchameleon_starpu
+                                  /home/marcos/chameleon/spack/opt/spack/linux-x86_64/gcc-4.8.5/starpu-1.2.1-b3ym3ekzbvawzmi5ft7u4wsoomckww6p/lib/libstarpumpi-1.2.so
+                                  /home/marcos/chameleon/spack/opt/spack/linux-x86_64/gcc-4.8.5/starpu-1.2.1-b3ym3ekzbvawzmi5ft7u4wsoomckww6p/lib/libstarpu-1.2.so
+                                  -lcoreblas
+                                  -L/home/marcos/chameleon/spack/opt/spack/linux-x86_64/gcc-4.8.5/openblas-0.2.19-ucyililz2mufocy7t5245pozxecbyfc7/lib
+                                  -lopenblas
+                                  hwloc
+                                  -lpthread
+                                  /usr/lib64/libm.so
+                                  /usr/lib64/librt.so
+                                  /home/marcos/chameleon/spack/opt/spack/linux-x86_64/gcc-4.8.5/openmpi-2.0.1-wmrycolmrlgieebzmb7vbndworuorggr/lib/libmpi.so
+ 
+        Definitions: CHAMELEON_USE_MPI CHAMELEON_SCHED_STARPU CHAMELEON_USE_STARPU_IDLE_PREFETCH CHAMELEON_USE_STARPU_DATA_WONT_USE HAVE_STARPU_MPI_DATA_REGISTER ADD_
+ 
+        INSTALL_PREFIX ......: /home/marcos/chameleon/spack/opt/spack/linux-x86_64/gcc-4.8.5/chameleon-trunk-jod3fdqodfjwcdh6xa26ln2eg7vankci
+

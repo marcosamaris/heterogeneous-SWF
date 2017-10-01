@@ -1,0 +1,13 @@
+prefix=/home/marcos/chameleon/spack/opt/spack/linux-x86_64/gcc-4.8.5/chameleon-trunk-jod3fdqodfjwcdh6xa26ln2eg7vankci
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${exec_prefix}/include/chameleon
+
+Name: chameleon
+Description: Dense Linear Algebra for Scalable Multi-core Architectures and GPGPUs
+Version: 0.9.
+Cflags: -I${includedir}
+Libs: -L${libdir} -lchameleon -lchameleon_starpu -lcoreblas -l -lopenblas -lpthread -lm -lrt -lmpi
+Libs.private: 
+Requires: starpumpi-1.2 hwloc
+Requires.private: 

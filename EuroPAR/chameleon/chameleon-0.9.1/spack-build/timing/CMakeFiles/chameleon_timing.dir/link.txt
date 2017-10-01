@@ -1,0 +1,2 @@
+/usr/bin/ar qc libchameleon_timing.a  CMakeFiles/chameleon_timing.dir/timing_cauxiliary.c.o CMakeFiles/chameleon_timing.dir/timing_sauxiliary.c.o CMakeFiles/chameleon_timing.dir/timing_zauxiliary.c.o CMakeFiles/chameleon_timing.dir/timing_dauxiliary.c.o
+/usr/bin/ranlib libchameleon_timing.a

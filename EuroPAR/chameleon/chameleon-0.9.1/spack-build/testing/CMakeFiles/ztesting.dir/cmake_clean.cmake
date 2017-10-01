@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  "testing_zauxiliary.c"
+  "testing_zgemm.c"
+  "testing_zhemm.c"
+  "testing_zher2k.c"
+  "testing_zherk.c"
+  "testing_zpemv.c"
+  "testing_zsymm.c"
+  "testing_zsyr2k.c"
+  "testing_zsyrk.c"
+  "testing_ztrmm.c"
+  "testing_ztrsm.c"
+  "testing_zgels.c"
+  "testing_zgesv_incpiv.c"
+  "testing_zlange.c"
+  "testing_zposv.c"
+  "testing_zpotri.c"
+  "CMakeFiles/ztesting.dir/testing_zauxiliary.c.o"
+  "CMakeFiles/ztesting.dir/testing_zgemm.c.o"
+  "CMakeFiles/ztesting.dir/testing_zhemm.c.o"
+  "CMakeFiles/ztesting.dir/testing_zher2k.c.o"
+  "CMakeFiles/ztesting.dir/testing_zherk.c.o"
+  "CMakeFiles/ztesting.dir/testing_zpemv.c.o"
+  "CMakeFiles/ztesting.dir/testing_zsymm.c.o"
+  "CMakeFiles/ztesting.dir/testing_zsyr2k.c.o"
+  "CMakeFiles/ztesting.dir/testing_zsyrk.c.o"
+  "CMakeFiles/ztesting.dir/testing_ztrmm.c.o"
+  "CMakeFiles/ztesting.dir/testing_ztrsm.c.o"
+  "CMakeFiles/ztesting.dir/testing_zgels.c.o"
+  "CMakeFiles/ztesting.dir/testing_zgesv_incpiv.c.o"
+  "CMakeFiles/ztesting.dir/testing_zlange.c.o"
+  "CMakeFiles/ztesting.dir/testing_zposv.c.o"
+  "CMakeFiles/ztesting.dir/testing_zpotri.c.o"
+  "ztesting.pdb"
+  "ztesting"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C)
+  include(CMakeFiles/ztesting.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

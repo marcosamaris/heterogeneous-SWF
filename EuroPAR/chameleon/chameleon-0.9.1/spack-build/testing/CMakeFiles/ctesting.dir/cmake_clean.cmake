@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  "testing_cauxiliary.c"
+  "testing_cgemm.c"
+  "testing_chemm.c"
+  "testing_cher2k.c"
+  "testing_cherk.c"
+  "testing_cpemv.c"
+  "testing_csymm.c"
+  "testing_csyr2k.c"
+  "testing_csyrk.c"
+  "testing_ctrmm.c"
+  "testing_ctrsm.c"
+  "testing_cgels.c"
+  "testing_cgesv_incpiv.c"
+  "testing_clange.c"
+  "testing_cposv.c"
+  "testing_cpotri.c"
+  "CMakeFiles/ctesting.dir/testing_cauxiliary.c.o"
+  "CMakeFiles/ctesting.dir/testing_cgemm.c.o"
+  "CMakeFiles/ctesting.dir/testing_chemm.c.o"
+  "CMakeFiles/ctesting.dir/testing_cher2k.c.o"
+  "CMakeFiles/ctesting.dir/testing_cherk.c.o"
+  "CMakeFiles/ctesting.dir/testing_cpemv.c.o"
+  "CMakeFiles/ctesting.dir/testing_csymm.c.o"
+  "CMakeFiles/ctesting.dir/testing_csyr2k.c.o"
+  "CMakeFiles/ctesting.dir/testing_csyrk.c.o"
+  "CMakeFiles/ctesting.dir/testing_ctrmm.c.o"
+  "CMakeFiles/ctesting.dir/testing_ctrsm.c.o"
+  "CMakeFiles/ctesting.dir/testing_cgels.c.o"
+  "CMakeFiles/ctesting.dir/testing_cgesv_incpiv.c.o"
+  "CMakeFiles/ctesting.dir/testing_clange.c.o"
+  "CMakeFiles/ctesting.dir/testing_cposv.c.o"
+  "CMakeFiles/ctesting.dir/testing_cpotri.c.o"
+  "ctesting.pdb"
+  "ctesting"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C)
+  include(CMakeFiles/ctesting.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
