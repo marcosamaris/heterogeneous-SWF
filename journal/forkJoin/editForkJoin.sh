@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-for i in 2 5 10 20 30 40 50; do
+for i in 2 5 10 ; do
     for j in 100 200 300 400 500; do
 
             rm -rf ./txt/forkjoin-$i-$j.txt
@@ -57,7 +57,7 @@ for i in 2 5 10 20 30 40 50; do
 		timegpu2=$(echo "$timegpu1*$var/100" | bc -l)
 
 
-                echo "$p $timecpu $timegpu1 $timegpu2 $(cat ./str)" >> ./txt/forkjoin-$i-$j.txt
+                echo "$((p + 1)) $timecpu $timegpu1 $timegpu2 $(cat ./str)" >> ./txt/forkjoin-$i-$j.txt
         done
     done  
 done

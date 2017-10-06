@@ -4,7 +4,7 @@ mkdir -p swf/CPU/
 mkdir -p swf/GPU1/
 mkdir -p swf/GPU2/
 
-for i in 2 5 10 20 30 40 50; do
+for i in 2 5 10 ; do
     for j in 100 200 300 400 500; do
         inputfile=./txt/forkjoin-$i-$j.txt
         
