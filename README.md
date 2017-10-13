@@ -1,4 +1,9 @@
 # SWF of Task-based Application over heterogeneous resource
+Here a set of Benchmarks of two different works are stored, these Benchmark are saved in files SWF (Standard Workload Files). Those SWF is the result of the of different Workloads executed in different heterogeneous mahcines wuth GPUs and CPUs. These files are used to design new techniques of scheduling based-tasks applications with constraint of dependencies (These dependencies form a Direct Aciclic Graph). 
+
+There are two folders in this repository, EuroPAR and Journal, in this first are stored the data used for the work "Generic algorithms for scheduling applications on hybrid multi-core machines", predented in the International European Conference on Parallel and Distributed Computing of 2017. The second folder stores the files used for a extension version of the First work.
+
+The scheduling techniques proposed in the Europar paper were tested with data collected from a single CPU model and a single GPU microarchitecture. In the Journal paper, we have collected data from a same machine, with one single CPU model and two different GPU models. In the Journal work, each task in the SWF files have three different measures, in the EuroPar work each task have two measures. 
 
 The benchmark is composed of six parallel applications. Five of them have been generated from Chameleon, a dense linear algebra software which is part of the MORSE project~\cite{agullo2012morse}, while the sixth has been generated with GGen, a library for generating directed acyclic graphs~\cite{GGen:simutools10}, and it corresponds to a more irregular application.
 
