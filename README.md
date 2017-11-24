@@ -29,7 +29,7 @@ For the benchmark with 2 resource types, the applications were executed on a mac
 For the benchmark with 3 resource types, the applications were executed on an Intel  Dual core i7-5930k machine with a total of 6 physical cores with hyper-threading of 3.5 GHz and 12 GB of RAM. This machine had 2 NVIDIA GPUs: a GeForce GTX-970 (Maxwell architecture) with 4 GB of memory and 224 GB/s of bandwidth; and a Quadro K5200 (Kepler architecture) with 8 GB of memory and 192 GB/s of bandwidth.
 
 The execution time of each task and their respective dependencies were collected and formatted in different files, in SWF~(Standard Workload Format).
-%The SWF was defined in order to ease the use of workload logs and models. With it, programs that analyze workloads or simulate system scheduling need only to be able to parse a single format, and can be applied to multiple workloads. 
+The SWF standard was defined in order to ease the use of workload logs and models. With it, programs that analyze workloads or simulate systems scheduling need only to be able to parse a single format, and can be applied to multiple workloads. 
 
 The application generated with GGen is *fork-join*. It represents a real application that starts by executing sequentially and then forks to be executed in parallel with a specific diameter (number of parallel tasks), when the parallel execution has completed, results are aggregated by performing a join operation. This procedure can be repeated several times depending on the number of phases. For our experiments, we used 2, 5 and 10 phases with a diameter of 100, 200, 300, 400 and 500.
 
