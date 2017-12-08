@@ -1,7 +1,7 @@
 # SWF of Task-based Applications over heterogeneous resources
 This repository stores the benchmarks for two different works, in Standard Workload Files (SWF) format. Those SWF is the result of applications executed on different heterogeneous machines with CPUs and GPUs. 
 
-There are two main folders, storing traces of 6 applications executed on 2 and 3 different types of resources (CPU and 1 or 2 different types of GPU).
+There are two main folders, storing traces of 6 applications executed on 2 and 3 different types of resources (CPU and 1 or 2 different types of GPU). The folders *formatedTasks* contain a file per application where tasks are already formatted with the ID, processing times and list of predecessor IDs.
 
 This benchmark have been generated for the purpose of two scientific papers: 
 
