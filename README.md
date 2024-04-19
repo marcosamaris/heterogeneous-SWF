@@ -3,9 +3,10 @@ This repository stores the benchmarks for two different works, in Standard Workl
 
 There are two main folders, storing traces of 6 applications executed on 2 and 3 different types of resources (CPU and 1 or 2 different types of GPU). The folders *formatedTasks* contain a file per application where tasks are already formatted with the ID, processing times and list of predecessor IDs.
 
-This benchmark have been generated for the purpose of two scientific papers: 
+This benchmark have been generated for the purpose of three scientific papers, with the same authors (Marcos Amaris, Giorgio Lucarelli, Clément Mommessin, Denis Trystram ), follow the papers: 
+-  Generic algorithms for scheduling applications on heterogeneous platforms. Concurrency Computat Pract Exper. 2019; 31:e4647. https://doi.org/10.1002/cpe.4647
 
-- *Generic algorithms for scheduling applications on hybrid multi-cores machines* presented in the International European Conference on Parallel and Distributed Computing, 2017.
+- Generic Algorithms for Scheduling Applications on Hybrid Multi-core Machines. In: Rivera, F., Pena, T., Cabaleiro, J. (eds) Euro-Par 2017: Parallel Processing. Euro-Par 2017. Lecture Notes in Computer Science(), vol 10417. Springer, Cham. https://doi.org/10.1007/978-3-319-64203-1_16
 
 - *Generic algorithms for scheduling applications on heterogeneous multi-core platforms* in the ArXiv preprint 1711.06433, 2017.
 
