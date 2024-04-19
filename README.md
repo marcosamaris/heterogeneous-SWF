@@ -8,7 +8,7 @@ This benchmark have been generated for the purpose of three scientific papers, w
 
 - Generic Algorithms for Scheduling Applications on Hybrid Multi-core Machines. In: Rivera, F., Pena, T., Cabaleiro, J. (eds) Euro-Par 2017: Parallel Processing. Euro-Par 2017. Lecture Notes in Computer Science(), vol 10417. Springer, Cham. https://doi.org/10.1007/978-3-319-64203-1_16
 
-- *Generic algorithms for scheduling applications on heterogeneous multi-core platforms* in the ArXiv preprint 1711.06433, 2017.
+- *Generic algorithms for scheduling applications on heterogeneous multi-core platforms* in the ArXiv preprint 1711.06433, 2017. (https://arxiv.org/pdf/1711.06433.pdf)
 
 
 The benchmark is composed of six parallel applications. Five of them have been generated using Chameleon, a dense linear algebra software which is part of the MORSE project (E. Agullo et al., *Matrices over runtime systems at exascale*, in SC Companion: High Performance Computing, Networking Storage and Analysis, 2012). Another applications has been synthetically generated with GGen, a library for generating Directed Acyclic Graphs (D. Cordeiro et al., *Random graph generation for scheduling simulations*, in ICST SIMUTools, 2010).
